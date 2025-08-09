@@ -1,0 +1,38 @@
+/* @import 'node_modules/@alstar/ui/slate.css'; */
+
+body {
+  margin: 0;
+  color: #333;
+}
+
+a {
+  color: dodgerblue;
+}
+
+code {
+  background-color: #eee;
+  padding: 0.375rem;
+  border-radius: 6px;
+}
+
+pre {
+  code {
+    line-height: 2;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #222;
+    color: #eee;
+  }
+
+  a {
+    color: lightblue;
+  }
+
+  code {
+    background-color: #eee;
+    color: #555;
+  }
+}

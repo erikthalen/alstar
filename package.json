@@ -1,0 +1,11 @@
+{
+  "name": "@alstar/shared",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "ci:publish": "pnpm publish -r"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.5"
+  }
+}

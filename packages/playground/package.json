@@ -1,0 +1,16 @@
+{
+  "name": "@alstar/playground",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.ts",
+    "start": "alstar"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0"
+  },
+  "dependencies": {
+    "@alstar/studio": "workspace:*",
+    "@alstar/refresher": "workspace:*"
+  }
+}

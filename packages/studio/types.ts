@@ -1,0 +1,81 @@
+import { type HttpBindings } from '@hono/node-server'
+import { type Context } from 'hono'
+import { type HonoOptions } from 'hono/hono-base'
+import { type BlankInput, type BlankEnv } from 'hono/types'
+
+export type PrimitiveField = {
+  name: string
+  label: string
+  type: 'text' | 'slug' | 'markdown' | 'image'
+}
+
+export type BlockField = {
+  name: string
+  label: string
+  type: 'blocks'
+  fields: (Field | Block)[]
+}
+
+export type Field = PrimitiveField | BlockField
+
+export type Block = {
+  name: string
+  label: string
+  type: string
+  fields: (Field | Block)[]
+}
+
+type DBDefaults = {
+  id: number
+  created_at: string
+  updated_at: string
+  name: string
+  label: string
+  // type: string
+  sort_order: number
+  value: string
+  options: string | null
+  status: 'enabled' | 'disabled'
+  parent_block_id: number | null
+  depth: number
+}
+
+export type DBBlockResult = {
+  id: number
+  created_at: string
+  updated_at: string
+  name: string
+  label: string
+  type: string
+  sort_order: number
+  value: string | null
+  options: any
+  status: string
+  parent_block_id: number | null
+  depth: number
+  children?: DBBlockResult[]
+  fields?: Record<string, DBBlockResult>
+}
+
+export type DBBlock = Block & {
+  id: number
+  created_at: string
+  updated_at: string
+  value: string | null
+  sort_order: number | null
+  parent_block_id: number | null
+  options: number | null
+}
+
+export type BlockStatus = 'enabled' | 'disabled'
+
+export type StudioConfig = {
+  siteName: string
+  honoConfig?: HonoOptions<BlankEnv>
+}
+
+export type RequestContext = Context<
+  { Bindings: HttpBindings },
+  string,
+  BlankInput
+>

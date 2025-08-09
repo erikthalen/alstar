@@ -1,0 +1,17 @@
+{
+  "name": "@alstar/create",
+  "version": "0.0.0-beta.6",
+  "type": "module",
+  "bin": {
+    "create": "main.js"
+  },
+  "scripts": {
+    "cli:dev": "node --watch main.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0"
+  }
+}

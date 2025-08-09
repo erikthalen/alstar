@@ -1,0 +1,55 @@
+section.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  min-height: 100vh;
+  padding-bottom: 10vh;
+  margin-bottom: 0;
+
+  color: #333;
+  font-size: 15px;
+
+  a {
+    color: dodgerblue;
+  }
+
+  div {
+    > h1 {
+      display: flex;
+      justify-content: center;
+
+      a {
+        display: block;
+        max-width: 150px;
+        color: inherit;
+      }
+
+      svg {
+        width: 100%;
+      }
+    }
+
+    ol {
+      font-family: monospace;
+
+      margin-top: 2rem;
+      padding-left: 1.2rem;
+
+      li {
+        line-height: 1.8;
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    code {
+      background-color: #eeeeee;
+      padding: 0.375rem;
+      border-radius: 4px;
+    }
+  }
+}
