@@ -71,7 +71,7 @@ function transformBlocksTree(
       child.type === 'blocks',
     )
 
-    if (!isBlocksChild) {
+    if (!isBlocksChild && transformedChild.type !== block.type) {
       hasFields = true
       fields[transformedChild.name] = transformedChild
     }

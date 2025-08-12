@@ -22,13 +22,13 @@ const Fields = (props: {
     <div class="fields">
       ${props.blockStructure.fields
         ? props.blockStructure.fields?.map((field, idx) => {
-            return Field({
+            return html`FIELDS, ${Field({
               entryId: props.entryId,
               parentId: props.parentId,
               blockStructure: field,
               sortOrder: idx,
               structurePath: [...updatedPath, 'fields'],
-            })
+            })}`
           })
         : Field({
             entryId: props.entryId,

@@ -76,7 +76,7 @@ export default (
               data-signals="{ open${block.id}: true }"
             >
               <header>
-                <h6>${structure.label}</h6>
+                <h6>BLOCK HEADER: ${structure.label}</h6>
                 <div>
                   <button
                     data-on-click="$open${block.id} = !$open${block.id}"
@@ -89,6 +89,8 @@ export default (
                   <button class="shadow">${icons.bars}</button>
                 </div>
               </header>
+
+              <pre><code>${JSON.stringify(structure, null, 2)}</code></pre>
 
               <div data-show="$open${block.id}">
                 ${structure.fields

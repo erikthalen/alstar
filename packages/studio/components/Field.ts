@@ -53,6 +53,7 @@ const Field = (props: {
   const fieldStructurePath = buildStructurePath(blockStructure, structurePath)
 
   return html`
+  ${sortOrder}
     ${blockStructure.type === 'slug' &&
     html`
       <form

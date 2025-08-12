@@ -1,4 +1,6 @@
-import { defineStructure, defineBlock, defineField } from '@alstar/studio'
+// import { defineStructure, defineBlock, defineField } from '@alstar/studio'
+
+import { defineBlock, defineField, defineStructure } from "@alstar/studio/queries/getBlockTrees.ts";
 
 export default defineStructure([
   defineBlock({
@@ -66,4 +68,16 @@ export default defineStructure([
       }),
     ],
   }),
-])
+  // defineBlock({
+  //   name: 'user',
+  //   label: 'User',
+  //   type: 'user',
+  //   fields: [
+  //     defineField({
+  //       name: 'email',
+  //       label: 'Email',
+  //       type: 'text',
+  //     })
+  //   ]
+  // }),
+] as const)

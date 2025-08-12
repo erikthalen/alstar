@@ -23,6 +23,8 @@ console.log(`
 
 intro('@alstar/create')
 
+log.info(`This will generate a new Alstar app`)
+
 let defaultName = 'alstar-app'
 let defaultDir = './'
 
