@@ -1,83 +1,59 @@
-// import { defineStructure, defineBlock, defineField } from '@alstar/studio'
+import { defineBlock, defineField, defineStructure } from '@alstar/studio'
 
-import { defineBlock, defineField, defineStructure } from "@alstar/studio/queries/getBlockTrees.ts";
-
-export default defineStructure([
-  defineBlock({
-    name: 'page',
+export default defineStructure({
+  page: defineBlock({
     label: 'Page',
     type: 'page',
-    fields: [
-      defineField({
-        name: 'title',
+    fields: {
+      title: defineField({
         label: 'Title',
         type: 'text',
+        description: 'The overall name of the entry'
       }),
-      defineField({
-        name: 'slug',
+      slug: defineField({
         label: 'Slug',
         type: 'slug',
       }),
-      defineField({
-        name: 'md',
+      md: defineField({
         label: 'Markdown',
         type: 'markdown',
       }),
-      defineField({
-        name: 'blocks',
+      sections: defineField({
         label: 'Sections',
         type: 'blocks',
-        fields: [
-          defineBlock({
-            name: 'hero',
+        children: {
+          hero: defineBlock({
             label: 'Hero',
             type: 'hero',
-            fields: [
-              defineField({
-                name: 'title',
+            fields: {
+              title: defineField({
                 label: 'Title',
                 type: 'text',
               }),
-              defineField({
-                name: 'text',
+              text: defineField({
                 label: 'Text',
                 type: 'text',
               }),
-            ],
+            },
           }),
-          defineBlock({
-            name: 'gallery',
+          gallery: defineBlock({
             label: 'Gallery',
             type: 'gallery',
-            fields: [
-              defineField({
-                name: 'images',
+            fields: {
+              images: defineField({
                 label: 'Images',
                 type: 'blocks',
-                fields: [
-                  defineField({
-                    name: 'image',
+                children: {
+                  image: defineField({
                     label: 'Image',
                     type: 'image',
                   }),
-                ],
+                },
               }),
-            ],
+            },
           }),
-        ],
+        },
       }),
-    ],
+    },
   }),
-  // defineBlock({
-  //   name: 'user',
-  //   label: 'User',
-  //   type: 'user',
-  //   fields: [
-  //     defineField({
-  //       name: 'email',
-  //       label: 'Email',
-  //       type: 'text',
-  //     })
-  //   ]
-  // }),
-] as const)
+} as const)

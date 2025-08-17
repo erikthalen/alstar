@@ -5,6 +5,7 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "moduleResolution": "NodeNext",
-    "module": "nodenext"
+    "module": "nodenext",
+    "resolveJsonModule": true
   }
 }

@@ -9,7 +9,6 @@
     "@types/node": "^24.1.0"
   },
   "dependencies": {
-    "@alstar/studio": "latest",
-    "@alstar/refresher": "latest"
+    "@alstar/studio": "latest"
   }
 }

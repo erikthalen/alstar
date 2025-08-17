@@ -13,7 +13,7 @@ export type BlockField = {
   name: string
   label: string
   type: 'blocks'
-  fields: (Field | Block)[]
+  children: Record<string, Field | Block>
 }
 
 export type Field = PrimitiveField | BlockField
@@ -22,7 +22,40 @@ export type Block = {
   name: string
   label: string
   type: string
-  fields: (Field | Block)[]
+  fields: Record<string, Field | Block>
+}
+
+export type Structure = Record<string, BlockDef>
+
+// --- Field & block definitions ---
+type FieldType = 'text' | 'slug' | 'markdown' | 'blocks' | 'image';
+
+interface BaseField {
+  label: string;
+  type: FieldType;
+  description?: string
+}
+
+interface TextField extends BaseField {
+  type: 'text' | 'slug' | 'markdown';
+}
+
+interface ImageField extends BaseField {
+  type: 'image';
+}
+
+export interface BlocksField extends BaseField {
+  type: 'blocks';
+  children: Record<string, BlockDef | FieldDef>;
+}
+
+export type FieldDef = TextField | ImageField | BlocksField;
+
+export interface BlockDef {
+  label: string;
+  type: string;
+  fields: Record<string, FieldDef>;
+  description?: string
 }
 
 type DBDefaults = {
@@ -36,7 +69,7 @@ type DBDefaults = {
   value: string
   options: string | null
   status: 'enabled' | 'disabled'
-  parent_block_id: number | null
+  parent_id: number | null
   depth: number
 }
 
@@ -51,7 +84,7 @@ export type DBBlockResult = {
   value: string | null
   options: any
   status: string
-  parent_block_id: number | null
+  parent_id: number | null
   depth: number
   children?: DBBlockResult[]
   fields?: Record<string, DBBlockResult>
@@ -63,7 +96,7 @@ export type DBBlock = Block & {
   updated_at: string
   value: string | null
   sort_order: number | null
-  parent_block_id: number | null
+  parent_id: number | null
   options: number | null
 }
 
@@ -72,6 +105,7 @@ export type BlockStatus = 'enabled' | 'disabled'
 export type StudioConfig = {
   siteName: string
   honoConfig?: HonoOptions<BlankEnv>
+  structure: Structure
 }
 
 export type RequestContext = Context<

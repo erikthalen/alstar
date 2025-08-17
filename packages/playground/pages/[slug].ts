@@ -1,7 +1,6 @@
 import { defineEntry, html, query } from '@alstar/studio'
 import SiteLayout from '../components/SiteLayout.ts'
 import structure from '../structure.ts'
-import { getBlockTrees } from '@alstar/studio/queries/getBlockTrees.ts'
 import { db } from '../../db/index.ts'
 // import { getBlockTrees } from "./getBlockTrees";
 
@@ -11,18 +10,18 @@ export default defineEntry(c => {
 
   // Now TypeScript knows the return type is derived from `structure`.
 
-  const result = getBlockTrees(db.database, structure, {
+  const result = query.root({
     name: 'slug',
-    value: 'the-slug',
+    value: slug,
   })
 
   // result: Array of the "page" node type (with typed fields)
-  const first = result[0].fields.slug.value
+  // const first = result[0].fields.blocks.children[]
 
   return SiteLayout(html`
     <h1>Hello!</h1>
     <p>${slug}</p>
 
-    <pre><code>${JSON.stringify(first, null, 2)}</code></pre>
+    <pre><code>${JSON.stringify(result, null, 2)}</code></pre>
   `)
 })

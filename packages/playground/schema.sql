@@ -10,8 +10,9 @@ CREATE TABLE blocks (
     value TEXT,
     options JSON,
     status TEXT default 'enabled',
-    parent_block_id INTEGER,
-    foreign key (parent_block_id) references blocks (id)
+    parent_id INTEGER,
+    _depth INTEGER,
+    foreign key (parent_id) references blocks (id)
   
       );
 CREATE TABLE sqlite_sequence(name,seq);

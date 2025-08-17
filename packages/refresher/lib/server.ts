@@ -43,7 +43,7 @@ export function createRefresher({
 
   const server = http.createServer(eventsHandler)
 
-  server.listen(port, () => console.log('\x1b[32m%s\x1b[0m', 'Refresher'))
+  // server.listen(port, () => console.log('\x1b[32m%s\x1b[0m', 'Refresher'))
 
   process.on('exit', () => {
     requestRefresh('Server restart')

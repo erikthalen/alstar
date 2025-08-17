@@ -10,6 +10,6 @@ export type DBBase = {
   value: string | null;
   options: any | null;
   status: string;
-  parent_block_id: number | null;
+  parent_id: number | null;
   depth: number;
 };

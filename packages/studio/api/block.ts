@@ -4,12 +4,16 @@ import { Hono } from 'hono'
 import { streamSSE } from 'hono/streaming'
 import { stripNewlines } from '../utils/strip-newlines.ts'
 import { sql } from '../utils/sql.ts'
-import { type Block } from '../types.ts'
+import { type Structure } from '../types.ts'
 import { db } from '@alstar/db'
 import Entries from '../components/Entries.ts'
 import Entry from '../components/Entry.ts'
+import {
+  blockWithChildren,
+  deleteBlockWithChildren,
+} from '../queries/block-with-children.ts'
 
-export const sectionRoutes = (structure: Block[]) => {
+export default (structure: Structure) => {
   const app = new Hono<{ Bindings: HttpBindings }>()
 
   app.post('/block', async (c) => {
@@ -17,14 +21,14 @@ export const sectionRoutes = (structure: Block[]) => {
       const formData = await c.req.formData()
       const data = Object.fromEntries(formData.entries())
 
-      const row = structure.find((block) => block.type === data.type)
+      const row = structure[data.name?.toString()]
 
       if (!row) return
 
       db.insertInto('blocks', {
-        name: row.name?.toString(),
-        label: row.label?.toString(),
-        type: row.type?.toString(),
+        name: data.name?.toString(),
+        label: row.label,
+        type: row.type,
       })
 
       await stream.writeSSE({
@@ -37,26 +41,19 @@ export const sectionRoutes = (structure: Block[]) => {
   app.post('/new-block', async (c) => {
     return streamSSE(c, async (stream) => {
       const formData = await c.req.formData()
-      const newBlock = formData.get('block')?.toString().split(';')
-      const columns = newBlock?.map((field) => field.split(':')) as string[][]
-      const data = Object.fromEntries(columns)
-
-      const parent_block_id = formData?.get('parent_block_id')?.toString()
-      const sort_order = formData?.get('sort_order')?.toString()
-
-      if (!parent_block_id || !sort_order) return
+      const data = Object.fromEntries(formData)
 
       db.insertInto('blocks', {
-        type: data.type,
-        name: data.name,
-        label: data.label,
-        parent_block_id,
-        sort_order,
+        type: data.type.toString(),
+        name: data.name.toString(),
+        label: data.label.toString(),
+        parent_id: data.parent_id.toString(),
+        sort_order: data.sort_order.toString(),
       })
 
       await stream.writeSSE({
         event: 'datastar-patch-elements',
-        data: `elements ${stripNewlines(Entry({ entryId: data.entry_id, structure }))}`,
+        data: `elements ${stripNewlines(Entry({ entryId: parseInt(data.entry_id.toString()) }))}`,
       })
     })
   })
@@ -99,22 +96,17 @@ export const sectionRoutes = (structure: Block[]) => {
       const formData = await c.req.formData()
 
       const id = formData.get('id')?.toString()
+      const entryId = formData.get('entry_id')?.toString()
 
-      if (!id) return
+      if (!id || !entryId) return
 
-      const transaction = db.database.prepare(sql`
-        update blocks
-        set
-          status = 'disabled'
-        where
-          id = ?
-      `)
+      const transaction = db.database.prepare(deleteBlockWithChildren)
 
-      transaction.run(id)
+      transaction.all(id)
 
       await stream.writeSSE({
         event: 'datastar-patch-elements',
-        data: `elements ${stripNewlines(Entries())}`,
+        data: `elements ${stripNewlines(Entry({ entryId: parseInt(entryId.toString()) }))}`,
       })
     })
   })

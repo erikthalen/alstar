@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@alstar/db": "workspace:*",
+    "@alstar/refresher": "workspace:*",
     "@alstar/ui": "workspace:*",
     "@hono/node-server": "^1.18.1",
     "@starfederation/datastar-sdk": "1.0.0-RC.1",

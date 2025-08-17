@@ -26,5 +26,5 @@ export default () => {
       </article>
     </div>`
 
-  return html`${!structure.length ? Discamer : ''}`
+  return html`${!structure ? Discamer : ''}`
 }

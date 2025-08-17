@@ -7,11 +7,22 @@ export const blocksTable = {
     name TEXT not null,
     label TEXT not null,
     type TEXT not null,
-    sort_order INTEGER not null default 0,
     value TEXT,
     options JSON,
     status TEXT default 'enabled',
-    parent_block_id INTEGER,
-    foreign key (parent_block_id) references blocks (id)
+    sort_order INTEGER not null default 0,
+    _depth INTEGER,
+    parent_id INTEGER,
+    foreign key (parent_id) references blocks (id)
+  `,
+}
+
+// -- API keys
+export const apiKeysTable = {
+  tableName: 'api_keys',
+  columns: sql`
+    name TEXT not null,
+    value TEXT,
+    hint TEXT
   `,
 }

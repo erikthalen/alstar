@@ -3,14 +3,14 @@ import { query } from '../index.ts'
 import * as icons from './icons.ts'
 
 export default () => {
-  const entries = query.blocks({ parent_block_id: null, status: 'enabled' })
+  const entries = query.blocks({ parent_id: null, status: 'enabled' })
 
   return html`
     <section id="entries">
       <ul>
         ${entries?.map((block) => {
           const title = query.block({
-            parent_block_id: block.id.toString(),
+            parent_id: block.id.toString(),
             name: 'title',
           })
 
@@ -27,7 +27,7 @@ export default () => {
                 <button
                   data-tooltip="Remove"
                   data-placement="right"
-                  class="ghost"
+                  class="ghost text-secondary"
                   style="padding: 0"
                   type="submit"
                 >

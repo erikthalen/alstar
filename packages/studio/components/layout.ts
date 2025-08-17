@@ -1,4 +1,4 @@
-import adminPanel from './AdminPanel/AdminPanel.ts'
+import adminPanel from './AdminPanel.ts'
 import { html } from 'hono/html'
 import { type HtmlEscapedString } from 'hono/utils/html'
 import { rootdir, studioConfig } from '../index.ts'
@@ -50,7 +50,7 @@ export default (props: {
       </head>
 
       <body data-barba="wrapper">
-        <section>${adminPanel(props.structure)}</section>
+        <section style="margin-bottom: 0;">${adminPanel(props.structure)}</section>
 
         <main>
           <section data-barba="container" data-barba-namespace="default">

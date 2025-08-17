@@ -3,6 +3,7 @@ import Sortable from 'sortablejs'
 // import { wrap } from 'ink-mde'
 
 barba.init({
+  cacheIgnore: true,
   views: [
     {
       namespace: 'default',
@@ -19,11 +20,14 @@ function init() {
     const els = document.querySelectorAll('[data-sortable]')
 
     els.forEach((el) => {
+      const id = el.dataset.sortable
+
       var sortable = Sortable.create(el, {
         delay: 0,
         animation: 250,
         dragClass: 'sortable-drag',
         easing: 'ease-in-out',
+        handle: `[data-handle="${id}"]`,
       })
     })
   }

@@ -10,7 +10,6 @@
     "@types/node": "^24.1.0"
   },
   "dependencies": {
-    "@alstar/studio": "workspace:*",
-    "@alstar/refresher": "workspace:*"
+    "@alstar/studio": "workspace:*"
   }
 }

@@ -34,7 +34,7 @@ export type DBBase = {
   value: string | null;
   options: any | null;
   status: string;
-  parent_block_id: number | null;
+  parent_id: number | null;
   depth: number;
 };
 
@@ -128,10 +128,10 @@ function buildForestRows(rows: (DBBase)[]) {
   const roots: any[] = [];
   for (const r of rows) {
     const node = map.get(r.id)!;
-    if (r.parent_block_id === null) {
+    if (r.parent_id === null) {
       roots.push(node);
     } else {
-      const parent = map.get(r.parent_block_id);
+      const parent = map.get(r.parent_id);
       if (parent) parent.children.push(node);
     }
   }
@@ -182,7 +182,7 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           value,
           options,
           status,
-          parent_block_id,
+          parent_id,
           0 as depth
         from
           blocks
@@ -200,11 +200,11 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           b.value,
           b.options,
           b.status,
-          b.parent_block_id,
+          b.parent_id,
           a.depth + 1
         from
           blocks b
-          inner join ancestors a on b.id = a.parent_block_id
+          inner join ancestors a on b.id = a.parent_id
       ),
       roots as (
         select
@@ -218,12 +218,12 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           value,
           options,
           status,
-          parent_block_id,
+          parent_id,
           0 as depth
         from
           ancestors
         where
-          parent_block_id is null
+          parent_id is null
       ),
       descendants as (
         select
@@ -237,7 +237,7 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           value,
           options,
           status,
-          parent_block_id,
+          parent_id,
           depth
         from
           roots
@@ -253,18 +253,18 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           b.value,
           b.options,
           b.status,
-          b.parent_block_id,
+          b.parent_id,
           d.depth + 1
         from
           blocks b
-          inner join descendants d on b.parent_block_id = d.id ${depthLimitClause}
+          inner join descendants d on b.parent_id = d.id ${depthLimitClause}
       )
     select
       *
     from
       descendants
     order by
-      parent_block_id,
+      parent_id,
       sort_order;
   `
 }

@@ -1,0 +1,53 @@
+.blocks-field {
+  > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > form fieldset {
+      button {
+        padding-inline: 1rem;
+      }
+    }
+
+    details {
+      form {
+        display: flex;
+      }
+
+      button {
+        width: 100%;
+        margin-bottom: 0;
+        text-align: left;
+      }
+
+      summary + ul {
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+
+  article {
+    > header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      aside {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      button {
+        margin: 0;
+        padding: 0;
+
+        svg {
+          padding: 5px;
+        }
+      }
+    }
+  }
+}

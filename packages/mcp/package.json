@@ -3,13 +3,10 @@
   "version": "0.0.0-beta.1",
   "type": "module",
   "main": "index.ts",
-  "scripts": {
-    "dev": "node --watch index.ts"
-  },
   "dependencies": {
     "@alstar/studio": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.17.2",
-    "zod": "3"
+    "zod": "^3"
   },
   "devDependencies": {
     "@types/node": "^24.1.0"

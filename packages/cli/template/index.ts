@@ -4,23 +4,18 @@ import {
   defineBlock,
   defineField,
 } from '@alstar/studio'
-import { createRefresher } from '@alstar/refresher'
 
-createRefresher({ rootdir: '.' })
-
-const structure = defineStructure([
-  defineBlock({
-    name: 'entry',
-    label: 'Entry',
-    type: 'entry',
-    fields: [
-      defineField({
-        name: 'title',
-        label: 'Title',
-        type: 'text',
-      }),
-    ],
+await createStudio({
+  structure: defineStructure({
+    entry: defineBlock({
+      label: 'Entry',
+      type: 'entry',
+      fields: {
+        title: defineField({
+          label: 'Title',
+          type: 'text',
+        }),
+      },
+    }),
   }),
-])
-
-await createStudio(structure)
+})
