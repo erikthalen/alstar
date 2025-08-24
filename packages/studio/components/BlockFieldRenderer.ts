@@ -1,33 +1,39 @@
-import { query } from '../../queries/index.ts'
-import type { Field, Block as BlockType, BlocksField } from '../../types.ts'
-import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
-import { html } from '../../utils/html.ts'
-import Block from '../Block.ts'
-import * as icons from '../icons.ts'
+import { query } from '../queries/index.ts'
+import type { BlocksFieldDefStructure } from '../types.ts'
+import { BlockInstance } from '../utils/define.ts'
+import { getOrCreateRow } from '../utils/get-or-create-row.ts'
+import { html } from '../utils/html.ts'
+import * as icons from './icons.ts'
+import Render from './Render.ts'
 
 export default (props: {
   entryId: number
   parentId: number
   name: string
-  field: BlocksField
-  sortOrder: number
+  structure: BlocksFieldDefStructure
+  id?: number
+  sortOrder?: number
 }) => {
-  const { entryId, parentId, name, field, sortOrder = 0 } = props
+  const { entryId, parentId, name, structure, id, sortOrder = 0 } = props
 
-  const data = getOrCreateRow(parentId, name, field, sortOrder)
+  const data = getOrCreateRow({
+    parentId,
+    name,
+    field: structure,
+    sortOrder,
+    id,
+  })
 
   if (!data) return html`<p>No block</p>`
 
-  const entries = Object.entries(field.children) as [
-    string,
-    BlockType | Field,
-  ][]
+  const entries = Object.entries(structure.children)
+
   const rows = query.blocks({ parent_id: data.id })
 
   return html`
     <div class="blocks-field">
       <header>
-        <p>${field.label}</p>
+        <p>${structure.label}</p>
 
         <details class="dropdown">
           <summary>Add</summary>
@@ -59,23 +65,21 @@ export default (props: {
 
       <hr style="margin-top: 0;" />
 
-      <div data-sortable="${data.id}">
+      <sortable-list data-id="${data.id}">
         ${rows.map((row, idx) => {
-          const [name, struct] = (entries.find(([name]) => name === row.name) ||
-            []) as [string, BlockType]
+          const [name, struct] =
+            entries.find(([name]) => name === row.name) || []
 
-          if (!name) return html``
+          if (!name || !struct) return html`<p>No name</p>`
 
           return html`
-          <article>
+          <article data-id="${row.id}">
               <header>
                 ${struct.label}
 
-                <!-- data-tooltip="Move"
-                data-placement="top" -->
                 <aside>
                   <button
-                    data-handle="${data.id}"
+                    data-handle-for="${data.id}"
                     class="ghost handle text-secondary"
                     style="cursor: grab"
                   >
@@ -100,19 +104,18 @@ export default (props: {
                 </aside>
               </header>
 
-              ${Block({
+              ${Render({
                 entryId,
-                parentId: struct.fields ? row.id : data.id,
-                blockStructure: struct,
+                parentId:
+                  struct.instanceOf === BlockInstance ? row.id : data.id,
+                id: row.id,
+                structure: struct,
                 name: name,
-                sortOrder: row.sort_order,
               })}
-
-              <!-- <pre><code>{JSON.stringify(struct, null, 2)} - {row.sort_order}</code></pre> -->
             </article>
           `
         })}
-      </div>
+      </sortable-list>
     </div>
   `
 }

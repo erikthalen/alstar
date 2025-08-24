@@ -5,7 +5,7 @@ export type DatabaseAPI = {
   createTable: (tableName: string, userColumns: Record<string, string>) => void
   insertInto: (
     tableName: string,
-    values: Record<string, string | number | bigint>
+    values: Record<string, string | number | bigint | null>
   ) => StatementResultingChanges
   updateTable: ({
     tableName,
@@ -31,7 +31,7 @@ export const loadDb = (databaseName: string) => {
 
   function createTable(
     tableName: string,
-    userColumns: Record<string, string | number>
+    userColumns: Record<string, string | number | null>
   ) {
     const columns = {
       id: 'INTEGER PRIMARY KEY AUTOINCREMENT',
@@ -49,7 +49,7 @@ export const loadDb = (databaseName: string) => {
 
   function insertInto(
     tableName: string,
-    values: Record<string, string | number | bigint>
+    values: Record<string, string | number | bigint | null>
   ) {
     const columns = Object.keys(values)
 

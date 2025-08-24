@@ -1,8 +1,7 @@
 import adminPanel from './AdminPanel.ts'
 import { html } from 'hono/html'
 import { type HtmlEscapedString } from 'hono/utils/html'
-import { rootdir, studioConfig } from '../index.ts'
-import { type Structure } from '../types.ts'
+import { studioConfig } from '../index.ts'
 
 export default (props: {
   content:
@@ -10,7 +9,6 @@ export default (props: {
     | Promise<string>
     | HtmlEscapedString
     | Promise<HtmlEscapedString>
-  structure: Structure
 }) => {
   return html`
     <!DOCTYPE html>
@@ -23,15 +21,11 @@ export default (props: {
           Studio
         </title>
 
-        <link
-          rel="icon"
-          type="image/svg"
-          href="${rootdir}/public/favicon.svg"
-        />
+        <link rel="icon" type="image/svg" href="/studio/favicon.svg" />
 
         <meta name="color-scheme" content="light dark" />
 
-        <link rel="stylesheet" href="${rootdir}/public/main.css" />
+        <link rel="stylesheet" href="/studio/main.css" />
 
         <script
           type="module"
@@ -47,18 +41,20 @@ export default (props: {
             }
           }
         </script>
+
+        <script src="/studio/markdown-editor.js" type="module"></script>
+        <script src="/studio/sortable-list.js" type="module"></script>
+        <script src="/studio/main.js" type="module"></script>
       </head>
 
       <body data-barba="wrapper">
-        <section style="margin-bottom: 0;">${adminPanel(props.structure)}</section>
+        <section style="margin-bottom: 0;">${adminPanel()}</section>
 
         <main>
           <section data-barba="container" data-barba-namespace="default">
             ${props.content}
           </section>
         </main>
-
-        <script src="${rootdir}/public/main.js" type="module"></script>
       </body>
     </html>
   `

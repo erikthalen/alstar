@@ -1,9 +1,10 @@
 import { html } from 'hono/html'
 import { query } from '../index.ts'
 import * as icons from './icons.ts'
+import type { BlockDef } from '../types.ts'
 
-export default () => {
-  const entries = query.blocks({ parent_id: null, status: 'enabled' })
+export default ({ name }: { name: string }) => {
+  const entries = query.blocks({ parent_id: null, status: 'enabled', name })
 
   return html`
     <section id="entries">

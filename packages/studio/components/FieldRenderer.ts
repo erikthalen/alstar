@@ -1,0 +1,35 @@
+import { Field } from './fields/index.ts'
+import type { BlocksFieldDefStructure, FieldDefStructure } from '../types.ts'
+import BlockFieldRenderer from './BlockFieldRenderer.ts'
+
+export default (props: {
+  entryId: number
+  parentId: number
+  structure: FieldDefStructure | BlocksFieldDefStructure
+  id?: number
+  name: string
+}) => {
+  const { entryId, parentId, structure, name, id } = props
+
+  switch (structure.type) {
+    case 'text': {
+      return Field.Text({ entryId, parentId, name, id, structure })
+    }
+
+    case 'slug': {
+      return Field.Text({ entryId, parentId, name, id, structure })
+    }
+
+    case 'markdown': {
+      return Field.Markdown({ entryId, parentId, name, id, structure })
+    }
+
+    case 'image': {
+      return Field.Text({ entryId, parentId, name, structure, id })
+    }
+
+    case 'blocks': {
+      return BlockFieldRenderer({ entryId, parentId, name, structure, id })
+    }
+  }
+}

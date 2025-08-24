@@ -1,0 +1,30 @@
+import { html, type HtmlEscapedString } from '@alstar/studio'
+import MainMenu from './MainMenu.ts'
+
+export default (
+  content: string | HtmlEscapedString | Promise<HtmlEscapedString>
+) => {
+  return html`
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Alstar App</title>
+
+        <link rel="icon" type="image/svg" href="/favicon.svg" />
+
+        <meta name="color-scheme" content="light dark" />
+
+        <script src="refresh-client.js"></script>
+        <link rel="stylesheet" href="/main.css" />
+      </head>
+      <body>
+        <main class="layout">
+          <section>${MainMenu()}</section>
+          <section class="canvas">${content}</section>
+        </main>
+      </body>
+    </html>
+  `
+}

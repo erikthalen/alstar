@@ -281,6 +281,8 @@ export function blocks(params: Record<string, any>) {
       blocks
     where
       ${filterSql}
+    order by
+     sort_order
   `
 
   return db.database.prepare(query).all(sqlParams) as unknown as DBBlockResult[]

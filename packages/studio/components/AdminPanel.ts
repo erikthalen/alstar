@@ -1,39 +1,61 @@
 import { html } from 'hono/html'
-import type { Structure } from '../types.ts'
 import { logo } from './icons.ts'
 import Entries from './Entries.ts'
 import * as icons from './icons.ts'
+import { studioStructure } from '../index.ts'
+import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 
-export default (structure: Structure) => {
-  const entries = Object.entries(structure)
-  const type = typeof entries[0][1] !== 'string' ? entries[0][1].type : null
+export default () => {
+  const entries = Object.entries(studioStructure)
 
   return html`
-    <div class="admin-panel">
+    <div class="admin-panel" id="admin_panel">
       <h1>
         <a href="/admin" aria-label="Go to dashboard"> ${logo} </a>
       </h1>
 
-      <aside>
-        <form
-          data-on-submit="@post('/admin/api/block', { contentType: 'form' })"
-        >
-          <!-- TODO: currently only handles a single entry type -->
-          ${entries.length
-            ? html`<input type="hidden" name="name" value="${type}" />
-                <button
-                  class="ghost"
-                  style="padding: 10px; margin: 0 -13px; display: flex;"
-                  data-tooltip="New entry"
-                  data-placement="right"
-                >
-                  ${icons.newDocument}
-                </button>`
-            : ''}
-        </form>
-      </aside>
+      <aside style="width: 100%;">
+        ${entries.map(([name, block]) => {
+          if (block.type === 'single') {
+            const data = getOrCreateRow({ parentId: null, name, field: block })
 
-      ${Entries()}
+            return html`
+            <section id="entries">
+                <ul>
+                  <li>
+                    <a
+                      href="/admin/entry/${data.id}"
+                      id="block_link_${data.id}"
+                    >
+                      ${block.label}
+                    </a>
+                  </li>
+                </ul>
+              </section>
+            `
+          }
+
+          return html`
+          <form
+              data-on-submit="@post('/admin/api/block', { contentType: 'form' })"
+              style="display: flex; align-items: center; gap: 1rem;"
+            >
+              <input type="hidden" name="name" value="${name}" />
+              <button
+                class="ghost"
+                style="padding: 10px; margin: 0 -13px; display: flex;"
+                data-tooltip="New ${block.label}"
+                data-placement="right"
+              >
+                ${icons.newDocument}
+              </button>
+              <p style="user-select: none;"><small>${block.label}</small></p>
+            </form>
+
+            ${Entries({ name })}
+          `
+        })}
+      </aside>
 
       <footer>
         <a

@@ -4,11 +4,6 @@ import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { createRefresher } from '@alstar/refresher'
 
-import Layout from './components/layout.ts'
-import IndexPage from './components/index.ts'
-import SettingsPage from './components/Settings.ts'
-import Entry from './components/Entry.ts'
-
 import * as types from './types.ts'
 import { createStudioTables } from './utils/create-studio-tables.ts'
 import { fileBasedRouter } from './utils/file-based-router.ts'
@@ -16,18 +11,18 @@ import { getConfig } from './utils/get-config.ts'
 import startupLog from './utils/startup-log.ts'
 import { api } from './api/index.ts'
 import mcp from './api/mcp.ts'
+import path from 'path'
 
-export let structure: types.Structure
-export let rootdir = '/node_modules/@alstar/studio'
+export let rootdir = './node_modules/@alstar/studio'
 
+export let studioStructure: types.Structure = {}
 export let studioConfig: types.StudioConfig = {
   siteName: '',
-  structure: {}
+  port: 3000,
+  structure: {},
 }
 
 const createStudio = async (config: types.StudioConfig) => {
-  startupLog()
-
   createRefresher({ rootdir: '.' })
 
   loadDb('./studio.db')
@@ -36,37 +31,43 @@ const createStudio = async (config: types.StudioConfig) => {
   // const configFile = await getConfig<types.StudioConfig>()
 
   if (config.structure) {
-    structure = config.structure
+    studioStructure = config.structure
   }
 
   studioConfig = { ...studioConfig, ...config }
 
   const app = new Hono(studioConfig.honoConfig)
 
-  app.use('*', serveStatic({ root: './' }))
+  /**
+   * Static folders
+   */
+  app.use('*', serveStatic({ root: path.join(rootdir, 'public') }))
   app.use('*', serveStatic({ root: './public' }))
 
-  app.get('/admin', (c) => c.html(Layout({ structure, content: IndexPage() })))
-  app.get('/admin/settings', (c) => c.html(Layout({ structure, content: SettingsPage() })))
-  app.get('/admin/entry/:id', (c) => {
-    return c.html(
-      Layout({
-        structure,
-        content: Entry({ entryId: parseInt(c.req.param('id')) }),
-      }),
-    )
-  })
-
-  app.route('/admin/api', api(structure))
+  /**
+   * Studio API routes
+   */
+  app.route('/admin/api', api(studioStructure))
   app.route('/admin/mcp', mcp())
 
+  /**
+   * Studio pages
+   */
+  const adminPages = await fileBasedRouter(path.join(rootdir, 'pages'))
+
+  if (adminPages) app.route('/admin', adminPages)
+
+  /**
+   * User pages
+   */
   const pages = await fileBasedRouter('./pages')
 
-  if (pages) {
-    app.route('/', pages)
-  }
+  if (pages) app.route('/', pages)
 
-  const server = serve(app)
+  const server = serve({
+    fetch: app.fetch,
+    port: studioConfig.port,
+  })
 
   // graceful shutdown
   process.on('SIGINT', () => {
@@ -82,6 +83,8 @@ const createStudio = async (config: types.StudioConfig) => {
       process.exit(0)
     })
   })
+
+  startupLog({ port: studioConfig.port || 3000 })
 
   return app
 }

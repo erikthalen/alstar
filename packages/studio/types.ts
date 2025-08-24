@@ -2,6 +2,11 @@ import { type HttpBindings } from '@hono/node-server'
 import { type Context } from 'hono'
 import { type HonoOptions } from 'hono/hono-base'
 import { type BlankInput, type BlankEnv } from 'hono/types'
+import {
+  BlockFieldInstance,
+  BlockInstance,
+  FieldInstance,
+} from './utils/define.ts'
 
 export type PrimitiveField = {
   name: string
@@ -25,70 +30,102 @@ export type Block = {
   fields: Record<string, Field | Block>
 }
 
-export type Structure = Record<string, BlockDef>
+export type Structure = Record<string, BlockDefStructure>
 
 // --- Field & block definitions ---
-type FieldType = 'text' | 'slug' | 'markdown' | 'blocks' | 'image';
+type FieldType = 'text' | 'slug' | 'markdown' | 'image'
 
 interface BaseField {
-  label: string;
-  type: FieldType;
+  label: string
+  type: FieldType
   description?: string
 }
 
 interface TextField extends BaseField {
-  type: 'text' | 'slug' | 'markdown';
+  type: 'text' | 'slug' | 'markdown'
+}
+
+interface TextFieldStructure extends TextField {
+  instanceOf: typeof FieldInstance
 }
 
 interface ImageField extends BaseField {
-  type: 'image';
+  type: 'image'
 }
 
-export interface BlocksField extends BaseField {
-  type: 'blocks';
-  children: Record<string, BlockDef | FieldDef>;
+interface ImageFieldStructure extends ImageField {
+  instanceOf: typeof FieldInstance
 }
 
-export type FieldDef = TextField | ImageField | BlocksField;
+export interface BlocksFieldDef {
+  label: string
+  type: 'blocks'
+  description?: string
+  children: Record<string, BlockDefStructure | FieldDefStructure>
+}
+
+export interface BlocksFieldDefStructure extends BlocksFieldDef {
+  instanceOf: typeof BlockFieldInstance
+}
+
+export type FieldDef = TextField | ImageField
+export type FieldDefStructure = TextFieldStructure | ImageFieldStructure
 
 export interface BlockDef {
-  label: string;
-  type: string;
-  fields: Record<string, FieldDef>;
+  label: string
+  type: string
+  fields: Record<string, FieldDefStructure | BlocksFieldDefStructure>
   description?: string
 }
 
-type DBDefaults = {
+export interface BlockDefStructure extends BlockDef {
+  instanceOf: typeof BlockInstance
+}
+
+// type DBDefaults = {
+//   id: number
+//   created_at: string
+//   updated_at: string
+//   name: string
+//   label: string
+//   // type: string
+//   sort_order: number
+//   value: string
+//   options: string | null
+//   status: 'enabled' | 'disabled'
+//   parent_id: number | null
+//   depth: number
+// }
+
+type BaseDBResult = {
   id: number
   created_at: string
   updated_at: string
   name: string
   label: string
-  // type: string
   sort_order: number
-  value: string
-  options: string | null
+  value: string | null
+  options: any
   status: 'enabled' | 'disabled'
   parent_id: number | null
   depth: number
 }
 
-export type DBBlockResult = {
-  id: number
-  created_at: string
-  updated_at: string
-  name: string
-  label: string
-  type: string
-  sort_order: number
-  value: string | null
-  options: any
-  status: string
-  parent_id: number | null
-  depth: number
-  children?: DBBlockResult[]
-  fields?: Record<string, DBBlockResult>
+export type DBPrimitiveFieldResult = BaseDBResult & {
+  type: FieldDef
 }
+
+export type DBBlockFieldResult = BaseDBResult & {
+  type: 'blocks'
+  children: DBBlockResult[]
+}
+
+export type DBBlockResult = BaseDBResult & {
+  type: string
+  fields: Record<string, DBFieldResult>
+}
+
+export type DBFieldResult = DBPrimitiveFieldResult & DBBlockFieldResult
 
 export type DBBlock = Block & {
   id: number
@@ -103,8 +140,9 @@ export type DBBlock = Block & {
 export type BlockStatus = 'enabled' | 'disabled'
 
 export type StudioConfig = {
-  siteName: string
+  siteName?: string
   honoConfig?: HonoOptions<BlankEnv>
+  port?: number
   structure: Structure
 }
 

@@ -3,8 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --watch index.ts",
-    "start": "alstar"
+    "dev": "node --watch index.ts"
   },
   "devDependencies": {
     "@types/node": "^24.1.0"

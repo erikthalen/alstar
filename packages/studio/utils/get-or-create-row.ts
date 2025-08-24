@@ -1,13 +1,26 @@
 import { db } from '@alstar/db'
 import { query } from '../queries/index.ts'
-import type { Block, FieldDef } from '../types.ts'
+import type {
+  BlockDefStructure,
+  BlocksFieldDefStructure,
+  FieldDefStructure,
+} from '../types.ts'
 
-export function getOrCreateRow(
-  parentId: string | number,
-  name: string,
-  field: Block | FieldDef,
-  sortOrder: number,
-) {
+export function getOrCreateRow(props: {
+  parentId: string | number | null
+  name: string
+  field: BlockDefStructure | BlocksFieldDefStructure | FieldDefStructure
+  sortOrder?: number
+  id?: number
+}) {
+  const { parentId, name, field, sortOrder = 0, id } = props
+
+  if (id) {
+    return query.block({
+      id: id?.toString(),
+    })
+  }
+
   const data = query.block({
     parent_id: parentId?.toString() || null,
     name: name,

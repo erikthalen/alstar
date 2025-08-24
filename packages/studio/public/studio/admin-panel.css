@@ -29,11 +29,23 @@
     button {
       margin: 10px 0px 20px;
     }
+
+    p {
+      margin: 0;
+
+      small {
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        font-weight: 600;
+        opacity: 0.6;
+      }
+    }
   }
 
   #entries {
     width: 100%;
-    
+    user-select: none;
+
     ul {
       padding: 0;
       margin-inline: -1rem;
@@ -54,6 +66,7 @@
         justify-content: space-between;
         align-items: stretch;
         list-style: none;
+        padding: 0;
 
         a {
           text-decoration: none;

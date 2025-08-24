@@ -24,6 +24,22 @@ importers:
         specifier: ^24.1.0
         version: 24.1.0
 
+  packages/docs:
+    dependencies:
+      '@alstar/studio':
+        specifier: workspace:*
+        version: link:../studio
+      '@alstar/ui':
+        specifier: workspace:*
+        version: link:../ui
+      marked:
+        specifier: ^16.2.0
+        version: 16.2.0
+    devDependencies:
+      '@types/node':
+        specifier: ^24.1.0
+        version: 24.1.0
+
   packages/mcp:
     dependencies:
       '@alstar/studio':
@@ -33,7 +49,7 @@ importers:
         specifier: ^1.17.2
         version: 1.17.2
       zod:
-        specifier: '3'
+        specifier: ^3
         version: 3.25.76
     devDependencies:
       '@types/node':
@@ -541,6 +557,11 @@ packages:
 
   lodash.startcase@4.4.0:
     resolution: {integrity: sha512-+WKqsK294HMSc2jEbNgpHpd0JfIBhp7rEV4aqXWqFr6AlXov+SlcgB1Fv01y2kGe3Gc8nMW7VA0SrGuSkRfIEg==}
+
+  marked@16.2.0:
+    resolution: {integrity: sha512-LbbTuye+0dWRz2TS9KJ7wsnD4KAtpj0MVkWc90XvBa6AslXsT0hTBVH5k32pcSyHH1fst9XEFJunXHktVy0zlg==}
+    engines: {node: '>= 20'}
+    hasBin: true
 
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
@@ -1460,6 +1481,8 @@ snapshots:
       p-locate: 4.1.0
 
   lodash.startcase@4.4.0: {}
+
+  marked@16.2.0: {}
 
   math-intrinsics@1.1.0: {}
 

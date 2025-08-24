@@ -1,0 +1,162 @@
+/* @import './../node_modules/@alstar/ui/red.css'; */
+@import 'https://esm.sh/@alstar/ui/red.css';
+@import './admin-panel.css';
+@import './entry.css';
+@import './blocks.css';
+@import './settings.css';
+
+body {
+  padding: 0;
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: baseline;
+
+  > main {
+    padding: 40px;
+    height: 100vh;
+    overflow: auto;
+
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.entry > .fields > .block {
+  padding-block: var(--pico-spacing);
+
+  > header {
+    margin-block: var(--pico-block-spacing-vertical);
+  }
+}
+
+.block {
+  > header {
+    margin-bottom: var(--pico-spacing);
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: inherit;
+
+    h6,
+    h5,
+    fieldset {
+      margin-bottom: 0;
+    }
+
+    button {
+      padding: 0;
+      background-color: white;
+
+      svg {
+        padding: 8px;
+      }
+    }
+  }
+}
+
+[data-sortable] {
+  > article {
+    transition: opacity 200ms;
+  }
+
+  .sortable-ghost {
+    opacity: 0.3;
+  }
+}
+
+div.ink-mde {
+  border: var(--pico-border-width) solid #2a3140;
+  border-radius: var(--pico-border-radius);
+  outline: 0;
+  background-color: var(--pico-background-color);
+  box-shadow: var(--pico-box-shadow);
+  color: var(--pico-color);
+}
+
+.ͼ1 .cm-content.ink-mde-editor-content {
+  min-height: 10lh;
+}
+
+div.ink-mde {
+  --pico-border-color: var(--pico-form-element-border-color);
+
+  border: var(--pico-border-width) solid var(--pico-border-color);
+  border-radius: var(--pico-border-radius);
+
+  padding: var(--pico-form-element-spacing-vertical)
+    var(--pico-form-element-spacing-horizontal);
+  margin-bottom: var(--pico-spacing);
+
+  --pico-background-color: var(--pico-form-element-background-color);
+
+  --pico-color: var(--pico-form-element-color);
+  --pico-box-shadow: none;
+
+  outline: 0;
+  background-color: var(--pico-background-color);
+  box-shadow: var(--pico-box-shadow);
+  color: var(--pico-color);
+  font-weight: var(--pico-font-weight);
+  transition:
+    background-color var(--pico-transition),
+    border-color var(--pico-transition),
+    color var(--pico-transition),
+    box-shadow var(--pico-transition);
+}
+
+.ink-mde-textarea {
+}
+
+div.ink-mde:has(.cm-focused) {
+  --pico-outline-width: 0.1rem;
+  --pico-box-shadow: 0 0 0 var(--pico-outline-width)
+    var(--pico-form-element-focus-color);
+
+  box-shadow: var(--pico-box-shadow);
+}
+
+.ͼ1.cm-focused {
+  outline: none;
+}
+
+.ink-mde-textarea {
+  width: 100%;
+
+  --pico-background-color: var(--pico-form-element-background-color);
+
+  --pico-color: var(--pico-form-element-color);
+  --pico-box-shadow: none;
+
+  outline: 0;
+  background-color: var(--pico-background-color);
+  box-shadow: var(--pico-box-shadow);
+  color: var(--pico-color);
+  font-weight: var(--pico-font-weight);
+  transition:
+    background-color var(--pico-transition),
+    border-color var(--pico-transition),
+    color var(--pico-transition),
+    box-shadow var(--pico-transition);
+}
+
+.disclamer {
+  display: flex;
+  justify-content: center;
+}
+
+.text-secondary {
+  color: var(--pico-secondary);
+}
+
+.markdown {
+  width: 100%;
+  height: 10lh;
+}

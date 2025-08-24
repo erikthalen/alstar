@@ -3,27 +3,39 @@ import { type HtmlEscapedString } from './html.ts'
 
 export const defineConfig = (config: types.StudioConfig) => config
 
-// export const defineStructure = (structure: types.Block[]) => structure
-// export const defineField = (field: types.Field) => field
-// export const defineBlock = (block: types.Block) => block
-
 export const defineEntry = (
   fn: (
     c: types.RequestContext,
   ) => HtmlEscapedString | Promise<HtmlEscapedString>,
 ) => fn
 
+export const FieldInstance = Symbol('field')
+export const BlockFieldInstance = Symbol('blockfield')
+export const BlockInstance = Symbol('block')
+
 // --- Identity helpers (preserve literal types) ---
-export function defineField(field: types.FieldDef) {
-  return field
+export function defineField(field: types.FieldDef): types.FieldDefStructure {
+  return {
+    ...field,
+    instanceOf: FieldInstance,
+  }
 }
 
-export function defineBlock(block: types.BlockDef) {
-  return block
+export function defineBlockField(
+  field: types.BlocksFieldDef,
+): types.BlocksFieldDefStructure {
+  return {
+    ...field,
+    instanceOf: BlockFieldInstance,
+  }
+}
+
+export function defineBlock(block: types.BlockDef): types.BlockDefStructure {
+  return { ...block, instanceOf: BlockInstance }
 }
 
 export function defineStructure(
-  structure: Record<string, types.BlockDef>,
+  structure: Record<string, types.BlockDefStructure>,
 ) {
   return structure
 }

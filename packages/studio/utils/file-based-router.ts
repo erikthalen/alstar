@@ -15,6 +15,7 @@ export const fileBasedRouter = async (rootdir: string) => {
   try {
     dirs = await fs.readdir(root, { recursive: true })
   } catch (error) {
+    console.log('No files in:', root)
     return
   }
 

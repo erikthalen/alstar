@@ -1,6 +1,6 @@
+import type { FieldDefStructure } from '../../types.ts'
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '../../utils/html.ts'
-import type { FieldDefStructure } from '../../types.ts'
 
 export default (props: {
   entryId: number
@@ -8,11 +8,10 @@ export default (props: {
   name: string
   id?: number
   structure: FieldDefStructure
-  sortOrder?: number
 }) => {
-  const { entryId, parentId, name, structure, sortOrder = 0, id } = props
+  const { entryId, parentId, name, structure, id } = props
 
-  const data = getOrCreateRow({ parentId, name, field: structure, sortOrder, id })
+  const data = getOrCreateRow({ parentId, name, field: structure, id })
 
   if (!data) return html`<p>No block</p>`
 
@@ -25,12 +24,15 @@ export default (props: {
         <p><small>${structure.description}</small></p>
       </hgroup>
 
-      <input
-        id="block-${data.id}"
-        name="value"
-        type="text"
-        value="${data.value}"
-      />
+      <markdown-editor
+        data-content="${data.value?.trim()}"
+        data-id="${data.id}"
+      >
+        <!-- <textarea id="block-{data.id}" name="value" class="markdown">
+          {data.value}
+        </textarea
+        > -->
+      </markdown-editor>
 
       <input type="hidden" name="type" value="${structure.type}" />
       <input type="hidden" name="id" value="${data.id}" />

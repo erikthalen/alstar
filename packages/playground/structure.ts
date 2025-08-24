@@ -1,8 +1,9 @@
 import { defineBlock, defineField, defineStructure } from '@alstar/studio'
+import { defineBlockField } from '@alstar/studio/utils/define.ts'
 
 export default defineStructure({
   page: defineBlock({
-    label: 'Page',
+    label: 'Pages',
     type: 'page',
     fields: {
       title: defineField({
@@ -18,7 +19,7 @@ export default defineStructure({
         label: 'Markdown',
         type: 'markdown',
       }),
-      sections: defineField({
+      sections: defineBlockField({
         label: 'Sections',
         type: 'blocks',
         children: {
@@ -40,7 +41,7 @@ export default defineStructure({
             label: 'Gallery',
             type: 'gallery',
             fields: {
-              images: defineField({
+              images: defineBlockField({
                 label: 'Images',
                 type: 'blocks',
                 children: {

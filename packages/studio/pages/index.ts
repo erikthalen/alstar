@@ -1,5 +1,8 @@
 import { html } from 'hono/html'
-import { structure } from '../index.ts'
+import { defineEntry } from '../utils/define.ts'
+
+import SiteLayout from '../components/SiteLayout.ts'
+import { studioStructure } from '../index.ts'
 
 const codeBlock = html`<code><span style="color: #c678dd;">await</span> <span style="color: #61aeee;">createStudio</span>([
   {
@@ -16,7 +19,7 @@ const codeBlock = html`<code><span style="color: #c678dd;">await</span> <span st
   }
 ])</code>`
 
-export default () => {
+export default defineEntry(() => {
   const Discamer = html`
     <div class="disclamer">
       <article>
@@ -26,5 +29,5 @@ export default () => {
       </article>
     </div>`
 
-  return html`${!structure ? Discamer : ''}`
-}
+  return SiteLayout({ content: !Object.values(studioStructure).length ? Discamer : '' })
+})
