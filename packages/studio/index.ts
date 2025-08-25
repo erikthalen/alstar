@@ -95,6 +95,7 @@ export {
   defineStructure,
   defineBlock,
   defineField,
+  defineBlockField,
 } from './utils/define.ts'
 export { type RequestContext } from './types.ts'
 export { createStudio }

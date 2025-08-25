@@ -1,5 +1,9 @@
-import { defineBlock, defineField, defineStructure } from '@alstar/studio'
-import { defineBlockField } from '@alstar/studio/utils/define.ts'
+import {
+  defineBlock,
+  defineBlockField,
+  defineField,
+  defineStructure,
+} from '@alstar/studio'
 
 export default defineStructure({
   page: defineBlock({
@@ -9,7 +13,7 @@ export default defineStructure({
       title: defineField({
         label: 'Title',
         type: 'text',
-        description: 'The overall name of the entry'
+        description: 'The overall name of the entry',
       }),
       slug: defineField({
         label: 'Slug',
