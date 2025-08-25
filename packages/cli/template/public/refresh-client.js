@@ -1,9 +1,8 @@
 // client side script
 const eventSource = new EventSource('http://localhost:5432')
-eventSource.onmessage = () => {
-  setTimeout(() => {
-    window.location.reload()
-  }, 1000)
+eventSource.onmessage = ({ data }) => {
+  const delay = data.split(' - ').at(-1) === 'true'
+  setTimeout(() => window.location.reload(), delay ? 0 : 1000)
 }
 
 console.log(

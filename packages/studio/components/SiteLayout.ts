@@ -25,8 +25,6 @@ export default (props: {
 
         <meta name="color-scheme" content="light dark" />
 
-        <link rel="stylesheet" href="/studio/main.css" />
-
         <script
           type="module"
           src="https://cdn.jsdelivr.net/gh/starfederation/datastar@main/bundles/datastar.js"
@@ -42,9 +40,8 @@ export default (props: {
           }
         </script>
 
-        <script src="/studio/markdown-editor.js" type="module"></script>
-        <script src="/studio/sortable-list.js" type="module"></script>
         <script src="/studio/main.js" type="module"></script>
+        <link href="/studio/main.css" rel="stylesheet" />
       </head>
 
       <body data-barba="wrapper">

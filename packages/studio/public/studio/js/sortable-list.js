@@ -3,8 +3,10 @@ import Sortable from 'sortablejs'
 class SortableList extends HTMLElement {
   instance = null
 
-  connectedCallback() {
-    if (!this.children.length) return
+  mutationObserver
+
+  init() {
+    if (this.instance || !this.children.length) return
 
     const { id } = this.dataset
 
@@ -32,8 +34,16 @@ class SortableList extends HTMLElement {
     })
   }
 
+  connectedCallback() {
+    this.mutationObserver = new MutationObserver(this.init.bind(this))
+    this.mutationObserver.observe(this, { childList: true })
+
+    this.init()
+  }
+
   disconnectedCallback() {
     this.instance?.destroy()
+    this.mutationObserver?.disconnect()
   }
 }
 

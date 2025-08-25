@@ -3,8 +3,6 @@ import * as icons from './Icons.ts'
 
 export default () => {
   return html`
-    <link rel="stylesheet" href="/components/Welcome/Welcome.css" />
-
     <section class="welcome">
       <div>
         <h1>

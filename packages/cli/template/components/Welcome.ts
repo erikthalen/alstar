@@ -2,9 +2,7 @@ import { html } from '@alstar/studio'
 
 export default () => {
   return html`
-    <link rel="stylesheet" href="/components/Welcome/Welcome.css" />
-
-    <section class="welcome">
+    <section id="welcome">
       <div>
         <h1>
           <a href="/" aria-label="Go to Alstars homepage">

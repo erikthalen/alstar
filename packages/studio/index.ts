@@ -23,7 +23,7 @@ export let studioConfig: types.StudioConfig = {
 }
 
 const createStudio = async (config: types.StudioConfig) => {
-  createRefresher({ rootdir: '.' })
+  const refresher = await createRefresher({ rootdir: '.' })
 
   loadDb('./studio.db')
   createStudioTables()
@@ -84,7 +84,7 @@ const createStudio = async (config: types.StudioConfig) => {
     })
   })
 
-  startupLog({ port: studioConfig.port || 3000 })
+  startupLog({ port: studioConfig.port || 3000, refresherPort: refresher.port })
 
   return app
 }
