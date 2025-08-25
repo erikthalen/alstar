@@ -1,7 +1,7 @@
 import { type HttpBindings } from '@hono/node-server'
 import { Hono } from 'hono'
 import { streamSSE } from 'hono/streaming'
-import { backup, DatabaseSync } from 'node:sqlite'
+import { DatabaseSync } from 'node:sqlite'
 
 import { stripNewlines } from '../utils/strip-newlines.ts'
 import { db } from '@alstar/db'
@@ -10,14 +10,14 @@ export default () => {
   const app = new Hono<{ Bindings: HttpBindings }>()
 
   app.post('/backup', async (c) => {
-    const totalPagesTransferred = await backup(db.database, './backups/backup.db', {
-      rate: 1, // Copy one page at a time.
-      progress: ({ totalPages, remainingPages }) => {
-        console.log('Backup in progress', { totalPages, remainingPages })
-      },
-    })
+    // const totalPagesTransferred = await backup(db.database, './backups/backup.db', {
+    //   rate: 1, // Copy one page at a time.
+    //   progress: ({ totalPages, remainingPages }) => {
+    //     console.log('Backup in progress', { totalPages, remainingPages })
+    //   },
+    // })
 
-    console.log('Backup completed', totalPagesTransferred)
+    // console.log('Backup completed', totalPagesTransferred)
 
     return c.html('good')
 
