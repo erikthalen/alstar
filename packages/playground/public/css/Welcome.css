@@ -10,7 +10,7 @@ section.welcome {
   min-height: 100vh;
   padding-bottom: 10vh;
   margin-bottom: 0;
-  
+
   font-size: 15px;
 
   div {
@@ -30,8 +30,6 @@ section.welcome {
     }
 
     ol {
-      font-family: monospace;
-
       margin-top: 2rem;
       padding-left: 1.2rem;
 
