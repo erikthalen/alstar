@@ -7,10 +7,9 @@ import crypto from 'node:crypto'
 
 import { stripNewlines } from '../utils/strip-newlines.ts'
 import { sql } from '../utils/sql.ts'
-import { type Structure } from '../types.ts'
 import Settings from '../components/Settings.ts'
 
-export default (structure: Structure) => {
+export default () => {
   const app = new Hono<{ Bindings: HttpBindings }>()
 
   app.post('/api-key', async (c) => {

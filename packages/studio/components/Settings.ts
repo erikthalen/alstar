@@ -2,6 +2,7 @@ import { db } from '@alstar/db'
 import { html } from 'hono/html'
 import { sql } from '../utils/sql.ts'
 import * as icons from './icons.ts'
+import Backup from './Backup.ts'
 
 export default () => {
   const apiKeys = db.database
@@ -93,6 +94,8 @@ export default () => {
           </article>
         </dialog>
       </article>
+
+      ${Backup()}
     </div>
   `
 }

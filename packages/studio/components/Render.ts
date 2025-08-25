@@ -21,7 +21,7 @@ export default (props: {
   id?: number
   name: string
   sortOrder?: number
-}): HtmlEscapedString | Promise<HtmlEscapedString> | string => {
+}): HtmlEscapedString | Promise<HtmlEscapedString> => {
   const { entryId, parentId, structure, name, id } = props
 
   if (!structure) return html`<p>No block</p>`
