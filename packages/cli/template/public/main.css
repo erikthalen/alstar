@@ -1,3 +1,37 @@
+@import './css/Welcome.css';
+
 body {
   margin: 0;
+
+  font-family: monospace;
+  font-size: 15px;
+  color: #333;
+
+  text-rendering: geometricPrecision;
+}
+
+a {
+  color: dodgerblue;
+}
+
+code {
+  background-color: #eee;
+
+  padding: 0.255rem 0.375rem;
+  border-radius: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #222;
+    color: #eee;
+  }
+
+  a {
+    color: lightskyblue;
+  }
+
+  code {
+    background-color: #555;
+  }
 }
