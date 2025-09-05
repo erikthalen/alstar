@@ -42,7 +42,7 @@ export default (props: {
               return html`
                 <li>
                   <form
-                    data-on-submit="@post('/admin/api/new-block', { contentType: 'form' })"
+                    data-on-submit="@post('/studio/api/new-block', { contentType: 'form' })"
                   >
                     <button type="submit" class="ghost">${block.label}</button>
                     <input type="hidden" name="type" value="${block.type}" />
@@ -78,6 +78,10 @@ export default (props: {
                 ${struct.label}
 
                 <aside>
+                  <!-- <label style="margin: 0; border-bottom: none" data-tooltip="Disable" data-placement="top">
+                    <input name="enable" type="checkbox" role="switch" checked />
+                  </label> -->
+
                   <button
                     data-handle-for="${data.id}"
                     class="ghost handle text-secondary"
@@ -87,7 +91,7 @@ export default (props: {
                   </button>
 
                   <form
-                    data-on-submit="@delete('/admin/api/block', { contentType: 'form' })"
+                    data-on-submit="@delete('/studio/api/block', { contentType: 'form' })"
                   >
                     <button
                       type="submit"

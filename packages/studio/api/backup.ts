@@ -1,38 +1,40 @@
-import { type HttpBindings } from '@hono/node-server'
-import { Hono } from 'hono'
-import { streamSSE } from 'hono/streaming'
-import { DatabaseSync } from 'node:sqlite'
+import fsp from 'node:fs/promises'
+import { backup } from 'node:sqlite'
 
-import { stripNewlines } from '../utils/strip-newlines.ts'
+import { Hono } from 'hono'
+import { type HttpBindings } from '@hono/node-server'
+import { streamSSE } from 'hono/streaming'
 import { db } from '@alstar/db'
 
-export default () => {
-  const app = new Hono<{ Bindings: HttpBindings }>()
+const app = new Hono<{ Bindings: HttpBindings }>()
 
-  app.post('/backup', async (c) => {
-    // const totalPagesTransferred = await backup(db.database, './backups/backup.db', {
-    //   rate: 1, // Copy one page at a time.
-    //   progress: ({ totalPages, remainingPages }) => {
-    //     console.log('Backup in progress', { totalPages, remainingPages })
-    //   },
-    // })
+app.post('/backup', async (c) => {
+  const date = new Date()
+  const name = `./backups/backup-${date.toISOString()}.db`
 
-    // console.log('Backup completed', totalPagesTransferred)
+  try {
+    fsp.mkdir('./backups', { recursive: true })
 
-    return c.html('good')
+    await backup(db.database, name)
 
-    // return streamSSE(c, async (stream) => {
-    //   await stream.writeSSE({
-    //     event: 'datastar-patch-signals',
-    //     data: `signals {}`,
-    //   })
+    console.log('Backup')
 
-    //   await stream.writeSSE({
-    //     event: 'datastar-patch-elements',
-    //     data: `elements ${stripNewlines(Settings())}`,
-    //   })
-    // })
-  })
+    return streamSSE(c, async (stream) => {
+      await stream.writeSSE({
+        event: 'datastar-patch-signals',
+        data: `signals { status: 200, message: '${name} created' }`,
+      })
+    })
+  } catch (error) {
+    console.log(error)
 
-  return app
-}
+    return streamSSE(c, async (stream) => {
+      await stream.writeSSE({
+        event: 'datastar-patch-signals',
+        data: `signals { status: 500, message: '${name} failed' }`,
+      })
+    })
+  }
+})
+
+export const backupRoutes = app

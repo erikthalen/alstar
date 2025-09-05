@@ -1,5 +1,15 @@
 import { sql } from './utils/sql.ts'
 
+// -- API keys
+export const usersTable = {
+  tableName: 'users',
+  columns: sql`
+    email TEXT not null,
+    hash TEXT
+  `,
+}
+
+
 // -- Blocks
 export const blocksTable = {
   tableName: 'blocks',
@@ -11,7 +21,7 @@ export const blocksTable = {
     options JSON,
     status TEXT default 'enabled',
     sort_order INTEGER not null default 0,
-    _depth INTEGER,
+    -- _depth INTEGER,
     parent_id INTEGER,
     foreign key (parent_id) references blocks (id)
   `,

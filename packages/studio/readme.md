@@ -45,7 +45,7 @@ Pages are defined in the `/pages` directory.
 Access the CMS at:
 
 ```
-/admin
+/studio
 ```
 
 ### Defining Content Structure
@@ -199,7 +199,7 @@ pnpm run dev
 
 Visit:
 
-* **CMS admin**: `http://localhost:3000/admin`
+* **CMS admin**: `http://localhost:3000/studio`
 * **Frontend page**: `http://localhost:3000/my-first-page`
 
 Create a new page in the CMS, set its slug field to `my-first-page`, and the frontend will render it automatically.

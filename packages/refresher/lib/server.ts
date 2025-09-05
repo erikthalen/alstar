@@ -8,7 +8,7 @@ export async function createRefresher({
   port = 5432,
   files,
 }: {
-  rootdir?: string
+  rootdir?: string | string[]
   port?: number
   files?: string[]
 }): Promise<{ port: number }> {
@@ -20,14 +20,18 @@ export async function createRefresher({
     response.write(`data: ${msg} - ${Date.now()} - ${path.parse(msg).dir.includes('public/')}\n\n`)
   }
 
-  const watcher = fs.watch(path.resolve(rootdir), { recursive: true })
+  const rootdirs = Array.isArray(rootdir) ? rootdir : [rootdir]
 
-  watcher.on('change', (_, filename) => {
-    if (!response) return
-
-    if (files && !files.find(file => filename.includes(file))) return
-
-    requestRefresh(filename.toString())
+  rootdirs.forEach(root => {
+    const watcher = fs.watch(path.resolve(root), { recursive: true })
+  
+    watcher.on('change', (_, filename) => {
+      if (!response) return
+  
+      if (files && !files.find(file => filename.includes(file))) return
+  
+      requestRefresh(filename.toString())
+    })
   })
 
   function eventsHandler(req: IncomingMessage, res: ServerResponse) {

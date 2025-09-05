@@ -17,7 +17,7 @@ export default (props: {
     }
 
     case 'slug': {
-      return Field.Text({ entryId, parentId, name, id, structure })
+      return Field.Slug({ entryId, parentId, name, id, structure })
     }
 
     case 'markdown': {

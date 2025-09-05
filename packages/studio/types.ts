@@ -8,6 +8,16 @@ import {
   FieldInstance,
 } from './utils/define.ts'
 
+// DeepReadonly utility type
+export type DeepReadonly<T> =
+  T extends (...args: any[]) => any   // functions stay as-is
+    ? T
+    : T extends any[]        // arrays/tuples
+      ? { [K in keyof T]: DeepReadonly<T[K]> }
+      : T extends object              // objects
+        ? { [K in keyof T]: DeepReadonly<T[K]> }
+        : T;                          // primitives
+
 export type PrimitiveField = {
   name: string
   label: string
@@ -31,6 +41,7 @@ export type Block = {
 }
 
 export type Structure = Record<string, BlockDefStructure>
+// export type Structure = Record<string, BlockDefStructure>
 
 // --- Field & block definitions ---
 type FieldType = 'text' | 'slug' | 'markdown' | 'image'

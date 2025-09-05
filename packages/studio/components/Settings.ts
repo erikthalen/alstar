@@ -3,6 +3,7 @@ import { html } from 'hono/html'
 import { sql } from '../utils/sql.ts'
 import * as icons from './icons.ts'
 import Backup from './Backup.ts'
+import Users from './Users.ts'
 
 export default () => {
   const apiKeys = db.database
@@ -23,30 +24,30 @@ export default () => {
         <ul>
           ${apiKeys.map((apiKey) => {
             return html`<li>
-                <p>${apiKey.name}</p>
-                <input type="text" disabled value="${apiKey.hint}" />
-                <form
-                  data-on-submit="@delete('/admin/api/api-key', { contentType: 'form' })"
+              <p>${apiKey.name}</p>
+              <input type="text" disabled value="${apiKey.hint}" />
+              <form
+                data-on-submit="@delete('/studio/api/api-key', { contentType: 'form' })"
+              >
+                <button
+                  data-tooltip="Delete API key"
+                  data-placement="left"
+                  type="submit"
+                  class="ghost"
                 >
-                  <button
-                    data-tooltip="Delete API key"
-                    data-placement="left"
-                    type="submit"
-                    class="ghost"
-                  >
-                    ${icons.trash}
-                  </button>
+                  ${icons.trash}
+                </button>
 
-                  <input type="hidden" name="value" value="${apiKey.value}" />
-                </form>
-              </li>`
+                <input type="hidden" name="value" value="${apiKey.value}" />
+              </form>
+            </li>`
           })}
         </ul>
 
         <form
-          data-on-submit="@post('/admin/api/api-key', { contentType: 'form' })"
+          data-on-submit="@post('/studio/api/api-key', { contentType: 'form' })"
         >
-          <label for="api_key_name">Generate API Key</label>
+          <label for="api_key_name"><small>Generate API Key</small></label>
 
           <input
             data-bind="name"
@@ -95,7 +96,9 @@ export default () => {
         </dialog>
       </article>
 
-      <!-- {Backup()} -->
+      ${Backup()}
+
+      ${Users()}
     </div>
   `
 }

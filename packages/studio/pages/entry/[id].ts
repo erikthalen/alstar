@@ -11,7 +11,5 @@ export default defineEntry((c) => {
     return html`<p>Entry page url needs an ID param: "${id}"</p>`
   }
 
-  return SiteLayout({
-    content: Entry({ entryId: parseInt(id) }),
-  })
+  return SiteLayout(Entry({ entryId: parseInt(id) }))
 })

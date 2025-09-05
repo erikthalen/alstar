@@ -34,8 +34,6 @@ export function defineBlock(block: types.BlockDef): types.BlockDefStructure {
   return { ...block, instanceOf: BlockInstance }
 }
 
-export function defineStructure(
-  structure: Record<string, types.BlockDefStructure>,
-) {
+export function defineStructure(structure: types.Structure) {
   return structure
 }

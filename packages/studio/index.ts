@@ -1,17 +1,24 @@
+import path from 'node:path'
+
 import { Hono } from 'hono'
-import { loadDb } from '@alstar/db'
 import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
+import { HTTPException } from 'hono/http-exception'
+
+import { loadDb } from '@alstar/db'
 import { createRefresher } from '@alstar/refresher'
 
-import * as types from './types.ts'
 import { createStudioTables } from './utils/create-studio-tables.ts'
 import { fileBasedRouter } from './utils/file-based-router.ts'
 import { getConfig } from './utils/get-config.ts'
 import startupLog from './utils/startup-log.ts'
-import { api } from './api/index.ts'
-import mcp from './api/mcp.ts'
-import path from 'path'
+import { apiRoutes } from './api/index.ts'
+import { mcpRoutes } from './api/mcp.ts'
+
+import auth from './utils/auth.ts'
+import ErrorPage from './pages/error.ts'
+
+import * as types from './types.ts'
 
 export let rootdir = './node_modules/@alstar/studio'
 
@@ -23,7 +30,8 @@ export let studioConfig: types.StudioConfig = {
 }
 
 const createStudio = async (config: types.StudioConfig) => {
-  const refresher = await createRefresher({ rootdir: '.' })
+  // const refresher = await createRefresher({ rootdir: ['.', import.meta.dirname] })
+  const refresher = await createRefresher({ rootdir: ['.'] })
 
   loadDb('./studio.db')
   createStudioTables()
@@ -45,25 +53,45 @@ const createStudio = async (config: types.StudioConfig) => {
   app.use('*', serveStatic({ root: './public' }))
 
   /**
+   * Require authentication to access Studio
+   */
+  app.use('/studio/*', auth)
+
+  /**
    * Studio API routes
    */
-  app.route('/admin/api', api(studioStructure))
-  app.route('/admin/mcp', mcp())
+  app.route('/studio/api', apiRoutes)
+  app.route('/studio/mcp', mcpRoutes)
 
   /**
    * Studio pages
    */
-  const adminPages = await fileBasedRouter(path.join(rootdir, 'pages'))
-
-  if (adminPages) app.route('/admin', adminPages)
+  const studioPages = await fileBasedRouter(path.join(rootdir, 'pages'))
+  if (studioPages) app.route('/studio', studioPages)
 
   /**
    * User pages
    */
   const pages = await fileBasedRouter('./pages')
-
   if (pages) app.route('/', pages)
 
+  /**
+   * Error pages
+   */
+  app.notFound((c) => c.html(ErrorPage()))
+  app.onError((err, c) => {
+    if (err instanceof HTTPException) {
+      // Get the custom response
+      const error = err.getResponse()
+      return c.html(ErrorPage(err))
+    }
+
+    return c.notFound()
+  })
+
+  /**
+   * Run server
+   */
   const server = serve({
     fetch: app.fetch,
     port: studioConfig.port,

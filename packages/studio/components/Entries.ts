@@ -17,12 +17,12 @@ export default ({ name }: { name: string }) => {
 
           return html`
             <li>
-              <a href="/admin/entry/${block.id}" id="block_link_${block.id}">
+              <a href="/studio/entry/${block.id}" id="block_link_${block.id}">
                 ${title?.value || 'Untitled'}
               </a>
 
               <form
-                data-on-submit="@delete('/admin/api/block', { contentType: 'form' })"
+                data-on-submit="@delete('/studio/api/block', { contentType: 'form' })"
               >
                 <input type="hidden" name="id" value="${block.id}" />
                 <button

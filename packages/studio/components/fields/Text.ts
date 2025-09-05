@@ -18,7 +18,7 @@ export default (props: {
 
   return html`
   <form
-      data-on-input="@patch('/admin/api/block', { contentType: 'form' })"
+      data-on-input="@patch('/studio/api/block', { contentType: 'form' })"
     >
       <hgroup>
         <label for="block-${data.id}">${structure.label}</label>

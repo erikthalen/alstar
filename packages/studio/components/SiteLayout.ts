@@ -3,13 +3,14 @@ import { html } from 'hono/html'
 import { type HtmlEscapedString } from 'hono/utils/html'
 import { studioConfig } from '../index.ts'
 
-export default (props: {
+export default (
   content:
     | string
     | Promise<string>
     | HtmlEscapedString
-    | Promise<HtmlEscapedString>
-}) => {
+    | Promise<HtmlEscapedString>,
+  includeAdminPanel = true,
+) => {
   return html`
     <!DOCTYPE html>
     <html lang="en">
@@ -45,11 +46,13 @@ export default (props: {
       </head>
 
       <body data-barba="wrapper">
-        <section style="margin-bottom: 0;">${adminPanel()}</section>
+        ${includeAdminPanel
+          ? html`<section style="margin-bottom: 0;">${adminPanel()}</section>`
+          : html`<div></div>`}
 
         <main>
           <section data-barba="container" data-barba-namespace="default">
-            ${props.content}
+            ${content}
           </section>
         </main>
       </body>

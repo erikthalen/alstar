@@ -22,7 +22,7 @@ class SortableList extends HTMLElement {
           searchParams.set('id', child.dataset.id)
           searchParams.set('sort-order', idx)
 
-          await fetch(`/admin/api/sort-order?${searchParams.toString()}`, {
+          await fetch(`/studio/api/sort-order?${searchParams.toString()}`, {
             method: 'post',
           })
         })

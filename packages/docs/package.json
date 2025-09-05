@@ -3,7 +3,7 @@
   "version": "0.0.0-beta.1",
   "type": "module",
   "scripts": {
-    "dev": "pnpx tsx --watch index.ts",
+    "dev:disabled": "pnpx tsx --watch index.ts",
     "start": "pnpx tsx index.ts"
   },
   "devDependencies": {

@@ -5,7 +5,7 @@ import {
   defineStructure,
 } from '@alstar/studio'
 
-export default defineStructure({
+const structure = defineStructure({
   page: defineBlock({
     label: 'Pages',
     type: 'page',
@@ -62,3 +62,5 @@ export default defineStructure({
     },
   }),
 } as const)
+
+export default structure

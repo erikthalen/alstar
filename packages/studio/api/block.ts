@@ -13,92 +13,64 @@ import {
 } from '../queries/block-with-children.ts'
 import AdminPanel from '../components/AdminPanel.ts'
 import { query } from '../queries/index.ts'
+import { studioStructure } from '../index.ts'
 
-export default (structure: Structure) => {
-  const app = new Hono<{ Bindings: HttpBindings }>()
+const app = new Hono<{ Bindings: HttpBindings }>()
 
-  app.post('/block', async (c) => {
-    return streamSSE(c, async (stream) => {
-      const formData = await c.req.formData()
-      const data = Object.fromEntries(formData.entries())
+app.post('/block', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const formData = await c.req.formData()
+    const data = Object.fromEntries(formData.entries())
 
-      const row = structure[data.name?.toString()]
+    const row = studioStructure[data.name?.toString()]
 
-      if (!row) return
+    if (!row) return
 
-      db.insertInto('blocks', {
-        name: data.name?.toString(),
-        label: row.label,
-        type: row.type,
-      })
+    db.insertInto('blocks', {
+      name: data.name?.toString(),
+      label: row.label,
+      type: row.type,
+    })
 
-      await stream.writeSSE({
-        event: 'datastar-patch-elements',
-        data: `elements ${stripNewlines(AdminPanel())}`,
-      })
+    await stream.writeSSE({
+      event: 'datastar-patch-elements',
+      data: `elements ${stripNewlines(AdminPanel())}`,
     })
   })
+})
 
-  app.post('/new-block', async (c) => {
-    return streamSSE(c, async (stream) => {
-      const formData = await c.req.formData()
-      const data = Object.fromEntries(formData)
+app.post('/new-block', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const formData = await c.req.formData()
+    const data = Object.fromEntries(formData)
 
-      db.insertInto('blocks', {
-        type: data.type.toString(),
-        name: data.name.toString(),
-        label: data.label.toString(),
-        parent_id: data.parent_id.toString(),
-        sort_order: data.sort_order.toString(),
-      })
+    db.insertInto('blocks', {
+      type: data.type.toString(),
+      name: data.name.toString(),
+      label: data.label.toString(),
+      parent_id: data.parent_id.toString(),
+      sort_order: data.sort_order.toString(),
+    })
 
-      await stream.writeSSE({
-        event: 'datastar-patch-elements',
-        data: `elements ${stripNewlines(Entry({ entryId: parseInt(data.entry_id.toString()) }))}`,
-      })
+    await stream.writeSSE({
+      event: 'datastar-patch-elements',
+      data: `elements ${stripNewlines(Entry({ entryId: parseInt(data.entry_id.toString()) }))}`,
     })
   })
+})
 
-  app.patch('/block', async (c) => {
-    return streamSSE(c, async (stream) => {
-      const formData = await c.req.formData()
+app.patch('/block', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const formData = await c.req.formData()
 
-      const id = formData.get('id')?.toString()
-      const value = formData.get('value')?.toString()
-      const name = formData.get('name')?.toString()
-      const entryId = formData.get('entryId')?.toString()
-      const parentId = formData.get('parentId')?.toString()
-      // const sortOrder = formData.get('sort_order')?.toString()
+    const id = formData.get('id')?.toString()
+    const value = formData.get('value')?.toString()
+    const name = formData.get('name')?.toString()
+    const entryId = formData.get('entryId')?.toString()
+    const parentId = formData.get('parentId')?.toString()
+    // const sortOrder = formData.get('sort_order')?.toString()
 
-      if (!id || !value) return
-
-      const transaction = db.database.prepare(sql`
-        update blocks
-        set
-          value = ?
-        where
-          id = ?;
-      `)
-
-      transaction.run(value, id)
-
-      if (entryId === parentId && name?.toString() === 'title') {
-        const rootBlock = query.block({
-          id: parentId?.toString() || null,
-        })
-
-        if (rootBlock.type !== 'single') {
-          await stream.writeSSE({
-            event: 'datastar-patch-elements',
-            data: `elements <a href="/admin/entry/${entryId}" id="block_link_${entryId}">${value}</a>`,
-          })
-        }
-      }
-    })
-  })
-
-  app.patch('/value', async (c) => {
-    const body = await c.req.json()
+    if (!id || !value) return
 
     const transaction = db.database.prepare(sql`
       update blocks
@@ -108,56 +80,83 @@ export default (structure: Structure) => {
         id = ?;
     `)
 
-    transaction.run(body.value, body.id)
+    transaction.run(value, id)
 
-    return c.json({ status: 200, message: 'success' })
-  })
+    if (entryId === parentId && name?.toString() === 'title') {
+      const rootBlock = query.block({
+        id: parentId?.toString() || null,
+      })
 
-  app.delete('/block', async (c) => {
-    return streamSSE(c, async (stream) => {
-      const formData = await c.req.formData()
-
-      const id = formData.get('id')?.toString()
-      const entryId = formData.get('entry_id')?.toString()
-
-      if (!id) return
-
-      const transaction = db.database.prepare(deleteBlockWithChildren)
-
-      transaction.all(id)
-
-      if (entryId) {
+      if (rootBlock.type !== 'single') {
         await stream.writeSSE({
           event: 'datastar-patch-elements',
-          data: `elements ${stripNewlines(Entry({ entryId: parseInt(entryId.toString()) }))}`,
-        })
-      } else {
-        await stream.writeSSE({
-          event: 'datastar-patch-elements',
-          data: `elements ${stripNewlines(AdminPanel())}`,
+          data: `elements <a href="/studio/entry/${entryId}" id="block_link_${entryId}">${value}</a>`,
         })
       }
-    })
+    }
   })
+})
 
-  app.post('/sort-order', async (c) => {
-    const id = c.req.query('id')
-    const sortOrder = c.req.query('sort-order')
+app.patch('/value', async (c) => {
+  const body = await c.req.json()
 
-    if (!id || !sortOrder) return
+  const transaction = db.database.prepare(sql`
+    update blocks
+    set
+      value = ?
+    where
+      id = ?;
+  `)
 
-    const transaction = db.database.prepare(sql`
-      update blocks
-      set
-        sort_order = ?
-      where
-        id = ?
-    `)
+  transaction.run(body.value, body.id)
 
-    transaction.run(sortOrder, id)
+  return c.json({ status: 200, message: 'success' })
+})
 
-    return c.json({ status: 200, message: 'success' })
+app.delete('/block', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const formData = await c.req.formData()
+
+    const id = formData.get('id')?.toString()
+    const entryId = formData.get('entry_id')?.toString()
+
+    if (!id) return
+
+    const transaction = db.database.prepare(deleteBlockWithChildren)
+
+    transaction.all(id)
+
+    if (entryId) {
+      await stream.writeSSE({
+        event: 'datastar-patch-elements',
+        data: `elements ${stripNewlines(Entry({ entryId: parseInt(entryId.toString()) }))}`,
+      })
+    } else {
+      await stream.writeSSE({
+        event: 'datastar-patch-elements',
+        data: `elements ${stripNewlines(AdminPanel())}`,
+      })
+    }
   })
+})
 
-  return app
-}
+app.post('/sort-order', async (c) => {
+  const id = c.req.query('id')
+  const sortOrder = c.req.query('sort-order')
+
+  if (!id || !sortOrder) return
+
+  const transaction = db.database.prepare(sql`
+    update blocks
+    set
+      sort_order = ?
+    where
+      id = ?
+  `)
+
+  transaction.run(sortOrder, id)
+
+  return c.json({ status: 200, message: 'success' })
+})
+
+export const blockRoutes = app
