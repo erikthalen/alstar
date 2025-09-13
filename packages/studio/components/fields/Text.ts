@@ -12,17 +12,33 @@ export default (props: {
 }) => {
   const { entryId, parentId, name, structure, sortOrder = 0, id } = props
 
-  const data = getOrCreateRow({ parentId, name, field: structure, sortOrder, id })
+  const data = getOrCreateRow({
+    parentId,
+    name,
+    field: structure,
+    sortOrder,
+    id,
+  })
 
   if (!data) return html`<p>No block</p>`
 
+  const isEntryTitle = entryId === parentId && name === 'title'
+
   return html`
-  <form
-      data-on-input="@patch('/studio/api/block', { contentType: 'form' })"
+    <form
+      data-on-input="@patch('/studio/api/block', {
+        contentType: 'form',
+        headers: {
+          render: '${isEntryTitle ? 'AdminPanel' : ''}'
+        }
+      })"
     >
       <hgroup>
         <label for="block-${data.id}">${structure.label}</label>
-        <p><small>${structure.description}</small></p>
+        ${structure.description &&
+        html`
+          <p><small>${structure.description}</small></p>
+        `}
       </hgroup>
 
       <input

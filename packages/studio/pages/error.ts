@@ -8,7 +8,7 @@ export default ((err?: Error | HTTPResponseError) => {
     <article>
       <header>Something went wrong</header>
       <p>Try again</p>
-      <p>${err?.message}</p>
+      <p>${err?.message || '404 - Not found'}</p>
     </article>
   `, false)
 })

@@ -11,16 +11,15 @@ export default (
     | Promise<HtmlEscapedString>,
   includeAdminPanel = true,
 ) => {
+  const title = studioConfig.siteName ? studioConfig.siteName + ' | ' : ''
+
   return html`
     <!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>
-          ${studioConfig.siteName ? studioConfig.siteName + ' | ' : ''}Alstar
-          Studio
-        </title>
+        <title>${title}Alstar Studio</title>
 
         <link rel="icon" type="image/svg" href="/studio/favicon.svg" />
 

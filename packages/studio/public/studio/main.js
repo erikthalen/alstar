@@ -4,6 +4,7 @@ import './js/markdown-editor.js'
 import './js/sortable-list.js'
 
 barba.init({
+  debug: true,
   cacheIgnore: true,
   views: [{ namespace: 'default' }],
 })

@@ -28,8 +28,6 @@ app.get('/slug', async (c) => {
       return c.json({ status: 404, message: 'No title to generate slug from' })
     }
 
-    console.log('slug', slugify(title))
-
     return streamSSE(c, async (stream) => {
       await stream.writeSSE({
         event: 'datastar-patch-signals',
@@ -64,16 +62,20 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
+  const entry = query.root({ id: entryId })
+  const title = entry?.fields?.title?.value
+  const sluggedTitle = slugify(title)
+
   return html`
-    <div
-      style="display: flex; align-items: center"
-      data-signals="{ slug: '${data.value}' }"
-    >
+    <div style="display: flex; align-items: center">
       <form
-        data-ref="form"
-        data-on-input="@patch('/studio/api/block', { contentType: 'form' })"
-        data-on-submit="@patch('/studio/api/block', { contentType: 'form' })"
-        data-on-signal-patch="$form.requestSubmit()"
+        data-on-change="@patch('/studio/api/block', {
+          contentType: 'form',
+          headers: {
+            render: 'Entry',
+            props: '${JSON.stringify({ entryId: entryId })}'
+          }
+        })"
       >
         <hgroup>
           <label for="block-${data.id}">${structure.label}</label>
@@ -84,7 +86,7 @@ export default (props: {
           id="block-${data.id}"
           name="value"
           type="text"
-          data-bind="slug"
+          value="${data.value}"
         />
 
         <input type="hidden" name="type" value="${structure.type}" />
@@ -96,9 +98,16 @@ export default (props: {
 
       <form
         style="margin-top: 21px"
-        data-on-submit="@get('/studio/api/field/slug', { contentType: 'form' })"
+        data-on-submit="@patch('/studio/api/block', {
+          contentType: 'form',
+          headers: {
+            render: 'Entry',
+            props: '${JSON.stringify({ entryId: entryId })}'
+          }
+        })"
       >
-        <input type="hidden" name="entryId" value="${entryId}" />
+        <input type="hidden" name="id" value="${data.id}" />
+        <input type="hidden" name="value" value="${sluggedTitle}" />
         <button
           class="ghost"
           aria-label="Generate slug"

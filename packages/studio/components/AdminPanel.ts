@@ -37,10 +37,20 @@ export default () => {
 
           return html`
           <form
-              data-on-submit="@post('/studio/api/block', { contentType: 'form' })"
+              data-on-submit="@post('/studio/api/block', {
+                contentType: 'form',
+                headers: {
+                  'render': 'AdminPanel',
+                },
+              })"
               style="display: flex; align-items: center; gap: 1rem;"
             >
+              <input type="hidden" name="return" value="AdminPanel" />
+
               <input type="hidden" name="name" value="${name}" />
+              <input type="hidden" name="label" value="${block.label}" />
+              <input type="hidden" name="type" value="${block.type}" />
+
               <button
                 class="ghost"
                 style="padding: 10px; margin: 0 -13px; display: flex;"
@@ -49,6 +59,7 @@ export default () => {
               >
                 ${icons.newDocument}
               </button>
+
               <p style="user-select: none;"><small>${block.label}</small></p>
             </form>
 
@@ -69,8 +80,9 @@ export default () => {
         >
           ${icons.cog}
         </a>
-        
+
         <a
+          data-barba-prevent
           role="button"
           href="/"
           class="ghost"

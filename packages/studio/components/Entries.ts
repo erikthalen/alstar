@@ -1,7 +1,6 @@
 import { html } from 'hono/html'
 import { query } from '../index.ts'
 import * as icons from './icons.ts'
-import type { BlockDef } from '../types.ts'
 
 export default ({ name }: { name: string }) => {
   const entries = query.blocks({ parent_id: null, status: 'enabled', name })
@@ -22,7 +21,12 @@ export default ({ name }: { name: string }) => {
               </a>
 
               <form
-                data-on-submit="@delete('/studio/api/block', { contentType: 'form' })"
+                data-on-submit="@delete('/studio/api/block', {
+                  contentType: 'form',
+                  headers: {
+                    render: 'AdminPanel'
+                  }
+                })"
               >
                 <input type="hidden" name="id" value="${block.id}" />
                 <button

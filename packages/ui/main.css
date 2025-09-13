@@ -34,6 +34,16 @@ button {
   line-height: 20px;
 }
 
+[role='button'].square,
+[type='button'].square,
+[type='file']::file-selector-button.square,
+[type='reset'].square,
+[type='submit'].square,
+button.square {
+  padding: 10px;
+  display: flex;
+}
+
 button[type='submit'],
 input:not([type='checkbox'], [type='radio']),
 select,
@@ -55,8 +65,6 @@ textarea {
     :focus
   ) {
   --pico-background-color: var(--pico-muted-border-color);
-  /* --pico-border-color: var(--pico-muted-color);
-  --pico-color: var(--pico-secondary-inverse); */
 }
 
 :is(button, [type='submit'], [type='button'], [role='button']).shadow {

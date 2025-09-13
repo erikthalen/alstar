@@ -4,11 +4,9 @@ import { Hono } from 'hono'
 import { streamSSE } from 'hono/streaming'
 import { db } from '@alstar/db'
 import crypto from 'node:crypto'
-
-import { stripNewlines } from '../utils/strip-newlines.ts'
 import { sql } from '../utils/sql.ts'
-import Settings from '../components/Settings.ts'
 import { createHash } from '../utils/create-hash.ts'
+import { renderSSE } from '../utils/renderSSE.ts'
 
 const app = new Hono<{ Bindings: HttpBindings }>()
 
@@ -36,10 +34,7 @@ app.post('/api-key', async (c) => {
       data: `signals { apiKey: '${apiKey}', name: '' }`,
     })
 
-    await stream.writeSSE({
-      event: 'datastar-patch-elements',
-      data: `elements ${stripNewlines(Settings())}`,
-    })
+    await renderSSE(stream, c)
   })
 })
 
@@ -59,10 +54,7 @@ app.delete('/api-key', async (c) => {
       `)
       .run(value)
 
-    await stream.writeSSE({
-      event: 'datastar-patch-elements',
-      data: `elements ${stripNewlines(Settings())}`,
-    })
+    await renderSSE(stream, c)
   })
 })
 

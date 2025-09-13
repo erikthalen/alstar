@@ -1,6 +1,6 @@
 import { db } from '@alstar/db'
 import { html } from 'hono/html'
-import { sql } from '../utils/sql.ts'
+import { sql } from '../../utils/sql.ts'
 
 export default () => {
   const users = db.database
@@ -15,9 +15,26 @@ export default () => {
   return html`
     <article>
       <header>Users</header>
-      <ul>
-        ${users.map(user => html`<li>${user.email}</li>`)}
-      </ul>
+      
+      <table class="striped">
+        <thead>
+          <tr>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${users.map(
+            (user) => html`
+              <tr>
+                <th scope="row">${user.email}</th>
+              </tr>
+          `,
+          )}
+        </tbody>
+      </table>
+
+      <hr>
+
       <article>
         <header>Register user</header>
         <form

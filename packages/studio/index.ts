@@ -80,6 +80,8 @@ const createStudio = async (config: types.StudioConfig) => {
    */
   app.notFound((c) => c.html(ErrorPage()))
   app.onError((err, c) => {
+    console.log(err)
+
     if (err instanceof HTTPException) {
       // Get the custom response
       const error = err.getResponse()
@@ -88,6 +90,16 @@ const createStudio = async (config: types.StudioConfig) => {
 
     return c.notFound()
   })
+
+  app.use(
+    '/studio/backups/*',
+    serveStatic({
+      root: './',
+      rewriteRequestPath: (path) => path.replace(/^\/studio\/backups/, '/backups'),
+    }),
+  )
+
+  // console.log(app.routes)
 
   /**
    * Run server

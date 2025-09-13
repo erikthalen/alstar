@@ -42,7 +42,13 @@ export default (props: {
               return html`
                 <li>
                   <form
-                    data-on-submit="@post('/studio/api/new-block', { contentType: 'form' })"
+                    data-on-submit="@post('/studio/api/block', {
+                      contentType: 'form',
+                      headers: {
+                        render: 'Entry',
+                        props: '${JSON.stringify({ entryId: entryId })}'
+                      }
+                    })"
                   >
                     <button type="submit" class="ghost">${block.label}</button>
                     <input type="hidden" name="type" value="${block.type}" />
@@ -66,7 +72,7 @@ export default (props: {
       <hr style="margin-top: 0;" />
 
       <sortable-list data-id="${data.id}">
-        ${rows.map((row, idx) => {
+        ${rows.map((row) => {
           const [name, struct] =
             entries.find(([name]) => name === row.name) || []
 
@@ -91,7 +97,13 @@ export default (props: {
                   </button>
 
                   <form
-                    data-on-submit="@delete('/studio/api/block', { contentType: 'form' })"
+                    data-on-submit="@delete('/studio/api/block', {
+                      contentType: 'form',
+                      headers: {
+                        render: 'Entry',
+                        props: '${JSON.stringify({ entryId: entryId })}'
+                      }
+                    })"
                   >
                     <button
                       type="submit"
@@ -102,8 +114,8 @@ export default (props: {
                     >
                       ${icons.x}
                     </button>
+                    
                     <input type="hidden" name="id" value="${row.id}" />
-                    <input type="hidden" name="entry_id" value="${entryId}" />
                   </form>
                 </aside>
               </header>

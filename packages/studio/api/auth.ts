@@ -59,8 +59,6 @@ app.post('/login', async (c) => {
   setCookie(c, 'login', 'yes')
 
   return c.redirect('/studio')
-
-  // return c.json({ status: 200, message: 'Logged in!' })
 })
 
 export const authRoutes = app
