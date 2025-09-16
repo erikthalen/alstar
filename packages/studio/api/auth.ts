@@ -9,24 +9,21 @@ import { setCookie } from 'hono/cookie'
 const app = new Hono<{ Bindings: HttpBindings }>()
 
 app.post('/register', async (c) => {
-  return streamSSE(c, async (stream) => {
-    const formData = await c.req.formData()
-    const data = Object.fromEntries(formData.entries())
+  const formData = await c.req.formData()
+  const data = Object.fromEntries(formData.entries())
 
-    if (!data || !data.email || !data.password) return
+  if (!data || !data.email || !data.password) return
 
-    const hash = createHash(data.password.toString())
+  const hash = createHash(data.password.toString())
 
-    db.insertInto('users', {
-      email: data.email?.toString(),
-      hash: hash,
-    })
-
-    await stream.writeSSE({
-      event: 'datastar-patch-signals',
-      data: `signals { status: 200, message: 'User "${data.email}" created successfully' }`,
-    })
+  db.insertInto('users', {
+    email: data.email?.toString(),
+    hash: hash,
   })
+
+  setCookie(c, 'login', 'yes')
+
+  return c.redirect('/studio')
 })
 
 app.post('/login', async (c) => {
