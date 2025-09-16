@@ -3,8 +3,12 @@ import { html } from 'hono/html'
 import * as icons from '../icons.ts'
 
 export default async () => {
-  const backupDir = './backups'
-  const backups = await fsp.readdir(backupDir)
+  let backups: string[] = []
+
+  try {
+    const backupDir = './backups'
+    backups = await fsp.readdir(backupDir)
+  } catch (error) {}
 
   return html`
     <article data-signals="{ status: null, message: '' }">
@@ -65,7 +69,7 @@ export default async () => {
         <button type="submit">Backup database</button>
       </form>
 
-      <hr>
+      <hr />
 
       <form
         data-on-submit="@post('/studio/api/backup', { contentType: 'form' })"
