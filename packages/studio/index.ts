@@ -31,7 +31,7 @@ export let studioConfig: types.StudioConfig = {
 
 const createStudio = async (config: types.StudioConfig) => {
   // const refresher = await createRefresher({ rootdir: ['.', import.meta.dirname] })
-  const refresher = await createRefresher({ rootdir: ['.'] })
+  const refresher = await createRefresher({ rootdir: '.' })
 
   loadDb('./studio.db')
   createStudioTables()
