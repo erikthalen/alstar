@@ -1,11 +1,32 @@
-import { html, query, version } from '@alstar/studio'
 
-export default () => {
-  const pages = query.roots({ type: 'page' })
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Alstar Docs</title>
 
-  // console.log(pages)
+        <link rel="icon" type="image/svg" href="/favicon.svg" />
 
-  return html`
+        <meta name="color-scheme" content="light dark" />
+
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/@highlightjs/cdn-assets@11.11.1/styles/github.min.css"
+        />
+        <script src="https://unpkg.com/@highlightjs/cdn-assets@11.11.1/highlight.min.js"></script>
+        <script src="https://unpkg.com/@highlightjs/cdn-assets@11.11.1/languages/xml.min.js"></script>
+
+        <script src="refresh-client.js"></script>
+        <link rel="stylesheet" href="/main.css" />
+
+        <script defer>
+          hljs.highlightAll()
+        </script>
+      </head>
+      <body>
+        <main class="layout">
+          <section class="side-panel">
     <div class="main-menu">
       <h1>
         <a href="/" aria-label="Go to Alstars homepage">
@@ -16,25 +37,45 @@ export default () => {
             />
           </svg>
         </a>
-
-        <span><code class="version">${version}</code></span>
       </h1>
 
       <aside>
         <nav>
           <ul>
-            ${pages.map(page => {
-              return html`
+            
                 <li>
-                  <a href="${page.fields.slug?.value}">
-                    ${page.fields.title?.value}
+                  <a href="getting-started">
+                    Getting started
                   </a>
                 </li>
-              `
-            })}
+              
+                <li>
+                  <a href="quick-start">
+                    Quick start
+                  </a>
+                </li>
+              
           </ul>
         </nav>
       </aside>
     </div>
-  `
-}
+  </section>
+          <section class="canvas"><h1>Installation</h1>
+<p>Create a new project:</p>
+<pre><code class="language-sh">pnpm create @alstar
+</code></pre>
+<p>Follow the CLI prompts to set up a starter project in your chosen folder.</p>
+<h1>Development</h1>
+<p>Start the dev server:</p>
+<pre><code class="language-sh">pnpm run dev
+</code></pre>
+<p>This runs a <strong>Hono server</strong>.</p>
+<p>The core app is created via <code>createStudio(structure)</code>, which returns the Hono app. This makes it possible to extend the server with plugins or custom settings:</p>
+<pre><code class="language-ts">const app = await createStudio(structure)
+// app.use(...) custom middleware
+</code></pre>
+</section>
+        </main>
+      </body>
+    </html>
+  

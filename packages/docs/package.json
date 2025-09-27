@@ -2,9 +2,10 @@
   "name": "docs",
   "version": "0.0.0-beta.1",
   "type": "module",
+  "private": true,
   "scripts": {
-    "dev:disabled": "pnpx tsx --watch index.ts",
-    "start": "pnpx tsx index.ts"
+    "docs:dev": "pnpx tsx --watch index.ts",
+    "docs:build": "alstar"
   },
   "devDependencies": {
     "@types/node": "^24.1.0"
@@ -12,9 +13,8 @@
   "dependencies": {
     "@alstar/studio": "workspace:*",
     "@alstar/ui": "workspace:*",
+    "@hono/node-server": "^1.18.1",
+    "hono": "^4.8.12",
     "marked": "^16.2.0"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

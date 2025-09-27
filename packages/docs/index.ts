@@ -4,10 +4,12 @@ import {
   defineBlock,
   defineField,
 } from '@alstar/studio'
+import { routes } from './routes.ts'
 
-await createStudio({
+const app = await createStudio({
   siteName: 'Docs',
   port: 8787,
+  fileBasedRouter: false,
   structure: defineStructure({
     frontpage: defineBlock({
       label: 'Frontpage',
@@ -43,3 +45,7 @@ await createStudio({
     }),
   }),
 })
+
+app.route('/', routes)
+
+export default app

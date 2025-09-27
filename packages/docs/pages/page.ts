@@ -1,12 +1,13 @@
 import { defineEntry, html, query } from '@alstar/studio'
-
 import SiteLayout from '../components/SiteLayout.ts'
-import { raw } from 'hono/html'
 import { marked } from 'marked'
+import { raw } from '@alstar/studio/utils/html.ts'
 
-export default defineEntry(() => {
+export default defineEntry(async c => {
+  const slug = c.req.url.split('/').at(-1)
+
   try {
-    const page = query.root({ name: 'frontpage' })
+    const page = query.root({ type: 'slug', value: slug })
 
     if (!page) return html`<p>404 - not found</p>`
 

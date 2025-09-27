@@ -32,6 +32,12 @@ importers:
       '@alstar/ui':
         specifier: workspace:*
         version: link:../ui
+      '@hono/node-server':
+        specifier: ^1.18.1
+        version: 1.18.1(hono@4.8.12)
+      hono:
+        specifier: ^4.8.12
+        version: 4.8.12
       marked:
         specifier: ^16.2.0
         version: 16.2.0

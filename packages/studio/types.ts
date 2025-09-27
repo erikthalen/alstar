@@ -153,6 +153,7 @@ export type BlockStatus = 'enabled' | 'disabled'
 export type StudioConfig = {
   siteName?: string
   honoConfig?: HonoOptions<BlankEnv>
+  fileBasedRouter?: boolean,
   port?: number
   structure: Structure
 }

@@ -14,6 +14,7 @@ import { getConfig } from './utils/get-config.ts'
 import startupLog from './utils/startup-log.ts'
 import { apiRoutes } from './api/index.ts'
 import { mcpRoutes } from './api/mcp.ts'
+import packageJSON from './package.json' with { type: 'json' }
 
 import auth from './utils/auth.ts'
 import ErrorPage from './pages/error.ts'
@@ -25,6 +26,7 @@ export let rootdir = './node_modules/@alstar/studio'
 export let studioStructure: types.Structure = {}
 export let studioConfig: types.StudioConfig = {
   siteName: '',
+  fileBasedRouter: true,
   port: 3000,
   structure: {},
 }
@@ -72,8 +74,10 @@ const createStudio = async (config: types.StudioConfig) => {
   /**
    * User pages
    */
-  const pages = await fileBasedRouter('./pages')
-  if (pages) app.route('/', pages)
+  if (studioConfig.fileBasedRouter) {
+    const pages = await fileBasedRouter('./pages')
+    if (pages) app.route('/', pages)
+  }
 
   /**
    * Error pages
@@ -95,7 +99,8 @@ const createStudio = async (config: types.StudioConfig) => {
     '/studio/backups/*',
     serveStatic({
       root: './',
-      rewriteRequestPath: (path) => path.replace(/^\/studio\/backups/, '/backups'),
+      rewriteRequestPath: (path) =>
+        path.replace(/^\/studio\/backups/, '/backups'),
     }),
   )
 
@@ -141,3 +146,4 @@ export { type RequestContext } from './types.ts'
 export { createStudio }
 export { html, type HtmlEscapedString } from './utils/html.ts'
 export { query } from './queries/index.ts'
+export const version = packageJSON.version

@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm -r --parallel run dev",
-    "ci:publish": "pnpm publish -r"
+    "ci:publish": "pnpm publish -r",
+    "docs:build": "pnpm -r --parallel run docs:build"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5"
