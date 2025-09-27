@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/logo.png" />
+  <img width="200" src=".github/logo.png" />
 </p>
 
 <p align="center">Fullstack framework for building CMS-driven applications.</p>
