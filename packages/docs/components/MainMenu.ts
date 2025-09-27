@@ -35,6 +35,10 @@ export default () => {
           </ul>
         </nav>
       </aside>
+
+      <a href="https://github.com/erikthalen/alstar" aria-title="Link to github repo">
+        <img src="github.png">
+      </a>
     </div>
   `
 }
