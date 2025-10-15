@@ -22,7 +22,7 @@ export default (section: Props) => {
       <a href="${linkReference?.fields.slug.value}"> Get started </a>
 
       <copy-to-clipboard>
-        <span>$ <code id="code"> ${section.fields.installCommand.value} </code></span>
+        <code id="code"> ${section.fields.installCommand.value} </code>
 
         <button class="ghost" for="code" aria-title="Copy to clipboard">
           <svg

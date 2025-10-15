@@ -23,14 +23,13 @@
 
     display: flex;
     align-items: center;
-
-    span {
-      color: var(--pico-code-color);
+    
+    code {
       padding: 0.5em 1em;
     }
 
-    code {
-      padding: 0;
+    code:before {
+      content: '$';
     }
 
     button {

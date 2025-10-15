@@ -10,7 +10,7 @@ class CopyToClipboard extends HTMLElement {
 
   copy() {
     const target = this.querySelector(`#${this.button.getAttribute('for')}`)
-    const content = target.innerHTML
+    const content = target.innerHTML.trim()
 
     navigator.clipboard.writeText(content)
 
