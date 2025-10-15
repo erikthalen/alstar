@@ -26,7 +26,7 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const entries = Object.entries(structure.children)
+  const entries = Object.entries(structure.blocks)
 
   const rows = query.blocks({ parent_id: data.id })
 

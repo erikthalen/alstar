@@ -41,6 +41,11 @@ export default (props: {
       }
     }
   } catch (error) {
-    return html`<p>Error rendering "${name}"</p>`
+    console.log(error)
+    
+    return html`
+      <p>Error rendering "${name}"</p>
+      <pre><code>${JSON.stringify(error, null, 2)}</code></pre>
+    `
   }
 }

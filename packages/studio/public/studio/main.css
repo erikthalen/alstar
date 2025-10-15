@@ -1,4 +1,5 @@
 @import 'https://esm.sh/@alstar/ui/red.css';
+/* @import '../node_modules/@alstar/ui/slate.css'; */
 @import './css/admin-panel.css';
 @import './css/blocks-field.css';
 @import './css/settings.css';

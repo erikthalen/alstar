@@ -5,6 +5,7 @@ import type {
   BlocksFieldDefStructure,
   FieldDefStructure,
 } from '../types.ts'
+import { BlockFieldInstance } from './define.ts'
 
 export function getOrCreateRow(props: {
   parentId: string | number | null
@@ -32,7 +33,7 @@ export function getOrCreateRow(props: {
   const change = db.insertInto('blocks', {
     name: name?.toString(),
     label: field.label?.toString(),
-    type: field.type?.toString(),
+    type: field.instanceOf === BlockFieldInstance ? 'blocks' : field.type?.toString(),
     sort_order: sortOrder,
     parent_id: parentId,
   })

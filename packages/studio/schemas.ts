@@ -16,7 +16,7 @@ export const blocksTable = {
   columns: sql`
     name TEXT not null,
     label TEXT not null,
-    type TEXT not null,
+    type TEXT,
     value TEXT,
     options JSON,
     status TEXT default 'enabled',

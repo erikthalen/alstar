@@ -1,6 +1,7 @@
 import { Field } from './fields/index.ts'
 import type { BlocksFieldDefStructure, FieldDefStructure } from '../types.ts'
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
+import { BlockFieldInstance } from '../utils/define.ts'
 
 export default (props: {
   entryId: number
@@ -10,6 +11,10 @@ export default (props: {
   name: string
 }) => {
   const { entryId, parentId, structure, name, id } = props
+
+  if (structure.instanceOf === BlockFieldInstance) {
+    return BlockFieldRenderer({ entryId, parentId, name, structure, id })
+  }
 
   switch (structure.type) {
     case 'text': {
@@ -28,8 +33,8 @@ export default (props: {
       return Field.Text({ entryId, parentId, name, structure, id })
     }
 
-    case 'blocks': {
-      return BlockFieldRenderer({ entryId, parentId, name, structure, id })
+    case 'reference': {
+      return Field.Reference({ entryId, parentId, name, structure, id })
     }
   }
 }

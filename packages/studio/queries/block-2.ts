@@ -7,7 +7,7 @@ function buildForest(blocks: DBBlockResult[]): DBBlockResult[] {
   const roots: DBBlockResult[] = []
 
   for (const block of blocks) {
-    block.children = []
+    block.blocks = []
     map.set(block.id, block)
   }
 
@@ -16,14 +16,14 @@ function buildForest(blocks: DBBlockResult[]): DBBlockResult[] {
       roots.push(block)
     } else {
       const parent = map.get(block.parent_id)
-      if (parent) parent.children!.push(block)
+      if (parent) parent.blocks!.push(block)
     }
   }
 
-  // Sort children by sort_order recursively
+  // Sort blocks by sort_order recursively
   const sortChildren = (node: DBBlockResult) => {
-    node.children!.sort((a, b) => a.sort_order - b.sort_order)
-    node.children!.forEach(sortChildren)
+    node.blocks!.sort((a, b) => a.sort_order - b.sort_order)
+    node.blocks!.forEach(sortChildren)
   }
   roots.forEach(sortChildren)
 
@@ -35,7 +35,7 @@ function buildTree(blocks: DBBlockResult[]): DBBlockResult {
   const roots: DBBlockResult[] = []
 
   for (const block of blocks) {
-    block.children = []
+    block.blocks = []
     map.set(block.id, block)
   }
 
@@ -44,14 +44,14 @@ function buildTree(blocks: DBBlockResult[]): DBBlockResult {
       roots.push(block)
     } else {
       const parent = map.get(block.parent_id)
-      if (parent) parent.children!.push(block)
+      if (parent) parent.blocks!.push(block)
     }
   }
 
-  // Sort children by sort_order recursively
+  // Sort blocks by sort_order recursively
   const sortChildren = (node: DBBlockResult) => {
-    node.children!.sort((a, b) => a.sort_order - b.sort_order)
-    node.children!.forEach(sortChildren)
+    node.blocks!.sort((a, b) => a.sort_order - b.sort_order)
+    node.blocks!.forEach(sortChildren)
   }
   roots.forEach(sortChildren)
 
@@ -65,7 +65,7 @@ function transformBlocksTree(
   const fields: Record<string, DBBlockResult> = {}
   let hasFields = false
 
-  for (const child of block.children ?? []) {
+  for (const child of block.blocks ?? []) {
     const transformedChild = transformBlocksTree(
       child,
       child.type === 'blocks',
@@ -82,7 +82,7 @@ function transformBlocksTree(
   }
   
   if (!isBlocksChild) {
-    delete block.children
+    delete block.blocks
   } else {
     delete block.fields
   }
@@ -265,7 +265,7 @@ function buildTree2(items: DBRow[]): TODO | null {
 
   let root: TODO | null = null;
 
-  // Second pass: assign children to parents
+  // Second pass: assign blocks to parents
   for (const item of map.values()) {
     if (item.parent_id === null) {
       root = item; // Root node
@@ -273,8 +273,8 @@ function buildTree2(items: DBRow[]): TODO | null {
       const parent = map.get(item.parent_id);
       if (parent) {
         if(parent.type === 'blocks') {
-          if (!parent.children) parent.children = [];
-          parent.children.push(item);
+          if (!parent.blocks) parent.blocks = [];
+          parent.blocks.push(item);
         } else {
           if (!parent.fields) parent.fields = {};
           parent.fields[item.name] = item;

@@ -21,14 +21,13 @@ export type DeepReadonly<T> =
 export type PrimitiveField = {
   name: string
   label: string
-  type: 'text' | 'slug' | 'markdown' | 'image'
+  type: 'text' | 'slug' | 'markdown' | 'image' | 'reference'
 }
 
 export type BlockField = {
   name: string
   label: string
-  type: 'blocks'
-  children: Record<string, Field | Block>
+  blocks: Record<string, Field | Block>
 }
 
 export type Field = PrimitiveField | BlockField
@@ -44,7 +43,7 @@ export type Structure = Record<string, BlockDefStructure>
 // export type Structure = Record<string, BlockDefStructure>
 
 // --- Field & block definitions ---
-type FieldType = 'text' | 'slug' | 'markdown' | 'image'
+type FieldType = 'text' | 'slug' | 'markdown' | 'image' | 'reference'
 
 interface BaseField {
   label: string
@@ -68,19 +67,27 @@ interface ImageFieldStructure extends ImageField {
   instanceOf: typeof FieldInstance
 }
 
+interface ReferenceField extends BaseField {
+  type: 'reference'
+  to: string | string[]
+}
+
+export interface ReferenceFieldStructure extends ReferenceField {
+  instanceOf: typeof FieldInstance
+}
+
 export interface BlocksFieldDef {
   label: string
-  type: 'blocks'
   description?: string
-  children: Record<string, BlockDefStructure | FieldDefStructure>
+  blocks: Record<string, BlockDefStructure | FieldDefStructure>
 }
 
 export interface BlocksFieldDefStructure extends BlocksFieldDef {
   instanceOf: typeof BlockFieldInstance
 }
 
-export type FieldDef = TextField | ImageField
-export type FieldDefStructure = TextFieldStructure | ImageFieldStructure
+export type FieldDef = TextField | ImageField | ReferenceField
+export type FieldDefStructure = TextFieldStructure | ImageFieldStructure | ReferenceFieldStructure
 
 export interface BlockDef {
   label: string
@@ -127,8 +134,7 @@ export type DBPrimitiveFieldResult = BaseDBResult & {
 }
 
 export type DBBlockFieldResult = BaseDBResult & {
-  type: 'blocks'
-  children: DBBlockResult[]
+  blocks: DBBlockResult[]
 }
 
 export type DBBlockResult = BaseDBResult & {
