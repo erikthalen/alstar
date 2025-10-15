@@ -25,8 +25,7 @@ const structure = defineStructure({
       }),
       sections: defineBlockField({
         label: 'Sections',
-        type: 'blocks',
-        children: {
+        blocks: {
           hero: defineBlock({
             label: 'Hero',
             type: 'hero',
@@ -47,8 +46,7 @@ const structure = defineStructure({
             fields: {
               images: defineBlockField({
                 label: 'Images',
-                type: 'blocks',
-                children: {
+                blocks: {
                   image: defineField({
                     label: 'Image',
                     type: 'image',

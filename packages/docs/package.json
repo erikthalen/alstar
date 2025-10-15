@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "docs:dev": "pnpx tsx --watch index.ts",
+    "dev": "pnpx tsx --watch index.ts",
     "docs:build": "alstar"
   },
   "devDependencies": {

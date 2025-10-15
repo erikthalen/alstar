@@ -1,12 +1,16 @@
 @font-face {
   font-family: 'Inter';
-  src: local('Inter'), url('Inter_18pt-Regular.woff2') format('woff2');
+  src:
+    local('Inter'),
+    url('Inter_18pt-Regular.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Inter';
   font-weight: bold;
-  src: local('Inter'), url('Inter_18pt-Medium.woff2') format('woff2');
+  src:
+    local('Inter'),
+    url('Inter_18pt-Medium.woff2') format('woff2');
 }
 
 :root {
@@ -45,7 +49,6 @@ button.square {
 }
 
 button[type='submit'],
-input:not([type='checkbox'], [type='radio']),
 select,
 textarea {
   width: auto;

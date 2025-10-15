@@ -3,6 +3,7 @@ import {
   defineStructure,
   defineBlock,
   defineField,
+  defineBlockField,
 } from '@alstar/studio'
 import { routes } from './routes.ts'
 
@@ -15,13 +16,58 @@ const app = await createStudio({
       label: 'Frontpage',
       type: 'single',
       fields: {
-        title: defineField({
-          label: 'Title',
-          type: 'text',
-        }),
-        markdown: defineField({
-          label: 'Markdown',
-          type: 'markdown',
+        sections: defineBlockField({
+          label: 'Sections',
+          blocks: {
+            hero: defineBlock({
+              label: 'Hero',
+              type: 'hero',
+              fields: {
+                logo: defineField({
+                  label: 'Logo',
+                  type: 'text',
+                }),
+                title: defineField({
+                  label: 'Title',
+                  type: 'text',
+                }),
+                description: defineField({
+                  label: 'Description',
+                  type: 'text',
+                }),
+              },
+            }),
+            cta: defineBlock({
+              label: 'CTA',
+              type: 'cta',
+              fields: {
+                link: defineField({
+                  label: 'Link',
+                  type: 'reference',
+                  to: 'page',
+                }),
+                installCommand: defineField({
+                  label: 'Install command',
+                  type: 'text',
+                }),
+              },
+            }),
+            features: defineBlock({
+              label: 'Features',
+              type: 'features',
+              fields: {
+                items: defineBlockField({
+                  label: 'Items',
+                  blocks: {
+                    item: defineField({
+                      label: 'Text',
+                      type: 'text',
+                    }),
+                  },
+                }),
+              },
+            }),
+          },
         }),
       },
     }),

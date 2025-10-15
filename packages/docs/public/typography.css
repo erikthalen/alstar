@@ -1,0 +1,6 @@
+.text-2xl {
+  font-size: 3.6rem;
+  line-height: 1;
+  max-width: 30ch;
+  text-wrap: balance;
+}

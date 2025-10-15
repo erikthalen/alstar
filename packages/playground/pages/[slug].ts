@@ -1,7 +1,7 @@
 import { defineEntry, html, query } from '@alstar/studio'
 import SiteLayout from '../components/SiteLayout.ts'
-import structure from '../structure.ts'
-import { db } from '../../db/index.ts'
+// import structure from '../structure.ts'
+// import { db } from '../../db/index.ts'
 // import { getBlockTrees } from "./getBlockTrees";
 
 export default defineEntry(c => {
