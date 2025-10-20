@@ -6,7 +6,6 @@ import { serveStatic } from '@hono/node-server/serve-static'
 import { HTTPException } from 'hono/http-exception'
 
 import { loadDb } from '@alstar/db'
-import { refreshClient } from '@alstar/refresher'
 
 import { createStudioTables } from './utils/create-studio-tables.ts'
 import { fileBasedRouter } from './utils/file-based-router.ts'
@@ -20,7 +19,7 @@ import auth from './utils/auth.ts'
 import ErrorPage from './pages/error.ts'
 
 import * as types from './types.ts'
-import { refresher } from './utils/refresher.ts'
+import { refresher, refreshClient } from './utils/refresher.ts'
 
 export let rootdir = './node_modules/@alstar/studio'
 
