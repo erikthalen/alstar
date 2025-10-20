@@ -1,6 +1,6 @@
 import packageJSON from '../package.json' with { type: 'json' }
 
-export default ({ port, refresherPort }: { port: number, refresherPort: number }) => {
+export default ({ port }: { port: number }) => {
   console.log('\x1b[32m%s\x1b[0m', '╭───────────────╮')
   console.log('\x1b[32m%s\x1b[0m', '│ Alstar Studio │')
   console.log('\x1b[32m%s\x1b[0m', '╰───────────────╯')
@@ -13,7 +13,7 @@ export default ({ port, refresherPort }: { port: number, refresherPort: number }
   console.log(' ')
   console.log('\x1b[32m%s\x1b[0m', `Studio:`)
   console.log(`http://localhost:${port}/studio`)
-  console.log(' ')
-  console.log('\x1b[32m%s\x1b[0m', `Refresher:`)
-  console.log(`http://localhost:${refresherPort}`)  
+  // console.log(' ')
+  // console.log('\x1b[32m%s\x1b[0m', `Refresher:`)
+  // console.log(`http://localhost:${refresherPort}`)  
 }

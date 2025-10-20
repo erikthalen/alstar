@@ -1,6 +1,7 @@
 @import 'https://esm.sh/@alstar/ui@0.0.0-beta.2/slate.css';
 @import url('https://fonts.googleapis.com/css2?family=Sono:wght,MONO@200..800,0..1&display=swap');
-@import './typography.css';
+
+@import './css/typography.css';
 
 @import './css/hero.css';
 @import './css/cta.css';
@@ -17,7 +18,7 @@
 
 body {
   --pico-font-family: 'Sono', monospace;
-  --pico-font-family-monospace: var(--pico-font-family);
+  --pico-font-family-monospace: 'Menlo', var(--pico-font-family);
 
   font-family: 'Sono', monospace;
   font-optical-sizing: auto;
@@ -27,6 +28,8 @@ body {
 
   margin: 0;
   height: 100vh;
+
+  /* background-color: aqua; */
 }
 
 h1,
@@ -80,7 +83,7 @@ body > main {
 
 .layout {
   height: 100%;
-  
+
   @media (width >= 48rem) {
     display: grid;
     grid-template-columns: 300px 1fr;
@@ -88,7 +91,6 @@ body > main {
 }
 
 .side-panel {
-  /* border-right: 1px solid var(--pico-muted-border-color); */
   padding: 40px 2vw;
   margin-bottom: 0;
 }
@@ -100,13 +102,11 @@ body > main {
 }
 
 .canvas {
-  background: white;
-  border-radius: 10px;
   padding: 0px 2vw 100px;
   margin: 0 auto;
   width: 100%;
   max-width: 796px;
-  
+
   @media (width >= 48rem) {
     padding: 100px 2vw;
   }
@@ -127,6 +127,11 @@ body > main {
       display: flex;
       flex-shrink: 0;
       width: 100px;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .version {
@@ -143,6 +148,12 @@ body > main {
     margin-top: auto;
     display: block;
     width: 2rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    > a {
+      filter: invert(1);
+    }
   }
 }
 

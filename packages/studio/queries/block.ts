@@ -2,97 +2,69 @@ import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
 import { type DBBlockResult } from '../types.ts'
 
-function buildForest(blocks: DBBlockResult[]): DBBlockResult[] {
-  const map = new Map<number, DBBlockResult>()
-  const roots: DBBlockResult[] = []
+// function buildForest(blocks: DBBlockResult[]): DBBlockResult[] {
+//   const map = new Map<number, DBBlockResult>()
+//   const roots: DBBlockResult[] = []
 
-  for (const block of blocks) {
-    block.children = []
-    map.set(block.id, block)
-  }
+//   for (const block of blocks) {
+//     block.blocks = []
+//     map.set(block.id, block)
+//   }
 
-  for (const block of blocks) {
-    if (block.parent_id === null) {
-      roots.push(block)
-    } else {
-      const parent = map.get(block.parent_id)
-      if (parent) parent.children!.push(block)
-    }
-  }
+//   for (const block of blocks) {
+//     if (block.parent_id === null) {
+//       roots.push(block)
+//     } else {
+//       const parent = map.get(block.parent_id)
+//       if (parent) parent.blocks!.push(block)
+//     }
+//   }
 
-  // Sort children by sort_order recursively
-  const sortChildren = (node: DBBlockResult) => {
-    node.children!.sort((a, b) => a.sort_order - b.sort_order)
-    node.children!.forEach(sortChildren)
-  }
-  roots.forEach(sortChildren)
+//   // Sort blocks by sort_order recursively
+//   const sortChildren = (node: DBBlockResult) => {
+//     node.blocks!.sort((a, b) => a.sort_order - b.sort_order)
+//     node.blocks!.forEach(sortChildren)
+//   }
+//   roots.forEach(sortChildren)
 
-  return roots
-}
+//   return roots
+// }
 
-function buildTree(blocks: DBBlockResult[]): DBBlockResult {
-  const map = new Map<number, DBBlockResult>()
-  const roots: DBBlockResult[] = []
+// function transformBlocksTree(
+//   block: DBBlockResult,
+//   isBlocksChild?: boolean,
+// ): DBBlockResult {
+//   const fields: Record<string, DBBlockResult> = {}
+//   let hasFields = false
 
-  for (const block of blocks) {
-    block.children = []
-    map.set(block.id, block)
-  }
+//   for (const child of block.blocks ?? []) {
+//     const transformedChild = transformBlocksTree(
+//       child,
+//       child.type === 'blocks',
+//     )
 
-  for (const block of blocks) {
-    if (block.parent_id === null) {
-      roots.push(block)
-    } else {
-      const parent = map.get(block.parent_id)
-      if (parent) parent.children!.push(block)
-    }
-  }
+//     if (!isBlocksChild) {
+//       hasFields = true
+//       fields[transformedChild.name] = transformedChild
+//     }
+//   }
 
-  // Sort children by sort_order recursively
-  const sortChildren = (node: DBBlockResult) => {
-    node.children!.sort((a, b) => a.sort_order - b.sort_order)
-    node.children!.forEach(sortChildren)
-  }
-  roots.forEach(sortChildren)
-
-  return roots[0]
-}
-
-function transformBlocksTree(
-  block: DBBlockResult,
-  isBlocksChild?: boolean,
-): DBBlockResult {
-  const fields: Record<string, DBBlockResult> = {}
-  let hasFields = false
-
-  for (const child of block.children ?? []) {
-    const transformedChild = transformBlocksTree(
-      child,
-      child.type === 'blocks',
-    )
-
-    if (!isBlocksChild) {
-      hasFields = true
-      fields[transformedChild.name] = transformedChild
-    }
-  }
-
-  if(hasFields) {
-    block.fields = fields
-  }
+//   if(hasFields) {
+//     block.fields = fields
+//   }
   
-  if (!isBlocksChild) {
-    delete block.children
-  } else {
-    delete block.fields
-  }
+//   if (!isBlocksChild) {
+//     delete block.blocks
+//   } else {
+//     delete block.fields
+//   }
 
-  return block
-}
+//   return block
+// }
 
-function transformForest(blocks: DBBlockResult[]): DBBlockResult[] {
-  return blocks.map((block) => transformBlocksTree(block))
-}
+// function transformForest(blocks: DBBlockResult[]): DBBlockResult[] {
+//   return blocks.map((block) => transformBlocksTree(block))
+// }
 
 function rootQuery(filterSql: string, depthLimit?: number) {
   const depthLimitClause =
@@ -218,24 +190,72 @@ function buildFilterSql(params: Record<string, any>) {
   return { filterSql, sqlParams }
 }
 
-export function roots(
-  params: Record<string, any>,
-  options?: {
-    depth?: number
-  },
-): DBBlockResult[] | [] {
-  const { filterSql, sqlParams } = buildFilterSql(params)
+// export function roots(
+//   params: Record<string, any>,
+//   options?: {
+//     depth?: number
+//   },
+// ): DBBlockResult[] | [] {
+//   const { filterSql, sqlParams } = buildFilterSql(params)
 
-  const query = rootQuery(filterSql, options?.depth)
-  const rows = db.database
-    .prepare(query)
-    .all(sqlParams) as unknown as DBBlockResult[]
+//   const query = rootQuery(filterSql, options?.depth)
+//   const rows = db.database
+//     .prepare(query)
+//     .all(sqlParams) as unknown as DBBlockResult[]
 
-  if (!rows.length) return []
+//   if (!rows.length) return []
 
-  const forest = buildForest(rows)
+//   const forest = buildForest(rows)
 
-  return transformForest(forest)
+//   return transformForest(forest)
+// }
+
+type DBRow = {
+  id: number
+  created_at: string
+  updated_at: string
+  name: string
+  label: string
+  type: string
+  sort_order: number
+  value: string | null
+  options: string | null
+  status: 'enabled' | 'disabled'
+  parent_id: number | null
+  depth: number
+}
+
+type TODO = any
+
+function buildTree2(items: DBRow[]): TODO | null {
+  const map = new Map<number, TODO>();
+
+  // First pass: clone items into map
+  for (const item of items) {
+    map.set(item.id, { ...item });
+  }
+
+  let root: TODO | null = null;
+
+  // Second pass: assign blocks to parents
+  for (const item of map.values()) {
+    if (item.parent_id === null) {
+      root = item; // Root node
+    } else {
+      const parent = map.get(item.parent_id);
+      if (parent) {
+        if(parent.type === 'blocks') {
+          if (!parent.blocks) parent.blocks = [];
+          parent.blocks.push(item);
+        } else {
+          if (!parent.fields) parent.fields = {};
+          parent.fields[item.name] = item;
+        }
+      }
+    }
+  }
+
+  return root;
 }
 
 export function root(
@@ -247,13 +267,15 @@ export function root(
   const query = rootQuery(filterSql, options?.depth)
   const rows = db.database
     .prepare(query)
-    .all(sqlParams) as unknown as DBBlockResult[]
+    .all(sqlParams) as unknown as DBRow[]
 
   if (!rows.length) return null
 
-  const tree = buildTree(rows)
+  // const tree = buildTree(rows)
 
-  return transformBlocksTree(tree)
+  const tree = buildTree2(rows)
+
+  return tree // transformBlocksTree(tree)
 }
 
 export function block(params: Record<string, any>) {

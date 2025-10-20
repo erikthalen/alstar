@@ -7,7 +7,7 @@ import {
 } from '@alstar/studio'
 import { routes } from './routes.ts'
 
-const app = await createStudio({
+export const { app, refreshClient } = await createStudio({
   siteName: 'Docs',
   port: 8787,
   fileBasedRouter: false,
@@ -15,6 +15,9 @@ const app = await createStudio({
     frontpage: defineBlock({
       label: 'Frontpage',
       type: 'single',
+      preview: {
+        slug: '/',
+      },
       fields: {
         sections: defineBlockField({
           label: 'Sections',
@@ -71,9 +74,23 @@ const app = await createStudio({
         }),
       },
     }),
+    settings: defineBlock({
+      label: 'Settings',
+      type: 'single',
+      fields: {
+        logo: defineField({
+          type: 'text',
+          label: 'Logo',
+          description: 'A raw svg string',
+        }),
+      },
+    }),
     page: defineBlock({
       label: 'Pages',
-      type: 'page',
+      type: 'collection',
+      preview: {
+        field: 'slug'
+      },
       fields: {
         title: defineField({
           label: 'Title',
@@ -90,7 +107,7 @@ const app = await createStudio({
       },
     }),
   }),
-})
+} as const)
 
 app.route('/', routes)
 

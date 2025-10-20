@@ -43,8 +43,8 @@ app.get('/slug', async (c) => {
 export const routes = app
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   name: string
   id?: number
   structure: FieldDefStructure

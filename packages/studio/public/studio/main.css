@@ -3,6 +3,8 @@
 @import './css/admin-panel.css';
 @import './css/blocks-field.css';
 @import './css/settings.css';
+@import './css/live-preview.css';
+@import './css/entry-page.css';
 
 body {
   padding: 0;
@@ -13,13 +15,11 @@ body {
   align-content: baseline;
 
   > main {
-    padding: 40px;
-    height: 100vh;
-    overflow: auto;
     width: 100%;
+    height: 100vh;
+    padding: 0;
 
     section {
-      max-width: 900px;
       margin: 0 auto;
     }
   }
@@ -29,11 +29,17 @@ button svg, a svg {
   pointer-events: none;
 }
 
-.entry > .fields > .block {
-  padding-block: var(--pico-spacing);
+.entry{
+  height: 100vh;
+  overflow: auto;
+  padding: 1rem;
 
-  > header {
-    margin-block: var(--pico-block-spacing-vertical);
+  > .fields > .block {
+    padding-block: var(--pico-spacing);
+  
+    > header {
+      margin-block: var(--pico-block-spacing-vertical);
+    }
   }
 }
 

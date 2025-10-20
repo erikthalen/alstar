@@ -15,8 +15,8 @@ import type {
 } from '../types.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   structure: BlockDefStructure | FieldDefStructure | BlocksFieldDefStructure
   id?: number
   name: string

@@ -7,8 +7,8 @@ import * as icons from './icons.ts'
 import Render from './Render.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   name: string
   structure: BlocksFieldDefStructure
   id?: number

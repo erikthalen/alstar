@@ -44,6 +44,9 @@
 
   copy-to-clipboard.copied {
     button {
+      background-color: greenyellow;
+      color: green;
+
       svg:first-of-type {
         display: none;
       }

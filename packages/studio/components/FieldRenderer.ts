@@ -4,8 +4,8 @@ import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import { BlockFieldInstance } from '../utils/define.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   structure: FieldDefStructure | BlocksFieldDefStructure
   id?: number
   name: string

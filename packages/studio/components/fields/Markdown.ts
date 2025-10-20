@@ -3,8 +3,8 @@ import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '../../utils/html.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   name: string
   id?: number
   structure: FieldDefStructure

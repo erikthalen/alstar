@@ -3,8 +3,8 @@ import { html } from '../../utils/html.ts'
 import type { FieldDefStructure } from '../../types.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   name: string
   id?: number
   structure: FieldDefStructure

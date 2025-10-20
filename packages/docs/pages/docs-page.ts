@@ -25,6 +25,7 @@ export default defineEntry(async c => {
       page.fields.title?.value
     )
   } catch (error) {
+    console.log(error)
     return html`<p>Noope</p>`
   }
 })

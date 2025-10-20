@@ -8,41 +8,8 @@ import {
   FieldInstance,
 } from './utils/define.ts'
 
-// DeepReadonly utility type
-export type DeepReadonly<T> =
-  T extends (...args: any[]) => any   // functions stay as-is
-    ? T
-    : T extends any[]        // arrays/tuples
-      ? { [K in keyof T]: DeepReadonly<T[K]> }
-      : T extends object              // objects
-        ? { [K in keyof T]: DeepReadonly<T[K]> }
-        : T;                          // primitives
+export type BlockStatus = 'enabled' | 'disabled'
 
-export type PrimitiveField = {
-  name: string
-  label: string
-  type: 'text' | 'slug' | 'markdown' | 'image' | 'reference'
-}
-
-export type BlockField = {
-  name: string
-  label: string
-  blocks: Record<string, Field | Block>
-}
-
-export type Field = PrimitiveField | BlockField
-
-export type Block = {
-  name: string
-  label: string
-  type: string
-  fields: Record<string, Field | Block>
-}
-
-export type Structure = Record<string, BlockDefStructure>
-// export type Structure = Record<string, BlockDefStructure>
-
-// --- Field & block definitions ---
 type FieldType = 'text' | 'slug' | 'markdown' | 'image' | 'reference'
 
 interface BaseField {
@@ -51,6 +18,7 @@ interface BaseField {
   description?: string
 }
 
+// text fields
 interface TextField extends BaseField {
   type: 'text' | 'slug' | 'markdown'
 }
@@ -59,6 +27,7 @@ interface TextFieldStructure extends TextField {
   instanceOf: typeof FieldInstance
 }
 
+// image field
 interface ImageField extends BaseField {
   type: 'image'
 }
@@ -67,6 +36,7 @@ interface ImageFieldStructure extends ImageField {
   instanceOf: typeof FieldInstance
 }
 
+// reference fields
 interface ReferenceField extends BaseField {
   type: 'reference'
   to: string | string[]
@@ -76,6 +46,10 @@ export interface ReferenceFieldStructure extends ReferenceField {
   instanceOf: typeof FieldInstance
 }
 
+export type FieldDef = TextField | ImageField | ReferenceField
+export type FieldDefStructure = TextFieldStructure | ImageFieldStructure | ReferenceFieldStructure
+
+// blocks fields
 export interface BlocksFieldDef {
   label: string
   description?: string
@@ -86,34 +60,24 @@ export interface BlocksFieldDefStructure extends BlocksFieldDef {
   instanceOf: typeof BlockFieldInstance
 }
 
-export type FieldDef = TextField | ImageField | ReferenceField
-export type FieldDefStructure = TextFieldStructure | ImageFieldStructure | ReferenceFieldStructure
+export type BlockFields = Record<string, FieldDefStructure | BlocksFieldDefStructure>
 
-export interface BlockDef {
-  label: string
+// block
+export type BlockDef<T extends BlockFields> = {
   type: string
-  fields: Record<string, FieldDefStructure | BlocksFieldDefStructure>
+  label: string
   description?: string
+  preview?: {
+    field: keyof T
+  } | {
+    slug: string
+  },
+  fields: T,
 }
 
-export interface BlockDefStructure extends BlockDef {
+export type BlockDefStructure = {
   instanceOf: typeof BlockInstance
 }
-
-// type DBDefaults = {
-//   id: number
-//   created_at: string
-//   updated_at: string
-//   name: string
-//   label: string
-//   // type: string
-//   sort_order: number
-//   value: string
-//   options: string | null
-//   status: 'enabled' | 'disabled'
-//   parent_id: number | null
-//   depth: number
-// }
 
 type BaseDBResult = {
   id: number
@@ -124,7 +88,7 @@ type BaseDBResult = {
   sort_order: number
   value: string | null
   options: any
-  status: 'enabled' | 'disabled'
+  status: BlockStatus
   parent_id: number | null
   depth: number
 }
@@ -139,24 +103,22 @@ export type DBBlockFieldResult = BaseDBResult & {
 
 export type DBBlockResult = BaseDBResult & {
   type: string
-  fields: Record<string, DBFieldResult>
+  fields: Record<string, DBResult>
 }
 
-export type DBFieldResult = DBPrimitiveFieldResult & DBBlockFieldResult
+export type DBResult = DBPrimitiveFieldResult | DBBlockFieldResult | DBBlockResult
 
-export type DBBlock = Block & {
-  id: number
-  created_at: string
-  updated_at: string
-  value: string | null
-  sort_order: number | null
-  parent_id: number | null
-  options: number | null
-}
-
-export type BlockStatus = 'enabled' | 'disabled'
+export type Structure = Record<string, BlockDefStructure>
 
 export type StudioConfig = {
+  siteName: string
+  honoConfig: HonoOptions<BlankEnv>
+  fileBasedRouter: boolean,
+  port: number
+  structure: Structure
+}
+
+export type StudioConfigInput = {
   siteName?: string
   honoConfig?: HonoOptions<BlankEnv>
   fileBasedRouter?: boolean,

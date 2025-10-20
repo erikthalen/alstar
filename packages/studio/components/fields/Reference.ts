@@ -4,8 +4,8 @@ import type { FieldDefStructure, ReferenceFieldStructure } from '../../types.ts'
 import { query } from '../../queries/index.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   name: string
   id?: number
   structure: ReferenceFieldStructure
@@ -23,7 +23,7 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const entries = query.roots({ type: structure.to }, { depth: 1 })
+  const entries = query.blocks({ type: structure.to })
 
   return html`
     <form
@@ -50,8 +50,11 @@ export default (props: {
       />
       <datalist id="entries-${data.id}">
         ${entries.map((entry) => {
-          return html`<option value="${entry.fields.slug.value}">
-              ${entry.fields.title.value}
+          const slug = query.block({ name: 'slug', parent_id: entry.id })
+          const title = query.block({ name: 'title', parent_id: entry.id })
+
+          return html`<option value="${slug.value}">
+              ${title.value}
             </option>`
         })}
       </datalist>

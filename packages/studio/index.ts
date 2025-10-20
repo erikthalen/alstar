@@ -6,7 +6,7 @@ import { serveStatic } from '@hono/node-server/serve-static'
 import { HTTPException } from 'hono/http-exception'
 
 import { loadDb } from '@alstar/db'
-import { createRefresher } from '@alstar/refresher'
+import { refreshClient } from '@alstar/refresher'
 
 import { createStudioTables } from './utils/create-studio-tables.ts'
 import { fileBasedRouter } from './utils/file-based-router.ts'
@@ -20,21 +20,20 @@ import auth from './utils/auth.ts'
 import ErrorPage from './pages/error.ts'
 
 import * as types from './types.ts'
+import { refresher } from './utils/refresher.ts'
 
 export let rootdir = './node_modules/@alstar/studio'
 
 export let studioStructure: types.Structure = {}
 export let studioConfig: types.StudioConfig = {
   siteName: '',
+  honoConfig: {},
   fileBasedRouter: true,
   port: 3000,
   structure: {},
 }
 
-const createStudio = async (config: types.StudioConfig) => {
-  // const refresher = await createRefresher({ rootdir: ['.', import.meta.dirname] })
-  const refresher = await createRefresher({ rootdir: '.' })
-
+const createStudio = async (config: types.StudioConfigInput) => {
   loadDb('./studio.db')
   createStudioTables()
 
@@ -47,6 +46,8 @@ const createStudio = async (config: types.StudioConfig) => {
   studioConfig = { ...studioConfig, ...config }
 
   const app = new Hono(studioConfig.honoConfig)
+
+  app.get('/refresh', refresher({ root: '.', exclude: '.db' }))
 
   /**
    * Static folders
@@ -104,8 +105,6 @@ const createStudio = async (config: types.StudioConfig) => {
     }),
   )
 
-  // console.log(app.routes)
-
   /**
    * Run server
    */
@@ -129,9 +128,12 @@ const createStudio = async (config: types.StudioConfig) => {
     })
   })
 
-  startupLog({ port: studioConfig.port || 3000, refresherPort: refresher.port })
+  startupLog({ port: studioConfig.port })
 
-  return app
+  return {
+    app,
+    refreshClient: refreshClient(studioConfig.port)
+  }
 }
 
 export {
@@ -144,6 +146,6 @@ export {
 } from './utils/define.ts'
 export { type RequestContext } from './types.ts'
 export { createStudio }
-export { html, type HtmlEscapedString } from './utils/html.ts'
+export { html, raw, type HtmlEscapedString } from './utils/html.ts'
 export { query } from './queries/index.ts'
 export const version = packageJSON.version

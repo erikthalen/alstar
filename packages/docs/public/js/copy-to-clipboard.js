@@ -1,3 +1,10 @@
+/**
+ * @example
+ * <copy-to-clipboard>
+ *  <p id="my-target">Text to copy</p>
+ *  <button for="my-target">Copy</button>
+ * </copy-to-clipboard>
+ */
 class CopyToClipboard extends HTMLElement {
   abortController = new AbortController()
   button = this.querySelector('button')

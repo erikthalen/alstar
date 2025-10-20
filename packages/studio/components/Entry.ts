@@ -3,7 +3,7 @@ import { query } from '../queries/index.ts'
 import { studioStructure } from '../index.ts'
 import Render from './Render.ts'
 
-export default (props: { entryId: number }) => {
+export default (props: { entryId: number | string }) => {
   const data = query.block({ id: props.entryId?.toString() })
 
   if (!data) return html`<p>No entry with id: "${props.entryId}"</p>`
