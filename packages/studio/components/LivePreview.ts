@@ -10,15 +10,28 @@ export default (props: { entryId: number | string }) => {
   const structure = studioStructure[data.name]
 
   if (!structure) return html`<p>No structure of type: ${data.name}</p>`
-  
-  const slugValue = structure.preview?.slug
-  const slugColumn = structure.preview?.field
-  
-  if (!slugValue && !slugColumn) return html`<p>No preview of type: ${data.name}</p>`
 
-  const slug = slugValue || data.fields[slugColumn].value
-  
-  return html`
-    <iframe id="live_preview" class="live-preview" src="http://localhost:${studioConfig.port}/${slug === '/' ? '' : slug}"></iframe>
-  `
+  if (!structure.preview) return html``
+
+  const slugValue = 'slug' in structure.preview! && structure.preview?.slug
+  const slugColumn = 'field' in structure.preview! && structure.preview?.field
+
+  if (!slugValue && !slugColumn) return html``
+
+  let slug
+
+  if (slugValue) {
+    slug = slugValue
+  } else if (slugColumn) {
+    slug = data.fields[slugColumn].value
+  }
+
+  if (!slug) return html``
+
+  return html`<live-preview id="live_preview" class="live-preview" data-rendered-at="${Date.now()}">
+    <header>
+      <h1>Live preview</h1>
+    </header>
+    <iframe src="http://localhost:${studioConfig.port}/${slug === '/' ? '' : slug}"></iframe>
+  </live-preview>`
 }

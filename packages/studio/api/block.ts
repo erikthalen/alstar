@@ -5,7 +5,6 @@ import { streamSSE } from 'hono/streaming'
 import { sql } from '../utils/sql.ts'
 import { db } from '@alstar/db'
 import {
-  blockWithChildren,
   deleteBlockWithChildren,
 } from '../queries/block-with-children.ts'
 import { query } from '../queries/index.ts'
@@ -57,19 +56,6 @@ app.patch('/block', async (c) => {
     transaction.run(value, id)
 
     await renderSSE(stream, c)
-
-    // if (entryId === parentId && name?.toString() === 'title') {
-    //   const rootBlock = query.block({
-    //     id: parentId?.toString() || null,
-    //   })
-
-    //   if (rootBlock.type !== 'single') {
-    //     await stream.writeSSE({
-    //       event: 'datastar-patch-elements',
-    //       data: `elements <a href="/studio/entry/${entryId}" id="block_link_${entryId}">${value}</a>`,
-    //     })
-    //   }
-    // }
   })
 })
 

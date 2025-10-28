@@ -25,10 +25,7 @@ export default (
 
         <meta name="color-scheme" content="light dark" />
 
-        <script
-          type="module"
-          src="https://cdn.jsdelivr.net/gh/starfederation/datastar@main/bundles/datastar.js"
-        ></script>
+        <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js"></script>
 
         <script type="importmap">
           {

@@ -21,7 +21,7 @@ export default ({ name }: { name: string }) => {
               </a>
 
               <form
-                data-on-submit="@delete('/studio/api/block', {
+                data-on:submit="@delete('/studio/api/block', {
                   contentType: 'form',
                   headers: {
                     render: 'AdminPanel'

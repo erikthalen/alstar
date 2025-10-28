@@ -10,8 +10,8 @@ export default defineEntry((c) => {
           <header>Register user</header>
           <form
             data-signals="{ status: 0 }"
-            data-on-submit="@post('/studio/api/auth/register', { contentType: 'form' })"
-            data-on-signal-patch="patch.status === 200 && window.location.reload()"
+            data-on:submit="@post('/studio/api/auth/register', { contentType: 'form' })"
+            data-on:signal-patch="patch.status === 200 && window.location.reload()"
           >
             <label for="email">Email</label>
             <input id="email" name="email" type="text" placeholder="Email" style="width: 100%" />

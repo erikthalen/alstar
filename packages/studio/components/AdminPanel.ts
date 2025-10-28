@@ -2,7 +2,7 @@ import { html } from 'hono/html'
 import { logo } from './icons.ts'
 import Entries from './Entries.ts'
 import * as icons from './icons.ts'
-import { studioStructure } from '../index.ts'
+import { studioConfig, studioStructure } from '../index.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 
 export default () => {
@@ -10,9 +10,15 @@ export default () => {
 
   return html`
     <div class="admin-panel" id="admin_panel">
-      <h1>
-        <a href="/studio" aria-label="Go to dashboard"> ${logo} </a>
-      </h1>
+      <!-- <button class="ghost toggle-button">
+        {icons.bars}
+      </button> -->
+
+      <header>
+        <h1 class="title">
+          <a href="/studio" aria-label="Go to dashboard"> ${studioConfig.admin?.logo ?? logo} </a>
+        </h1>
+      </header>
 
       <aside style="width: 100%;">
         ${entries.map(([name, block]) => {
@@ -37,7 +43,7 @@ export default () => {
 
           return html`
           <form
-              data-on-submit="@post('/studio/api/block', {
+              data-on:submit="@post('/studio/api/block', {
                 contentType: 'form',
                 headers: {
                   'render': 'AdminPanel',

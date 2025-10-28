@@ -1,6 +1,7 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '../../utils/html.ts'
 import type { FieldDefStructure } from '../../types.ts'
+import { raw } from 'hono/html'
 
 export default (props: {
   entryId: number | string
@@ -26,20 +27,24 @@ export default (props: {
 
   return html`
     <form
-      data-on-input="@patch('/studio/api/block', {
+      class="field-text"
+      data-on:input="@patch('/studio/api/block', {
         contentType: 'form',
         headers: {
-          render: '${isEntryTitle ? 'AdminPanel' : ''}'
+          render: '${isEntryTitle ? 'AdminPanel' : ''} LivePreview',
+          props: '${JSON.stringify({ entryId: entryId })}'
         }
       })"
     >
       <hgroup>
         <label for="block-${data.id}">${structure.label}</label>
-        ${structure.description &&
-        html`
-          <p><small>${structure.description}</small></p>
-        `}
+        ${structure.description ?
+          html`
+            <p><small>${structure.description}</small></p>
+          ` : null}
       </hgroup>
+
+      ${structure.presentation === 'svg' ? html`<output>${raw(data.value)}</output>`: ''}
 
       <input
         id="block-${data.id}"

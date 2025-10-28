@@ -11,11 +11,17 @@ class MarkdownEditor extends HTMLElement {
         afterUpdate: async (e) => {
           await fetch('/studio/api/value', {
             method: 'PATCH',
+            headers: {
+              render: 'LivePreview',
+              props: this.dataset.entryId
+            },
             body: JSON.stringify({
               value: e,
               id: this.dataset.id,
             }),
           })
+
+          window.dispatchEvent(new CustomEvent('markdown-editor:update'))
         },
       },
       interface: {

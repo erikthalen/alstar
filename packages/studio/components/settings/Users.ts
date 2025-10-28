@@ -38,7 +38,7 @@ export default () => {
       <article>
         <header>Register user</header>
         <form
-          data-on-submit="@post('/studio/api/auth/register', { contentType: 'form' })"
+          data-on:submit="@post('/studio/api/auth/register', { contentType: 'form' })"
         >
           <label for="register_email"><small>Email</small></label>
           <input

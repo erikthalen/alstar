@@ -1,10 +1,16 @@
 @import 'https://esm.sh/@alstar/ui/red.css';
-/* @import '../node_modules/@alstar/ui/slate.css'; */
+/* @import '../node_modules/@alstar/ui/red.css'; */
 @import './css/admin-panel.css';
 @import './css/blocks-field.css';
 @import './css/settings.css';
 @import './css/live-preview.css';
 @import './css/entry-page.css';
+@import './css/entry.css';
+@import './css/field.css';
+
+:root {
+  --pico-font-size: 80%;
+}
 
 body {
   padding: 0;
@@ -27,20 +33,6 @@ body {
 
 button svg, a svg {
   pointer-events: none;
-}
-
-.entry{
-  height: 100vh;
-  overflow: auto;
-  padding: 1rem;
-
-  > .fields > .block {
-    padding-block: var(--pico-spacing);
-  
-    > header {
-      margin-block: var(--pico-block-spacing-vertical);
-    }
-  }
 }
 
 .block {

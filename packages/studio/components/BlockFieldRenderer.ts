@@ -1,5 +1,5 @@
 import { query } from '../queries/index.ts'
-import type { BlocksFieldDefStructure } from '../types.ts'
+import type { BlocksFieldDef, BlocksFieldDefStructure } from '../types.ts'
 import { BlockInstance } from '../utils/define.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { html } from '../utils/html.ts'
@@ -32,7 +32,7 @@ export default (props: {
 
   return html`
     <div class="blocks-field">
-      <header>
+      <header data-on:click="console.log('hehehe')">
         <p>${structure.label}</p>
 
         <details class="dropdown">
@@ -42,10 +42,10 @@ export default (props: {
               return html`
                 <li>
                   <form
-                    data-on-submit="@post('/studio/api/block', {
+                    data-on:submit="@post('/studio/api/block', {
                       contentType: 'form',
                       headers: {
-                        render: 'Entry',
+                        render: 'Entry LivePreview',
                         props: '${JSON.stringify({ entryId: entryId })}'
                       }
                     })"
@@ -69,8 +69,6 @@ export default (props: {
         </details>
       </header>
 
-      <hr style="margin-top: 0;" />
-
       <sortable-list data-id="${data.id}">
         ${rows.map((row) => {
           const [name, struct] =
@@ -79,7 +77,7 @@ export default (props: {
           if (!name || !struct) return html`<p>No name</p>`
 
           return html`
-          <article data-id="${row.id}">
+            <article data-id="${row.id}" data-signals="{ 'expanded-${row.id}': true }">
               <header>
                 ${struct.label}
 
@@ -88,19 +86,25 @@ export default (props: {
                     <input name="enable" type="checkbox" role="switch" checked />
                   </label> -->
 
+                  <button data-on:click="$expanded-${row.id} = !$expanded-${row.id}" class="ghost handle text-secondary" data-tooltip="Collapse" data-placement="top">
+                    ${icons.minus}
+                  </button>
+
                   <button
                     data-handle-for="${data.id}"
                     class="ghost handle text-secondary"
                     style="cursor: grab"
+                    data-tooltip="Reorder"
+                    data-placement="top"
                   >
                     ${icons.bars}
                   </button>
 
                   <form
-                    data-on-submit="@delete('/studio/api/block', {
+                    data-on:submit="@delete('/studio/api/block', {
                       contentType: 'form',
                       headers: {
-                        render: 'Entry',
+                        render: 'Entry LivePreview',
                         props: '${JSON.stringify({ entryId: entryId })}'
                       }
                     })"
@@ -120,14 +124,16 @@ export default (props: {
                 </aside>
               </header>
 
-              ${Render({
-                entryId,
-                parentId:
-                  struct.instanceOf === BlockInstance ? row.id : data.id,
-                id: row.id,
-                structure: struct,
-                name: name,
-              })}
+              <div data-show="$expanded-${row.id}">
+                ${Render({
+                  entryId,
+                  parentId:
+                    struct.instanceOf === BlockInstance ? row.id : data.id,
+                  id: row.id,
+                  structure: struct,
+                  name: name,
+                })}
+              </div>
             </article>
           `
         })}

@@ -38,6 +38,7 @@ button {
   line-height: 20px;
 }
 
+button.square,
 [role='button'].square,
 [type='button'].square,
 [type='file']::file-selector-button.square,

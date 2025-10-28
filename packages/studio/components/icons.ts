@@ -249,3 +249,6 @@ export const download = html`
     </g>
   </svg>
 `
+
+export const minus = html`
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 20 20"><!-- Icon from HeroIcons by Refactoring UI Inc - https://github.com/tailwindlabs/heroicons/blob/master/LICENSE --><path fill="currentColor" d="M6.75 9.25a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5z"/></svg>`

@@ -7,6 +7,7 @@ import {
   BlockInstance,
   FieldInstance,
 } from './utils/define.ts'
+import { type HtmlEscapedString } from 'hono/utils/html'
 
 export type BlockStatus = 'enabled' | 'disabled'
 
@@ -16,6 +17,7 @@ interface BaseField {
   label: string
   type: FieldType
   description?: string
+  presentation?: 'svg'
 }
 
 // text fields
@@ -75,7 +77,7 @@ export type BlockDef<T extends BlockFields> = {
   fields: T,
 }
 
-export type BlockDefStructure = {
+export type BlockDefStructure = BlockDef<BlockFields> & {
   instanceOf: typeof BlockInstance
 }
 
@@ -112,6 +114,9 @@ export type Structure = Record<string, BlockDefStructure>
 
 export type StudioConfig = {
   siteName: string
+  admin?: {
+    logo?: HtmlEscapedString | Promise<HtmlEscapedString>
+  }
   honoConfig: HonoOptions<BlankEnv>
   fileBasedRouter: boolean,
   port: number
@@ -120,6 +125,9 @@ export type StudioConfig = {
 
 export type StudioConfigInput = {
   siteName?: string
+  admin?: {
+    logo?: HtmlEscapedString | Promise<HtmlEscapedString>
+  }
   honoConfig?: HonoOptions<BlankEnv>
   fileBasedRouter?: boolean,
   port?: number

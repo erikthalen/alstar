@@ -83,20 +83,17 @@ importers:
       '@alstar/db':
         specifier: workspace:*
         version: link:../db
-      '@alstar/refresher':
-        specifier: workspace:*
-        version: link:../refresher
       '@alstar/ui':
         specifier: workspace:*
         version: link:../ui
       '@hono/node-server':
-        specifier: ^1.18.1
+        specifier: 1.18.1
         version: 1.18.1(hono@4.8.12)
       '@starfederation/datastar-sdk':
         specifier: 1.0.0-RC.1
         version: 1.0.0-RC.1
       hono:
-        specifier: ^4.8.12
+        specifier: 4.8.12
         version: 4.8.12
     devDependencies:
       '@types/node':

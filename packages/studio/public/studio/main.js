@@ -2,6 +2,7 @@ import barba from '@barba/core'
 
 import './js/markdown-editor.js'
 import './js/sortable-list.js'
+import './js/live-preview.js'
 
 barba.init({
   debug: true,

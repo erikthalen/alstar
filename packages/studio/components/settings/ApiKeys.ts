@@ -33,7 +33,7 @@ export default () => {
                 <td><input type="text" disabled value="${apiKey.hint}" /></td>
                 <td>
                   <form
-                    data-on-submit="@delete('/studio/api/api-key', {
+                    data-on:submit="@delete('/studio/api/api-key', {
                       contentType: 'form',
                       headers: {
                         render: 'Settings'
@@ -58,7 +58,7 @@ export default () => {
       </table>
 
       <form
-        data-on-submit="@post('/studio/api/api-key', {
+        data-on:submit="@post('/studio/api/api-key', {
           contentType: 'form',
           headers: {
             render: 'Settings'
@@ -93,7 +93,7 @@ export default () => {
             <button
               style="display: flex; align-items: center;"
               data-attr="{ id: $apiKey }"
-              data-on-click="navigator.clipboard.writeText($apiKey); $copied = true"
+              data-on:click="navigator.clipboard.writeText($apiKey); $copied = true"
               class="ghost"
               aria-label="Copy key to clipboard"
             >
@@ -110,7 +110,7 @@ export default () => {
           <footer>
             <button
               class="ghost"
-              data-on-click="$apiKey = ''; $copied = false; evt.target.closest('dialog')?.close()"
+              data-on:click="$apiKey = ''; $copied = false; evt.target.closest('dialog')?.close()"
             >
               Close
             </button>

@@ -1,0 +1,35 @@
+.entry{
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  > header {
+    background-color: var(--pico-background-color);
+    border-bottom: 1px solid var(--pico-muted-border-color);
+    padding: 1rem;
+
+    h1 {
+      font-size: 1rem;
+      font-weight: normal;
+      margin: 0;
+      font-family: var(--pico-font-family-monospace);
+    }
+  }
+
+  .content {
+    overflow: auto;
+  }
+
+  > .fields > .block {
+    padding: var(--pico-spacing);
+  
+    > header {
+      margin-block: var(--pico-block-spacing-vertical);
+    }
+  }
+
+  .field {
+    padding-top: 1rem;
+    padding-inline: 1rem;
+  }
+}

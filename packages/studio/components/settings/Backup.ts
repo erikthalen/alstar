@@ -41,7 +41,7 @@ export default async () => {
                 </th>
                 <th>
                   <form
-                    data-on-submit="@delete('/studio/api/backup', {
+                    data-on:submit="@delete('/studio/api/backup', {
                       contentType: 'form',
                       headers: {
                         render: 'Settings'
@@ -59,7 +59,7 @@ export default async () => {
       </table>
 
       <form
-        data-on-submit="@post('/studio/api/backup', {
+        data-on:submit="@post('/studio/api/backup', {
           contentType: 'form',
           headers: {
             render: 'Settings'
@@ -72,7 +72,7 @@ export default async () => {
       <hr />
 
       <form
-        data-on-submit="@post('/studio/api/backup', { contentType: 'form' })"
+        data-on:submit="@post('/studio/api/backup', { contentType: 'form' })"
       >
         <input type="file" name="file" />
         <button type="submit" class="ghost">Restore database</button>

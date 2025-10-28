@@ -27,10 +27,11 @@ export default (props: {
 
   return html`
     <form
-      data-on-input="@patch('/studio/api/block', {
+      data-on:input="@patch('/studio/api/block', {
         contentType: 'form',
         headers: {
-          render: ''
+          render: 'LivePreview',
+          props: '${JSON.stringify({ entryId: entryId })}'
         }
       })"
     >

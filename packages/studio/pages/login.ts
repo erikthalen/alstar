@@ -7,7 +7,7 @@ export default defineEntry(c => {
   <div class="login-form">
     <article>
       <header>Login</header>
-      <form data-on-submit="@post('/studio/api/auth/login', { contentType: 'form' })">
+      <form data-on:submit="@post('/studio/api/auth/login', { contentType: 'form' })">
         <label for="email">Email</label>  
         <input id="email" name="email" type="text" placeholder="Email">
         <label for="password">Password</label>  

@@ -69,10 +69,10 @@ export default (props: {
   return html`
     <div style="display: flex; align-items: center">
       <form
-        data-on-change="@patch('/studio/api/block', {
+        data-on:change="@patch('/studio/api/block', {
           contentType: 'form',
           headers: {
-            render: 'Entry',
+            render: 'Entry LivePreview',
             props: '${JSON.stringify({ entryId: entryId })}'
           }
         })"
@@ -98,10 +98,10 @@ export default (props: {
 
       <form
         style="margin-top: 21px"
-        data-on-submit="@patch('/studio/api/block', {
+        data-on:submit="@patch('/studio/api/block', {
           contentType: 'form',
           headers: {
-            render: 'Entry',
+            render: 'Entry LivePreview',
             props: '${JSON.stringify({ entryId: entryId })}'
           }
         })"

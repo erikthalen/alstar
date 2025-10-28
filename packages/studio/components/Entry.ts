@@ -14,12 +14,18 @@ export default (props: { entryId: number | string }) => {
 
   return html`
     <div id="entry" class="entry">
-      ${Render({
-        entryId: props.entryId,
-        parentId: props.entryId,
-        structure: structure,
-        name: data.name,
-      })}
+      <header>
+        <h1>Entry content</h1>
+      </header>
+
+      <div class="content">
+        ${Render({
+          entryId: props.entryId,
+          parentId: props.entryId,
+          structure: structure,
+          name: data.name,
+        })}
+      </div>
     </div>
     
   `

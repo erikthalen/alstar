@@ -4,10 +4,14 @@ import { type SSEStreamingApi } from 'hono/streaming'
 import { type Context } from 'hono'
 
 export const renderSSE = async (stream: SSEStreamingApi, c: Context) => {
-  const componentPath = c.req.header('render')
+  const componentPaths = c.req.header('render')
   const props = c.req.header('props')
 
-  if (componentPath) {
+  if (!componentPaths) return
+
+  for (const componentPath of componentPaths.split(' ')) {
+    if (!componentPath) return
+
     try {
       const partialToRender = await import(
         path.join('../', 'components', componentPath + '.ts')
@@ -18,8 +22,9 @@ export const renderSSE = async (stream: SSEStreamingApi, c: Context) => {
 
       await stream.writeSSE({
         event: 'datastar-patch-elements',
-        data: `elements ${stripNewlines(component)}`,
+        data: component.split('\n').map((line: string) => `elements ${line}\n`).join(''),
       })
+
     } catch (error) {
       console.log(error)
     }

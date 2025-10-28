@@ -50,7 +50,7 @@ export default (
           hljs.highlightAll()
         </script>
 
-        ${raw(refreshClient)}
+        <!-- {raw(refreshClient)} -->
       </head>
       <body>
         ${content}

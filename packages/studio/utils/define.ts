@@ -30,7 +30,9 @@ export function defineBlockField(
   }
 }
 
-export function defineBlock<const O extends types.BlockFields>(block: types.BlockDef<O>): types.BlockDef<O> & types.BlockDefStructure {
+export function defineBlock<const O extends types.BlockFields>(block: types.BlockDef<O>): types.BlockDef<O> & {
+  instanceOf: typeof BlockInstance;
+} {
   return { ...block, instanceOf: BlockInstance }
 }
 
