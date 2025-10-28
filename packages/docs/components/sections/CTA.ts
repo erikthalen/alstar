@@ -17,6 +17,8 @@ export default (section: Props) => {
     value: section.fields.link.value,
   })
 
+  console.log(section.fields.link.value)
+
   return html`
     <section class="section cta">
       <a href="${linkReference?.fields.slug.value}"> Get started </a>
