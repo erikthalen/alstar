@@ -1,38 +1,49 @@
-import { type HttpBindings } from '@hono/node-server'
+import fsp from 'node:fs/promises'
+import { backup } from 'node:sqlite'
+
 import { Hono } from 'hono'
+import { type HttpBindings } from '@hono/node-server'
 import { streamSSE } from 'hono/streaming'
-import { DatabaseSync } from 'node:sqlite'
-
-import { stripNewlines } from '../utils/strip-newlines.ts'
 import { db } from '@alstar/db'
+import { stripNewlines } from '../utils/strip-newlines.ts'
+import Settings from '../components/Settings.ts'
+import path from 'node:path'
+import { renderSSE } from '../utils/renderSSE.ts'
 
-export default () => {
-  const app = new Hono<{ Bindings: HttpBindings }>()
+const app = new Hono<{ Bindings: HttpBindings }>()
 
-  app.post('/backup', async (c) => {
-    // const totalPagesTransferred = await backup(db.database, './backups/backup.db', {
-    //   rate: 1, // Copy one page at a time.
-    //   progress: ({ totalPages, remainingPages }) => {
-    //     console.log('Backup in progress', { totalPages, remainingPages })
-    //   },
-    // })
+app.post('/backup', async (c) => {
+  const date = new Date()
+  const name = `./backups/backup-${date.toISOString()}.db`
 
-    // console.log('Backup completed', totalPagesTransferred)
+  try {
+    fsp.mkdir('./backups', { recursive: true })
 
-    return c.html('good')
+    await backup(db.database, name)
 
-    // return streamSSE(c, async (stream) => {
-    //   await stream.writeSSE({
-    //     event: 'datastar-patch-signals',
-    //     data: `signals {}`,
-    //   })
+    return streamSSE(c, async (stream) => await renderSSE(stream, c))
+  } catch (error) {
+    console.log(error)
+    return c.json({ status: 500, message: 'Something went wrong' })
+  }
+})
 
-    //   await stream.writeSSE({
-    //     event: 'datastar-patch-elements',
-    //     data: `elements ${stripNewlines(Settings())}`,
-    //   })
-    // })
-  })
+app.delete('/backup', async (c) => {
+  const formData = await c.req.formData()
+  const data = Object.fromEntries(formData.entries())
 
-  return app
-}
+  if (!data.filename) {
+    return c.json({ status: 404, message: 'Need a filename to remove' })
+  }
+
+  try {
+    await fsp.rm(path.join('./backups', data.filename.toString()))
+
+    return streamSSE(c, async (stream) => await renderSSE(stream, c))
+  } catch (error) {
+    console.log(error)
+    return c.json({ status: 500, message: 'Something went wrong' })
+  }
+})
+
+export const backupRoutes = app

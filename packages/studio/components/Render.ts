@@ -15,8 +15,8 @@ import type {
 } from '../types.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   structure: BlockDefStructure | FieldDefStructure | BlocksFieldDefStructure
   id?: number
   name: string
@@ -41,6 +41,11 @@ export default (props: {
       }
     }
   } catch (error) {
-    return html`<p>Error rendering "${name}"</p>`
+    console.log(error)
+    
+    return html`
+      <p>Error rendering "${name}"</p>
+      <pre><code>${JSON.stringify(error, null, 2)}</code></pre>
+    `
   }
 }

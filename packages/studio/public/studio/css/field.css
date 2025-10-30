@@ -1,0 +1,14 @@
+.field {
+  .field-text {
+    output {
+      display: grid;
+      max-height: 300px;
+      margin-bottom: 1rem;
+      
+      svg {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+}

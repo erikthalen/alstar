@@ -5,7 +5,7 @@ import {
   defineStructure,
 } from '@alstar/studio'
 
-export default defineStructure({
+const structure = defineStructure({
   page: defineBlock({
     label: 'Pages',
     type: 'page',
@@ -25,8 +25,7 @@ export default defineStructure({
       }),
       sections: defineBlockField({
         label: 'Sections',
-        type: 'blocks',
-        children: {
+        blocks: {
           hero: defineBlock({
             label: 'Hero',
             type: 'hero',
@@ -47,8 +46,7 @@ export default defineStructure({
             fields: {
               images: defineBlockField({
                 label: 'Images',
-                type: 'blocks',
-                children: {
+                blocks: {
                   image: defineField({
                     label: 'Image',
                     type: 'image',
@@ -62,3 +60,5 @@ export default defineStructure({
     },
   }),
 } as const)
+
+export default structure

@@ -3,8 +3,8 @@ import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '../../utils/html.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   name: string
   id?: number
   structure: FieldDefStructure
@@ -17,7 +17,13 @@ export default (props: {
 
   return html`
   <form
-      data-on-input="@patch('/admin/api/block', { contentType: 'form' })"
+      data-on:input="@patch('/studio/api/block', {
+        contentType: 'form',
+        headers: {
+          render: 'LivePreview',
+          props: '${JSON.stringify({ entryId: entryId })}'
+        }
+      })"
     >
       <hgroup>
         <label for="block-${data.id}">${structure.label}</label>
@@ -27,6 +33,7 @@ export default (props: {
       <markdown-editor
         data-content="${data.value?.trim()}"
         data-id="${data.id}"
+        data-entry-id="${entryId}"
       >
         <!-- <textarea id="block-{data.id}" name="value" class="markdown">
           {data.value}

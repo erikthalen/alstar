@@ -1,13 +1,20 @@
-import block from './block.ts'
-import apiKey from './api-key.ts'
-import type { Structure } from '../types.ts'
-import backup from './backup.ts'
+import { Hono } from 'hono'
 
-export const api = (structure: Structure) => {
-  const app = block(structure)
+import { blockRoutes } from './block.ts'
+import { apiKeyRoutes } from './api-key.ts'
+import { backupRoutes } from './backup.ts'
+import { authRoutes } from './auth.ts'
+import { fieldRoutes } from '../components/fields/index.ts'
 
-  app.route('/', apiKey())
-  app.route('/', backup())
+const routes = new Hono()
 
-  return app
-}
+routes.route('/', blockRoutes)
+routes.route('/', apiKeyRoutes)
+routes.route('/', backupRoutes)
+routes.route('/auth', authRoutes)
+
+fieldRoutes.forEach((fieldRoute) => {
+  routes.route('/field', fieldRoute)
+})
+
+export const apiRoutes = routes

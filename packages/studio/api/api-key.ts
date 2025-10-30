@@ -4,70 +4,58 @@ import { Hono } from 'hono'
 import { streamSSE } from 'hono/streaming'
 import { db } from '@alstar/db'
 import crypto from 'node:crypto'
-
-import { stripNewlines } from '../utils/strip-newlines.ts'
 import { sql } from '../utils/sql.ts'
-import Settings from '../components/Settings.ts'
+import { createHash } from '../utils/create-hash.ts'
+import { renderSSE } from '../utils/renderSSE.ts'
 
-export default () => {
-  const app = new Hono<{ Bindings: HttpBindings }>()
+const app = new Hono<{ Bindings: HttpBindings }>()
 
-  app.post('/api-key', async (c) => {
-    return streamSSE(c, async (stream) => {
-      const formData = await c.req.formData()
-      const data = Object.fromEntries(formData.entries())
+app.post('/api-key', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const formData = await c.req.formData()
+    const data = Object.fromEntries(formData.entries())
 
-      if (!data) return
+    if (!data) return
 
-      const apiKey = crypto.randomUUID()
-      const hash = crypto.createHash('sha256')
+    const apiKey = crypto.randomUUID()
 
-      hash.update(apiKey)
+    const hash = createHash(apiKey)
 
-      const digest = hash.digest().toString('base64')
+    const xs = (length: number) => '*'.repeat(length)
 
-      const xs = (length: number) => '*'.repeat(length)
-
-      db.insertInto('api_keys', {
-        name: data.name?.toString(),
-        value: digest,
-        hint: `${apiKey.substring(0, 8)}-${xs(4)}-${xs(4)}-${xs(4)}-${xs(12)}`,
-      })
-
-      await stream.writeSSE({
-        event: 'datastar-patch-signals',
-        data: `signals { apiKey: '${apiKey}', name: '' }`,
-      })
-
-      await stream.writeSSE({
-        event: 'datastar-patch-elements',
-        data: `elements ${stripNewlines(Settings())}`,
-      })
+    db.insertInto('api_keys', {
+      name: data.name?.toString(),
+      value: hash,
+      hint: `${apiKey.substring(0, 8)}-${xs(4)}-${xs(4)}-${xs(4)}-${xs(12)}`,
     })
-  })
 
-  app.delete('/api-key', async (c) => {
-    return streamSSE(c, async (stream) => {
-      const formData = await c.req.formData()
-
-      const value = formData.get('value')?.toString()
-
-      if (!value) return
-
-      db.database
-        .prepare(sql`
-          delete from api_keys
-          where
-            value = ?
-        `)
-        .run(value)
-
-      await stream.writeSSE({
-        event: 'datastar-patch-elements',
-        data: `elements ${stripNewlines(Settings())}`,
-      })
+    await stream.writeSSE({
+      event: 'datastar-patch-signals',
+      data: `signals { apiKey: '${apiKey}', name: '' }`,
     })
-  })
 
-  return app
-}
+    await renderSSE(stream, c)
+  })
+})
+
+app.delete('/api-key', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const formData = await c.req.formData()
+
+    const value = formData.get('value')?.toString()
+
+    if (!value) return
+
+    db.database
+      .prepare(sql`
+        delete from api_keys
+        where
+          value = ?
+      `)
+      .run(value)
+
+    await renderSSE(stream, c)
+  })
+})
+
+export const apiKeyRoutes = app

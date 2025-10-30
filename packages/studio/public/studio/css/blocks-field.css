@@ -1,8 +1,21 @@
 .blocks-field {
   > header {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--pico-background-color);
+    border-bottom: 1px solid var(--pico-muted-border-color);
+
+    padding: 1rem;
+
+    p {
+      margin: 0;
+    }
 
     > form fieldset {
       button {
@@ -11,6 +24,8 @@
     }
 
     details {
+      margin: 0;
+
       form {
         display: flex;
       }
@@ -26,6 +41,16 @@
         left: auto;
       }
     }
+  }
+
+  > header:after {
+    content: '';
+    position: absolute;
+    background-color: var(--pico-background-color);
+    height: 100%;
+    width: 200%;
+    left: -50%;
+    z-index: -1;
   }
 
   article {

@@ -13,23 +13,25 @@ class SortableList extends HTMLElement {
     this.instance = Sortable.create(this, {
       animation: 250,
       handle: `[data-handle-for="${id}"]`,
-      onEnd: (e) => {
+      onEnd: async (e) => {
         const items = [...e.target.children]
 
-        items.forEach(async (child, idx) => {
+        await Promise.all(items.map(async (child, idx) => {
           const searchParams = new URLSearchParams()
 
           searchParams.set('id', child.dataset.id)
           searchParams.set('sort-order', idx)
 
-          await fetch(`/admin/api/sort-order?${searchParams.toString()}`, {
+          return fetch(`/studio/api/sort-order?${searchParams.toString()}`, {
             method: 'post',
           })
-        })
+        }))
 
         this.querySelectorAll('[name="sort_order"]').forEach((input, idx) => {
           input.value = idx.toString()
         })
+
+        window.dispatchEvent(new CustomEvent('sortable-list:update'))
       },
     })
   }

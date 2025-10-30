@@ -1,4 +1,4 @@
-import { createRefresher } from './lib/server.ts'
-import { refresherClient } from './lib/client.ts'
+import { createRefresher, refreshHandler } from './lib/server.ts'
+import { refreshClient } from './lib/client.ts'
 
-export { createRefresher, refresherClient }
+export { createRefresher, refreshHandler, refreshClient }

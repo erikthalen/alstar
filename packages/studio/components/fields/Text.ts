@@ -1,10 +1,11 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '../../utils/html.ts'
 import type { FieldDefStructure } from '../../types.ts'
+import { raw } from 'hono/html'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   name: string
   id?: number
   structure: FieldDefStructure
@@ -12,18 +13,38 @@ export default (props: {
 }) => {
   const { entryId, parentId, name, structure, sortOrder = 0, id } = props
 
-  const data = getOrCreateRow({ parentId, name, field: structure, sortOrder, id })
+  const data = getOrCreateRow({
+    parentId,
+    name,
+    field: structure,
+    sortOrder,
+    id,
+  })
 
   if (!data) return html`<p>No block</p>`
 
+  const isEntryTitle = entryId === parentId && name === 'title'
+
   return html`
-  <form
-      data-on-input="@patch('/admin/api/block', { contentType: 'form' })"
+    <form
+      class="field-text"
+      data-on:input="@patch('/studio/api/block', {
+        contentType: 'form',
+        headers: {
+          render: '${isEntryTitle ? 'AdminPanel' : ''} LivePreview',
+          props: '${JSON.stringify({ entryId: entryId })}'
+        }
+      })"
     >
       <hgroup>
         <label for="block-${data.id}">${structure.label}</label>
-        <p><small>${structure.description}</small></p>
+        ${structure.description ?
+          html`
+            <p><small>${structure.description}</small></p>
+          ` : null}
       </hgroup>
+
+      ${structure.presentation === 'svg' ? html`<output>${raw(data.value)}</output>`: ''}
 
       <input
         id="block-${data.id}"

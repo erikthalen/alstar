@@ -1,14 +1,27 @@
 // client side script
-export function refresherClient() {
-  const eventSource = new EventSource('http://localhost:5432')
-  eventSource.onmessage = () => {
-    setTimeout(() => {
-      window.location.reload()
-    }, 1000)
-  }
+const html = String.raw
 
-  console.log(
-    '%c REFRESHER ACTIVE ',
-    'color: green; background: lightgreen; border-radius: 2px'
-  )
+export const refreshClient = (port: number) => {
+  return html`<script defer type="module">
+    function reload() {
+      const retry = async () => {
+        if (await fetch('http://localhost:${port}').catch(() => false))
+          window.location.reload()
+        else requestAnimationFrame(retry)
+      }
+
+      retry()
+    }
+
+    console.log(
+      '%c REFRESHER ACTIVE ',
+      'color: green; background: lightgreen; border-radius: 2px'
+    )
+
+    const response = await fetch('http://localhost:${port}/refresh').catch(
+      () => false
+    )
+
+    reload()
+  </script>`
 }

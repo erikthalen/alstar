@@ -2,7 +2,6 @@
 
 Alstar Studio is a **fullstack framework** for building CMS-driven applications with **native Node.js** and **Hono**.
 
-
 ## Installation
 
 Create a new project:
@@ -12,7 +11,6 @@ pnpm create @alstar
 ```
 
 Follow the CLI prompts to set up a starter project in your chosen folder.
-
 
 ## Development
 
@@ -31,21 +29,19 @@ const app = await createStudio(structure)
 // app.use(...) custom middleware
 ```
 
-
 ## Routing
 
 Pages are defined in the `/pages` directory.
 
-* Each `.ts` file becomes a route.
-* Dynamic routes are created with square brackets, e.g. `/pages/[slug].ts`.
-
+- Each `.ts` file becomes a route.
+- Dynamic routes are created with square brackets, e.g. `/pages/[slug].ts`.
 
 ## CMS
 
 Access the CMS at:
 
 ```
-/admin
+/studio
 ```
 
 ### Defining Content Structure
@@ -55,11 +51,11 @@ Pass a `Structure` object to `createStudio(structure)` to define the schema.
 Use the helpers:
 
 ```ts
-import { 
-  defineBlock, 
-  defineField, 
-  defineStructure, 
-  defineBlockField 
+import {
+  defineBlock,
+  defineField,
+  defineStructure,
+  defineBlockField,
 } from '@alstar/studio'
 ```
 
@@ -69,7 +65,7 @@ import {
 const titleField = defineField({
   label: 'Title',
   type: 'text' | 'image' | 'markdown' | 'slug',
-  description: 'Page title'
+  description: 'Page title',
 })
 
 const pageBuilder = defineBlockField({
@@ -79,12 +75,16 @@ const pageBuilder = defineBlockField({
     hero: defineBlock({
       label: 'Hero',
       type: 'hero',
-      fields: { /* fields */ },
+      fields: {
+        /* fields */
+      },
     }),
     gallery: defineBlock({
       label: 'Gallery',
       type: 'gallery',
-      fields: { /* fields */ },
+      fields: {
+        /* fields */
+      },
     }),
   },
 })
@@ -94,23 +94,22 @@ const entryBlock = defineBlock({
   type: 'entry',
   fields: {
     title: titleField,
-    builder: pageBuilder
-  }
+    builder: pageBuilder,
+  },
 })
 
 export default defineStructure({
-  entry: entryBlock
+  entry: entryBlock,
 })
 ```
 
 ### Concepts
 
-* **Blocks** contain **fields**.
-* **Block fields** (`type: 'blocks'`) can nest multiple block types under `children`.
-* This enables **page builders** and reusable structures.
+- **Blocks** contain **fields**.
+- **Block fields** (`type: 'blocks'`) can nest multiple block types under `children`.
+- This enables **page builders** and reusable structures.
 
 All content is stored in a **SQLite database** (`studio.db`) and can be queried in the templates with the `query` module.
-
 
 ## Frontend
 
@@ -121,7 +120,7 @@ import { defineEntry, html } from '@alstar/studio'
 
 export default defineEntry((c) => {
   const slug = c.req.param('slug')
-  
+
   return html`
     <h1>Hello World</h1>
     <p>This page is: ${slug}</p>
@@ -133,8 +132,8 @@ export default defineEntry((c) => {
 
 Even though the framework allows for having any library and tool for creating client-side behavior, it's recommended to use lightweight libraries such as:
 
-* [Datastar](https://data-star.dev/) (used internally by the Studio)
-* [Alpine.js](https://alpinejs.dev/)
+- [Datastar](https://data-star.dev/) (used internally by the Studio)
+- [Alpine.js](https://alpinejs.dev/)
 
 ## Quickstart Example Project
 
@@ -143,7 +142,12 @@ This example shows how to define a simple **page schema** and render it on the f
 ### 1. Define the CMS Schema (`./index.ts`)
 
 ```ts
-import { createStudio, defineBlock, defineField, defineStructure } from '@alstar/studio'
+import {
+  createStudio,
+  defineBlock,
+  defineField,
+  defineStructure,
+} from '@alstar/studio'
 
 const page = defineBlock({
   label: 'Page',
@@ -199,7 +203,7 @@ pnpm run dev
 
 Visit:
 
-* **CMS admin**: `http://localhost:3000/admin`
-* **Frontend page**: `http://localhost:3000/my-first-page`
+- **CMS admin**: `http://localhost:3000/studio`
+- **Frontend page**: `http://localhost:3000/my-first-page`
 
 Create a new page in the CMS, set its slug field to `my-first-page`, and the frontend will render it automatically.

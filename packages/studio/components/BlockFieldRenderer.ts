@@ -1,5 +1,5 @@
 import { query } from '../queries/index.ts'
-import type { BlocksFieldDefStructure } from '../types.ts'
+import type { BlocksFieldDef, BlocksFieldDefStructure } from '../types.ts'
 import { BlockInstance } from '../utils/define.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { html } from '../utils/html.ts'
@@ -7,8 +7,8 @@ import * as icons from './icons.ts'
 import Render from './Render.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   name: string
   structure: BlocksFieldDefStructure
   id?: number
@@ -26,13 +26,13 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const entries = Object.entries(structure.children)
+  const entries = Object.entries(structure.blocks)
 
   const rows = query.blocks({ parent_id: data.id })
 
   return html`
     <div class="blocks-field">
-      <header>
+      <header data-on:click="console.log('hehehe')">
         <p>${structure.label}</p>
 
         <details class="dropdown">
@@ -42,7 +42,13 @@ export default (props: {
               return html`
                 <li>
                   <form
-                    data-on-submit="@post('/admin/api/new-block', { contentType: 'form' })"
+                    data-on:submit="@post('/studio/api/block', {
+                      contentType: 'form',
+                      headers: {
+                        render: 'Entry LivePreview',
+                        props: '${JSON.stringify({ entryId: entryId })}'
+                      }
+                    })"
                   >
                     <button type="submit" class="ghost">${block.label}</button>
                     <input type="hidden" name="type" value="${block.type}" />
@@ -63,31 +69,45 @@ export default (props: {
         </details>
       </header>
 
-      <hr style="margin-top: 0;" />
-
       <sortable-list data-id="${data.id}">
-        ${rows.map((row, idx) => {
+        ${rows.map((row) => {
           const [name, struct] =
             entries.find(([name]) => name === row.name) || []
 
           if (!name || !struct) return html`<p>No name</p>`
 
           return html`
-          <article data-id="${row.id}">
+            <article data-id="${row.id}" data-signals="{ 'expanded-${row.id}': true }">
               <header>
                 ${struct.label}
 
                 <aside>
+                  <!-- <label style="margin: 0; border-bottom: none" data-tooltip="Disable" data-placement="top">
+                    <input name="enable" type="checkbox" role="switch" checked />
+                  </label> -->
+
+                  <button data-on:click="$expanded-${row.id} = !$expanded-${row.id}" class="ghost handle text-secondary" data-tooltip="Collapse" data-placement="top">
+                    ${icons.minus}
+                  </button>
+
                   <button
                     data-handle-for="${data.id}"
                     class="ghost handle text-secondary"
                     style="cursor: grab"
+                    data-tooltip="Reorder"
+                    data-placement="top"
                   >
                     ${icons.bars}
                   </button>
 
                   <form
-                    data-on-submit="@delete('/admin/api/block', { contentType: 'form' })"
+                    data-on:submit="@delete('/studio/api/block', {
+                      contentType: 'form',
+                      headers: {
+                        render: 'Entry LivePreview',
+                        props: '${JSON.stringify({ entryId: entryId })}'
+                      }
+                    })"
                   >
                     <button
                       type="submit"
@@ -98,20 +118,22 @@ export default (props: {
                     >
                       ${icons.x}
                     </button>
+                    
                     <input type="hidden" name="id" value="${row.id}" />
-                    <input type="hidden" name="entry_id" value="${entryId}" />
                   </form>
                 </aside>
               </header>
 
-              ${Render({
-                entryId,
-                parentId:
-                  struct.instanceOf === BlockInstance ? row.id : data.id,
-                id: row.id,
-                structure: struct,
-                name: name,
-              })}
+              <div data-show="$expanded-${row.id}">
+                ${Render({
+                  entryId,
+                  parentId:
+                    struct.instanceOf === BlockInstance ? row.id : data.id,
+                  id: row.id,
+                  structure: struct,
+                  name: name,
+                })}
+              </div>
             </article>
           `
         })}

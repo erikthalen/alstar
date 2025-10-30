@@ -9,13 +9,19 @@ class MarkdownEditor extends HTMLElement {
     this.instance = ink(this, {
       hooks: {
         afterUpdate: async (e) => {
-          await fetch('/admin/api/value', {
+          await fetch('/studio/api/value', {
             method: 'PATCH',
+            headers: {
+              render: 'LivePreview',
+              props: this.dataset.entryId
+            },
             body: JSON.stringify({
               value: e,
               id: this.dataset.id,
             }),
           })
+
+          window.dispatchEvent(new CustomEvent('markdown-editor:update'))
         },
       },
       interface: {

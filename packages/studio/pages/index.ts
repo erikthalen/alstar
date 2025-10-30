@@ -29,5 +29,5 @@ export default defineEntry(() => {
       </article>
     </div>`
 
-  return SiteLayout({ content: !Object.values(studioStructure).length ? Discamer : '' })
+  return SiteLayout(!Object.values(studioStructure).length ? Discamer : '')
 })

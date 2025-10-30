@@ -3,32 +3,29 @@ import { html } from 'hono/html'
 import { type HtmlEscapedString } from 'hono/utils/html'
 import { studioConfig } from '../index.ts'
 
-export default (props: {
+export default (
   content:
     | string
     | Promise<string>
     | HtmlEscapedString
-    | Promise<HtmlEscapedString>
-}) => {
+    | Promise<HtmlEscapedString>,
+  includeAdminPanel = true,
+) => {
+  const title = studioConfig.siteName ? studioConfig.siteName + ' | ' : ''
+
   return html`
     <!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>
-          ${studioConfig.siteName ? studioConfig.siteName + ' | ' : ''}Alstar
-          Studio
-        </title>
+        <title>${title}Alstar Studio</title>
 
         <link rel="icon" type="image/svg" href="/studio/favicon.svg" />
 
         <meta name="color-scheme" content="light dark" />
 
-        <script
-          type="module"
-          src="https://cdn.jsdelivr.net/gh/starfederation/datastar@main/bundles/datastar.js"
-        ></script>
+        <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js"></script>
 
         <script type="importmap">
           {
@@ -45,11 +42,13 @@ export default (props: {
       </head>
 
       <body data-barba="wrapper">
-        <section style="margin-bottom: 0;">${adminPanel()}</section>
+        ${includeAdminPanel
+          ? html`<section style="margin-bottom: 0;">${adminPanel()}</section>`
+          : html`<div></div>`}
 
         <main>
           <section data-barba="container" data-barba-namespace="default">
-            ${props.content}
+            ${content}
           </section>
         </main>
       </body>

@@ -3,7 +3,7 @@ import { query } from '../queries/index.ts'
 import { studioStructure } from '../index.ts'
 import Render from './Render.ts'
 
-export default (props: { entryId: number }) => {
+export default (props: { entryId: number | string }) => {
   const data = query.block({ id: props.entryId?.toString() })
 
   if (!data) return html`<p>No entry with id: "${props.entryId}"</p>`
@@ -14,12 +14,18 @@ export default (props: { entryId: number }) => {
 
   return html`
     <div id="entry" class="entry">
-      ${Render({
-        entryId: props.entryId,
-        parentId: props.entryId,
-        structure: structure,
-        name: data.name,
-      })}
+      <header>
+        <h1>Entry content</h1>
+      </header>
+
+      <div class="content">
+        ${Render({
+          entryId: props.entryId,
+          parentId: props.entryId,
+          structure: structure,
+          name: data.name,
+        })}
+      </div>
     </div>
     
   `

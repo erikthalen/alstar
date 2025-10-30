@@ -1,12 +1,12 @@
 import { html } from 'hono/html'
-import type { BlockDef } from '../types.ts'
+import type { BlockDefStructure } from '../types.ts'
 import Render from './Render.ts'
 
 export default (props: {
-  entryId: number
-  parentId: number
+  entryId: number | string
+  parentId: number | string
   id?: number
-  structure: BlockDef
+  structure: BlockDefStructure
 }) => {
   const { entryId, parentId, structure } = props
 

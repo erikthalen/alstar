@@ -17,7 +17,7 @@ export default () => {
 
         <ol>
           <li>Get started by editing <code>pages/index.ts</code></li>
-          <li>Go to <a href="/admin">/admin</a> to add content</li>
+          <li>Go to <a href="/studio">/studio</a> to add content</li>
         </ol>
       </div>
     </section>

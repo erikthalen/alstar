@@ -5,9 +5,6 @@
     "dev": "pnpx tsx --watch index.ts",
     "start": "pnpx tsx index.ts"
   },
-  "devDependencies": {
-    "@types/node": "^24.1.0"
-  },
   "dependencies": {
     "@alstar/studio": "latest"
   }

@@ -1,24 +1,20 @@
 #settings {
-  ul {
-    padding: 0;
-  }
+  padding: 1rem;
+  overflow: auto;
+  height: 100vh;
 
-  li {
-    width: 100%;
-    display: grid;
-    align-items: center;
-    grid-template-columns: 15% 1fr auto;
-    gap: 1rem;
-    border-bottom: 1px solid var(--pico-form-element-border-color);
-    margin-bottom: 0;
-    padding: 1rem 0;
-
+  tr {
     input {
+      width: 100%;
       font-family: var(--pico-font-family-monospace);
     }
 
     * {
-      margin-bottom: 0;
+      margin: 0;
     }
   }
+}
+
+.login-form {
+  width: 100%;
 }
