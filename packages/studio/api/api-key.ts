@@ -1,5 +1,4 @@
 import { type HttpBindings } from '@hono/node-server'
-import { ServerSentEventGenerator } from '@starfederation/datastar-sdk'
 import { Hono } from 'hono'
 import { streamSSE } from 'hono/streaming'
 import { db } from '@alstar/db'
@@ -47,11 +46,13 @@ app.delete('/api-key', async (c) => {
     if (!value) return
 
     db.database
-      .prepare(sql`
+      .prepare(
+        sql`
         delete from api_keys
         where
           value = ?
-      `)
+      `
+      )
       .run(value)
 
     await renderSSE(stream, c)
