@@ -22,7 +22,7 @@ export const renderSSE = async (stream: SSEStreamingApi, c: Context) => {
 
       await stream.writeSSE({
         event: 'datastar-patch-elements',
-        data: component.split('\n').map((line: string) => `elements ${line}\n`).join(''),
+        data: 'mode replace\n' + component.split('\n').map((line: string) => `elements ${line}\n`).join(''),
       })
 
     } catch (error) {

@@ -4,9 +4,9 @@
   height: 100vh;
 
   tr {
-    input {
+    quiet-text-field {
       width: 100%;
-      font-family: var(--pico-font-family-monospace);
+      font-family: monospace;
     }
 
     * {

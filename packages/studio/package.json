@@ -1,6 +1,6 @@
 {
   "name": "@alstar/studio",
-  "version": "0.0.0-beta.18",
+  "version": "0.0.0-beta.19",
   "type": "module",
   "main": "index.ts",
   "bin": {
@@ -14,29 +14,15 @@
   },
   "dependencies": {
     "@alstar/db": "workspace:*",
-    "@alstar/ui": "workspace:*",
     "@hono/node-server": "1.18.1",
-    "@starfederation/datastar-sdk": "1.0.0-RC.1",
     "hono": "4.8.12"
   },
   "devDependencies": {
-    "@types/node": "^24.1.0",
-    "prettier": "^3.6.2",
-    "prettier-plugin-embed": "^0.5.0",
-    "prettier-plugin-sql": "^0.19.2"
+    "@types/node": "^24.1.0"
   },
   "prettier": {
     "semi": false,
-    "singleQuote": true,
-    "plugins": [
-      "prettier-plugin-embed",
-      "prettier-plugin-sql"
-    ],
-    "embeddedSqlTags": [
-      "sql"
-    ],
-    "language": "sqlite",
-    "keywordCase": "lower"
+    "singleQuote": true
   },
   "publishConfig": {
     "access": "public"

@@ -10,29 +10,21 @@
   min-height: inherit;
   min-width: 250px;
 
-  border-right: 1px solid var(--pico-muted-border-color);
-
-  /* .toggle-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0.5rem;
-    padding: 0.2rem;
-  } */
+  border-right: 1px solid var(--quiet-neutral-stroke-soft);
 
   header {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding-bottom: 1rem;
-    
+
     .title {
       margin: 0;
-  
+
       a {
         display: flex;
       }
-  
+
       svg {
         height: 1.6rem;
         width: auto;
@@ -40,14 +32,7 @@
     }
   }
 
-
   form {
-    padding-bottom: 1rem;
-
-    button {
-      margin: 10px 0px 20px;
-    }
-
     p {
       margin: 0;
 
@@ -65,41 +50,24 @@
     user-select: none;
 
     ul {
-      padding: 0;
       margin-inline: -1rem;
 
       form {
         display: flex;
-        padding-bottom: 0;
-
-        button {
-          margin: 0;
-        }
+        padding-right: 0.5rem;
+        align-items: center;
       }
 
       > li {
-        margin-bottom: 0px;
         border-radius: 8px;
         display: flex;
         justify-content: space-between;
         align-items: stretch;
-        list-style: none;
-        padding: 0;
 
         a {
           text-decoration: none;
           width: 100%;
           padding: 0.5rem 1rem;
-        }
-
-        button {
-          border-radius: 7px;
-          opacity: 0;
-          transition: opacity 100px;
-
-          svg {
-            margin: 0.5rem 1rem;
-          }
         }
       }
     }
@@ -107,15 +75,24 @@
 
   > footer {
     margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 
 #entries ul {
-  > li:hover {
-    background-color: var(--pico-form-element-background-color);
-
-    button {
-      opacity: 1;
+  > li:not(:hover) {
+    form {
+      opacity: 0;
     }
+  }
+
+  > li:hover {
+    background-color: color-mix(
+      in oklab,
+      transparent,
+      var(--quiet-text-body) 5%
+    );
   }
 }

@@ -14,8 +14,16 @@ export default defineEntry((c) => {
 
   return SiteLayout(
     html`<div class="entry-page">
-      ${Entry({ entryId: id })}
-      ${LivePreview({ entryId: id })}</div>
-    `
+      <quiet-splitter>
+        <div slot="start">${Entry({ entryId: id })}</div>
+        <div slot="end">${LivePreview({ entryId: id })}</div>
+      </quiet-splitter>
+
+      <script type="module">
+        window.addEventListener('quiet-resize', e => {
+          console.log(e)
+        })
+      </script>
+    </div> `
   )
 })

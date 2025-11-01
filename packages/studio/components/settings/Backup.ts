@@ -1,43 +1,55 @@
 import fsp from 'node:fs/promises'
+import path from 'node:path'
 import { html } from 'hono/html'
-import * as icons from '../icons.ts'
 
 export default async () => {
-  let backups: string[] = []
+  let backups: string[] = await fsp.readdir('./backups').catch(() => [])
 
-  try {
-    const backupDir = './backups'
-    backups = await fsp.readdir(backupDir)
-  } catch (error) {}
+  async function getFilesize(filename: string) {
+    try {
+      const stats = await fsp.stat(path.join('./backups', filename))
+      return stats.size
+    } catch (error) {
+      console.log(error)
+      return ''
+    }
+  }
 
   return html`
     <article data-signals="{ status: null, message: '' }">
-      <header>Backup</header>
-
       <table class="striped">
         <thead>
           <tr>
             <th scope="col">File</th>
+            <th scope="col">Filesize</th>
             <th scope="col">Download</th>
             <th scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
           ${backups.map(
-            (filename) => html`
+            async (filename) => html`
               <tr>
-                <th scope="row">${filename}</th>
+                <th scope="row"><code>${filename}</code></th>
+
+                <th scope="row">
+                  <code>
+                    <quiet-bytes
+                      value="${await getFilesize(filename)}"
+                    ></quiet-bytes>
+                  </code>
+                </th>
+
                 <th>
-                  <a
+                  <quiet-button
                     href="/studio/backups/${filename}"
-                    role="button"
+                    icon-label="Download"
+                    appearance="text"
                     target="_blank"
                     download
-                    class="ghost square"
-                    aria-label="Download backup"
                   >
-                    ${icons.download}
-                  </a>
+                    <quiet-icon name="download"></quiet-icon>
+                  </quiet-button>
                 </th>
                 <th>
                   <form
@@ -49,11 +61,14 @@ export default async () => {
                     })"
                   >
                     <input type="hidden" name="filename" value="${filename}" />
-                    <button class="ghost square">${icons.trash}</button>
+
+                    <quiet-button icon-label="Delete" variant="destructive">
+                      <quiet-icon name="trash"></quiet-icon>
+                    </quiet-button>
                   </form>
                 </th>
               </tr>
-          `,
+            `
           )}
         </tbody>
       </table>
@@ -66,21 +81,37 @@ export default async () => {
           }
         })"
       >
-        <button type="submit">Backup database</button>
+        <quiet-button type="submit">
+          <quiet-icon slot="start" name="database-export"></quiet-icon>
+          Backup database
+        </quiet-button>
       </form>
 
-      <hr />
+      <quiet-divider></quiet-divider>
 
-      <form
-        data-on:submit="@post('/studio/api/backup', { contentType: 'form' })"
-      >
-        <input type="file" name="file" />
-        <button type="submit" class="ghost">Restore database</button>
-        <!-- <p
-          data-style-color="$status === 200 ? 'green' : 'red'"
-          data-text="$message || '&nbsp;'"
-        ></p> -->
-      </form>
+      <quiet-spoiler effect="noise">
+        <span slot="label">
+          <quiet-icon name="crane"></quiet-icon>
+          WIP
+        </span>
+
+        <form
+          data-on:submit="@post('/studio/api/backup', { contentType: 'form' })"
+        >
+          <quiet-file-input
+            name="file"
+            label="Select a file"
+            description="Files must be 20MB or less"
+          ></quiet-file-input>
+
+          <br />
+
+          <quiet-button type="submit">
+            <quiet-icon slot="start" name="database-import"></quiet-icon>
+            Restore database
+          </quiet-button>
+        </form>
+      </quiet-spoiler>
     </article>
-`
+  `
 }

@@ -1,6 +1,6 @@
-import { html } from "hono/html"
-import { query } from "../queries/index.ts"
-import { studioConfig, studioStructure } from "../index.ts"
+import { html } from 'hono/html'
+import { query } from '../queries/index.ts'
+import { studioConfig, studioStructure } from '../index.ts'
 
 export default (props: { entryId: number | string }) => {
   const data = query.root({ id: props.entryId })
@@ -28,10 +28,18 @@ export default (props: { entryId: number | string }) => {
 
   if (!slug) return html``
 
-  return html`<live-preview id="live_preview" class="live-preview" data-rendered-at="${Date.now()}">
+  return html`<live-preview
+    id="live_preview"
+    class="live-preview"
+    data-rendered-at="${Date.now()}"
+  >
     <header>
       <h1>Live preview</h1>
     </header>
-    <iframe src="http://localhost:${studioConfig.port}/${slug === '/' ? '' : slug}"></iframe>
+    <quiet-zoomable-frame
+      src="http://localhost:${studioConfig.port}/${slug === '/' ? '' : slug}"
+      zoom="1"
+    >
+    </quiet-zoomable-frame>
   </live-preview>`
 }

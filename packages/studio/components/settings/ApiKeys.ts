@@ -5,19 +5,19 @@ import { sql } from '../../utils/sql.ts'
 
 export default () => {
   const apiKeys = db.database
-    .prepare(sql`
+    .prepare(
+      sql`
       select
         *
       from
         api_keys
-    `)
+    `
+    )
     .all()
 
   return html`
-  <article data-signals="{ apiKey: '', copied: false }">
-      <header>API Keys</header>
-
-      <table class="striped">
+    <article data-signals="{ apiKey: '', copied: false }">
+      <table>
         <thead>
           <tr>
             <th scope="col">Name</th>
@@ -26,57 +26,90 @@ export default () => {
           </tr>
         </thead>
         <tbody>
-          ${apiKeys.map((apiKey) => {
-            return html`
-              <tr>
-                <th scope="row">${apiKey.name}</th>
-                <td><input type="text" disabled value="${apiKey.hint}" /></td>
-                <td>
-                  <form
-                    data-on:submit="@delete('/studio/api/api-key', {
-                      contentType: 'form',
-                      headers: {
-                        render: 'Settings'
-                      }
-                    })"
+          ${apiKeys.map((apiKey, idx) => {
+            return html` <tr>
+              <th scope="row">${apiKey.name}</th>
+              <td>
+                <quiet-text-field
+                  disabled
+                  value="${apiKey.hint}"
+                ></quiet-text-field>
+              </td>
+              <td>
+                <form
+                  data-on:submit="@delete('/studio/api/api-key', {
+                    contentType: 'form',
+                    headers: {
+                      render: 'Settings'
+                    }
+                  })"
+                >
+                  <quiet-button
+                    id="api_key_delete_${idx}"
+                    type="submit"
+                    icon-label="Delete"
+                    variant="destructive"
                   >
-                    <button
-                      data-tooltip="Delete API key"
-                      data-placement="left"
-                      type="submit"
-                      class="ghost"
-                    >
-                      ${icons.trash}
-                    </button>
+                    <quiet-icon name="trash"></quiet-icon>
+                  </quiet-button>
 
-                    <input type="hidden" name="value" value="${apiKey.value}" />
-                  </form>
-                </td>
-              </tr>`
+                  <quiet-tooltip for="api_key_delete_${idx}">
+                    Delete API key
+                  </quiet-tooltip>
+
+                  <input type="hidden" name="value" value="${apiKey.value}" />
+                </form>
+              </td>
+            </tr>`
           })}
         </tbody>
       </table>
 
-      <form
-        data-on:submit="@post('/studio/api/api-key', {
-          contentType: 'form',
-          headers: {
-            render: 'Settings'
-          }
-        })"
-      >
-        <label for="api_key_name"><small>Generate API Key</small></label>
+      <quiet-divider>
+        <span slot="symbol" style="font-size: .875rem;">New</span>
+      </quiet-divider>
 
-        <input
-          data-bind="name"
-          type="text"
-          name="name"
-          id="api_key_name"
-          placeholder="Name"
-        />
+      <quiet-card style="max-width: 340px;">
 
-        <button type="submit" class="ghost">Generate key</button>
-      </form>
+        <form
+          data-on:submit="@post('/studio/api/api-key', {
+            contentType: 'form',
+            headers: {
+              render: 'Settings'
+            }
+          })"
+        >
+          <!-- data-bind="name" -->
+          <quiet-text-field
+            name="name"
+            label="Generate API Key"
+            placeholder="Name"
+          >
+            <span slot="description"> Enter a name for the API key. </span>
+          </quiet-text-field>
+  
+          <br />
+  
+          <quiet-button style="width: 100%" type="submit" variant="primary">
+            Generate key
+          </quiet-button>
+        </form>
+      </quiet-card>
+
+      <quiet-dialog id="dialog__overview">
+        <h3 slot="header" style="font-size: 1.25rem; margin-block: 0;">
+          Dialog
+        </h3>
+
+        <p>
+          Curious cats explore every corner of their domain, gracefully leaping
+          from windowsills to countertops, always seeking new adventures.
+        </p>
+
+        <quiet-button slot="footer" data-dialog="close" variant="primary">
+          Close
+        </quiet-button>
+      </quiet-dialog>
 
       <dialog data-attr="{ open: $apiKey !== '' }">
         <article>

@@ -1,18 +1,16 @@
-.entry{
+.entry {
   height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
 
   > header {
-    background-color: var(--pico-background-color);
-    border-bottom: 1px solid var(--pico-muted-border-color);
+    border-bottom: 1px solid var(--quiet-neutral-stroke-soft);
     padding: 1rem;
 
     h1 {
-      font-size: 1rem;
-      font-weight: normal;
+      font-size: 0.75rem;
+      text-transform: uppercase;
       margin: 0;
-      font-family: var(--pico-font-family-monospace);
     }
   }
 
@@ -21,8 +19,6 @@
   }
 
   > .fields > .block {
-    padding: var(--pico-spacing);
-  
     > header {
       margin-block: var(--pico-block-spacing-vertical);
     }

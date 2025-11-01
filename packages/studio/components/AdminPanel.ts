@@ -10,13 +10,11 @@ export default () => {
 
   return html`
     <div class="admin-panel" id="admin_panel">
-      <!-- <button class="ghost toggle-button">
-        {icons.bars}
-      </button> -->
-
       <header>
         <h1 class="title">
-          <a href="/studio" aria-label="Go to dashboard"> ${studioConfig.admin?.logo ?? logo} </a>
+          <a href="/studio" aria-label="Go to dashboard">
+            ${studioConfig.admin?.logo ?? logo}
+          </a>
         </h1>
       </header>
 
@@ -26,7 +24,7 @@ export default () => {
             const data = getOrCreateRow({ parentId: null, name, field: block })
 
             return html`
-            <section id="entries">
+              <section id="entries">
                 <ul>
                   <li>
                     <a
@@ -42,7 +40,7 @@ export default () => {
           }
 
           return html`
-          <form
+            <form
               data-on:submit="@post('/studio/api/block', {
                 contentType: 'form',
                 headers: {
@@ -51,20 +49,23 @@ export default () => {
               })"
               style="display: flex; align-items: center; gap: 1rem;"
             >
-              <input type="hidden" name="return" value="AdminPanel" />
-
               <input type="hidden" name="name" value="${name}" />
               <input type="hidden" name="label" value="${block.label}" />
               <input type="hidden" name="type" value="${block.type}" />
 
-              <button
-                class="ghost"
-                style="padding: 10px; margin: 0 -13px; display: flex;"
-                data-tooltip="New ${block.label}"
-                data-placement="right"
+              <quiet-button
+                type="submit"
+                size="sm"
+                id="admin_panel_new_${name}"
+                icon-label="New ${name}"
+                appearance="text"
               >
-                ${icons.newDocument}
-              </button>
+                <quiet-icon name="file-plus"></quiet-icon>
+              </quiet-button>
+
+              <quiet-tooltip for="admin_panel_new_${name}">
+                Create new ${name}
+              </quiet-tooltip>
 
               <p style="user-select: none;"><small>${block.label}</small></p>
             </form>
@@ -75,30 +76,30 @@ export default () => {
       </aside>
 
       <footer>
-        <a
-          role="button"
+        <quiet-button
           href="/studio/settings"
-          class="ghost"
-          style="padding: 10px; margin: 0 -13px; display: flex;"
-          data-tooltip="Settings"
-          data-placement="right"
-          aria-label="Settings"
+          id="settings_link"
+          icon-label="Settings"
+          appearance="text"
         >
-          ${icons.cog}
-        </a>
+          <quiet-icon name="settings"></quiet-icon>
+        </quiet-button>
 
-        <a
+        <quiet-tooltip for="settings_link"> Settings </quiet-tooltip>
+
+        <quiet-button
           data-barba-prevent
-          role="button"
           href="/"
-          class="ghost"
-          style="padding: 10px; margin: 0 -13px; display: flex;"
-          data-tooltip="Leave Studio"
-          data-placement="right"
-          aria-label="Leave"
+          id="leave_studio_link"
+          icon-label="Leave Studio"
+          appearance="text"
         >
-          ${icons.leave}
-        </a>
+          <quiet-icon name="logout-2"></quiet-icon>
+        </quiet-button>
+
+        <quiet-tooltip for="leave_studio_link">
+          Leave the studio
+        </quiet-tooltip>
       </footer>
     </div>
   `

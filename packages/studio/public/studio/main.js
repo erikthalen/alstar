@@ -4,20 +4,33 @@ import './js/markdown-editor.js'
 import './js/sortable-list.js'
 import './js/live-preview.js'
 
+let abortController = new AbortController()
+
 barba.init({
   debug: true,
   cacheIgnore: true,
   views: [{ namespace: 'default' }],
 })
 
-// client side script
-// const eventSource = new EventSource('http://localhost:5432')
-// eventSource.onmessage = ({ data }) => {
-//   const delay = data.split(' - ').at(-1) === 'true'
-//   setTimeout(() => window.location.reload(), delay ? 0 : 1000)
-// }
+barba.hooks.after(hydrateQuietLinks)
 
-// console.log(
-//   '%c REFRESHER ACTIVE ',
-//   'color: green; background: lightgreen; border-radius: 2px'
-// )
+hydrateQuietLinks()
+
+function hydrateQuietLinks() {
+  abortController.abort()
+  abortController = new AbortController()
+
+  document.querySelectorAll('quiet-button').forEach((link) => {
+    if (!link.href || link.getAttribute('data-barba-prevent') !== null) return
+
+    link.addEventListener(
+      'click',
+      (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        barba.go(link.href)
+      },
+      { signal: abortController.signal }
+    )
+  })
+}

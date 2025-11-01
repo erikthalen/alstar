@@ -29,21 +29,25 @@ export default ({ name }: { name: string }) => {
                 })"
               >
                 <input type="hidden" name="id" value="${block.id}" />
-                <button
-                  data-tooltip="Remove"
-                  data-placement="right"
-                  class="ghost text-secondary"
-                  style="padding: 0"
+
+                <quiet-button
+                  size="xs"
                   type="submit"
+                  id="remove_${block.id}"
+                  icon-label="Remove ${title?.value || 'Untitled'}"
+                  appearance="text"
                 >
-                  ${icons.trash}
-                </button>
+                  <quiet-icon name="trash"></quiet-icon>
+                </quiet-button>
+
+                <quiet-tooltip for="remove_${block.id}">
+                  Remove ${title?.value || 'Untitled'}
+                </quiet-tooltip>
               </form>
             </li>
           `
         })}
       </ul>
     </section>
-
   `
 }

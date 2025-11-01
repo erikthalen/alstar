@@ -8,8 +8,8 @@
     position: sticky;
     top: 0;
     z-index: 3;
-    background: var(--pico-background-color);
-    border-bottom: 1px solid var(--pico-muted-border-color);
+    background: var(--quiet-background-color);
+    border-bottom: 1px solid var(--quiet-neutral-stroke-soft);
 
     padding: 1rem;
 
@@ -46,7 +46,7 @@
   > header:after {
     content: '';
     position: absolute;
-    background-color: var(--pico-background-color);
+    background-color: var(--quiet-background-color);
     height: 100%;
     width: 200%;
     left: -50%;
@@ -54,25 +54,28 @@
   }
 
   article {
+    background-color: var(--quiet-background-color);
+    padding-top: 0.5rem;
+    border-bottom: 1px solid var(--quiet-neutral-stroke-soft);
+
     > header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      padding-inline: 1rem;
+      padding-bottom: 0.5rem;
 
       aside {
         display: flex;
         align-items: center;
         gap: 5px;
       }
+    }
 
-      button {
-        margin: 0;
-        padding: 0;
-
-        svg {
-          padding: 5px;
-        }
-      }
+    > .blocks-field-content {
+      border-top: 1px dotted var(--quiet-neutral-stroke-softer);
+      padding-bottom: 2rem;
     }
   }
 }
