@@ -4,19 +4,19 @@ import { sql } from '../../utils/sql.ts'
 
 export default () => {
   const users = db.database
-    .prepare(sql`
+    .prepare(
+      sql`
       select
         email
       from
         users
-    `)
+    `
+    )
     .all()
 
   return html`
     <article>
-      <header>Users</header>
-      
-      <table class="striped">
+      <table>
         <thead>
           <tr>
             <th scope="col">Email</th>
@@ -28,36 +28,41 @@ export default () => {
               <tr>
                 <th scope="row">${user.email}</th>
               </tr>
-          `,
+            `
           )}
         </tbody>
       </table>
 
-      <hr>
+      <hr />
 
-      <article>
-        <header>Register user</header>
-        <form
-          data-on:submit="@post('/studio/api/auth/register', { contentType: 'form' })"
-        >
-          <label for="register_email"><small>Email</small></label>
-          <input
-            id="register_email"
+      <form
+        data-on:submit="@post('/studio/api/auth/register', { contentType: 'form' })"
+      >
+        <quiet-card style="max-width: 340px;">
+          <h3>Register user</h3>
+
+          <br />
+
+          <quiet-text-field
             name="email"
-            type="email"
-            placeholder="Email"
-          />
-          <label for="register_password"><small>Password</small></label>
-          <input
-            id="register_password"
+            label="Email"
+            with-clear
+          ></quiet-text-field>
+
+          <br />
+
+          <quiet-text-field
             name="password"
             type="password"
-            placeholder="Password"
-          />
+            label="Password"
+            with-clear
+          ></quiet-text-field>
+
           <br />
-          <button type="submit" class="ghost">Create</button>
-        </form>
-      </article>
+
+          <quiet-button type="submit" variant="primary"> Create </quiet-button>
+        </quiet-card>
+      </form>
     </article>
   `
 }

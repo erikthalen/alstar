@@ -9,13 +9,13 @@ export default (
     | Promise<string>
     | HtmlEscapedString
     | Promise<HtmlEscapedString>,
-  includeAdminPanel = true,
+  includeAdminPanel = true
 ) => {
   const title = studioConfig.siteName ? studioConfig.siteName + ' | ' : ''
 
   return html`
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="en" class="quiet-cloak quiet-dark quiet-zinc">
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,7 +25,26 @@ export default (
 
         <meta name="color-scheme" content="light dark" />
 
-        <script type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js"></script>
+        <script
+          type="module"
+          src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js"
+        ></script>
+
+        <!-- Quiet theme + autoloader -->
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.6.1/dist/themes/quiet.css"
+        />
+        <script
+          type="module"
+          src="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.6.1/dist/quiet.loader.js"
+        ></script>
+
+        <!-- Optional CSS reset -->
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.6.1/dist/themes/restyle.css"
+        />
 
         <script type="importmap">
           {

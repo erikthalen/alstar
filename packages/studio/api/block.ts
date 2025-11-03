@@ -1,12 +1,9 @@
 import { type HttpBindings } from '@hono/node-server'
-import { ServerSentEventGenerator } from '@starfederation/datastar-sdk'
 import { Hono } from 'hono'
 import { streamSSE } from 'hono/streaming'
 import { sql } from '../utils/sql.ts'
 import { db } from '@alstar/db'
-import {
-  deleteBlockWithChildren,
-} from '../queries/block-with-children.ts'
+import { deleteBlockWithChildren } from '../queries/block-with-children.ts'
 import { query } from '../queries/index.ts'
 import { renderSSE } from '../utils/renderSSE.ts'
 
@@ -24,7 +21,7 @@ app.post('/block', async (c) => {
         label: data.label?.toString(),
         parent_id: data.parent_id?.toString(),
         sort_order: data.sort_order?.toString(),
-      }),
+      })
     )
 
     db.insertInto('blocks', definedData)

@@ -36,22 +36,32 @@ export default (props: {
         }
       })"
     >
-      <hgroup>
-        <label for="block-${data.id}">${structure.label}</label>
-        ${structure.description ?
-          html`
-            <p><small>${structure.description}</small></p>
-          ` : null}
-      </hgroup>
-
-      ${structure.presentation === 'svg' ? html`<output>${raw(data.value)}</output>`: ''}
-
-      <input
-        id="block-${data.id}"
-        name="value"
-        type="text"
-        value="${data.value}"
-      />
+      ${structure.presentation === 'svg'
+        ? html`<quiet-text-area
+            class="text-wrap-pre"
+            label="${structure.label}"
+            value="${data.value}"
+            resize="auto"
+            rows="4"
+          >
+            ${structure.description
+              ? html`<span slot="description">
+                  <small>${structure.description}</small>
+                </span>`
+              : ''}</quiet-text-area
+          >`
+        : html`<quiet-text-field
+            id="block-${data.id}"
+            name="value"
+            label="${structure.label}"
+            value="${data.value}"
+          >
+            ${structure.description
+              ? html`<span slot="description">
+                  <small>${structure.description}</small>
+                </span>`
+              : ''}
+          </quiet-text-field>`}
 
       <input type="hidden" name="type" value="${structure.type}" />
       <input type="hidden" name="id" value="${data.id}" />
@@ -59,5 +69,5 @@ export default (props: {
       <input type="hidden" name="parentId" value="${parentId}" />
       <input type="hidden" name="name" value="${name}" />
     </form>
-`
+  `
 }

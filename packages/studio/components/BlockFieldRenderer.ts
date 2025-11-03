@@ -35,38 +35,48 @@ export default (props: {
       <header data-on:click="console.log('hehehe')">
         <p>${structure.label}</p>
 
-        <details class="dropdown">
-          <summary>Add</summary>
-          <ul>
-            ${entries.map(([name, block]) => {
-              return html`
-                <li>
-                  <form
-                    data-on:submit="@post('/studio/api/block', {
-                      contentType: 'form',
-                      headers: {
-                        render: 'Entry LivePreview',
-                        props: '${JSON.stringify({ entryId: entryId })}'
-                      }
-                    })"
-                  >
-                    <button type="submit" class="ghost">${block.label}</button>
-                    <input type="hidden" name="type" value="${block.type}" />
-                    <input type="hidden" name="name" value="${name}" />
-                    <input type="hidden" name="label" value="${block.label}" />
-                    <input type="hidden" name="parent_id" value="${data.id}" />
-                    <input type="hidden" name="entry_id" value="${entryId}" />
-                    <input
-                      type="hidden"
-                      name="sort_order"
-                      value="${rows.length}"
-                    />
-                  </form>
-                </li>
-                `
-            })}
-          </ul>
-        </details>
+        <quiet-dropdown placement="bottom-end" id="dropdown__selected">
+          <quiet-button size="sm" slot="trigger" with-caret>Add</quiet-button>
+
+          ${entries.map(([name, block]) => {
+            return html`
+              <quiet-dropdown-item value="${name}">
+                <form
+                  data-on:submit="@post('/studio/api/block', {
+                    contentType: 'form',
+                    headers: {
+                      render: 'Entry LivePreview',
+                      props: '${JSON.stringify({ entryId: entryId })}'
+                    }
+                  })"
+                >
+                  <quiet-button size="sm" type="submit" appearance="text">
+                    ${block.label}
+                  </quiet-button>
+
+                  <input type="hidden" name="type" value="${block.type}" />
+                  <input type="hidden" name="name" value="${name}" />
+                  <input type="hidden" name="label" value="${block.label}" />
+                  <input type="hidden" name="parent_id" value="${data.id}" />
+                  <input type="hidden" name="entry_id" value="${entryId}" />
+                  <input
+                    type="hidden"
+                    name="sort_order"
+                    value="${rows.length}"
+                  />
+                </form>
+              </quiet-dropdown-item>
+            `
+          })}
+        </quiet-dropdown>
+
+        <!-- <script>
+          const dropdown = document.getElementById('dropdown__selected')
+
+          dropdown.addEventListener('quiet-select', (event) => {
+            console.log(event.detail.item.value)
+          })
+        </script> -->
       </header>
 
       <sortable-list data-id="${data.id}">
@@ -77,7 +87,10 @@ export default (props: {
           if (!name || !struct) return html`<p>No name</p>`
 
           return html`
-            <article data-id="${row.id}" data-signals="{ 'expanded-${row.id}': true }">
+            <article
+              data-id="${row.id}"
+              data-signals="{ 'expanded-${row.id}': true }"
+            >
               <header>
                 ${struct.label}
 
@@ -86,19 +99,35 @@ export default (props: {
                     <input name="enable" type="checkbox" role="switch" checked />
                   </label> -->
 
-                  <button data-on:click="$expanded-${row.id} = !$expanded-${row.id}" class="ghost handle text-secondary" data-tooltip="Collapse" data-placement="top">
-                    ${icons.minus}
-                  </button>
-
-                  <button
-                    data-handle-for="${data.id}"
-                    class="ghost handle text-secondary"
-                    style="cursor: grab"
-                    data-tooltip="Reorder"
-                    data-placement="top"
+                  <quiet-button
+                    data-on:click="$expanded-${row.id} = !$expanded-${row.id}"
+                    variant="neutral"
+                    toggle="off"
+                    icon-label="Expand"
+                    size="xs"
+                    id="tooltip-expand-${row.id}"
                   >
-                    ${icons.bars}
-                  </button>
+                    <quiet-icon name="layout-navbar-expand"></quiet-icon>
+                  </quiet-button>
+
+                  <quiet-tooltip for="tooltip-expand-${row.id}">
+                    Collapse
+                  </quiet-tooltip>
+
+                  <quiet-button
+                    data-handle-for="${data.id}"
+                    style="cursor: grab"
+                    variant="neutral"
+                    icon-label="Reorder"
+                    size="xs"
+                    id="tooltip-reorder-${row.id}"
+                  >
+                    <quiet-icon name="menu"></quiet-icon>
+                  </quiet-button>
+
+                  <quiet-tooltip for="tooltip-reorder-${row.id}">
+                    Reorder
+                  </quiet-tooltip>
 
                   <form
                     data-on:submit="@delete('/studio/api/block', {
@@ -109,22 +138,26 @@ export default (props: {
                       }
                     })"
                   >
-                    <button
+                    <quiet-button
                       type="submit"
-                      class="ghost text-secondary"
-                      data-tooltip="Remove"
-                      data-placement="top"
-                      aria-label="Delete block"
+                      variant="neutral"
+                      icon-label="Remove"
+                      size="xs"
+                      id="tooltip-remove-${row.id}"
                     >
-                      ${icons.x}
-                    </button>
-                    
+                      <quiet-icon name="x"></quiet-icon>
+                    </quiet-button>
+
+                    <quiet-tooltip for="tooltip-remove-${row.id}">
+                      Remove
+                    </quiet-tooltip>
+
                     <input type="hidden" name="id" value="${row.id}" />
                   </form>
                 </aside>
               </header>
 
-              <div data-show="$expanded-${row.id}">
+              <div class="blocks-field-content" data-show="$expanded-${row.id}">
                 ${Render({
                   entryId,
                   parentId:

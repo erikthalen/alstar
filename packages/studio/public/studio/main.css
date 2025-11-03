@@ -1,5 +1,3 @@
-@import 'https://esm.sh/@alstar/ui@0.0.0-beta.4/red.css';
-/* @import '../node_modules/@alstar/ui/red.css'; */
 @import './css/admin-panel.css';
 @import './css/blocks-field.css';
 @import './css/settings.css';
@@ -8,8 +6,20 @@
 @import './css/entry.css';
 @import './css/field.css';
 
+@font-face {
+  font-family: 'Inter';
+  src: local('Inter'), url('fonts/Inter_18pt-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: bold;
+  src: local('Inter'), url('fonts/Inter_18pt-Medium.woff2') format('woff2');
+}
+
 :root {
-  --pico-font-size: 80%;
+  --quiet-font-family: 'Inter';
+  --quiet-font-size: 14px;
 }
 
 body {
@@ -31,15 +41,11 @@ body {
   }
 }
 
-button svg, a svg {
+quiet-tooltip {
   pointer-events: none;
 }
 
 .block {
-  > header {
-    margin-bottom: var(--pico-spacing);
-  }
-
   header {
     display: flex;
     justify-content: space-between;
@@ -74,44 +80,17 @@ button svg, a svg {
   }
 }
 
-div.ink-mde {
-  border: var(--pico-border-width) solid #2a3140;
-  border-radius: var(--pico-border-radius);
-  outline: 0;
-  background-color: var(--pico-background-color);
-  box-shadow: var(--pico-box-shadow);
-  color: var(--pico-color);
-}
-
 .ͼ1 .cm-content.ink-mde-editor-content {
   min-height: 10lh;
 }
 
 div.ink-mde {
-  --pico-border-color: var(--pico-form-element-border-color);
-
-  border: var(--pico-border-width) solid var(--pico-border-color);
-  border-radius: var(--pico-border-radius);
-
-  padding: var(--pico-form-element-spacing-vertical)
-    var(--pico-form-element-spacing-horizontal);
-  margin-bottom: var(--pico-spacing);
-
-  --pico-background-color: var(--pico-form-element-background-color);
-
-  --pico-color: var(--pico-form-element-color);
-  --pico-box-shadow: none;
-
-  outline: 0;
-  background-color: var(--pico-background-color);
-  box-shadow: var(--pico-box-shadow);
-  color: var(--pico-color);
-  font-weight: var(--pico-font-weight);
-  transition:
-    background-color var(--pico-transition),
-    border-color var(--pico-transition),
-    color var(--pico-transition),
-    box-shadow var(--pico-transition);
+  padding: 0 0.75em;
+  border: var(--quiet-border-style) var(--quiet-border-width)
+    var(--quiet-neutral-stroke-soft);
+  border-radius: var(--quiet-border-radius-md);
+  background-color: var(--quiet-paper-color);
+  color: var(--quiet-text-body);
 }
 
 .ink-mde-textarea {
@@ -142,20 +121,14 @@ div.ink-mde:has(.cm-focused) {
   box-shadow: var(--pico-box-shadow);
   color: var(--pico-color);
   font-weight: var(--pico-font-weight);
-  transition:
-    background-color var(--pico-transition),
-    border-color var(--pico-transition),
-    color var(--pico-transition),
+  transition: background-color var(--pico-transition),
+    border-color var(--pico-transition), color var(--pico-transition),
     box-shadow var(--pico-transition);
 }
 
 .disclamer {
   display: flex;
   justify-content: center;
-}
-
-.text-secondary {
-  color: var(--pico-secondary);
 }
 
 .markdown {

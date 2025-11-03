@@ -49,6 +49,7 @@ export const { app, refreshClient } = await createStudio({
                 title: defineField({
                   label: 'Title',
                   type: 'text',
+                  description: 'Used for screen readers.'
                 }),
                 description: defineField({
                   label: 'Description',

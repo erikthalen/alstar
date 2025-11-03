@@ -1,4 +1,5 @@
-.entry-page:has(#live_preview) {
-  display: grid;
-  grid-template-columns: 500px 1fr;
+quiet-splitter {
+  > div {
+    height: 100%;
+  }
 }
