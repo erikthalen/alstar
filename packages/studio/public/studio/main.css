@@ -5,6 +5,7 @@
 @import './css/entry-page.css';
 @import './css/entry.css';
 @import './css/field.css';
+@import './css/setup.css';
 
 @font-face {
   font-family: 'Inter';
@@ -36,13 +37,33 @@ body {
     padding: 0;
 
     section {
+      height: 100%;
       margin: 0 auto;
     }
   }
 }
 
+.sr-only {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
 quiet-tooltip {
   pointer-events: none;
+}
+
+.background-pattern {
+  background-color: var(--quiet-background-color);
+  background-image: radial-gradient(
+    var(--quiet-neutral-700) 0.5px,
+    var(--quiet-background-color) 0.5px
+  );
+  background-size: 50px 50px;
+}
+
+.background-gradient {
+  background: radial-gradient(125% 125% at 50% 10%, var(--quiet-neutral-950) 40%, var(--quiet-neutral-900) 100%);
 }
 
 .block {

@@ -1,4 +1,4 @@
-import { html, raw, type HtmlEscapedString } from '@alstar/studio'
+import { html, raw, type HtmlEscapedString } from '@alstar/studio/html'
 import { refreshClient } from '../index.ts'
 
 export default (

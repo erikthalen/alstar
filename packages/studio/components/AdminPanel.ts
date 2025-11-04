@@ -1,7 +1,6 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { logo } from './icons.ts'
 import Entries from './Entries.ts'
-import * as icons from './icons.ts'
 import { studioConfig, studioStructure } from '../index.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 
@@ -76,6 +75,12 @@ export default () => {
       </aside>
 
       <footer>
+        <a id="profile_link" href="/studio/profile">
+          <quiet-avatar label="Avatar"></quiet-avatar>
+        </a>
+
+        <quiet-tooltip for="profile_link"> Profile </quiet-tooltip>
+
         <quiet-button
           href="/studio/settings"
           id="settings_link"

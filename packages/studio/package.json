@@ -3,6 +3,7 @@
   "version": "0.0.0-beta.19",
   "type": "module",
   "main": "index.ts",
+  "module": "index.js",
   "bin": {
     "alstar": "./bin/build-ssg.ts"
   },
@@ -15,10 +16,22 @@
   "dependencies": {
     "@alstar/db": "workspace:*",
     "@hono/node-server": "1.18.1",
+    "better-auth": "1.3.34",
     "hono": "4.8.12"
   },
   "devDependencies": {
     "@types/node": "^24.1.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.ts"
+    },
+    "./env": {
+      "import": "./helpers/env/index.ts"
+    },
+    "./html": {
+      "import": "./helpers/html/index.ts"
+    }
   },
   "prettier": {
     "semi": false,

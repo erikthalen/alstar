@@ -1,4 +1,5 @@
-#settings {
+settings-tabs {
+  display: block;
   padding: 1rem;
   overflow: auto;
   height: 100vh;

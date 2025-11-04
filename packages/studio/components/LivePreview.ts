@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { query } from '../queries/index.ts'
 import { studioConfig, studioStructure } from '../index.ts'
 
@@ -28,14 +28,11 @@ export default (props: { entryId: number | string }) => {
 
   if (!slug) return html``
 
-  return html`<live-preview
-    id="live_preview"
-    class="live-preview"
-    data-rendered-at="${Date.now()}"
-  >
+  return html`<live-preview id="live_preview" class="live-preview">
     <header>
       <h1>Live preview</h1>
     </header>
+
     <quiet-zoomable-frame
       src="http://localhost:${studioConfig.port}/${slug === '/' ? '' : slug}"
       zoom="1"

@@ -6,20 +6,23 @@ import { serveStatic } from '@hono/node-server/serve-static'
 import { HTTPException } from 'hono/http-exception'
 
 import { loadDb } from '@alstar/db'
+import { getEnv } from '@alstar/studio/env'
 
 import { createStudioTables } from './utils/create-studio-tables.ts'
 import { fileBasedRouter } from './utils/file-based-router.ts'
 import { getConfig } from './utils/get-config.ts'
 import startupLog from './utils/startup-log.ts'
+import { createAuthServer } from './utils/auth.ts'
 import { apiRoutes } from './api/index.ts'
 import { mcpRoutes } from './api/mcp.ts'
 import packageJSON from './package.json' with { type: 'json' }
 
-import auth from './utils/auth.ts'
 import ErrorPage from './pages/error.ts'
 
 import * as types from './types.ts'
 import { refresher, refreshClient } from './utils/refresher.ts'
+import { cors } from 'hono/cors'
+import { except } from 'hono/combine'
 
 export let rootdir = './node_modules/@alstar/studio'
 
@@ -32,9 +35,13 @@ export let studioConfig: types.StudioConfig = {
   structure: {},
 }
 
+const env = await getEnv()
+
 const createStudio = async (config: types.StudioConfigInput) => {
   loadDb('./studio.db')
   createStudioTables()
+
+  const auth = createAuthServer()
 
   // const configFile = await getConfig<types.StudioConfig>()
 
@@ -46,6 +53,18 @@ const createStudio = async (config: types.StudioConfigInput) => {
 
   const app = new Hono(studioConfig.honoConfig)
 
+  // app.use(
+  //   '*',
+  //   cors({
+  //     origin: `http://localhost:${studioConfig.port}`, // replace with your origin
+  //     allowHeaders: ['Content-Type', 'Authorization'],
+  //     allowMethods: ['POST', 'GET', 'OPTIONS'],
+  //     exposeHeaders: ['Content-Length'],
+  //     maxAge: 600,
+  //     credentials: true,
+  //   })
+  // )
+
   app.get('/refresh', refresher({ root: '.', exclude: '.db' }))
 
   /**
@@ -54,10 +73,17 @@ const createStudio = async (config: types.StudioConfigInput) => {
   app.use('*', serveStatic({ root: path.join(rootdir, 'public') }))
   app.use('*', serveStatic({ root: './public' }))
 
-  /**
-   * Require authentication to access Studio
-   */
-  app.use('/studio/*', auth)
+  app.use('/studio/*', except('/studio/login', async (c, next) => {
+    const session = await auth.api.getSession({ headers: c.req.raw.headers })
+    if (!session?.user) return c.redirect('/studio/login')
+    await next()
+  }))
+  
+  app.use('/studio/login', async (c, next) => {
+    const session = await auth.api.getSession({ headers: c.req.raw.headers })
+    if (session?.user) return c.redirect('/studio')
+    await next()
+  })
 
   /**
    * Studio API routes
@@ -79,16 +105,17 @@ const createStudio = async (config: types.StudioConfigInput) => {
     if (pages) app.route('/', pages)
   }
 
+  app.on(['POST', 'GET'], '/api/auth/*', (c) => auth.handler(c.req.raw))
+
   /**
    * Error pages
    */
-  app.notFound((c) => c.html(ErrorPage()))
-  app.onError((err, c) => {
-    console.log(err)
+  app.notFound((c) => c.html(ErrorPage(c.error)))
 
+  app.onError((err, c) => {
     if (err instanceof HTTPException) {
       // Get the custom response
-      const error = err.getResponse()
+      // const error = err.getResponse()
       return c.html(ErrorPage(err))
     }
 
@@ -101,7 +128,7 @@ const createStudio = async (config: types.StudioConfigInput) => {
       root: './',
       rewriteRequestPath: (path) =>
         path.replace(/^\/studio\/backups/, '/backups'),
-    }),
+    })
   )
 
   /**
@@ -131,7 +158,7 @@ const createStudio = async (config: types.StudioConfigInput) => {
 
   return {
     app,
-    refreshClient: refreshClient(studioConfig.port)
+    refreshClient: refreshClient(studioConfig.port),
   }
 }
 
@@ -145,6 +172,5 @@ export {
 } from './utils/define.ts'
 export { type RequestContext } from './types.ts'
 export { createStudio }
-export { html, raw, type HtmlEscapedString } from './utils/html.ts'
 export { query } from './queries/index.ts'
 export const version = packageJSON.version

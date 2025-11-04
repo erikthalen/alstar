@@ -1,4 +1,5 @@
-import { defineEntry, html, query } from '@alstar/studio'
+import { defineEntry, query } from '@alstar/studio'
+import { html } from '@alstar/studio/html'
 
 import SiteLayout from '../components/SiteLayout.ts'
 import { raw } from 'hono/html'

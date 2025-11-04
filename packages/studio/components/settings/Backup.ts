@@ -1,6 +1,6 @@
 import fsp from 'node:fs/promises'
 import path from 'node:path'
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 
 export default async () => {
   let backups: string[] = await fsp.readdir('./backups').catch(() => [])

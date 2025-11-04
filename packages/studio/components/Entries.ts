@@ -1,6 +1,5 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { query } from '../index.ts'
-import * as icons from './icons.ts'
 
 export default ({ name }: { name: string }) => {
   const entries = query.blocks({ parent_id: null, status: 'enabled', name })

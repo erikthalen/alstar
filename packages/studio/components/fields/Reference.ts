@@ -1,6 +1,6 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
-import { html } from '../../utils/html.ts'
-import type { FieldDefStructure, ReferenceFieldStructure } from '../../types.ts'
+import { html } from '@alstar/studio/html'
+import type { ReferenceFieldStructure } from '../../types.ts'
 import { query } from '../../queries/index.ts'
 
 export default (props: {

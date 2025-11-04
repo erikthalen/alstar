@@ -1,9 +1,12 @@
+import { allDefined } from '@quietui/quiet'
+
 class LivePreview extends HTMLElement {
   abortController = new AbortController()
   mutationObserver
   iframe
 
-  reload() {
+  async reload() {
+    await allDefined()
     this.iframe.contentWindow.location.reload()
   }
 
@@ -13,10 +16,12 @@ class LivePreview extends HTMLElement {
 
     this.iframe = this.querySelector('quiet-zoomable-frame')
 
-    console.log(this.iframe.querySelector('iframe'))
-
-    window.addEventListener('markdown-editor:update', this.reload.bind(this), { signal: this.abortController.signal })
-    window.addEventListener('sortable-list:update', this.reload.bind(this), { signal: this.abortController.signal })
+    window.addEventListener('markdown-editor:update', this.reload.bind(this), {
+      signal: this.abortController.signal,
+    })
+    window.addEventListener('sortable-list:update', this.reload.bind(this), {
+      signal: this.abortController.signal,
+    })
   }
 
   disconnectedCallback() {

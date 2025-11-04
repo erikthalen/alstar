@@ -1,4 +1,5 @@
-import { html, query, version } from '@alstar/studio'
+import { query, version } from '@alstar/studio'
+import { html } from '@alstar/studio/html'
 import { raw } from 'hono/html'
 
 export default () => {

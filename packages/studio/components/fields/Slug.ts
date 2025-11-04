@@ -1,5 +1,5 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
-import { html } from '../../utils/html.ts'
+import { html } from '@alstar/studio/html'
 import type { FieldDefStructure } from '../../types.ts'
 import * as icons from '../icons.ts'
 import { Hono } from 'hono'
@@ -118,5 +118,5 @@ export default (props: {
         </button>
       </form>
     </div>
-`
+  `
 }

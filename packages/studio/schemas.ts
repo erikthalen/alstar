@@ -1,13 +1,13 @@
 import { sql } from './utils/sql.ts'
 
-// -- API keys
-export const usersTable = {
-  tableName: 'users',
-  columns: sql`
-    email TEXT not null,
-    hash TEXT
-  `,
-}
+// export const usersTable = {
+//   tableName: 'users',
+//   columns: sql`
+//     username TEXT not null,
+//     hash TEXT,
+//     refresh_token TEXT
+//   `,
+// }
 
 
 // -- Blocks

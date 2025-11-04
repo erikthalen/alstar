@@ -1,6 +1,5 @@
 import adminPanel from './AdminPanel.ts'
-import { html } from 'hono/html'
-import { type HtmlEscapedString } from 'hono/utils/html'
+import { html, type HtmlEscapedString } from '@alstar/studio/html'
 import { studioConfig } from '../index.ts'
 
 export default (
@@ -51,7 +50,9 @@ export default (
             "imports": {
               "@barba/core": "https://esm.sh/@barba/core@2.10.3/dist/barba.mjs",
               "sortablejs": "https://esm.sh/sortablejs@1.15.6/modular/sortable.core.esm.js",
-              "ink-mde": "https://esm.sh/ink-mde@0.34.0"
+              "ink-mde": "https://esm.sh/ink-mde@0.34.0",
+              "@quietui/quiet": "https://esm.sh/@quietui/quiet-browser@1.6.1/dist/quiet.js",
+              "better-auth/client": "https://esm.sh/better-auth@1.3.34/client"
             }
           }
         </script>

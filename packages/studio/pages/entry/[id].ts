@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { defineEntry } from '../../utils/define.ts'
 
 import SiteLayout from '../../components/SiteLayout.ts'

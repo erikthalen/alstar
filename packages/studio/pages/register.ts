@@ -1,34 +1,68 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { defineEntry } from '../utils/define.ts'
 import SiteLayout from '../components/SiteLayout.ts'
+import { studioConfig } from '../index.ts'
+import * as icons from '../components/icons.ts'
 
-export default defineEntry((c) => {
+export default defineEntry(async () => {
   return SiteLayout(
-    html`
-      <div class="register-form" style="width: 300px; margin: auto;">
-        <article>
-          <header>Register user</header>
-          <form
-            data-signals="{ status: 0 }"
-            data-on:submit="@post('/studio/api/auth/register', { contentType: 'form' })"
-            data-on:signal-patch="patch.status === 200 && window.location.reload()"
+    html`<div class="setup background-pattern">
+      <quiet-card style="width: 100%; max-width: 480px;">
+        <header>
+          <div class="logo">${studioConfig.admin?.logo || icons.logo}</div>
+        </header>
+
+        <h1 class="sr-only">${studioConfig.siteName}</h1>
+
+        <br />
+
+        <form
+          class="login-form"
+          style="display: grid;"
+          data-on:submit__prevent="window.auth.register(new FormData(evt.target))"
+        >
+          <quiet-text-field required name="email" label="Email">
+          </quiet-text-field>
+
+          <p class="validation-message">Required</p>
+
+          <br />
+
+          <quiet-text-field
+            required
+            name="password"
+            label="Password"
+            type="password"
           >
-            <label for="email">Email</label>
-            <input id="email" name="email" type="text" placeholder="Email" style="width: 100%" />
-            <label for="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Password"
-              style="width: 100%"
-            />
-            <br />
-            <button style="width: 100%;">Register</button>
-          </form>
-        </article>
-      </div>
-  `,
-    false,
+          </quiet-text-field>
+
+          <p class="validation-message">Required</p>
+
+          <br />
+
+          <quiet-button style="width: 100%" type="submit" variant="primary">
+            Register
+          </quiet-button>
+
+          <style>
+            .login-form {
+              .validation-message {
+                display: none;
+
+                color: var(--quiet-destructive-stroke-mid);
+                font-size: 0.825rem;
+              }
+
+              quiet-text-field:state(user-invalid) {
+                + .validation-message {
+                  display: block;
+                }
+              }
+            }
+          </style>
+        </form>
+      </quiet-card>
+    </div>`,
+    false
   )
 })

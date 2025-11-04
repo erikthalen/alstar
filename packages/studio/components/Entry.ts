@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { query } from '../queries/index.ts'
 import { studioStructure } from '../index.ts'
 import Render from './Render.ts'
