@@ -1,7 +1,6 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '@alstar/studio/html'
 import type { FieldDefStructure } from '../../types.ts'
-import * as icons from '../icons.ts'
 import { Hono } from 'hono'
 import { type HttpBindings } from '@hono/node-server'
 import { streamSSE } from 'hono/streaming'
@@ -77,17 +76,18 @@ export default (props: {
           }
         })"
       >
-        <hgroup>
-          <label for="block-${data.id}">${structure.label}</label>
-          <p><small>${structure.description}</small></p>
-        </hgroup>
-
-        <input
+        <quiet-text-field
           id="block-${data.id}"
           name="value"
-          type="text"
+          label="${structure.label}"
           value="${data.value}"
-        />
+        >
+          ${structure.description
+            ? html`<span slot="description">
+                <small>${structure.description}</small>
+              </span>`
+            : ''}
+        </quiet-text-field>
 
         <input type="hidden" name="type" value="${structure.type}" />
         <input type="hidden" name="id" value="${data.id}" />
@@ -108,14 +108,17 @@ export default (props: {
       >
         <input type="hidden" name="id" value="${data.id}" />
         <input type="hidden" name="value" value="${sluggedTitle}" />
-        <button
-          class="ghost"
-          aria-label="Generate slug"
-          data-tooltip="Generate slug"
-          data-placement="top"
+
+        <quiet-button
+          appearance="text"
+          id="generate_slug_field"
+          type="submit"
+          icon-label="Reload"
         >
-          ${icons.arrowsRound}
-        </button>
+          <quiet-icon name="refresh"></quiet-icon>
+        </quiet-button>
+
+        <quiet-tooltip for="generate_slug_field">Generate slug</quiet-tooltip>
       </form>
     </div>
   `

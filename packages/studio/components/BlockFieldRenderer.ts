@@ -32,10 +32,10 @@ export default (props: {
   return html`
     <div class="blocks-field">
       <header data-on:click="console.log('hehehe')">
-        <p>${structure.label}</p>
+        <p class="ts-xs">${structure.label}</p>
 
         <quiet-dropdown placement="bottom-end" id="dropdown__selected">
-          <quiet-button size="sm" slot="trigger" with-caret>Add</quiet-button>
+          <quiet-button size="xs" slot="trigger" with-caret>Add</quiet-button>
 
           ${entries.map(([name, block]) => {
             return html`
@@ -49,7 +49,7 @@ export default (props: {
                     }
                   })"
                 >
-                  <quiet-button size="sm" type="submit" appearance="text">
+                  <quiet-button size="xs" type="submit" appearance="text">
                     ${block.label}
                   </quiet-button>
 
@@ -68,14 +68,6 @@ export default (props: {
             `
           })}
         </quiet-dropdown>
-
-        <!-- <script>
-          const dropdown = document.getElementById('dropdown__selected')
-
-          dropdown.addEventListener('quiet-select', (event) => {
-            console.log(event.detail.item.value)
-          })
-        </script> -->
       </header>
 
       <sortable-list data-id="${data.id}">
@@ -91,12 +83,40 @@ export default (props: {
               data-signals="{ 'expanded-${row.id}': true }"
             >
               <header>
-                ${struct.label}
+                <p class="ts-xs">${struct.label}</p>
 
                 <aside>
-                  <!-- <label style="margin: 0; border-bottom: none" data-tooltip="Disable" data-placement="top">
-                    <input name="enable" type="checkbox" role="switch" checked />
-                  </label> -->
+                  <quiet-toggle-icon
+                    data-signals="{ explorer_locked: false }"
+                    data-on:quiet-change="$explorer_locked = evt.target.checked; @patch('/studio/api/blocks')"
+                    label="Disable"
+                    effect="scale"
+                    checked
+                    style="--unchecked-color: var(--quiet-destructive-text-colorful); --checked-color: var(--quiet-constructive-text-colorful);"
+                    id="tooltip-disable-${row.id}"
+                    size="xs"
+                  >
+                    <quiet-icon
+                      slot="unchecked"
+                      name="circle"
+                      family="filled"
+                    ></quiet-icon>
+
+                    <quiet-icon
+                      slot="checked"
+                      name="circle"
+                      family="filled"
+                    ></quiet-icon>
+                  </quiet-toggle-icon>
+
+                  <wa-tooltip
+                    distance="3"
+                    without-arrow
+                    for="tooltip-disable-${row.id}"
+                    class="ts-label"
+                  >
+                    Disable
+                  </wa-tooltip>
 
                   <quiet-button
                     data-on:click="$expanded-${row.id} = !$expanded-${row.id}"
@@ -109,7 +129,12 @@ export default (props: {
                     <quiet-icon name="layout-navbar-expand"></quiet-icon>
                   </quiet-button>
 
-                  <quiet-tooltip for="tooltip-expand-${row.id}">
+                  <quiet-tooltip
+                    distance="0"
+                    without-arrow
+                    for="tooltip-expand-${row.id}"
+                    class="ts-label"
+                  >
                     Collapse
                   </quiet-tooltip>
 
@@ -124,7 +149,12 @@ export default (props: {
                     <quiet-icon name="menu"></quiet-icon>
                   </quiet-button>
 
-                  <quiet-tooltip for="tooltip-reorder-${row.id}">
+                  <quiet-tooltip
+                    distance="0"
+                    without-arrow
+                    for="tooltip-reorder-${row.id}"
+                    class="ts-label"
+                  >
                     Reorder
                   </quiet-tooltip>
 
@@ -147,7 +177,12 @@ export default (props: {
                       <quiet-icon name="x"></quiet-icon>
                     </quiet-button>
 
-                    <quiet-tooltip for="tooltip-remove-${row.id}">
+                    <quiet-tooltip
+                      distance="0"
+                      without-arrow
+                      for="tooltip-remove-${row.id}"
+                      class="ts-label"
+                    >
                       Remove
                     </quiet-tooltip>
 

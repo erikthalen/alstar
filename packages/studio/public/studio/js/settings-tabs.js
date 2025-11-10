@@ -6,13 +6,6 @@ class SettingsTabs extends HTMLElement {
   async connectedCallback() {
     await allDefined()
 
-    const params = new URLSearchParams(window.location.search)
-    const initTab = params.get('tab')
-
-    if (initTab) {
-      this.querySelector('quiet-tab-list').setAttribute('tab', initTab)
-    }
-
     window.addEventListener(
       'quiet-tab-shown',
       (e) => {

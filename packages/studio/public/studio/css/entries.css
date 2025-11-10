@@ -1,0 +1,38 @@
+.entries-container {
+  display: grid;
+  grid-template-columns: minmax(200px, auto) 1fr;
+
+  > ul {
+    margin: 0;
+    padding-block: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px solid var(--border-color);
+
+    li {
+      list-style: none;
+      padding-inline: 2rem;
+    }
+
+    quiet-button {
+      width: 100%;
+    }
+
+    quiet-button::part(button) {
+      justify-content: flex-start;
+    }
+  }
+}
+
+.entries {
+  padding: 0.5rem;
+
+  > ul {
+    margin: 0;
+
+    li {
+      list-style: none;
+    }
+  }
+}

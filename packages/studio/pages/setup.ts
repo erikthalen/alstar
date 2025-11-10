@@ -10,7 +10,7 @@ export default defineEntry(async () => {
   const randomPassword = crypto.randomBytes(8).toString('hex')
 
   return SiteLayout(
-    html`<div class="setup">
+    html` <div class="setup">
       <quiet-card style="width: 100%; max-width: 480px;">
         <h3>Create admin user</h3>
 

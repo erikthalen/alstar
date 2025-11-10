@@ -16,7 +16,7 @@ export default () => {
     .all()
 
   return html`
-    <article data-signals="{ apiKey: '', copied: false }">
+    <article id="api_keys" data-signals="{ apiKey: '', copied: false }">
       <table>
         <thead>
           <tr>

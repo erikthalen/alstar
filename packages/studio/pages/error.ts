@@ -5,8 +5,8 @@ import type { HTTPResponseError } from 'hono/types'
 export default (err?: Error | HTTPResponseError) => {
   return SiteLayout(
     html`
-      <div class="background-pattern" style="height: 100%; display: flex; place-content: center;">
-        <quiet-empty-state style="min-height: 400px; margin-bottom: 10vh">
+      <div class="background-pattern" style="padding-bottom: 10vh; height: 100%; display: flex; flex-direction: column; place-content: center;">
+        <quiet-empty-state style="min-height: 400px;">
           <quiet-icon slot="illustration" name="unlink"></quiet-icon>
 
           <h3>Something went wrong</h3>
@@ -19,6 +19,8 @@ export default (err?: Error | HTTPResponseError) => {
               </quiet-button>`
             : ''}
         </quiet-empty-state>
+
+        <pre><code>${err?.stack}</code></pre>
       </div>
     `,
     false

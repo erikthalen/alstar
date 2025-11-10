@@ -8,7 +8,7 @@ import {
 import { html } from '@alstar/studio/html'
 import { routes } from './routes.ts'
 
-export const { app, refreshClient } = await createStudio({
+export const { app, hotReloadClient } = await createStudio({
   siteName: 'Docs',
   admin: {
     // logo: html`<svg
@@ -33,6 +33,7 @@ export const { app, refreshClient } = await createStudio({
       preview: {
         slug: '/',
       },
+      icon: 'house',
       fields: {
         sections: defineBlockField({
           label: 'Sections',
@@ -94,6 +95,7 @@ export const { app, refreshClient } = await createStudio({
     settings: defineBlock({
       label: 'Settings',
       type: 'single',
+      icon: 'sun',
       fields: {
         logo: defineField({
           type: 'text',
@@ -109,6 +111,7 @@ export const { app, refreshClient } = await createStudio({
       preview: {
         field: 'slug',
       },
+      icon: 'file',
       fields: {
         title: defineField({
           label: 'Title',

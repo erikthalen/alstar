@@ -1,18 +1,18 @@
 import { sql } from './utils/sql.ts'
 
-// export const usersTable = {
-//   tableName: 'users',
-//   columns: sql`
-//     username TEXT not null,
-//     hash TEXT,
-//     refresh_token TEXT
-//   `,
-// }
-
+export const settingTable = {
+  tableName: 'setting',
+  columns: sql`
+    user_id TEXT not null,
+    type TEXT NOT NULL,
+    value TEXT,
+    UNIQUE(user_id, type)
+  `,
+}
 
 // -- Blocks
 export const blocksTable = {
-  tableName: 'blocks',
+  tableName: 'block',
   columns: sql`
     name TEXT not null,
     label TEXT not null,

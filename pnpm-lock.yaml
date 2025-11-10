@@ -29,9 +29,6 @@ importers:
       '@alstar/studio':
         specifier: workspace:*
         version: link:../studio
-      '@alstar/ui':
-        specifier: workspace:*
-        version: link:../ui
       '@hono/node-server':
         specifier: ^1.18.1
         version: 1.18.1(hono@4.8.12)
@@ -87,7 +84,7 @@ importers:
         specifier: 1.18.1
         version: 1.18.1(hono@4.8.12)
       better-auth:
-        specifier: ^1.3.34
+        specifier: 1.3.34
         version: 1.3.34
       hono:
         specifier: 4.8.12

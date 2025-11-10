@@ -87,7 +87,7 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           parent_id,
           0 as depth
         from
-          blocks
+          block
         where
           ${filterSql}
         union all
@@ -105,7 +105,7 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           b.parent_id,
           a.depth + 1
         from
-          blocks b
+          block b
           inner join ancestors a on b.id = a.parent_id
       ),
       roots as (
@@ -158,7 +158,7 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           b.parent_id,
           d.depth + 1
         from
-          blocks b
+          block b
           inner join descendants d on b.parent_id = d.id ${depthLimitClause}
       )
     select
@@ -285,7 +285,7 @@ export function block(params: Record<string, any>) {
     select
       *
     from
-      blocks
+      block
     where
       ${filterSql}
   `
@@ -300,7 +300,7 @@ export function blocks(params: Record<string, any>) {
     select
       *
     from
-      blocks
+      block
     where
       ${filterSql}
     order by

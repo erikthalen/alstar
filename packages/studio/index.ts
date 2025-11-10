@@ -7,6 +7,7 @@ import { HTTPException } from 'hono/http-exception'
 
 import { loadDb } from '@alstar/db'
 import { getEnv } from '@alstar/studio/env'
+import { hotReload, hotReloadClient } from '@alstar/studio/hot-reload'
 
 import { createStudioTables } from './utils/create-studio-tables.ts'
 import { fileBasedRouter } from './utils/file-based-router.ts'
@@ -20,9 +21,9 @@ import packageJSON from './package.json' with { type: 'json' }
 import ErrorPage from './pages/error.ts'
 
 import * as types from './types.ts'
-import { refresher, refreshClient } from './utils/refresher.ts'
 import { cors } from 'hono/cors'
 import { except } from 'hono/combine'
+import { html } from 'hono/html'
 
 export let rootdir = './node_modules/@alstar/studio'
 
@@ -65,7 +66,8 @@ const createStudio = async (config: types.StudioConfigInput) => {
   //   })
   // )
 
-  app.get('/refresh', refresher({ root: '.', exclude: '.db' }))
+  // app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
+  app.get('/hot-reload', hotReload({ root: '../studio', exclude: '.db' }))
 
   /**
    * Static folders
@@ -73,12 +75,26 @@ const createStudio = async (config: types.StudioConfigInput) => {
   app.use('*', serveStatic({ root: path.join(rootdir, 'public') }))
   app.use('*', serveStatic({ root: './public' }))
 
-  app.use('/studio/*', except('/studio/login', async (c, next) => {
-    const session = await auth.api.getSession({ headers: c.req.raw.headers })
-    if (!session?.user) return c.redirect('/studio/login')
-    await next()
-  }))
-  
+  // redirect to /login if not logged in
+  app.use(
+    '/studio/*',
+    except('/studio/login', async (c, next) => {
+      const session = await auth.api.getSession({ headers: c.req.raw.headers })
+
+      if (!session) {
+        c.set('user', null)
+        c.set('session', null)
+        await next()
+        return c.redirect('/studio/login')
+      }
+
+      c.set('user', session.user)
+      c.set('session', session.session)
+      await next()
+    })
+  )
+
+  // redirect from /login to /studio if logged in
   app.use('/studio/login', async (c, next) => {
     const session = await auth.api.getSession({ headers: c.req.raw.headers })
     if (session?.user) return c.redirect('/studio')
@@ -158,7 +174,7 @@ const createStudio = async (config: types.StudioConfigInput) => {
 
   return {
     app,
-    refreshClient: refreshClient(studioConfig.port),
+    hotReloadClient: hotReloadClient(studioConfig.port),
   }
 }
 

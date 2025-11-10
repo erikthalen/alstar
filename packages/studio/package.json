@@ -31,6 +31,9 @@
     },
     "./html": {
       "import": "./helpers/html/index.ts"
+    },
+    "./hot-reload": {
+      "import": "./helpers/hot-reload/hot-reload.ts"
     }
   },
   "prettier": {

@@ -3,6 +3,7 @@ import './js/markdown-editor.js'
 import './js/sortable-list.js'
 import './js/live-preview.js'
 import './js/settings-tabs.js'
+import './js/split-pane.js'
 
 import barba from '@barba/core'
 import { allDefined } from '@quietui/quiet'
@@ -25,7 +26,7 @@ async function hydrateQuietLinks() {
   abortController.abort()
   abortController = new AbortController()
 
-  document.querySelectorAll('quiet-button').forEach((link) => {
+  document.querySelectorAll('*[href]').forEach((link) => {
     if (!link.href || link.getAttribute('data-barba-prevent') !== null) return
 
     link.addEventListener(

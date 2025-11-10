@@ -42,11 +42,10 @@ export default (props: {
             value="${data.value}"
             resize="auto"
             rows="4"
+            size="xs"
           >
             ${structure.description
-              ? html`<span slot="description">
-                  <small>${structure.description}</small>
-                </span>`
+              ? html`<span slot="description"> ${structure.description} </span>`
               : ''}</quiet-text-area
           >`
         : html`<quiet-text-field
@@ -54,11 +53,10 @@ export default (props: {
             name="value"
             label="${structure.label}"
             value="${data.value}"
+            size="xs"
           >
             ${structure.description
-              ? html`<span slot="description">
-                  <small>${structure.description}</small>
-                </span>`
+              ? html`<span slot="description"> ${structure.description} </span>`
               : ''}
           </quiet-text-field>`}
 

@@ -1,6 +1,6 @@
-import adminPanel from './AdminPanel.ts'
-import { html, type HtmlEscapedString } from '@alstar/studio/html'
+import { raw, html, type HtmlEscapedString } from '@alstar/studio/html'
 import { studioConfig } from '../index.ts'
+import { hotReloadClient } from '@alstar/studio/hot-reload'
 
 export default (
   content:
@@ -16,6 +16,23 @@ export default (
     <!DOCTYPE html>
     <html lang="en" class="quiet-cloak quiet-dark quiet-zinc">
       <head>
+        <script>
+          const darkModeMedia = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+          )
+
+          const setTheme = (darkTheme) => {
+            document.documentElement.classList.toggle('quiet-dark', darkTheme)
+            document.documentElement.classList.toggle('wa-dark', darkTheme)
+          }
+
+          setTheme(darkModeMedia.matches)
+
+          window
+            .matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', (e) => setTheme(e.matches))
+        </script>
+
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>${title}Alstar Studio</title>
@@ -45,6 +62,17 @@ export default (
           href="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.6.1/dist/themes/restyle.css"
         />
 
+        <script
+          src="https://kit.webawesome.com/03c12a81edd44be8.js"
+          crossorigin="anonymous"
+        ></script>
+
+        <script
+          src="https://esm.sh/@vscode-elements/elements/dist/bundled.js"
+          type="module"
+          crossorigin="anonymous"
+        ></script>
+
         <script type="importmap">
           {
             "imports": {
@@ -52,24 +80,23 @@ export default (
               "sortablejs": "https://esm.sh/sortablejs@1.15.6/modular/sortable.core.esm.js",
               "ink-mde": "https://esm.sh/ink-mde@0.34.0",
               "@quietui/quiet": "https://esm.sh/@quietui/quiet-browser@1.6.1/dist/quiet.js",
-              "better-auth/client": "https://esm.sh/better-auth@1.3.34/client"
+              "better-auth/client": "https://esm.sh/better-auth@1.3.34/client",
+              "lit": "https://esm.sh/lit"
             }
           }
         </script>
 
         <script src="/studio/main.js" type="module"></script>
         <link href="/studio/main.css" rel="stylesheet" />
+
+        ${raw(hotReloadClient(8787))}
       </head>
 
       <body data-barba="wrapper">
-        ${includeAdminPanel
-          ? html`<section style="margin-bottom: 0;">${adminPanel()}</section>`
-          : html`<div></div>`}
+        ${includeAdminPanel ? html`` : html`<div></div>`}
 
-        <main>
-          <section data-barba="container" data-barba-namespace="default">
-            ${content}
-          </section>
+        <main data-barba="container" data-barba-namespace="default">
+          ${content}
         </main>
       </body>
     </html>

@@ -1,8 +1,28 @@
 settings-tabs {
   display: block;
-  padding: 1rem;
   overflow: auto;
   height: 100vh;
+
+  quiet-tab-list::part(panels) {
+    padding-block: 0;
+  }
+
+  quiet-tab {
+    padding-block: 0;
+    padding-inline: 0.5rem;
+    border: 0;
+    border-right: solid 1px var(--border-color);
+    /* border-bottom-width: 1px; */
+    width: 100%;
+  }
+
+  quiet-tab:last-of-type {
+    border-right: 0;
+  }
+
+  quiet-tab:state(active) {
+    background-color: var(--quiet-neutral-fill-softer);
+  }
 
   tr {
     quiet-text-field {

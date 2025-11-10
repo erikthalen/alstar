@@ -16,72 +16,83 @@ export default async () => {
   }
 
   return html`
-    <article data-signals="{ status: null, message: '' }">
-      <table class="striped">
-        <thead>
-          <tr>
-            <th scope="col">File</th>
-            <th scope="col">Filesize</th>
-            <th scope="col">Download</th>
-            <th scope="col">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
+    <article id="backup" data-signals="{ status: null, message: '' }">
+      <vscode-table
+        zebra
+        bordered-rows
+        columns='["auto", "180px", "120px", "80px"]'
+        min-column-width="5"
+      >
+        <vscode-table-header slot="header">
+          <vscode-table-header-cell>File</vscode-table-header-cell>
+          <vscode-table-header-cell>Filesize</vscode-table-header-cell>
+          <vscode-table-header-cell>Download</vscode-table-header-cell>
+          <vscode-table-header-cell>Delete</vscode-table-header-cell>
+        </vscode-table-header>
+        <vscode-table-body slot="body">
           ${backups.map(
             async (filename) => html`
-              <tr>
-                <th scope="row"><code>${filename}</code></th>
+              <vscode-table-row>
+                <vscode-table-cell scope="row"
+                  ><code>${filename}</code></vscode-table-cell
+                >
 
-                <th scope="row">
+                <vscode-table-cell scope="row">
                   <code>
                     <quiet-bytes
                       value="${await getFilesize(filename)}"
                     ></quiet-bytes>
                   </code>
-                </th>
+                </vscode-table-cell>
 
-                <th>
+                <vscode-table-cell>
                   <quiet-button
                     href="/studio/backups/${filename}"
                     icon-label="Download"
                     appearance="text"
                     target="_blank"
                     download
+                    size="xs"
                   >
                     <quiet-icon name="download"></quiet-icon>
                   </quiet-button>
-                </th>
-                <th>
+                </vscode-table-cell>
+                <vscode-table-cell>
                   <form
                     data-on:submit="@delete('/studio/api/backup', {
                       contentType: 'form',
                       headers: {
-                        render: 'Settings'
+                        render: 'settings/Backups'
                       }
                     })"
                   >
                     <input type="hidden" name="filename" value="${filename}" />
 
-                    <quiet-button icon-label="Delete" variant="destructive">
+                    <quiet-button
+                      type="submit"
+                      icon-label="Delete"
+                      variant="destructive"
+                      size="xs"
+                    >
                       <quiet-icon name="trash"></quiet-icon>
                     </quiet-button>
                   </form>
-                </th>
-              </tr>
+                </vscode-table-cell>
+              </vscode-table-row>
             `
           )}
-        </tbody>
-      </table>
+        </vscode-table-body>
+      </vscode-table>
 
       <form
         data-on:submit="@post('/studio/api/backup', {
           contentType: 'form',
           headers: {
-            render: 'Settings'
+            render: 'settings/Backups'
           }
         })"
       >
-        <quiet-button type="submit">
+        <quiet-button type="submit" size="xs">
           <quiet-icon slot="start" name="database-export"></quiet-icon>
           Backup database
         </quiet-button>
@@ -106,7 +117,7 @@ export default async () => {
 
           <br />
 
-          <quiet-button type="submit">
+          <quiet-button type="submit" size="xs">
             <quiet-icon slot="start" name="database-import"></quiet-icon>
             Restore database
           </quiet-button>
