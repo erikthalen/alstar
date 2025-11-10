@@ -5,8 +5,6 @@ import { Hono } from 'hono'
 import { type HttpBindings } from '@hono/node-server'
 import { streamSSE } from 'hono/streaming'
 import { db } from '@alstar/db'
-import { stripNewlines } from '../utils/strip-newlines.ts'
-import Settings from '../components/Settings.ts'
 import path from 'node:path'
 import { renderSSE } from '../utils/renderSSE.ts'
 
