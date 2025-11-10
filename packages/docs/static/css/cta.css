@@ -1,0 +1,59 @@
+.cta {
+  height: 4rem;
+
+  display: flex;
+  align-items: center;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0px var(--section-padding);
+    border-right: 1px solid var(--border-color);
+    height: 100%;
+
+    white-space: nowrap;
+  }
+
+  copy-to-clipboard {
+    margin: 5px;
+    width: 100%;
+
+    background: var(--pico-code-background-color);
+    border-radius: var(--pico-border-radius);
+
+    display: flex;
+    align-items: center;
+    
+    code {
+      padding: 0.5em 1em;
+    }
+
+    code:before {
+      content: '$';
+    }
+
+    button {
+      display: inline-flex;
+      margin-left: auto;
+
+      svg:last-of-type {
+        display: none;
+      }
+    }
+  }
+
+  copy-to-clipboard.copied {
+    button {
+      background-color: greenyellow;
+      color: green;
+
+      svg:first-of-type {
+        display: none;
+      }
+
+      svg:last-of-type {
+        display: block;
+      }
+    }
+  }
+}

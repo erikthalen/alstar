@@ -67,7 +67,7 @@ const createStudio = async (config: types.StudioConfigInput) => {
   // )
 
   // app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
-  app.get('/hot-reload', hotReload({ root: '../studio', exclude: '.db' }))
+  app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
 
   /**
    * Static folders
