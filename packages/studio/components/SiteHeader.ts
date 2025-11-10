@@ -1,5 +1,5 @@
 import { html } from '@alstar/studio/html'
-import { Context } from 'hono'
+import { type Context } from 'hono'
 import Breadcrumbs from './Breadcrumbs.ts'
 
 

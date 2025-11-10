@@ -4,7 +4,7 @@
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Quick start | Alstar</title>
+        <title>Content structure | Alstar</title>
 
         <link
           rel="icon"
@@ -129,64 +129,57 @@
     </div>
   </section>
         <div class="scroll">
-          <section class="canvas"><h1>Quickstart Example Project</h1>
-<p>This example shows how to define a simple <strong>page schema</strong> and render it on the frontend.</p>
-<h2>1. Define the CMS Schema</h2>
-<pre><code class="language-ts">// ./index.ts
-import { createStudio, defineBlock, defineField, defineStructure } from &#39;@alstar/studio&#39;
+          <section class="canvas"><h1>Defining Content Structure</h1>
+<p>Pass a <code>Structure</code> object to <code>createStudio(structure)</code> to define the schema.</p>
+<p>Use the helpers:</p>
+<pre><code class="language-ts">import { defineBlock, defineField, defineStructure, defineBlockField } from &#39;@alstar/studio&#39;
+</code></pre>
+<p>... to get automatic Typescript typings when creating blocks and fields.</p>
+<h2>Example: Schema Definition</h2>
+<pre><code class="language-ts">import { defineBlock, defineField, defineStructure, defineBlockField } from &#39;@alstar/studio&#39;
 
-const page = defineBlock({
-  label: &#39;Page&#39;,
-  type: &#39;page&#39;,
-  fields: {
-    title: defineField({
-      label: &#39;Title&#39;,
-      type: &#39;text&#39;,
+const titleField = defineField({ 
+  label: &#39;Title&#39;,
+  type: &#39;text&#39; | &#39;image&#39; | &#39;markdown&#39; | &#39;slug&#39; | &#39;reference&#39;,
+  description: &#39;Page title&#39;
+})
+
+const pageBuilder = defineBlockField({
+  label: &#39;Sections&#39;,
+  blocks: {
+    hero: defineBlock({
+      label: &#39;Hero&#39;,
+      type: &#39;hero&#39;,
+      fields: { /* fields */ },
     }),
-    slug: defineField({
-      label: &#39;Slug&#39;,
-      type: &#39;slug&#39;,
-    }),
-    body: defineField({
-      label: &#39;Body&#39;,
-      type: &#39;markdown&#39;,
+    gallery: defineBlock({
+      label: &#39;Gallery&#39;,
+      type: &#39;gallery&#39;,
+      fields: { /* fields */ },
     }),
   },
 })
 
-const structure = defineStructure({
-  page,
+const entryBlock = defineBlock({
+  label: &#39;Entry&#39;,
+  type: &#39;entry&#39;,
+  fields: {
+    title: titleField,
+    builder: pageBuilder
+  }
 })
 
-await createStudio(structure)
+export default defineStructure({
+  entry: entryBlock
+})
 </code></pre>
-<h2>2. Create a Frontend Route</h2>
-<pre><code class="language-ts">// ./pages/[slug].ts
-import { defineEntry, html, query } from &#39;@alstar/studio&#39;
-
-export default defineEntry(c) =&gt; {
-  const slug = c.req.param(&#39;slug&#39;)
-  const page = query.root({ type: &#39;slug&#39;, value: slug })
-
-  if (!page) return c.notFound()
-
-  return html`
-    &lt;main&gt;
-      &lt;h1&gt;${page.fields.title.value}&lt;/h1&gt;
-      &lt;article&gt;${page.fields.body.value}&lt;/article&gt;
-    &lt;/main&gt;
-  `
-}
-</code></pre>
-<h2>3. Run the Project</h2>
-<pre><code class="language-sh">pnpm run dev
-</code></pre>
-<p>Visit:</p>
+<h2>Concepts</h2>
 <ul>
-<li><strong>CMS admin</strong>: <code>http://localhost:3000/studio</code></li>
-<li><strong>Frontend page</strong>: <code>http://localhost:3000/my-first-page</code></li>
+<li><strong>Blocks</strong> contain <strong>fields</strong>.</li>
+<li><strong>Block fields</strong> can nest multiple block types under <code>blocks</code>.</li>
+<li>This enables <strong>page builders</strong> and reusable structures.</li>
 </ul>
-<p>Create a new page in the CMS, set its slug field to <code>my-first-page</code>, and the frontend will render it automatically.</p>
+<p>All content is stored in a <strong>SQLite database</strong> (<code>studio.db</code>) and can be queried in the templates with the <code>query</code> module.</p>
 </section>
         </div>
       </main>

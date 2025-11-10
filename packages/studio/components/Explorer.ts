@@ -1,7 +1,7 @@
 import { html } from 'hono/html'
 import { studioConfig, studioStructure } from '../index.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
-import { Context } from 'hono'
+import { type Context } from 'hono'
 import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
 

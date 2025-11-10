@@ -1,4 +1,4 @@
-import { Context } from 'hono'
+import { type Context } from 'hono'
 import { matchedRoutes, routePath, baseRoutePath, basePath } from 'hono/route'
 import { query } from '../queries/index.ts'
 import { html } from 'hono/html'

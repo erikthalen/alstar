@@ -2,7 +2,6 @@ import { Hono } from 'hono'
 import { type HttpBindings } from '@hono/node-server'
 import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
-import { readSignals } from '../utils/read-signals.ts'
 
 const app = new Hono<{ Bindings: HttpBindings }>()
 
