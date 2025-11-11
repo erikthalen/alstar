@@ -20,7 +20,9 @@ await removeExistingStaticFolder()
 
 const excludeStudioPlugin: SSGPlugin = {
   beforeRequestHook: (req) => {
-    if (!req.url.includes('/studio/')) {
+    console.log(req.url)
+    
+    if (!req.url.includes('http://localhost/studio')) {
       return req
     }
     return false
