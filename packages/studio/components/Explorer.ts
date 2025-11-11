@@ -60,6 +60,13 @@ export default (c: Context) => {
           Keep explorer open
         </quiet-tooltip>
 
+        <form style="display: contents;" data-on:submit="console.log('hehehe')">
+          <alstar-toggle-icon
+            data-on:change="evt.target.form.requestSubmit()"
+            ${settings.explorer_locked === 'true' ? 'checked' : ''}
+          ></alstar-toggle-icon>
+        </form>
+
         <h1 class="ts-label ts-bold">${studioConfig.siteName}</h1>
       </header>
 

@@ -4,6 +4,7 @@ import './js/sortable-list.js'
 import './js/live-preview.js'
 import './js/settings-tabs.js'
 import './js/split-pane.js'
+import './js/toggle-icon.js'
 
 import barba from '@barba/core'
 import { allDefined } from '@quietui/quiet'
