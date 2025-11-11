@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { query } from '../queries/index.ts'
 import { studioConfig, studioStructure } from '../index.ts'
 
@@ -31,12 +31,41 @@ export default (props: { entryId: number | string }) => {
   return html`<live-preview
     id="live_preview"
     class="live-preview"
-    data-rendered-at="${Date.now()}"
+    data-signals="{ livePreviewEnabled: true }"
+    data-on:quiet-change="$livePreviewEnabled = !$livePreviewEnabled"
+    data-style="{ width: $livePreviewEnabled ? '100%' : 'calc(var(--unit) * 2)' }"
+    data-class="{ hidden: !$livePreviewEnabled }"
   >
     <header>
-      <h1>Live preview</h1>
+      <quiet-toggle-icon
+      data-on:click="document.getElementById('split_pane').resetHandlePosition = '24px'"
+        label="Toggle live preview visibility"
+        effect="scale"
+        style="--unchecked-color: var(--quiet-text-body); --checked-color: var(--quiet-text-body);"
+        size="xs"
+        id="hide_live_preview_button"
+      >
+        <quiet-icon slot="unchecked" name="eye"></quiet-icon>
+        <quiet-icon slot="checked" name="eye-off"></quiet-icon>
+      </quiet-toggle-icon>
+
+      <quiet-tooltip
+        open-delay="0"
+        close-delay="0"
+        distance="0"
+        without-arrow
+        for="hide_live_preview_button"
+        class="ts-label"
+        data-text="$livePreviewEnabled ? 'Disable live preview' : 'Enable live preview'"
+      >
+        
+      </quiet-tooltip>
+
+      <h1 class="ts-label">Live preview</h1>
     </header>
+
     <quiet-zoomable-frame
+      data-show="$livePreviewEnabled"
       src="http://localhost:${studioConfig.port}/${slug === '/' ? '' : slug}"
       zoom="1"
     >

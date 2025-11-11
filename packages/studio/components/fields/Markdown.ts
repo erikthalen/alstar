@@ -1,6 +1,6 @@
 import type { FieldDefStructure } from '../../types.ts'
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
-import { html } from '../../utils/html.ts'
+import { html } from '@alstar/studio/html'
 
 export default (props: {
   entryId: number | string
@@ -16,7 +16,7 @@ export default (props: {
   if (!data) return html`<p>No block</p>`
 
   return html`
-  <form
+    <form
       data-on:input="@patch('/studio/api/block', {
         contentType: 'form',
         headers: {
@@ -47,5 +47,5 @@ export default (props: {
       <input type="hidden" name="parentId" value="${parentId}" />
       <input type="hidden" name="name" value="${name}" />
     </form>
-`
+  `
 }

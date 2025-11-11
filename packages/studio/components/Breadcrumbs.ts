@@ -1,0 +1,85 @@
+import { type Context } from 'hono'
+import { matchedRoutes, routePath, baseRoutePath, basePath } from 'hono/route'
+import { query } from '../queries/index.ts'
+import { html } from 'hono/html'
+import * as icons from './icons.ts'
+
+export default (c: Context) => {
+  const breadcrumbs = getBreadcrumbs(c)
+
+  return html` <quiet-breadcrumb>
+    <quiet-breadcrumb-item href="/studio">
+      <span class="logo">${icons.logo}</span>
+      <span class="sr-only"></span>
+      <span slot="separator">/</span>
+    </quiet-breadcrumb-item>
+
+    ${breadcrumbs.map((breadcrumb, idx) => {
+      return html`
+        <quiet-breadcrumb-item
+          ${idx === breadcrumbs.length - 1
+            ? 'current'
+            : `href=${breadcrumb.url}`}
+          ${breadcrumb.isEntry ? 'class=is-entry' : ''}
+        >
+          ${breadcrumb.name}
+          <span slot="separator">/</span>
+        </quiet-breadcrumb-item>
+      `
+    })}
+  </quiet-breadcrumb>`
+}
+
+function getBreadcrumbs(c: Context) {
+  const relativeURL = routePath(c)
+  const nameQuery = c.req.query('name')
+
+  let breadcrumbs = []
+
+  if (relativeURL === '/studio/profile') {
+    breadcrumbs.push({
+      name: 'Profile',
+    })
+  }
+
+  if (relativeURL === '/studio/settings') {
+    breadcrumbs.push({
+      name: 'Settings',
+    })
+  }
+
+  if (relativeURL === '/studio/entries') {
+    breadcrumbs.push({
+      url: '/studio/entries',
+      name: 'Entries',
+    })
+
+    if (nameQuery) {
+      const data = query.block({ name: nameQuery })
+
+      breadcrumbs.push({
+        name: data?.label,
+      })
+    }
+  }
+
+  if (relativeURL === '/studio/entries/:id') {
+    const entryId = c.req.param('id')
+    const data = query.block({ id: entryId })
+
+    if (data?.type === 'single') {
+      breadcrumbs.push(
+        {
+          url: '/studio/entries',
+          name: 'Entries',
+        },
+        {
+          name: data.label,
+          isEntry: true,
+        }
+      )
+    }
+  }
+
+  return breadcrumbs
+}

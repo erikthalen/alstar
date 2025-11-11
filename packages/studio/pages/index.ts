@@ -1,45 +1,40 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { defineEntry } from '../utils/define.ts'
 
-import SiteLayout from '../components/SiteLayout.ts'
 import { studioStructure } from '../index.ts'
+import SiteLayout from '../components/SiteLayout.ts'
+import SiteHeader from '../components/SiteHeader.ts'
+import Explorer from '../components/Explorer.ts'
 
-const codeBlock = html`<code
-  ><span style="color: #c678dd;">await</span>
-  <span style="color: #61aeee;">createStudio</span>([ {
-  <span style="color: #d19a66;">name</span>:
-  <span style="color: #98c379;">'entry'</span>,
-  <span style="color: #d19a66;">label</span>:
-  <span style="color: #98c379;">'Entry'</span>,
-  <span style="color: #d19a66;">type</span>:
-  <span style="color: #98c379;">'entry'</span>,
-  <span style="color: #d19a66;">fields</span>: [ {
-  <span style="color: #d19a66;">name</span>:
-  <span style="color: #98c379;">'title'</span>,
-  <span style="color: #d19a66;">label</span>:
-  <span style="color: #98c379;">'Title'</span>,
-  <span style="color: #d19a66;">type</span>:
-  <span style="color: #98c379;">'text'</span>, } ] } ])</code
->`
+export default defineEntry((c) => {
+  return SiteLayout(html`${Explorer(c)}
+    <section class="page">
+      ${SiteHeader(c)}
+      
+      ${!Object.values(studioStructure).length
+        ? html`<div class="background-pattern">
+            <quiet-empty-state style="min-height: 400px;">
+              <quiet-icon slot="illustration" name="file-code-2"></quiet-icon>
 
-export default defineEntry(() => {
-  const Discamer = html` <div class="disclamer">
-    <article>
-      <header>No structure found</header>
-      <p>The Studio needs to be initialized with a structure:</p>
-      <pre>${codeBlock}</pre>
-    </article>
-  </div>`
+              <h3>No structure found</h3>
+              <p>The Studio needs to be initialized with a structure</p>
 
-  return SiteLayout(
-    !Object.values(studioStructure).length
-      ? Discamer
-      : html`<quiet-empty-state style="min-height: 400px;">
-          <h4>Alstar Studio</h4>
-          <p>
-            Welcome to the Studio.
-          </p>
-          <!-- <quiet-button variant="primary" pill>Add podcasts</quiet-button> -->
-        </quiet-empty-state>`
-  )
+              <quiet-button size="xs" variant="primary">
+                Documentation
+              </quiet-button>
+            </quiet-empty-state>
+          </div>`
+        : html`<div class="background-pattern">
+            <quiet-empty-state style="min-height: 400px;">
+              <quiet-icon slot="illustration" name="terminal-2"></quiet-icon>
+
+              <h1>Alstar Studio</h1>
+
+              <quiet-button size="xs" href="/studio/entries" variant="neutral">
+                <quiet-icon slot="start" name="files"></quiet-icon>
+                Entries
+              </quiet-button>
+            </quiet-empty-state>
+          </div> `}
+    </section>`)
 })

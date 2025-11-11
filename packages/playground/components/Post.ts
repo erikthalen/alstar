@@ -1,5 +1,4 @@
-import { query } from '@alstar/studio'
-import { html } from 'hono/html'
+import { html, query } from '@alstar/studio'
 
 export default () => {
   const data = query.page('pages', 1)

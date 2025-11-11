@@ -38,5 +38,7 @@ console.log('🚀 Done generating static build')
 process.exit(0)
 
 async function existingStaticFolder() {
-  return fs.rm(path.join(root, 'static'), { recursive: true }).catch(() => {})
+  return fs.rm(path.join(root, 'static'), { recursive: true }).catch(() => {
+    process.exit(0)
+  })
 }

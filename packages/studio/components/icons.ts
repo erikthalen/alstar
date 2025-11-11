@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 
 export const logo = html`
   <svg viewBox="0 0 1332 342" fill="none">

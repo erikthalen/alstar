@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { query } from '../queries/index.ts'
 import { studioStructure } from '../index.ts'
 import Render from './Render.ts'
@@ -15,7 +15,7 @@ export default (props: { entryId: number | string }) => {
   return html`
     <div id="entry" class="entry">
       <header>
-        <h1>Entry content</h1>
+        <h1 class="ts-label">Entry content</h1>
       </header>
 
       <div class="content">

@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio'
+import { html } from '@alstar/studio/html'
 
 export default section => {
   // console.log(section.fields.items.blocks)

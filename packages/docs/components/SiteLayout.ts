@@ -1,5 +1,5 @@
-import { html, raw, type HtmlEscapedString } from '@alstar/studio'
-import { refreshClient } from '../index.ts'
+import { html, raw, type HtmlEscapedString } from '@alstar/studio/html'
+import { hotReloadClient } from '../index.ts'
 
 export default (
   content: string | HtmlEscapedString | Promise<HtmlEscapedString>,
@@ -42,15 +42,13 @@ export default (
         <script src="https://unpkg.com/@highlightjs/cdn-assets@11.11.1/languages/xml.min.js"></script>
 
         <link rel="stylesheet" href="main.css" />
-
-        <!-- <script src="refresh-client.js"></script> -->
         <script src="main.js" type="module"></script>
 
         <script defer>
           hljs.highlightAll()
         </script>
 
-        <!-- {raw(refreshClient)} -->
+        ${raw(hotReloadClient)}
       </head>
       <body>
         ${content}

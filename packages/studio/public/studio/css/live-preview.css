@@ -5,13 +5,18 @@
   display: grid;
   grid-template-rows: auto 1fr;
 
-  header {
-    border-bottom: 1px solid var(--quiet-neutral-stroke-soft);
-    padding: 1rem;
+  overflow: clip;
+
+  > header {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    height: calc(var(--unit) * 2);
+    border-bottom: 1px solid var(--border-color);
+
+    background-color: var(--quiet-neutral-fill-softer);
 
     h1 {
-      font-size: 0.75rem;
-      text-transform: uppercase;
       margin: 0;
     }
   }

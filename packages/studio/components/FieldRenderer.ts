@@ -2,7 +2,7 @@ import { Field } from './fields/index.ts'
 import type { BlocksFieldDefStructure, FieldDefStructure } from '../types.ts'
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import { BlockFieldInstance } from '../utils/define.ts'
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 
 export default (props: {
   entryId: number | string

@@ -1,7 +1,8 @@
-import { defineEntry, html, query } from '@alstar/studio'
+import { defineEntry, query } from '@alstar/studio'
+import { html } from '@alstar/studio/html'
 import SiteLayout from '../components/SiteLayout.ts'
 import { marked } from 'marked'
-import { raw } from '@alstar/studio/utils/html.ts'
+import { raw } from '@alstar/studio/html'
 import MainMenu from '../components/MainMenu.ts'
 
 export default defineEntry(async c => {

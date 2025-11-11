@@ -24,7 +24,7 @@ app.post('/block', async (c) => {
       })
     )
 
-    db.insertInto('blocks', definedData)
+    db.insertInto('block', definedData)
 
     await renderSSE(stream, c)
   })
@@ -43,7 +43,7 @@ app.patch('/block', async (c) => {
     if (!id || !value) return
 
     const transaction = db.database.prepare(sql`
-      update blocks
+      update block
       set
         value = ?
       where
@@ -60,7 +60,7 @@ app.patch('/value', async (c) => {
   const body = await c.req.json()
 
   const transaction = db.database.prepare(sql`
-    update blocks
+    update block
     set
       value = ?
     where
@@ -92,7 +92,7 @@ app.post('/sort-order', async (c) => {
   if (!id || !sortOrder) return
 
   const transaction = db.database.prepare(sql`
-    update blocks
+    update block
     set
       sort_order = ?
     where

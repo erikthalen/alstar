@@ -1,31 +1,26 @@
 .entry {
-  height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
 
   > header {
-    border-bottom: 1px solid var(--quiet-neutral-stroke-soft);
-    padding: 1rem;
+    display: flex;
+    align-items: center;
+    height: calc(var(--unit) * 2);
+    padding-inline: calc(var(--unit) * 0.5);
+    border-bottom: 1px solid var(--border-color);
+
+    background-color: var(--quiet-neutral-fill-softer);
+
+    position: sticky;
+    top: 0;
+    z-index: 1;
 
     h1 {
-      font-size: 0.75rem;
-      text-transform: uppercase;
       margin: 0;
     }
   }
 
   .content {
     overflow: auto;
-  }
-
-  > .fields > .block {
-    > header {
-      margin-block: var(--pico-block-spacing-vertical);
-    }
-  }
-
-  .field {
-    padding-top: 1rem;
-    padding-inline: 1rem;
   }
 }

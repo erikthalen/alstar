@@ -11,6 +11,7 @@ import {
 } from '@clack/prompts'
 import path from 'node:path'
 import fs from 'node:fs/promises'
+import crypto from 'node:crypto'
 
 console.log(`
  █████╗ ██╗     ███████╗████████╗ █████╗ ██████╗ 
@@ -58,16 +59,23 @@ s.start(`Creating project in ${projectDir}${projectName}`)
 const templatePath = path.join(import.meta.dirname, 'template')
 const fullpath = path.join(path.resolve('.'), projectDir, projectName)
 
-if (!(await directoryExists(fullpath))) {
-  await fs.cp(templatePath, fullpath, { recursive: true })
-  await fs.rename(
-    path.join(fullpath, '_gitignore'),
-    path.join(fullpath, '.gitignore')
-  )
-} else {
+if (await directoryExists(fullpath)) {
   cancel('Directory already exists')
   process.exit(0)
 }
+
+await fs.cp(templatePath, fullpath, { recursive: true })
+await fs.rename(
+  path.join(fullpath, '_gitignore'),
+  path.join(fullpath, '.gitignore')
+)
+
+const RANDOM_TOKEN = crypto.randomBytes(64).toString('hex')
+
+await fs.writeFile(
+  path.join(fullpath, '.env'),
+  `ALSTAR_JWT_ACCESS_TOKEN_SECRET=${RANDOM_TOKEN}`
+)
 
 s.stop(`Created project in ${path.join(projectDir, projectName)}`)
 

@@ -1,7 +1,6 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
-import { html } from '../../utils/html.ts'
+import { html } from '@alstar/studio/html'
 import type { FieldDefStructure } from '../../types.ts'
-import { raw } from 'hono/html'
 
 export default (props: {
   entryId: number | string
@@ -43,11 +42,10 @@ export default (props: {
             value="${data.value}"
             resize="auto"
             rows="4"
+            size="xs"
           >
             ${structure.description
-              ? html`<span slot="description">
-                  <small>${structure.description}</small>
-                </span>`
+              ? html`<span slot="description"> ${structure.description} </span>`
               : ''}</quiet-text-area
           >`
         : html`<quiet-text-field
@@ -55,11 +53,10 @@ export default (props: {
             name="value"
             label="${structure.label}"
             value="${data.value}"
+            size="xs"
           >
             ${structure.description
-              ? html`<span slot="description">
-                  <small>${structure.description}</small>
-                </span>`
+              ? html`<span slot="description"> ${structure.description} </span>`
               : ''}
           </quiet-text-field>`}
 

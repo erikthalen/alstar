@@ -1,15 +1,28 @@
-import { html } from "hono/html";
-import SiteLayout from "../components/SiteLayout.ts";
-import type { HTTPResponseError } from "hono/types";
+import { html } from '@alstar/studio/html'
+import SiteLayout from '../components/SiteLayout.ts'
+import type { HTTPResponseError } from 'hono/types'
 
-export default ((err?: Error | HTTPResponseError) => {
-  return SiteLayout(html`
-    <div class="container">
-      <article style="margin: 100px">
-        <header>Something went wrong</header>
-        <p>Try again</p>
-        <p>${err?.message || '404 - Not found'}</p>
-      </article>
-    </div>
-  `, false)
-})
+export default (err?: Error | HTTPResponseError) => {
+  return SiteLayout(
+    html`
+      <div class="background-pattern" style="padding-bottom: 10vh; height: 100%; display: flex; flex-direction: column; place-content: center;">
+        <quiet-empty-state style="min-height: 400px;">
+          <quiet-icon slot="illustration" name="unlink"></quiet-icon>
+
+          <h3>Something went wrong</h3>
+
+          <p>${err?.message || '404 - Page not found'}</p>
+
+          ${!err
+            ? html`<quiet-button data-barba-prevent href="/studio" variant="primary">
+                Take me home
+              </quiet-button>`
+            : ''}
+        </quiet-empty-state>
+
+        <pre><code>${err?.stack}</code></pre>
+      </div>
+    `,
+    false
+  )
+}

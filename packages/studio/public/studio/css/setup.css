@@ -1,0 +1,18 @@
+.setup {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    height: 8rem;
+
+    svg {
+      width: auto;
+      height: 50px;
+      margin: auto;
+    }
+  }
+}

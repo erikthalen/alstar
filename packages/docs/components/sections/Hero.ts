@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio'
+import { html } from '@alstar/studio/html'
 import { raw } from 'hono/html'
 
 type Props = {

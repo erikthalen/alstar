@@ -1,5 +1,4 @@
-import { html } from 'hono/html'
-import type { HtmlEscapedString } from 'hono/utils/html'
+import { html, type HtmlEscapedString } from '@alstar/studio/html'
 import FieldRenderer from './FieldRenderer.ts'
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import BlockRenderer from './BlockRenderer.ts'
@@ -42,7 +41,7 @@ export default (props: {
     }
   } catch (error) {
     console.log(error)
-    
+
     return html`
       <p>Error rendering "${name}"</p>
       <pre><code>${JSON.stringify(error, null, 2)}</code></pre>

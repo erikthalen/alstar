@@ -1,0 +1,50 @@
+.ͼ1 .cm-content.ink-mde-editor-content {
+  min-height: 10lh;
+}
+
+div.ink-mde {
+  padding: 0 0.75em;
+  border: var(--quiet-border-style) var(--quiet-border-width)
+    var(--quiet-neutral-stroke-soft);
+  border-radius: var(--quiet-border-radius-md);
+  background-color: var(--quiet-paper-color);
+  color: var(--quiet-text-body);
+}
+
+.ink-mde-textarea {
+}
+
+div.ink-mde:has(.cm-focused) {
+  --pico-outline-width: 0.1rem;
+  --pico-box-shadow: 0 0 0 var(--pico-outline-width)
+    var(--pico-form-element-focus-color);
+
+  box-shadow: var(--pico-box-shadow);
+}
+
+.ͼ1.cm-focused {
+  outline: none;
+}
+
+.ink-mde-textarea {
+  width: 100%;
+
+  --pico-background-color: var(--pico-form-element-background-color);
+
+  --pico-color: var(--pico-form-element-color);
+  --pico-box-shadow: none;
+
+  outline: 0;
+  background-color: var(--pico-background-color);
+  box-shadow: var(--pico-box-shadow);
+  color: var(--pico-color);
+  font-weight: var(--pico-font-weight);
+  transition: background-color var(--pico-transition),
+    border-color var(--pico-transition), color var(--pico-transition),
+    box-shadow var(--pico-transition);
+}
+
+.markdown {
+  width: 100%;
+  height: 10lh;
+}

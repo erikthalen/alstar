@@ -1,15 +1,18 @@
 import { db } from '@alstar/db'
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { sql } from '../../utils/sql.ts'
+import { getEnv } from '@alstar/studio/env'
 
-export default () => {
+export default async () => {
+  const env = await getEnv()
+
   const users = db.database
     .prepare(
       sql`
       select
-        email
+        name
       from
-        users
+        user
     `
     )
     .all()
@@ -19,14 +22,22 @@ export default () => {
       <table>
         <thead>
           <tr>
-            <th scope="col">Email</th>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <th scope="row">${env.ALSTAR_ADMIN_USER}</th>
+            <th scope="row">
+              <quiet-badge variant="neutral">Admin</quiet-badge>
+            </th>
+          </tr>
+
           ${users.map(
             (user) => html`
               <tr>
-                <th scope="row">${user.email}</th>
+                <th scope="row">${user.username}</th>
               </tr>
             `
           )}

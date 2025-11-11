@@ -1,53 +1,52 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import { query } from '../index.ts'
-import * as icons from './icons.ts'
 
 export default ({ name }: { name: string }) => {
   const entries = query.blocks({ parent_id: null, status: 'enabled', name })
 
   return html`
-    <section id="entries">
-      <ul>
-        ${entries?.map((block) => {
-          const title = query.block({
-            parent_id: block.id.toString(),
-            name: 'title',
-          })
+    <section id="entries" class="entries">
+      <vscode-single-select id="combobox-example" combobox>
+        <vscode-option>Afghanistan</vscode-option>
+        <vscode-option>Albania</vscode-option>
+      </vscode-single-select>
 
-          return html`
-            <li>
-              <a href="/studio/entry/${block.id}" id="block_link_${block.id}">
-                ${title?.value || 'Untitled'}
-              </a>
+      <!-- <quiet-text-field size="xs" name="search" label="Search">
+        <quiet-icon slot="start" name="search"></quiet-icon>
+      </quiet-text-field> -->
 
-              <form
-                data-on:submit="@delete('/studio/api/block', {
-                  contentType: 'form',
-                  headers: {
-                    render: 'AdminPanel'
-                  }
-                })"
-              >
-                <input type="hidden" name="id" value="${block.id}" />
+      <vscode-table class="resizable-example" zebra bordered-columns resizable>
+        <vscode-table-header slot="header">
+          <vscode-table-header-cell>Title</vscode-table-header-cell>
+          <vscode-table-header-cell>Slug</vscode-table-header-cell>
+        </vscode-table-header>
+        <vscode-table-body slot="body">
+          ${entries?.map((block) => {
+            const title = query.block({
+              parent_id: block.id.toString(),
+              name: 'title',
+            })
 
-                <quiet-button
-                  size="xs"
-                  type="submit"
-                  id="remove_${block.id}"
-                  icon-label="Remove ${title?.value || 'Untitled'}"
-                  appearance="text"
-                >
-                  <quiet-icon name="trash"></quiet-icon>
-                </quiet-button>
+            const slug = query.block({
+              parent_id: block.id.toString(),
+              name: 'slug',
+            })
 
-                <quiet-tooltip for="remove_${block.id}">
-                  Remove ${title?.value || 'Untitled'}
-                </quiet-tooltip>
-              </form>
-            </li>
-          `
-        })}
-      </ul>
+            return html`
+              <vscode-table-row>
+                <vscode-table-cell>
+                  <a href="/studio/entries/${block.id}">
+                    <h4 class="ts-xs name">${title?.value || 'Untitled'}</h4>
+                  </a>
+                </vscode-table-cell>
+                <vscode-table-cell>
+                  ${slug?.value ? `/${slug?.value}` : ''}
+                </vscode-table-cell>
+              </vscode-table-row>
+            `
+          })}
+        </vscode-table-body>
+      </vscode-table>
     </section>
   `
 }

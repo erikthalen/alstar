@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import * as icons from '../icons.ts'
 import { db } from '@alstar/db'
 import { sql } from '../../utils/sql.ts'
@@ -16,7 +16,7 @@ export default () => {
     .all()
 
   return html`
-    <article data-signals="{ apiKey: '', copied: false }">
+    <article id="api_keys" data-signals="{ apiKey: '', copied: false }">
       <table>
         <thead>
           <tr>
@@ -70,7 +70,6 @@ export default () => {
       </quiet-divider>
 
       <quiet-card style="max-width: 340px;">
-
         <form
           data-on:submit="@post('/studio/api/api-key', {
             contentType: 'form',
@@ -87,9 +86,9 @@ export default () => {
           >
             <span slot="description"> Enter a name for the API key. </span>
           </quiet-text-field>
-  
+
           <br />
-  
+
           <quiet-button style="width: 100%" type="submit" variant="primary">
             Generate key
           </quiet-button>

@@ -74,6 +74,7 @@ export type BlockDef<T extends BlockFields> = {
   } | {
     slug: string
   },
+  icon?: string, // https://tabler.io/icons
   fields: T,
 }
 

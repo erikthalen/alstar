@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+import { html } from '@alstar/studio/html'
 import type { BlockDefStructure } from '../types.ts'
 import Render from './Render.ts'
 
@@ -13,10 +13,10 @@ export default (props: {
   const entries = Object.entries(structure.fields)
 
   return html`${entries.map(([name, field]) => {
-      try {
-        return Render({ entryId, parentId, structure: field, name })
-      } catch (error) {
-        return html`<p>Cound not render: "${name}"</p>`
-      }
-    })}`
+    try {
+      return Render({ entryId, parentId, structure: field, name })
+    } catch (error) {
+      return html`<p>Cound not render: "${name}"</p>`
+    }
+  })}`
 }

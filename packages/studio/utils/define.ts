@@ -1,5 +1,5 @@
 import * as types from '../types.ts'
-import { type HtmlEscapedString } from './html.ts'
+import { type HtmlEscapedString } from '../helpers/html/html.ts'
 
 export const defineConfig = (config: types.StudioConfig) => config
 

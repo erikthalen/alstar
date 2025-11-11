@@ -16,7 +16,7 @@ export const blockWithChildren = sql`
         parent_id,
         0 as depth
       from
-        blocks
+        block
       where
         id = ? -- <-- put your starting block id here
       union all
@@ -33,7 +33,7 @@ export const blockWithChildren = sql`
         b.parent_id,
         bt.depth + 1
       from
-        blocks b
+        block b
         inner join block_tree bt on b.parent_id = bt.id
     )
   select
@@ -52,7 +52,7 @@ export const deleteBlockWithChildren = sql`
       select
         id
       from
-        blocks
+        block
       where
         id = ? -- <-- put your root block id here
       union all
@@ -60,10 +60,10 @@ export const deleteBlockWithChildren = sql`
       select
         b.id
       from
-        blocks b
+        block b
         inner join block_tree bt on b.parent_id = bt.id
     )
-  delete from blocks
+  delete from block
   where
     id in (
       select
