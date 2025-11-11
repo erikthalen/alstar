@@ -64,7 +64,7 @@ export const hotReloadClient = (port: number) => html`<script
     'color: green; background: lightgreen; border-radius: 2px'
   )
 
-  const response = await fetch('http://localhost:${port}/hot-reload').catch(
+  const response = await fetch('/hot-reload').catch(
     () => false
   )
 
