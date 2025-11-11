@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "pnpx tsx --watch index.ts",
+    "dev": "HOT_RELOAD=true pnpx tsx --watch index.ts",
     "docs:build": "alstar"
   },
   "devDependencies": {

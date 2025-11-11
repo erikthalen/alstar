@@ -45,28 +45,25 @@ export const hotReload = ({
   }
 }
 
-export const hotReloadClient = (port: number) => html`<script
-  defer
-  type="module"
->
-  function reload() {
-    const retry = async () => {
-      if (await fetch('/').catch(() => false))
-        window.location.reload()
-      else requestAnimationFrame(retry)
-    }
+export const hotReloadClient = (port: number) =>
+  process.env.HOT_RELOAD === 'true'
+    ? html`<script defer type="module">
+        function reload() {
+          const retry = async () => {
+            if (await fetch('/').catch(() => false)) window.location.reload()
+            else requestAnimationFrame(retry)
+          }
 
-    retry()
-  }
+          retry()
+        }
 
-  console.log(
-    '%c REFRESHER ACTIVE ',
-    'color: green; background: lightgreen; border-radius: 2px'
-  )
+        console.log(
+          '%c REFRESHER ACTIVE ',
+          'color: green; background: lightgreen; border-radius: 2px',
+        )
 
-  const response = await fetch('/hot-reload').catch(
-    () => false
-  )
+        const response = await fetch('/hot-reload').catch(() => false)
 
-  reload()
-</script>`
+        reload()
+      </script>`
+    : ''

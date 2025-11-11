@@ -16,7 +16,7 @@ try {
   process.exit(1)
 }
 
-await existingStaticFolder()
+await removeExistingStaticFolder()
 
 const excludeStudioPlugin: SSGPlugin = {
   beforeRequestHook: (req) => {
@@ -37,8 +37,8 @@ console.log('🚀 Done generating static build')
 
 process.exit(0)
 
-async function existingStaticFolder() {
+async function removeExistingStaticFolder() {
   return fs.rm(path.join(root, 'static'), { recursive: true }).catch(() => {
-    process.exit(0)
+    console.log('Found no existing /static')
   })
 }

@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio'
+import { html } from '@alstar/studio/html'
 import * as icons from './Icons.ts'
 
 export default () => {

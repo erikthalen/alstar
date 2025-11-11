@@ -1,4 +1,4 @@
-import { html, type HtmlEscapedString } from '@alstar/studio'
+import { html, type HtmlEscapedString } from '@alstar/studio/html'
 
 export default (
   content: string | HtmlEscapedString | Promise<HtmlEscapedString>

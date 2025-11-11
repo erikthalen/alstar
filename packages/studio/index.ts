@@ -67,7 +67,10 @@ const createStudio = async (config: types.StudioConfigInput) => {
   // )
 
   // app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
-  app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
+
+  if (process.env.HOT_RELOAD === 'true') {
+    app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
+  }
 
   /**
    * Static folders
@@ -91,7 +94,7 @@ const createStudio = async (config: types.StudioConfigInput) => {
       c.set('user', session.user)
       c.set('session', session.session)
       await next()
-    })
+    }),
   )
 
   // redirect from /login to /studio if logged in
@@ -144,7 +147,7 @@ const createStudio = async (config: types.StudioConfigInput) => {
       root: './',
       rewriteRequestPath: (path) =>
         path.replace(/^\/studio\/backups/, '/backups'),
-    })
+    }),
   )
 
   /**
