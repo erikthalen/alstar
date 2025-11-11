@@ -51,7 +51,7 @@ export const hotReloadClient = (port: number) => html`<script
 >
   function reload() {
     const retry = async () => {
-      if (await fetch('http://localhost:${port}').catch(() => false))
+      if (await fetch('/').catch(() => false))
         window.location.reload()
       else requestAnimationFrame(retry)
     }
