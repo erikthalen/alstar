@@ -16,7 +16,6 @@ import startupLog from './utils/startup-log.ts'
 import { createAuthServer } from './utils/auth.ts'
 import { apiRoutes } from './api/index.ts'
 import { mcpRoutes } from './api/mcp.ts'
-import packageJSON from './package.json' with { type: 'json' }
 
 import ErrorPage from './pages/error.ts'
 
@@ -24,6 +23,9 @@ import * as types from './types.ts'
 import { cors } from 'hono/cors'
 import { except } from 'hono/combine'
 import { html } from 'hono/html'
+import { readFile } from 'node:fs/promises'
+
+const packageJSON = JSON.parse(await readFile('./package.json', 'utf-8'))
 
 export let rootdir = './node_modules/@alstar/studio'
 
@@ -87,14 +89,13 @@ const createStudio = async (config: types.StudioConfigInput) => {
       if (!session) {
         c.set('user', null)
         c.set('session', null)
-        await next()
         return c.redirect('/studio/login')
       }
 
       c.set('user', session.user)
       c.set('session', session.session)
       await next()
-    }),
+    })
   )
 
   // redirect from /login to /studio if logged in
@@ -147,7 +148,7 @@ const createStudio = async (config: types.StudioConfigInput) => {
       root: './',
       rewriteRequestPath: (path) =>
         path.replace(/^\/studio\/backups/, '/backups'),
-    }),
+    })
   )
 
   /**
