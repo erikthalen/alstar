@@ -9,20 +9,10 @@ main:has(#explorer) {
     var(--explorer-transition-ease);
 }
 
-main:has(#explorer:hover) {
-  --explorer-width: 150px;
-}
-main:has(#explorer:hover) {
-  #explorer:after {
-    scale: 0 1;
-  }
-}
-
+main:has(#explorer:hover),
 main:has(#explorer quiet-toggle-icon:state(checked)) {
   --explorer-width: 150px;
-}
 
-main:has(#explorer quiet-toggle-icon:state(checked)) {
   #explorer:after {
     scale: 0 1;
   }
@@ -33,22 +23,6 @@ main:has(#explorer quiet-toggle-icon:state(checked)) {
   height: inherit;
   overflow: clip;
   border-right: 1px solid var(--border-color);
-
-  /* &:after {
-    transition: scale var(--explorer-transition-duration)
-      var(--explorer-transition-ease);
-    scale: 1 1;
-    transform-origin: right;
-    content: '';
-    width: calc(var(--unit) * 2);
-    height: inherit;
-    background-color: var(--quiet-background-color);
-
-    position: absolute;
-    top: calc(var(--unit) * 2);
-    right: 0;
-    z-index: 1;
-  } */
 
   header {
     display: flex;
@@ -65,5 +39,4 @@ main:has(#explorer quiet-toggle-icon:state(checked)) {
 
 vscode-tree {
   padding: 0.25rem;
-
 }

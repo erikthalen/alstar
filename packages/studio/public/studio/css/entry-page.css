@@ -2,6 +2,8 @@
   height: calc(100vh - var(--unit) * 2);
 
   vscode-split-layout {
+    height: 100%;
+    
     > div {
       height: 100%;
     }

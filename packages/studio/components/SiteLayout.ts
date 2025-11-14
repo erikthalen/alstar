@@ -7,8 +7,7 @@ export default (
     | string
     | Promise<string>
     | HtmlEscapedString
-    | Promise<HtmlEscapedString>,
-  includeAdminPanel = true
+    | Promise<HtmlEscapedString>
 ) => {
   const title = studioConfig.siteName ? studioConfig.siteName + ' | ' : ''
 
@@ -76,7 +75,7 @@ export default (
         <script type="importmap">
           {
             "imports": {
-              "@barba/core": "https://esm.sh/@barba/core@2.10.3/dist/barba.mjs",
+              "swup": "https://esm.sh/swup@4",
               "sortablejs": "https://esm.sh/sortablejs@1.15.6/modular/sortable.core.esm.js",
               "ink-mde": "https://esm.sh/ink-mde@0.34.0",
               "@quietui/quiet": "https://esm.sh/@quietui/quiet-browser@1.6.1/dist/quiet.js",
@@ -92,12 +91,8 @@ export default (
         ${raw(hotReloadClient(8787))}
       </head>
 
-      <body data-barba="wrapper">
-        ${includeAdminPanel ? html`` : html`<div></div>`}
-
-        <main data-barba="container" data-barba-namespace="default">
-          ${content}
-        </main>
+      <body>
+        <main id="swup">${content}</main>
       </body>
     </html>
   `

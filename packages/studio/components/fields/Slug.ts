@@ -76,18 +76,34 @@ export default (props: {
           }
         })"
       >
-        <quiet-text-field
+        <vscode-form-container responsive>
+          <vscode-form-group>
+            <vscode-label for="block-${data.id}">
+              ${structure.label}
+            </vscode-label>
+            <vscode-textfield
+              value="${data.value}"
+              id="block-${data.id}"
+              name="value"
+            ></vscode-textfield>
+            <vscode-form-helper>
+              <p class="ts-xs">${structure.description}</p>
+            </vscode-form-helper>
+          </vscode-form-group>
+        </vscode-form-container>
+
+        <!-- <quiet-text-field
           id="block-${data.id}"
           name="value"
           label="${structure.label}"
           value="${data.value}"
         >
           ${structure.description
-            ? html`<span slot="description">
-                <small>${structure.description}</small>
-              </span>`
-            : ''}
-        </quiet-text-field>
+          ? html`<span slot="description">
+              <small>${structure.description}</small>
+            </span>`
+          : ''}
+        </quiet-text-field> -->
 
         <input type="hidden" name="type" value="${structure.type}" />
         <input type="hidden" name="id" value="${data.id}" />
@@ -97,7 +113,6 @@ export default (props: {
       </form>
 
       <form
-        style="margin-top: 21px"
         data-on:submit="@patch('/studio/api/block', {
           contentType: 'form',
           headers: {
@@ -114,11 +129,19 @@ export default (props: {
           id="generate_slug_field"
           type="submit"
           icon-label="Reload"
+          size="xs"
         >
           <quiet-icon name="refresh"></quiet-icon>
         </quiet-button>
 
-        <quiet-tooltip for="generate_slug_field">Generate slug</quiet-tooltip>
+        <quiet-tooltip
+          distance="0"
+          without-arrow
+          class="ts-label"
+          for="generate_slug_field"
+        >
+          Generate slug
+        </quiet-tooltip>
       </form>
     </div>
   `

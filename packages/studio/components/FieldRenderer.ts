@@ -37,5 +37,9 @@ export default (props: {
     case 'reference': {
       return html`<div class="field">${Field.Reference({ entryId, parentId, name, structure, id })}</div>`
     }
+    
+    case 'svg': {
+      return html`<div class="field">${Field.SVG({ entryId, parentId, name, structure, id })}</div>`
+    }
   }
 }

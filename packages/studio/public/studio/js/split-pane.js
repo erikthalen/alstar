@@ -1,70 +1,13 @@
 import { LitElement, html, css } from 'lit'
 
-const styles = css`
-  .root {
-    display: grid;
-    grid-template-columns: var(--pane-start-size, 50%) 1px var(
-        --pane-end-size,
-        50%
-      );
-
-    height: 100%;
-    width: 100%;
-  }
-
-  .root.fixed-start {
-    grid-template-columns: var(--pane-start-size, 50%) 1px 1fr;
-  }
-
-  .handle {
-    border: 0;
-    padding: 0;
-    margin: 0;
-
-    position: relative;
-
-    width: 1px;
-    height: 100%;
-    background: var(--alstar-split-pane-border);
-
-    cursor: col-resize;
-  }
-
-  .handle:before {
-    transition: opacity 200ms;
-    content: '';
-    position: absolute;
-    inset: 0 -2px;
-    background: blue;
-
-    opacity: 0;
-  }
-
-  .handle:after {
-    content: '';
-    position: absolute;
-    inset: 0 -10px;
-  }
-
-  .handle:hover:before {
-    transition: opacity 200ms 500ms;
-    opacity: 1;
-  }
-
-  .pane {
-    overflow: hidden;
-  }
-`
-
 export class SplitPane extends LitElement {
   static properties = {
     fixed: {},
+    locked: { reflect: true },
 
     abortController: { attribute: false },
     activeAbortController: { attribute: false },
   }
-
-  static styles = styles
 
   constructor() {
     super()
@@ -75,6 +18,8 @@ export class SplitPane extends LitElement {
         : this.fixed === 'end'
         ? 'fixed-end'
         : ''
+
+    this.locked = false
 
     this.abortController = new AbortController()
     this.activeAbortController = new AbortController()
@@ -101,8 +46,10 @@ export class SplitPane extends LitElement {
   }
 
   setCSS(width, position) {
-    this.style.setProperty('--pane-start-size', position - 0.5 + 'px')
-    this.style.setProperty('--pane-end-size', width - position - 0.5 + 'px')
+    const clamp = (min, val, max) => Math.min(max, Math.max(val, min))
+    const pos = clamp(1, position - 0.5, width - 1)
+    this.style.setProperty('--pane-start-size', pos + 'px')
+    this.style.setProperty('--pane-end-size', width - pos + 'px')
   }
 
   onPointerDown() {
@@ -122,7 +69,7 @@ export class SplitPane extends LitElement {
 
   render() {
     return html`
-      <div class="root ${this.fixedClass}">
+      <div class="root ${this.fixedClass}" ?locked="${this.locked}">
         <div class="pane start">
           <slot name="start"></slot>
         </div>
@@ -139,5 +86,65 @@ export class SplitPane extends LitElement {
       </div>
     `
   }
+
+  static styles = css`
+    .root {
+      display: grid;
+      grid-template-columns: var(--pane-start-size, 50%) 1px var(
+          --pane-end-size,
+          50%
+        );
+
+      height: 100%;
+      width: 100%;
+    }
+
+    .root.fixed-start {
+      grid-template-columns: var(--pane-start-size, 50%) 1px 1fr;
+    }
+
+    :host[locked] {
+      background: red;
+    }
+
+    .handle {
+      border: 0;
+      padding: 0;
+      margin: 0;
+
+      position: relative;
+
+      width: 1px;
+      height: 100%;
+      background: var(--alstar-split-pane-border);
+
+      cursor: col-resize;
+    }
+
+    .handle:before {
+      transition: opacity 200ms;
+      content: '';
+      position: absolute;
+      inset: 0 -2px;
+      background: blue;
+
+      opacity: 0;
+    }
+
+    .handle:after {
+      content: '';
+      position: absolute;
+      inset: 0 -10px;
+    }
+
+    .handle:hover:before {
+      transition: opacity 200ms 500ms;
+      opacity: 1;
+    }
+
+    .pane {
+      overflow: hidden;
+    }
+  `
 }
 customElements.define('alstar-split-pane', SplitPane)

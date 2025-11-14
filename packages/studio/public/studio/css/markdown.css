@@ -9,6 +9,7 @@ div.ink-mde {
   border-radius: var(--quiet-border-radius-md);
   background-color: var(--quiet-paper-color);
   color: var(--quiet-text-body);
+  font-size: 12px;
 }
 
 .ink-mde-textarea {

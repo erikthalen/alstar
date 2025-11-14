@@ -44,8 +44,7 @@ export const { app, hotReloadClient } = await createStudio({
               fields: {
                 logo: defineField({
                   label: 'Logo',
-                  type: 'text',
-                  presentation: 'svg',
+                  type: 'svg',
                 }),
                 title: defineField({
                   label: 'Title',
@@ -98,10 +97,9 @@ export const { app, hotReloadClient } = await createStudio({
       icon: 'sun',
       fields: {
         logo: defineField({
-          type: 'text',
+          type: 'svg',
           label: 'Logo',
           description: 'A raw svg string',
-          presentation: 'svg',
         }),
       },
     }),

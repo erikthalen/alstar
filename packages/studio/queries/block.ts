@@ -90,6 +90,7 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           block
         where
           ${filterSql}
+          AND status = 'enabled'
         union all
         select
           b.id,
@@ -107,6 +108,8 @@ function rootQuery(filterSql: string, depthLimit?: number) {
         from
           block b
           inner join ancestors a on b.id = a.parent_id
+        where
+          b.status = 'enabled'
       ),
       roots as (
         select
@@ -159,7 +162,10 @@ function rootQuery(filterSql: string, depthLimit?: number) {
           d.depth + 1
         from
           block b
-          inner join descendants d on b.parent_id = d.id ${depthLimitClause}
+          inner join descendants d on b.parent_id = d.id
+        where
+          b.status = 'enabled'
+          ${depthLimitClause}
       )
     select
       *

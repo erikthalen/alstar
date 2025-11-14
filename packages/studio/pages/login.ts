@@ -38,7 +38,12 @@ export default defineEntry(async (c) => {
 
             <br />
 
-            <quiet-button size="xs" style="width: 100%" type="submit" variant="primary">
+            <quiet-button
+              size="xs"
+              style="width: 100%"
+              type="submit"
+              variant="primary"
+            >
               Login
             </quiet-button>
 
@@ -60,7 +65,6 @@ export default defineEntry(async (c) => {
             </style>
           </form>
         </quiet-card>
-      </div>`,
-    false
+      </div>`
   )
 })

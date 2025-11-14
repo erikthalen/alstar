@@ -11,7 +11,7 @@ import { type HtmlEscapedString } from 'hono/utils/html'
 
 export type BlockStatus = 'enabled' | 'disabled'
 
-type FieldType = 'text' | 'slug' | 'markdown' | 'image' | 'reference'
+type FieldType = 'text' | 'slug' | 'markdown' | 'image' | 'reference' | 'svg'
 
 interface BaseField {
   label: string
@@ -22,7 +22,7 @@ interface BaseField {
 
 // text fields
 interface TextField extends BaseField {
-  type: 'text' | 'slug' | 'markdown'
+  type: 'text' | 'slug' | 'markdown' | 'svg'
 }
 
 interface TextFieldStructure extends TextField {

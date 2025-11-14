@@ -11,7 +11,13 @@ export default defineEntry((c) => {
       ${SiteHeader(c)}
 
       <div>
-        <alstar-split-pane fixed="start">
+        <input
+          type="checkbox"
+          data-bind="locked"
+          data-on:change="$locked ? document.getElementById('pane').setAttribute('locked', '') : document.getElementById('pane').removeAttribute('locked')"
+        />
+
+        <alstar-split-pane fixed="start" id="pane">
           <div style="padding: 2rem" slot="start">
             <p>Start</p>
           </div>

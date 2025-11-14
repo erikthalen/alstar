@@ -1,9 +1,11 @@
 .field {
+  padding-inline: 1rem;
+  
   .field-text {
     output {
       display: grid;
       max-height: 300px;
-      margin-bottom: 1rem;
+      margin-top: 1rem;
       
       svg {
         height: 100%;

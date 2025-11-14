@@ -11,24 +11,30 @@ export class ToggleIcon extends LitElement {
 
   static properties = {
     /** The label of the toggle icon. */
-    label: '',
+    label: {},
 
     /** The name of the toggle icon. This will be submitted with the form as a name/value pair. */
-    name: 'the-name',
-  
+    name: {},
+
     /** The value of the toggle icon. This will be submitted with the form as a name/value pair. */
-    value: 'the-value',
+    value: {},
 
     /** The toggle icon's checked state. */
-    checked: false,
+    checked: {},
 
     /** The toggle icon's disabled state. */
-    disabled: false,
+    disabled: {},
   }
 
   constructor() {
     super()
     this.internals = this.attachInternals()
+
+    this.label = ''
+    this.name = ''
+    this.value = ''
+    this.checked = false
+    this.disabled = false
   }
 
   get form() {
@@ -42,7 +48,7 @@ export class ToggleIcon extends LitElement {
   handleChange(e) {
     if (!e.target) return
 
-    this.checked = (e.target).checked
+    this.checked = e.target.checked
 
     this.dispatchEvent(new Event('change', { bubbles: true, composed: true }))
     this.dispatchEvent(new InputEvent('input'))

@@ -35,7 +35,23 @@ export default (props: {
         }
       })"
     >
-      ${structure.presentation === 'svg'
+      <vscode-form-container responsive>
+        <vscode-form-group>
+          <vscode-label for="block-${data.id}">
+            ${structure.label}
+          </vscode-label>
+          <vscode-textfield
+            value="${data.value}"
+            id="block-${data.id}"
+            name="value"
+          ></vscode-textfield>
+          <vscode-form-helper>
+            <p class="ts-xs">${structure.description}</p>
+          </vscode-form-helper>
+        </vscode-form-group>
+      </vscode-form-container>
+
+      <!-- ${structure.presentation === 'svg'
         ? html`<quiet-text-area
             class="text-wrap-pre"
             label="${structure.label}"
@@ -58,7 +74,7 @@ export default (props: {
             ${structure.description
               ? html`<span slot="description"> ${structure.description} </span>`
               : ''}
-          </quiet-text-field>`}
+          </quiet-text-field>`} -->
 
       <input type="hidden" name="type" value="${structure.type}" />
       <input type="hidden" name="id" value="${data.id}" />

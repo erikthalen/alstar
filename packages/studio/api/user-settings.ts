@@ -22,8 +22,8 @@ app.post('/user-settings', async (c) => {
 
   if (!user?.id) return c.json({ status: 401, message: 'no user' })
 
-  const body = await c.req.json()
-  const [data] = Object.entries(body)
+  const body = await c.req.formData()
+  const data = Object.fromEntries(body.entries())
 
   db.database
     .prepare(
@@ -36,9 +36,9 @@ app.post('/user-settings', async (c) => {
           updated_at = datetime('now');
       `
     )
-    .run(user.id, data[0], data[1]?.toString() || '')
+    .run(user.id, data.type.toString(), data.value?.toString() || 'false')
 
-  return c.text('yeah')
+  return c.json({ status: 200, message: 'value updated' })
 })
 
 app.delete('/user-settings', async (c) => {})

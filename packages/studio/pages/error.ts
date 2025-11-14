@@ -5,7 +5,10 @@ import type { HTTPResponseError } from 'hono/types'
 export default (err?: Error | HTTPResponseError) => {
   return SiteLayout(
     html`
-      <div class="background-pattern" style="padding-bottom: 10vh; height: 100%; display: flex; flex-direction: column; place-content: center;">
+      <div
+        class="background-pattern"
+        style="padding-bottom: 10vh; height: 100%; display: flex; flex-direction: column; place-content: center;"
+      >
         <quiet-empty-state style="min-height: 400px;">
           <quiet-icon slot="illustration" name="unlink"></quiet-icon>
 
@@ -14,7 +17,11 @@ export default (err?: Error | HTTPResponseError) => {
           <p>${err?.message || '404 - Page not found'}</p>
 
           ${!err
-            ? html`<quiet-button data-barba-prevent href="/studio" variant="primary">
+            ? html`<quiet-button
+                data-barba-prevent
+                href="/studio"
+                variant="primary"
+              >
                 Take me home
               </quiet-button>`
             : ''}
@@ -22,7 +29,6 @@ export default (err?: Error | HTTPResponseError) => {
 
         <pre><code>${err?.stack}</code></pre>
       </div>
-    `,
-    false
+    `
   )
 }

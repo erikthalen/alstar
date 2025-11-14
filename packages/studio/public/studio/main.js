@@ -6,38 +6,37 @@ import './js/settings-tabs.js'
 import './js/split-pane.js'
 import './js/toggle-icon.js'
 
-import barba from '@barba/core'
+import Swup from 'swup'
 import { allDefined } from '@quietui/quiet'
 
 let abortController = new AbortController()
 
-barba.init({
-  debug: true,
-  cacheIgnore: true,
-  views: [{ namespace: 'default' }],
+await allDefined()
+
+const swup = new Swup({
+  animationSelector: false,
+  cache: true,
 })
 
-barba.hooks.after(hydrateQuietLinks)
-
-hydrateQuietLinks()
-
-async function hydrateQuietLinks() {
-  await allDefined()
-
+function hydrateLinks() {
   abortController.abort()
   abortController = new AbortController()
 
   document.querySelectorAll('*[href]').forEach((link) => {
-    if (!link.href || link.getAttribute('data-barba-prevent') !== null) return
-
     link.addEventListener(
       'click',
       (e) => {
         e.preventDefault()
         e.stopPropagation()
-        barba.go(link.href)
+        swup.navigate(link.href)
       },
       { signal: abortController.signal }
     )
   })
 }
+
+hydrateLinks()
+
+swup.hooks.on('page:view', () => {
+  hydrateLinks()
+})

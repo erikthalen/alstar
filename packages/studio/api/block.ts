@@ -36,21 +36,43 @@ app.patch('/block', async (c) => {
 
     const id = formData.get('id')?.toString()
     const value = formData.get('value')?.toString()
-    // const name = formData.get('name')?.toString()
-    // const entryId = formData.get('entryId')?.toString()
-    // const parentId = formData.get('parentId')?.toString()
 
     if (!id || !value) return
 
     const transaction = db.database.prepare(sql`
       update block
       set
-        value = ?
+        value = ?,
+        updated_at = datetime('now')
       where
         id = ?;
     `)
 
     transaction.run(value, id)
+
+    await renderSSE(stream, c)
+  })
+})
+
+app.patch('/disable-block', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const formData = await c.req.formData()
+
+    const id = formData.get('id')?.toString()
+    const value = formData.get('value')?.toString()
+
+    if (!id) return
+
+    const transaction = db.database.prepare(sql`
+      update block
+      set
+        status = ?,
+        updated_at = datetime('now')
+      where
+        id = ?;
+    `)
+
+    transaction.run(value ? 'enabled' : 'disabled', parseInt(id))
 
     await renderSSE(stream, c)
   })

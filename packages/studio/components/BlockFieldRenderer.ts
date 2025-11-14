@@ -86,37 +86,44 @@ export default (props: {
                 <p class="ts-xs">${struct.label}</p>
 
                 <aside>
-                  <quiet-toggle-icon
-                    data-signals="{ explorer_locked: false }"
-                    data-on:quiet-change="$explorer_locked = evt.target.checked; @patch('/studio/api/blocks')"
-                    label="Disable"
-                    effect="scale"
-                    checked
-                    style="--unchecked-color: var(--quiet-destructive-text-colorful); --checked-color: var(--quiet-constructive-text-colorful);"
-                    id="tooltip-disable-${row.id}"
-                    size="xs"
+                  <form
+                    class="contents"
+                    data-on:change="setTimeout(() => @patch('/studio/api/disable-block', { contentType: 'form', headers: { render: 'LivePreview', props: '${JSON.stringify({ entryId: entryId })}' } }))"
                   >
-                    <quiet-icon
-                      slot="unchecked"
-                      name="circle"
-                      family="filled"
-                    ></quiet-icon>
+                    <input type="hidden" name="id" value="${row.id}" />
 
-                    <quiet-icon
-                      slot="checked"
-                      name="circle"
-                      family="filled"
-                    ></quiet-icon>
-                  </quiet-toggle-icon>
+                    <quiet-toggle-icon
+                      label="Disable"
+                      effect="scale"
+                      ${row.status === 'enabled' ? 'checked' : ''}
+                      style="--unchecked-color: var(--quiet-destructive-text-colorful); --checked-color: var(--quiet-constructive-text-colorful);"
+                      id="tooltip-disable-${row.id}"
+                      size="xs"
+                      name="value"
+                      value="enabled"
+                    >
+                      <quiet-icon
+                        slot="unchecked"
+                        name="circle"
+                        family="filled"
+                      ></quiet-icon>
 
-                  <wa-tooltip
-                    distance="3"
-                    without-arrow
-                    for="tooltip-disable-${row.id}"
-                    class="ts-label"
-                  >
-                    Disable
-                  </wa-tooltip>
+                      <quiet-icon
+                        slot="checked"
+                        name="circle"
+                        family="filled"
+                      ></quiet-icon>
+                    </quiet-toggle-icon>
+
+                    <wa-tooltip
+                      distance="3"
+                      without-arrow
+                      for="tooltip-disable-${row.id}"
+                      class="ts-label"
+                    >
+                      Disable
+                    </wa-tooltip>
+                  </form>
 
                   <quiet-button
                     data-on:click="$expanded-${row.id} = !$expanded-${row.id}"
@@ -132,8 +139,8 @@ export default (props: {
                   <quiet-tooltip
                     distance="0"
                     without-arrow
-                    for="tooltip-expand-${row.id}"
                     class="ts-label"
+                    for="tooltip-expand-${row.id}"
                   >
                     Collapse
                   </quiet-tooltip>

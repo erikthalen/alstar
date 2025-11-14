@@ -33,22 +33,30 @@ export default (c: Context) => {
   )
 
   return html`
-    <nav id="explorer">
+    <nav
+      id="explorer"
+      class="${settings.explorer_locked === 'true' ? 'locked' : ''}"
+    >
       <header class="ts-label">
-        <quiet-toggle-icon
-          data-signals="{ explorer_locked: false }"
-          data-on:quiet-change="$explorer_locked = evt.target.checked; @post('/studio/api/user-settings')"
-          id="lock_explorer_button"
-          slot="trigger"
-          label="Open explorer settings"
-          effect="scale"
-          size="xs"
-          ${settings.explorer_locked === 'true' ? 'checked' : ''}
-          style="--unchecked-color: var(--quiet-text-body); --checked-color: var(--quiet-text-body);"
+        <form
+          data-on:change="setTimeout(() => @post('/studio/api/user-settings', { contentType: 'form' }))"
         >
-          <quiet-icon slot="unchecked" name="lock-open"></quiet-icon>
-          <quiet-icon slot="checked" name="lock"></quiet-icon>
-        </quiet-toggle-icon>
+          <input type="hidden" name="type" value="explorer_locked" />
+
+          <quiet-toggle-icon
+            id="lock_explorer_button"
+            name="value"
+            value="true"
+            label="Open explorer settings"
+            effect="scale"
+            size="xs"
+            ${settings.explorer_locked === 'true' ? 'checked' : ''}
+            style="--unchecked-color: var(--quiet-text-body); --checked-color: var(--quiet-text-body);"
+          >
+            <quiet-icon slot="unchecked" name="lock-open"></quiet-icon>
+            <quiet-icon slot="checked" name="lock"></quiet-icon>
+          </quiet-toggle-icon>
+        </form>
 
         <quiet-tooltip
           open-delay="0"
@@ -60,12 +68,18 @@ export default (c: Context) => {
           Keep explorer open
         </quiet-tooltip>
 
-        <form style="display: contents;" data-on:submit="console.log('hehehe')">
+        <!-- <form
+          style="display: contents;"
+          data-on:change="@post('/studio/api/user-settings', { contentType: 'form' })"
+        >
           <alstar-toggle-icon
-            data-on:change="evt.target.form.requestSubmit()"
+            name="locked"
+            value="true"
             ${settings.explorer_locked === 'true' ? 'checked' : ''}
           ></alstar-toggle-icon>
-        </form>
+
+          <input type="hidden" name="type" value="explorer_locked" />
+        </form> -->
 
         <h1 class="ts-label ts-bold">${studioConfig.siteName}</h1>
       </header>

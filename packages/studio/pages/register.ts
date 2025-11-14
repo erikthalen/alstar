@@ -62,7 +62,6 @@ export default defineEntry(async () => {
           </style>
         </form>
       </quiet-card>
-    </div>`,
-    false
+    </div>`
   )
 })
