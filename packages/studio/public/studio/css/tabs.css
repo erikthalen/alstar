@@ -1,0 +1,7 @@
+.tabs {
+  display: flex;
+  align-items: center;
+  background-color: var(--quiet-neutral-fill-softer);
+  height: calc(var(--unit) * 2);
+  /* border-bottom: 1px solid var(--border-color); */
+}

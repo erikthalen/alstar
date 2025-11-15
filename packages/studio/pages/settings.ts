@@ -8,15 +8,16 @@ import Explorer from '../components/Explorer.ts'
 import Backups from '../components/settings/Backups.ts'
 import Users from '../components/settings/Users.ts'
 import ApiKeys from '../components/settings/ApiKeys.ts'
+import Tabs from '../components/Tabs.ts'
 
 export default defineEntry((c) => {
   const tab = c.req.query('tab')
 
-  console.log(tab)
-
   return SiteLayout(html` ${Explorer(c)}
     <section class="page">
       ${SiteHeader(c)}
+
+      ${Tabs()}
 
       <settings-tabs id="settings">
         <h1 class="sr-only">Settings</h1>

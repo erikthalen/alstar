@@ -13,7 +13,7 @@ export default (props: { entryId: number | string }) => {
   if (!structure) return html`<p>No structure of type: ${data.name}</p>`
 
   return html`
-    <div id="entry" class="entry">
+    <div id="entry" class="entry" data-signals="{ entryId: ${props.entryId} }">
       <header>
         <h1 class="ts-label">Entry content</h1>
       </header>
@@ -27,6 +27,5 @@ export default (props: { entryId: number | string }) => {
         })}
       </div>
     </div>
-    
   `
 }

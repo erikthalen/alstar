@@ -31,7 +31,7 @@ export default (props: {
 
   return html`
     <div class="blocks-field">
-      <header data-on:click="console.log('hehehe')">
+      <header>
         <p class="ts-xs">${structure.label}</p>
 
         <quiet-dropdown placement="bottom-end" id="dropdown__selected">
@@ -88,7 +88,9 @@ export default (props: {
                 <aside>
                   <form
                     class="contents"
-                    data-on:change="setTimeout(() => @patch('/studio/api/disable-block', { contentType: 'form', headers: { render: 'LivePreview', props: '${JSON.stringify({ entryId: entryId })}' } }))"
+                    data-on:change="setTimeout(() => @patch('/studio/api/disable-block', { contentType: 'form', headers: { render: 'LivePreview', props: '${JSON.stringify(
+                      { entryId: entryId }
+                    )}' } }))"
                   >
                     <input type="hidden" name="id" value="${row.id}" />
 
@@ -115,14 +117,14 @@ export default (props: {
                       ></quiet-icon>
                     </quiet-toggle-icon>
 
-                    <wa-tooltip
-                      distance="3"
+                    <quiet-tooltip
+                      distance="0"
                       without-arrow
-                      for="tooltip-disable-${row.id}"
                       class="ts-label"
+                      for="tooltip-expand-${row.id}"
                     >
                       Disable
-                    </wa-tooltip>
+                    </quiet-tooltip>
                   </form>
 
                   <quiet-button

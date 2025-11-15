@@ -5,11 +5,14 @@ import { studioStructure } from '../index.ts'
 import SiteLayout from '../components/SiteLayout.ts'
 import SiteHeader from '../components/SiteHeader.ts'
 import Explorer from '../components/Explorer.ts'
+import Tabs from '../components/Tabs.ts'
 
 export default defineEntry((c) => {
   return SiteLayout(html`${Explorer(c)}
     <section class="page">
       ${SiteHeader(c)}
+
+      ${Tabs()}
       
       ${!Object.values(studioStructure).length
         ? html`<div class="background-pattern">

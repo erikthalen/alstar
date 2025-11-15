@@ -86,25 +86,22 @@ export default (c: Context) => {
 
       <vscode-tree hide-arrows>
         <vscode-tree-item open>
-          <wa-icon name="folder" variant="regular" slot="icon-branch"></wa-icon>
-          <wa-icon
-            name="folder-open"
-            variant="regular"
-            slot="icon-branch-opened"
-          ></wa-icon>
+          <div slot="icon-branch" class="icon">
+            <quiet-icon name="folder" family="outline"></quiet-icon>
+          </div>
+          <div slot="icon-branch-opened" class="icon">
+            <quiet-icon name="folder-open" family="outline"></quiet-icon>
+          </div>
 
           Entries
           <vscode-tree-item open>
-            <wa-icon
-              name="folder"
-              variant="regular"
-              slot="icon-branch"
-            ></wa-icon>
-            <wa-icon
-              name="folder-open"
-              variant="regular"
-              slot="icon-branch-opened"
-            ></wa-icon>
+            <div slot="icon-branch" class="icon">
+              <quiet-icon name="folder" family="outline"></quiet-icon>
+            </div>
+            <div slot="icon-branch-opened" class="icon">
+              <quiet-icon name="folder-open" family="outline"></quiet-icon>
+            </div>
+
             Singles
             ${singles.map(([name, block]) => {
               const data = getOrCreateRow({
@@ -120,11 +117,12 @@ export default (c: Context) => {
                 ></a>
 
                 ${block.icon
-                  ? html`<wa-icon
-                      slot="icon-leaf"
-                      name="${block.icon}"
-                      variant="regular"
-                    ></wa-icon> `
+                  ? html`<div slot="icon-leaf" class="icon">
+                      <quiet-icon
+                        name="${block.icon}"
+                        variant="outline"
+                      ></quiet-icon>
+                    </div> `
                   : ''}
                 ${block.label}
               </vscode-tree-item>`
@@ -132,16 +130,12 @@ export default (c: Context) => {
           </vscode-tree-item>
 
           <vscode-tree-item open>
-            <wa-icon
-              name="folder"
-              variant="regular"
-              slot="icon-branch"
-            ></wa-icon>
-            <wa-icon
-              name="folder-open"
-              variant="regular"
-              slot="icon-branch-opened"
-            ></wa-icon>
+            <div slot="icon-branch" class="icon">
+              <quiet-icon name="folder" family="outline"></quiet-icon>
+            </div>
+            <div slot="icon-branch-opened" class="icon">
+              <quiet-icon name="folder-open" family="outline"></quiet-icon>
+            </div>
 
             Collections
             ${collections.map(([name, block]) => {
@@ -152,11 +146,12 @@ export default (c: Context) => {
                 ></a>
 
                 ${block.icon
-                  ? html`<wa-icon
-                      slot="icon-leaf"
-                      name="${block.icon}"
-                      variant="regular"
-                    ></wa-icon> `
+                  ? html`<div slot="icon-leaf" class="icon">
+                      <quiet-icon
+                        name="${block.icon}"
+                        variant="outline"
+                      ></quiet-icon>
+                    </div>`
                   : ''}
                 ${block.label}
               </vscode-tree-item>`

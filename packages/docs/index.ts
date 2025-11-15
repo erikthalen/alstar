@@ -33,7 +33,7 @@ export const { app, hotReloadClient } = await createStudio({
       preview: {
         slug: '/',
       },
-      icon: 'house',
+      icon: 'home',
       fields: {
         sections: defineBlockField({
           label: 'Sections',
@@ -94,7 +94,7 @@ export const { app, hotReloadClient } = await createStudio({
     settings: defineBlock({
       label: 'Settings',
       type: 'single',
-      icon: 'sun',
+      icon: 'settings',
       fields: {
         logo: defineField({
           type: 'svg',

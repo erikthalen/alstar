@@ -42,7 +42,7 @@
     }
 
     > .blocks-field-content {
-      border-top: 1px solid var(--quiet-neutral-stroke-softer);
+      border-top: 1px solid var(--border-color);
     }
   }
 

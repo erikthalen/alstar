@@ -11,6 +11,7 @@
 @import './css/markdown.css';
 @import './css/entries.css';
 @import './css/explorer.css';
+@import './css/tabs.css';
 
 @import './css/site-header.css';
 
@@ -43,8 +44,6 @@
   --quiet-font-family: var(--alstar-font-family);
   --quiet-border-radius-sm: 0;
   --quiet-border-radius-md: 0;
-
-  --wa-tooltip-border-radius: 0;
 
   --vscode-font-family: var(--alstar-font-family);
   --vscode-font-size: 12px;
@@ -102,6 +101,11 @@ alstar-split-pane {
   grid-auto-rows: auto 1fr;
 }
 
+.page:has(.site-header):has(.tabs) {
+  display: grid;
+  grid-auto-rows: auto auto 1fr;
+}
+
 .sr-only {
   position: absolute;
   opacity: 0;
@@ -110,11 +114,6 @@ alstar-split-pane {
 
 quiet-tooltip {
   pointer-events: none;
-}
-
-wa-tooltip::part(body) {
-  padding: 0.15em 0.5em;
-  font-size: 0.875em;
 }
 
 .background-pattern {
@@ -167,47 +166,4 @@ wa-tooltip::part(body) {
   .sortable-ghost {
     opacity: 0.3;
   }
-}
-
-wa-tree {
-  --wa-color-neutral-fill-quiet: transparent;
-  --wa-color-brand-fill-loud: transparent;
-
-  --indent-size: 12px;
-  --indent-guide-width: 1px;
-  --indent-guide-offset: 0.5rem;
-
-  --wa-color-text-normal: var(--quiet-text-body);
-  --wa-color-surface-border: var(--quiet-neutral-stroke-softer);
-  --wa-color-text-quiet: var(--quiet-text-body);
-
-  --wa-font-size-m: 12px;
-}
-
-vscode-tree-item {
-  position: relative;
-
-  a {
-    position: absolute;
-    inset: 0;
-  }
-}
-
-wa-tree-item:not(:has(wa-tree-item)) {
-  quiet-icon {
-    margin-right: 0.5rem;
-  }
-}
-
-wa-tree-item::part(expand-button) {
-  rotate: none;
-  height: 1rem;
-}
-
-wa-tree-item:not(:has(wa-tree-item))::part(item) {
-  padding-left: 0.5rem;
-}
-
-wa-tree-item:not(:has(wa-tree-item))::part(expand-button) {
-  display: none;
 }

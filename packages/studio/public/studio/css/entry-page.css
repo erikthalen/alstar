@@ -1,5 +1,5 @@
 .entry-page {
-  height: calc(100vh - var(--unit) * 2);
+  height: calc(100vh - var(--unit) * 4);
 
   vscode-split-layout {
     height: 100%;

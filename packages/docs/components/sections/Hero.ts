@@ -19,9 +19,11 @@ export default (section: Props) => {
   return html`
     <section class="section hero">
       <h1 class="sr-only">${section.fields.title.value}</h1>
-      
-      <div class="logo">${raw(section.fields.logo.value)}</div>
-      
+
+      <header>
+        <div class="logo">${raw(section.fields.logo.value)}</div>
+      </header>
+
       <p>${section.fields.description.value}</p>
     </section>
   `

@@ -4,12 +4,15 @@ import { defineEntry } from '../utils/define.ts'
 import SiteLayout from '../components/SiteLayout.ts'
 import SiteHeader from '../components/SiteHeader.ts'
 import Explorer from '../components/Explorer.ts'
+import Tabs from '../components/Tabs.ts'
 
 export default defineEntry((c) => {
   return SiteLayout(
     html` ${Explorer(c)}
       <section class="page">
         ${SiteHeader(c)}
+
+        ${Tabs()}
 
         <div class="profile">
           <h1 class="sr-only">Profile</h1>

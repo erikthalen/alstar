@@ -22,7 +22,6 @@ export default (
 
           const setTheme = (darkTheme) => {
             document.documentElement.classList.toggle('quiet-dark', darkTheme)
-            document.documentElement.classList.toggle('wa-dark', darkTheme)
           }
 
           setTheme(darkModeMedia.matches)
@@ -60,11 +59,6 @@ export default (
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.6.1/dist/themes/restyle.css"
         />
-
-        <script
-          src="https://kit.webawesome.com/03c12a81edd44be8.js"
-          crossorigin="anonymous"
-        ></script>
 
         <script
           src="https://esm.sh/@vscode-elements/elements/dist/bundled.js"

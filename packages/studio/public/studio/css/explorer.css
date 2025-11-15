@@ -35,8 +35,41 @@ main:has(#explorer quiet-toggle-icon:state(checked)) {
       margin: 0;
     }
   }
+
+  .icon {
+    font-size: 15px;
+    display: flex;
+  }
 }
 
 vscode-tree {
   padding: 0.25rem;
+}
+
+vscode-tree-item {
+  position: relative;
+
+  a {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+wa-tree-item:not(:has(wa-tree-item)) {
+  quiet-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+wa-tree-item::part(expand-button) {
+  rotate: none;
+  height: 1rem;
+}
+
+wa-tree-item:not(:has(wa-tree-item))::part(item) {
+  padding-left: 0.5rem;
+}
+
+wa-tree-item:not(:has(wa-tree-item))::part(expand-button) {
+  display: none;
 }

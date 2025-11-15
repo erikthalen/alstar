@@ -9,7 +9,7 @@
 
 :root {
   --page-width: 600px;
-  --border-color: currentcolor;
+  --border-color: rgba(255, 255, 255, 0.3);
 }
 
 * {
@@ -20,11 +20,12 @@ body {
   --pico-font-family: 'Sono', monospace;
   --pico-font-family-monospace: 'Menlo', var(--pico-font-family);
 
-  font-family: 'Sono', monospace;
+  font-family: 'Menlo', monospace;
   font-optical-sizing: auto;
   font-weight: normal;
   font-style: normal;
   font-variation-settings: 'MONO';
+  font-size: 12px;
 
   margin: 0;
   height: 100vh;
@@ -46,29 +47,21 @@ body > main {
 }
 
 .section {
-  --border-color: #ddd;
-  --section-padding: 20px;
+  --section-padding: 1rem;
 
-  border: 1px solid var(--border-color);
+  border-block: 1px solid var(--border-color);
+
+  /* max-width: var(--page-width); */
 
   margin-bottom: 0;
+}
 
-  max-width: var(--page-width);
-  margin-inline: auto;
-
-  @media (width >= 48rem) {
-    --section-padding: 40px;
-  }
+.section:first-of-type {
+  border-top: 0;
 }
 
 .section:not(:last-of-type) {
   border-bottom: 0;
-}
-
-@media (width >= 48rem) {
-  .index-page {
-    padding-top: 40px;
-  }
 }
 
 .sr-only {

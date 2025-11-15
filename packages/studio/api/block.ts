@@ -56,7 +56,10 @@ app.patch('/block', async (c) => {
 
 app.patch('/disable-block', async (c) => {
   return streamSSE(c, async (stream) => {
+    const json = await c.req.parseBody()
     const formData = await c.req.formData()
+
+    console.log('json', json)
 
     const id = formData.get('id')?.toString()
     const value = formData.get('value')?.toString()
