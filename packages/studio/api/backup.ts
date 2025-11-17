@@ -6,7 +6,7 @@ import { type HttpBindings } from '@hono/node-server'
 import { streamSSE } from 'hono/streaming'
 import { db } from '@alstar/db'
 import path from 'node:path'
-import { renderSSE } from '../utils/renderSSE.ts'
+// import { renderSSE } from '../utils/renderSSE.ts'
 
 const app = new Hono<{ Bindings: HttpBindings }>()
 
@@ -18,8 +18,6 @@ app.post('/backup', async (c) => {
     fsp.mkdir('./backups', { recursive: true })
 
     await backup(db.database, name)
-
-    return streamSSE(c, async (stream) => await renderSSE(stream, c))
   } catch (error) {
     console.log(error)
     return c.json({ status: 500, message: 'Something went wrong' })
@@ -36,8 +34,6 @@ app.delete('/backup', async (c) => {
 
   try {
     await fsp.rm(path.join('./backups', data.filename.toString()))
-
-    return streamSSE(c, async (stream) => await renderSSE(stream, c))
   } catch (error) {
     console.log(error)
     return c.json({ status: 500, message: 'Something went wrong' })

@@ -52,7 +52,7 @@ import { type DBBlockResult } from '../types.ts'
 //   if(hasFields) {
 //     block.fields = fields
 //   }
-  
+
 //   if (!isBlocksChild) {
 //     delete block.blocks
 //   } else {
@@ -181,7 +181,7 @@ function buildFilterSql(params: Record<string, any>) {
   const entries = Object.entries(params)
   const filterSql = entries
     .map(([key, value]) =>
-      value === null ? `${key} is null` : `${key} = :${key}`,
+      value === null ? `${key} is null` : `${key} = :${key}`
     )
     .join(' and ')
 
@@ -234,46 +234,53 @@ type DBRow = {
 type TODO = any
 
 function buildTree2(items: DBRow[]): TODO | null {
-  const map = new Map<number, TODO>();
+  const map = new Map<number, TODO>()
 
   // First pass: clone items into map
   for (const item of items) {
-    map.set(item.id, { ...item });
+    map.set(item.id, { ...item })
   }
 
-  let root: TODO | null = null;
+  let root: TODO | null = null
 
   // Second pass: assign blocks to parents
   for (const item of map.values()) {
     if (item.parent_id === null) {
-      root = item; // Root node
+      root = item // Root node
     } else {
-      const parent = map.get(item.parent_id);
+      const parent = map.get(item.parent_id)
+
+      if (item.updated_at > parent.updated_at) {
+        parent.updated_at = item.updated_at
+      }
+
+      if (parent.updated_at > root.updated_at) {
+        root.updated_at = parent.updated_at
+      }
+
       if (parent) {
-        if(parent.type === 'blocks') {
-          if (!parent.blocks) parent.blocks = [];
-          parent.blocks.push(item);
+        if (parent.type === 'blocks') {
+          if (!parent.blocks) parent.blocks = []
+          parent.blocks.push(item)
         } else {
-          if (!parent.fields) parent.fields = {};
-          parent.fields[item.name] = item;
+          if (!parent.fields) parent.fields = {}
+          parent.fields[item.name] = item
         }
       }
     }
   }
 
-  return root;
+  return root
 }
 
 export function root(
   params: Record<string, any>,
-  options?: { depth?: number },
+  options?: { depth?: number }
 ): DBBlockResult | null {
   const { filterSql, sqlParams } = buildFilterSql(params)
 
   const query = rootQuery(filterSql, options?.depth)
-  const rows = db.database
-    .prepare(query)
-    .all(sqlParams) as unknown as DBRow[]
+  const rows = db.database.prepare(query).all(sqlParams) as unknown as DBRow[]
 
   if (!rows.length) return null
 

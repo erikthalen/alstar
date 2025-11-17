@@ -1,7 +1,7 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '@alstar/studio/html'
 import type { FieldDefStructure } from '../../types.ts'
-import { raw } from 'hono/html'
+import SVGOutput from '../utils/SVGOutput.ts'
 
 export default (props: {
   entryId: number | string
@@ -23,21 +23,26 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const isEntryTitle = entryId === parentId && name === 'title'
+  const signals = JSON.stringify({
+    id: data.id,
+    value: data.value,
+    patchElements: [
+      { name: 'EntryHeader', props: entryId },
+      { name: 'utils/SVGOutput', props: data.id },
+      { name: 'LivePreview', props: { entryId } },
+    ],
+  })
 
   return html`
     <form
       class="field-text"
+      data-signals:${data.id}="${signals}"
       data-on:input="@patch('/studio/api/block', {
-        contentType: 'form',
-        headers: {
-          render: '${isEntryTitle ? 'AdminPanel' : ''} LivePreview',
-          props: '${JSON.stringify({ entryId: entryId })}'
-        }
+        filterSignals: { include: '${data.id}' }
       })"
     >
       <vscode-form-container responsive>
-        <output>${raw(data.value)}</output>
+        ${SVGOutput(data.id)}
 
         <vscode-form-group>
           <vscode-label for="block-${data.id}">
@@ -46,7 +51,7 @@ export default (props: {
 
           <vscode-textfield
             placeholder="<svg> ..."
-            value="${data.value}"
+            data-bind:${data.id}.value
             id="block-${data.id}"
             name="value"
           ></vscode-textfield>
@@ -56,22 +61,6 @@ export default (props: {
           </vscode-form-helper>
         </vscode-form-group>
       </vscode-form-container>
-      <!-- <quiet-text-field
-        class="text-wrap-pre"
-        label="${structure.label}"
-        value="${data.value}"
-        size="xs"
-      >
-        ${structure.description
-        ? html`<span slot="description"> ${structure.description} </span>`
-        : ''}
-      </quiet-text-field> -->
-
-      <input type="hidden" name="type" value="${structure.type}" />
-      <input type="hidden" name="id" value="${data.id}" />
-      <input type="hidden" name="entryId" value="${entryId}" />
-      <input type="hidden" name="parentId" value="${parentId}" />
-      <input type="hidden" name="name" value="${name}" />
     </form>
   `
 }

@@ -47,7 +47,7 @@ export class SplitPane extends LitElement {
 
   setCSS(width, position) {
     const clamp = (min, val, max) => Math.min(max, Math.max(val, min))
-    const pos = clamp(1, position - 0.5, width - 1)
+    const pos = clamp(1, position - 1, width - 1)
     this.style.setProperty('--pane-start-size', pos + 'px')
     this.style.setProperty('--pane-end-size', width - pos + 'px')
   }
@@ -69,7 +69,7 @@ export class SplitPane extends LitElement {
 
   render() {
     return html`
-      <div class="root ${this.fixedClass}" ?locked="${this.locked}">
+      <div class="root ${this.fixedClass} ${this.locked ? 'locked' : ''}">
         <div class="pane start">
           <slot name="start"></slot>
         </div>
@@ -90,17 +90,13 @@ export class SplitPane extends LitElement {
   static styles = css`
     .root {
       display: grid;
-      grid-template-columns: var(--pane-start-size, 50%) 1px var(
-          --pane-end-size,
-          50%
-        );
 
+      grid-template-columns: var(--pane-start-size, 50%) 1px 1fr;
       height: 100%;
       width: 100%;
     }
 
     .root.fixed-start {
-      grid-template-columns: var(--pane-start-size, 50%) 1px 1fr;
     }
 
     :host[locked] {

@@ -4,7 +4,7 @@ import './js/sortable-list.js'
 import './js/live-preview.js'
 import './js/settings-tabs.js'
 import './js/split-pane.js'
-import './js/toggle-icon.js'
+import './js/tabs.js'
 
 import Swup from 'swup'
 import { allDefined } from '@quietui/quiet'
@@ -13,7 +13,7 @@ let abortController = new AbortController()
 
 await allDefined()
 
-const swup = new Swup({
+export const swup = new Swup({
   animationSelector: false,
   cache: true,
 })
@@ -23,6 +23,7 @@ function hydrateLinks() {
   abortController = new AbortController()
 
   document.querySelectorAll('*[href]').forEach((link) => {
+    console.log(link)
     link.addEventListener(
       'click',
       (e) => {

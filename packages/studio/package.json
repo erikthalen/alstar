@@ -34,6 +34,9 @@
     },
     "./hot-reload": {
       "import": "./helpers/hot-reload/hot-reload.ts"
+    },
+    "./hono-datastar": {
+      "import": "./helpers/hono-datastar/index.ts"
     }
   },
   "prettier": {

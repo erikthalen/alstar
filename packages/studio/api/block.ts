@@ -4,129 +4,158 @@ import { streamSSE } from 'hono/streaming'
 import { sql } from '../utils/sql.ts'
 import { db } from '@alstar/db'
 import { deleteBlockWithChildren } from '../queries/block-with-children.ts'
-import { query } from '../queries/index.ts'
-import { renderSSE } from '../utils/renderSSE.ts'
+import { getElementsToPatch } from '../utils/get-elements-to-patch.ts'
 
 const app = new Hono<{ Bindings: HttpBindings }>()
 
+type ElementPatchPayload = {
+  name: string
+  props: any
+}[]
+
+type PostBody = Record<
+  string,
+  {
+    entry_id: string
+    label: string
+    name: string
+    type: string
+    parent_id: number
+    patchElements: ElementPatchPayload
+    sort_order: number
+  }
+>
+
 app.post('/block', async (c) => {
   return streamSSE(c, async (stream) => {
-    const formData = await c.req.formData()
-    const data = Object.fromEntries(formData.entries())
+    const datastar = c.get('datastar')
+    const values = Object.values((datastar.signals as object) || '{}')[0]
 
-    const definedData = JSON.parse(
+    const data = JSON.parse(
       JSON.stringify({
-        type: data.type?.toString(),
-        name: data.name?.toString(),
-        label: data.label?.toString(),
-        parent_id: data.parent_id?.toString(),
-        sort_order: data.sort_order?.toString(),
+        type: values.type,
+        name: values.name,
+        label: values.label,
+        parent_id: values.parent_id,
+        sort_order: values.sort_order,
       })
     )
 
-    db.insertInto('block', definedData)
+    db.insertInto('block', data)
 
-    await renderSSE(stream, c)
+    const patches = await getElementsToPatch(values.patchElements)
+
+    for (const patch of patches) {
+      await datastar.patchElements(stream, patch)
+    }
   })
 })
+
+type PatchBody = Record<
+  string,
+  {
+    id: number
+    value: string | number
+    options?: Record<string, any>
+    status?: 'enabled' | 'disabled'
+    patchElements: ElementPatchPayload
+  }
+>
 
 app.patch('/block', async (c) => {
   return streamSSE(c, async (stream) => {
-    const formData = await c.req.formData()
+    const datastar = c.get('datastar')
+    const values = datastar
+      ? Object.values((datastar.signals as object) || '{}')[0]
+      : await c.req.json()
 
-    const id = formData.get('id')?.toString()
-    const value = formData.get('value')?.toString()
-
-    if (!id || !value) return
-
-    const transaction = db.database.prepare(sql`
-      update block
-      set
-        value = ?,
-        updated_at = datetime('now')
-      where
-        id = ?;
-    `)
-
-    transaction.run(value, id)
-
-    await renderSSE(stream, c)
-  })
-})
-
-app.patch('/disable-block', async (c) => {
-  return streamSSE(c, async (stream) => {
-    const json = await c.req.parseBody()
-    const formData = await c.req.formData()
-
-    console.log('json', json)
-
-    const id = formData.get('id')?.toString()
-    const value = formData.get('value')?.toString()
+    const { id, value, options, status, sortOrder, patchElements } = values
 
     if (!id) return
 
-    const transaction = db.database.prepare(sql`
-      update block
-      set
-        status = ?,
-        updated_at = datetime('now')
-      where
-        id = ?;
-    `)
+    if (value) {
+      const transaction = db.database.prepare(sql`
+        update block
+        set
+          value = ?,
+          updated_at = datetime('now')
+        where
+          id = ?;
+      `)
 
-    transaction.run(value ? 'enabled' : 'disabled', parseInt(id))
+      transaction.run(value, id)
+    }
 
-    await renderSSE(stream, c)
+    if (options) {
+      const transaction = db.database.prepare(sql`
+        update block
+        set
+          options = ?
+        where
+          id = ?;
+      `)
+
+      transaction.run(JSON.stringify(options), id)
+    }
+
+    if (status) {
+      const transaction = db.database.prepare(sql`
+        update block
+        set
+          status = ?,
+          updated_at = datetime('now')
+        where
+          id = ?;
+      `)
+
+      transaction.run(status, id)
+    }
+
+    if (sortOrder) {
+      const transaction = db.database.prepare(sql`
+        update block
+        set
+          sort_order = ?
+        where
+          id = ?
+      `)
+
+      transaction.run(sortOrder, id)
+    }
+
+    if (patchElements) {
+      const patches = await getElementsToPatch(patchElements)
+
+      for (const patch of patches) {
+        await datastar.patchElements(stream, patch)
+      }
+    }
   })
 })
 
-app.patch('/value', async (c) => {
-  const body = await c.req.json()
-
-  const transaction = db.database.prepare(sql`
-    update block
-    set
-      value = ?
-    where
-      id = ?;
-  `)
-
-  transaction.run(body.value, body.id)
-
-  return c.json({ status: 200, message: 'success' })
-})
+type PatchDisableBody = Record<
+  string,
+  {
+    id: number
+    patchElements: ElementPatchPayload
+  }
+>
 
 app.delete('/block', async (c) => {
   return streamSSE(c, async (stream) => {
-    const formData = await c.req.formData()
-    const id = formData.get('id')?.toString()
+    const datastar = c.get('datastar')
+    const values = Object.values((datastar.signals as object) || '{}')[0]
 
-    if (!id) return
+    if (!values.id) return
 
-    db.database.prepare(deleteBlockWithChildren).all(id)
+    db.database.prepare(deleteBlockWithChildren).all(values.id)
 
-    await renderSSE(stream, c)
+    const patches = await getElementsToPatch(values.patchElements)
+
+    for (const patch of patches) {
+      await datastar.patchElements(stream, patch)
+    }
   })
-})
-
-app.post('/sort-order', async (c) => {
-  const id = c.req.query('id')
-  const sortOrder = c.req.query('sort-order')
-
-  if (!id || !sortOrder) return
-
-  const transaction = db.database.prepare(sql`
-    update block
-    set
-      sort_order = ?
-    where
-      id = ?
-  `)
-
-  transaction.run(sortOrder, id)
-
-  return c.json({ status: 200, message: 'success' })
 })
 
 export const blockRoutes = app

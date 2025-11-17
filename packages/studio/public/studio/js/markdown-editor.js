@@ -1,9 +1,14 @@
-import { ink } from 'ink-mde'
+let ink
 
 class MarkdownEditor extends HTMLElement {
   instance = null
 
-  connectedCallback() {
+  async connectedCallback() {
+    if (!ink) {
+      const module = await import('ink-mde')
+      ink = module.ink
+    }
+
     this.style.width = '100%'
 
     this.instance = ink(this, {
@@ -13,7 +18,7 @@ class MarkdownEditor extends HTMLElement {
             method: 'PATCH',
             headers: {
               render: 'LivePreview',
-              props: this.dataset.entryId
+              props: this.dataset.entryId,
             },
             body: JSON.stringify({
               value: e,

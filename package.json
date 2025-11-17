@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "pnpm -r --parallel run dev",
     "ci:publish": "pnpm publish -r",
+    "docs:dev": "pnpm -r --parallel run docs:dev",
     "docs:build": "pnpm -r --parallel run docs:build"
   },
   "devDependencies": {

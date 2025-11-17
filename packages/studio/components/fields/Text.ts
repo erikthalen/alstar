@@ -22,17 +22,27 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const isEntryTitle = entryId === parentId && name === 'title'
+  const signals = JSON.stringify({
+    id: data.id,
+    value: data.value,
+    patchElements: [
+      {
+        name: 'EntryHeader',
+        props: entryId,
+      },
+      {
+        name: 'LivePreview',
+        props: { entryId },
+      },
+    ],
+  })
 
   return html`
     <form
       class="field-text"
+      data-signals:field_${data.id}="${signals}"
       data-on:input="@patch('/studio/api/block', {
-        contentType: 'form',
-        headers: {
-          render: '${isEntryTitle ? 'AdminPanel' : ''} LivePreview',
-          props: '${JSON.stringify({ entryId: entryId })}'
-        }
+        filterSignals: { include: 'field_${data.id}' }
       })"
     >
       <vscode-form-container responsive>
@@ -41,7 +51,7 @@ export default (props: {
             ${structure.label}
           </vscode-label>
           <vscode-textfield
-            value="${data.value}"
+            data-bind:field_${data.id}.value
             id="block-${data.id}"
             name="value"
           ></vscode-textfield>
@@ -50,37 +60,6 @@ export default (props: {
           </vscode-form-helper>
         </vscode-form-group>
       </vscode-form-container>
-
-      <!-- ${structure.presentation === 'svg'
-        ? html`<quiet-text-area
-            class="text-wrap-pre"
-            label="${structure.label}"
-            value="${data.value}"
-            resize="auto"
-            rows="4"
-            size="xs"
-          >
-            ${structure.description
-              ? html`<span slot="description"> ${structure.description} </span>`
-              : ''}</quiet-text-area
-          >`
-        : html`<quiet-text-field
-            id="block-${data.id}"
-            name="value"
-            label="${structure.label}"
-            value="${data.value}"
-            size="xs"
-          >
-            ${structure.description
-              ? html`<span slot="description"> ${structure.description} </span>`
-              : ''}
-          </quiet-text-field>`} -->
-
-      <input type="hidden" name="type" value="${structure.type}" />
-      <input type="hidden" name="id" value="${data.id}" />
-      <input type="hidden" name="entryId" value="${entryId}" />
-      <input type="hidden" name="parentId" value="${parentId}" />
-      <input type="hidden" name="name" value="${name}" />
     </form>
   `
 }

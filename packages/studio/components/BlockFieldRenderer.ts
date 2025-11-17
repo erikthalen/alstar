@@ -34,36 +34,41 @@ export default (props: {
       <header>
         <p class="ts-xs">${structure.label}</p>
 
-        <quiet-dropdown placement="bottom-end" id="dropdown__selected">
+        <quiet-dropdown placement="bottom-end">
           <quiet-button size="xs" slot="trigger" with-caret>Add</quiet-button>
 
-          ${entries.map(([name, block]) => {
-            return html`
-              <quiet-dropdown-item value="${name}">
-                <form
-                  data-on:submit="@post('/studio/api/block', {
-                    contentType: 'form',
-                    headers: {
-                      render: 'Entry LivePreview',
-                      props: '${JSON.stringify({ entryId: entryId })}'
-                    }
-                  })"
-                >
-                  <quiet-button size="xs" type="submit" appearance="text">
-                    ${block.label}
-                  </quiet-button>
+          <h3>Type</h3>
 
-                  <input type="hidden" name="type" value="${block.type}" />
-                  <input type="hidden" name="name" value="${name}" />
-                  <input type="hidden" name="label" value="${block.label}" />
-                  <input type="hidden" name="parent_id" value="${data.id}" />
-                  <input type="hidden" name="entry_id" value="${entryId}" />
-                  <input
-                    type="hidden"
-                    name="sort_order"
-                    value="${rows.length}"
-                  />
-                </form>
+          ${entries.map(([name, block]) => {
+            const signals = {
+              type: block.type,
+              label: block.type,
+              name: name,
+              parent_id: data.id,
+              entry_id: entryId,
+              sort_order: rows.length,
+              patchElements: [
+                { name: 'Entry', props: { entryId } },
+                { name: 'LivePreview', props: { entryId } },
+              ],
+            }
+
+            return html`
+              <quiet-dropdown-item
+                data-signals:select_${block.type}="${JSON.stringify(signals)}"
+                value="${name}"
+                class="ts-xs"
+                data-on:click="@post('/studio/api/block', {
+                  filterSignals: { include: 'select_${block.type}' }
+                })"
+              >
+                ${'icon' in block && block.icon
+                  ? html` <quiet-icon
+                      slot="icon"
+                      name=${block.icon}
+                    ></quiet-icon>`
+                  : ''}
+                ${block.label}
               </quiet-dropdown-item>
             `
           })}
@@ -77,74 +82,84 @@ export default (props: {
 
           if (!name || !struct) return html`<p>No name</p>`
 
+          const signals = {
+            id: row.id,
+            options: JSON.parse(row.options || '{}'),
+            status: row.status,
+            patchElements: [
+              {
+                name: 'LivePreview',
+                props: { entryId },
+              },
+            ],
+          }
+
           return html`
-            <article
-              data-id="${row.id}"
-              data-signals="{ 'expanded-${row.id}': true }"
-            >
+            <article data-id="${row.id}" data-signals:block_${row.id}="${JSON.stringify(signals)}">
               <header>
-                <p class="ts-xs">${struct.label}</p>
+                <div class="title">
+                  ${'icon' in struct && struct.icon
+                    ? html` <quiet-icon name=${struct.icon}></quiet-icon>`
+                    : ''}
+                  <p class="ts-xs">${struct.label}</p>
+                </div>
 
                 <aside>
-                  <form
-                    class="contents"
-                    data-on:change="setTimeout(() => @patch('/studio/api/disable-block', { contentType: 'form', headers: { render: 'LivePreview', props: '${JSON.stringify(
-                      { entryId: entryId }
-                    )}' } }))"
-                  >
-                    <input type="hidden" name="id" value="${row.id}" />
-
-                    <quiet-toggle-icon
-                      label="Disable"
-                      effect="scale"
-                      ${row.status === 'enabled' ? 'checked' : ''}
-                      style="--unchecked-color: var(--quiet-destructive-text-colorful); --checked-color: var(--quiet-constructive-text-colorful);"
-                      id="tooltip-disable-${row.id}"
-                      size="xs"
-                      name="value"
-                      value="enabled"
-                    >
-                      <quiet-icon
-                        slot="unchecked"
-                        name="circle"
-                        family="filled"
-                      ></quiet-icon>
-
-                      <quiet-icon
-                        slot="checked"
-                        name="circle"
-                        family="filled"
-                      ></quiet-icon>
-                    </quiet-toggle-icon>
-
-                    <quiet-tooltip
-                      distance="0"
-                      without-arrow
-                      class="ts-label"
-                      for="tooltip-expand-${row.id}"
-                    >
-                      Disable
-                    </quiet-tooltip>
-                  </form>
-
-                  <quiet-button
-                    data-on:click="$expanded-${row.id} = !$expanded-${row.id}"
-                    variant="neutral"
-                    toggle="off"
-                    icon-label="Expand"
+                  <quiet-toggle-icon
+                    class="disable-button"
+                    label="Disable"
+                    effect="scale"
+                    id="tooltip-disable-${row.id}"
                     size="xs"
-                    id="tooltip-expand-${row.id}"
+                    data-attr:checked="$block_${row.id}.status === 'enabled'"
+                    data-on:quiet-change="$block_${row.id}.status = evt.target.checked ? 'enabled' : 'disabled'; @patch('/studio/api/block', {
+                      filterSignals: { include: 'block_${row.id}' }
+                    })"
                   >
-                    <quiet-icon name="layout-navbar-expand"></quiet-icon>
-                  </quiet-button>
+                    <quiet-icon
+                      slot="unchecked"
+                      name="circle"
+                      family="filled"
+                    ></quiet-icon>
+
+                    <quiet-icon
+                      slot="checked"
+                      name="circle"
+                      family="filled"
+                    ></quiet-icon>
+                  </quiet-toggle-icon>
 
                   <quiet-tooltip
                     distance="0"
                     without-arrow
                     class="ts-label"
-                    for="tooltip-expand-${row.id}"
+                    for="tooltip-disable-${row.id}"
                   >
-                    Collapse
+                    Disable
+                  </quiet-tooltip>
+
+                  <quiet-toggle-icon
+                    class="collapse-button"
+                    label="Collapse"
+                    effect="scale"
+                    id="tooltip-collapse-${row.id}"
+                    size="xs"
+                    data-attr:checked="$block_${row.id}.options?.collapsed === true"
+                    data-on:quiet-change="$block_${row.id}.options.collapsed = !!evt.target.checked; @patch('/studio/api/block', {
+                      filterSignals: { include: 'block_${row.id}' }
+                    })"
+                  >
+                    <quiet-icon slot="unchecked" name="eye"></quiet-icon>
+                    <quiet-icon slot="checked" name="eye-off"></quiet-icon>
+                  </quiet-toggle-icon>
+
+                  <quiet-tooltip
+                    distance="0"
+                    without-arrow
+                    class="ts-label"
+                    for="tooltip-collapse-${row.id}"
+                    data-text="$block_${row.id}.options.collapsed ? 'Show' : 'Hide'"
+                  >
                   </quiet-tooltip>
 
                   <quiet-button
@@ -167,40 +182,41 @@ export default (props: {
                     Reorder
                   </quiet-tooltip>
 
-                  <form
-                    data-on:submit="@delete('/studio/api/block', {
-                      contentType: 'form',
-                      headers: {
-                        render: 'Entry LivePreview',
-                        props: '${JSON.stringify({ entryId: entryId })}'
-                      }
+                  <quiet-button
+                    type="submit"
+                    variant="neutral"
+                    icon-label="Remove"
+                    size="xs"
+                    id="tooltip-remove-${row.id}"
+                    data-signals:delete_${row.id}="{
+                      id: ${row.id},
+                      patchElements: [
+                        { name: 'Entry', props: { entryId: ${entryId} } },
+                        { name: 'LivePreview', props: { entryId: ${entryId} } }
+                      ]
+                    }"
+                    data-on:click="@delete('/studio/api/block', {
+                      filterSignals: { include: 'delete_${row.id}' }
                     })"
                   >
-                    <quiet-button
-                      type="submit"
-                      variant="neutral"
-                      icon-label="Remove"
-                      size="xs"
-                      id="tooltip-remove-${row.id}"
-                    >
-                      <quiet-icon name="x"></quiet-icon>
-                    </quiet-button>
+                    <quiet-icon name="x"></quiet-icon>
+                  </quiet-button>
 
-                    <quiet-tooltip
-                      distance="0"
-                      without-arrow
-                      for="tooltip-remove-${row.id}"
-                      class="ts-label"
-                    >
-                      Remove
-                    </quiet-tooltip>
-
-                    <input type="hidden" name="id" value="${row.id}" />
-                  </form>
+                  <quiet-tooltip
+                    distance="0"
+                    without-arrow
+                    for="tooltip-remove-${row.id}"
+                    class="ts-label"
+                  >
+                    Remove
+                  </quiet-tooltip>
                 </aside>
               </header>
 
-              <div class="blocks-field-content" data-show="$expanded-${row.id}">
+              <div
+                class="blocks-field-content"
+                data-show="$block_${row.id}.options?.collapsed !== true"
+              >
                 ${Render({
                   entryId,
                   parentId:

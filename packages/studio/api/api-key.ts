@@ -5,7 +5,6 @@ import { db } from '@alstar/db'
 import crypto from 'node:crypto'
 import { sql } from '../utils/sql.ts'
 import { createHash } from '../utils/create-hash.ts'
-import { renderSSE } from '../utils/renderSSE.ts'
 
 const app = new Hono<{ Bindings: HttpBindings }>()
 
@@ -33,7 +32,8 @@ app.post('/api-key', async (c) => {
       data: `signals { apiKey: '${apiKey}', name: '' }`,
     })
 
-    await renderSSE(stream, c)
+    return
+    // await renderSSE(stream, c)
   })
 })
 
@@ -55,7 +55,8 @@ app.delete('/api-key', async (c) => {
       )
       .run(value)
 
-    await renderSSE(stream, c)
+    return
+    // await renderSSE(stream, c)
   })
 })
 

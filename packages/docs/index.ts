@@ -41,6 +41,7 @@ export const { app, hotReloadClient } = await createStudio({
             hero: defineBlock({
               label: 'Hero',
               type: 'hero',
+              icon: 'home',
               fields: {
                 logo: defineField({
                   label: 'Logo',

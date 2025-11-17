@@ -1,6 +1,5 @@
 @import './css/typography.css';
 
-@import './css/admin-panel.css';
 @import './css/blocks-field.css';
 @import './css/settings.css';
 @import './css/live-preview.css';
@@ -12,6 +11,8 @@
 @import './css/entries.css';
 @import './css/explorer.css';
 @import './css/tabs.css';
+
+@import './css/svg-output.css';
 
 @import './css/site-header.css';
 
@@ -131,6 +132,16 @@ quiet-tooltip {
     var(--quiet-neutral-950) 40%,
     var(--quiet-neutral-900) 100%
   );
+}
+
+.disable-button {
+  --unchecked-color: var(--quiet-destructive-text-colorful);
+  --checked-color: var(--quiet-constructive-text-colorful);
+}
+
+.collapse-button {
+  --unchecked-color: var(--quiet-text-body);
+  --checked-color: var(--quiet-text-muted);
 }
 
 .block {

@@ -2,9 +2,10 @@ import { html } from '@alstar/studio/html'
 import { query } from '../queries/index.ts'
 import { studioStructure } from '../index.ts'
 import Render from './Render.ts'
+import EntryHeader from './EntryHeader.ts'
 
 export default (props: { entryId: number | string }) => {
-  const data = query.block({ id: props.entryId?.toString() })
+  const data = query.root({ id: props.entryId?.toString() })
 
   if (!data) return html`<p>No entry with id: "${props.entryId}"</p>`
 
@@ -14,9 +15,7 @@ export default (props: { entryId: number | string }) => {
 
   return html`
     <div id="entry" class="entry" data-signals="{ entryId: ${props.entryId} }">
-      <header>
-        <h1 class="ts-label">Entry content</h1>
-      </header>
+      ${EntryHeader(props.entryId)}
 
       <div class="content">
         ${Render({

@@ -3,7 +3,30 @@ import { type HttpBindings } from '@hono/node-server'
 import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
 
-const app = new Hono<{ Bindings: HttpBindings }>()
+const app = new Hono<{
+  Bindings: HttpBindings
+  Variables: {
+    user: {
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      email: string
+      emailVerified: boolean
+      name: string
+      image?: string | null | undefined
+    } | null
+    session: {
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+      expiresAt: Date
+      token: string
+      ipAddress?: string | null | undefined
+      userAgent?: string | null | undefined
+    } | null
+  }
+}>()
 
 app.get('/user-settings', async (c) => {
   const user = c.get('user') as { id: string } | undefined

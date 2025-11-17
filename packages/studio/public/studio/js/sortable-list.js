@@ -13,19 +13,32 @@ class SortableList extends HTMLElement {
     this.instance = Sortable.create(this, {
       animation: 250,
       handle: `[data-handle-for="${id}"]`,
+      // onClone: function (/**Event*/ evt) {
+      //   const origEl = evt.item
+      //   const cloneEl = evt.clone
+
+      //   console.log(origEl, cloneEl)
+      // },
+      // onUpdate: function (/**Event*/ evt) {
+      //   const origEl = evt.item
+      //   const cloneEl = evt.clone
+
+      //   console.log(origEl, cloneEl)
+      // },
       onEnd: async (e) => {
         const items = [...e.target.children]
 
-        await Promise.all(items.map(async (child, idx) => {
-          const searchParams = new URLSearchParams()
-
-          searchParams.set('id', child.dataset.id)
-          searchParams.set('sort-order', idx)
-
-          return fetch(`/studio/api/sort-order?${searchParams.toString()}`, {
-            method: 'post',
+        await Promise.all(
+          items.map(async (child, idx) => {
+            return fetch('/studio/api/block', {
+              method: 'PATCH',
+              body: JSON.stringify({
+                id: child.dataset.id,
+                sortOrder: idx,
+              }),
+            })
           })
-        }))
+        )
 
         this.querySelectorAll('[name="sort_order"]').forEach((input, idx) => {
           input.value = idx.toString()
@@ -44,8 +57,12 @@ class SortableList extends HTMLElement {
   }
 
   disconnectedCallback() {
-    this.instance?.destroy()
-    this.mutationObserver?.disconnect()
+    try {
+      this.instance?.destroy()
+      this.mutationObserver?.disconnect()
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

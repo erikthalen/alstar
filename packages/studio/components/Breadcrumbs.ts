@@ -67,17 +67,30 @@ function getBreadcrumbs(c: Context) {
     const entryId = c.req.param('id')
     const data = query.block({ id: entryId })
 
+    breadcrumbs.push({
+      url: '/studio/entries',
+      name: 'Entries',
+    })
+
     if (data?.type === 'single') {
-      breadcrumbs.push(
-        {
-          url: '/studio/entries',
-          name: 'Entries',
-        },
-        {
-          name: data.label,
-          isEntry: true,
-        }
-      )
+      breadcrumbs.push({
+        name: data.label,
+        isEntry: true,
+      })
+    }
+
+    if (data?.type === 'collection') {
+      breadcrumbs.push({
+        url: '/studio/entries?name=' + data.name,
+        name: data.label,
+      })
+
+      const title = query.block({ name: 'title', parent_id: entryId })
+      
+      breadcrumbs.push({
+        name: title.value,
+        isEntry: true,
+      })
     }
   }
 

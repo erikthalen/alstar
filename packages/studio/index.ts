@@ -1,4 +1,5 @@
 import path from 'node:path'
+import fsp from 'node:fs/promises'
 
 import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
@@ -8,6 +9,7 @@ import { HTTPException } from 'hono/http-exception'
 import { loadDb } from '@alstar/db'
 import { getEnv } from '@alstar/studio/env'
 import { hotReload, hotReloadClient } from '@alstar/studio/hot-reload'
+import { datastar } from '@alstar/studio/hono-datastar'
 
 import { createStudioTables } from './utils/create-studio-tables.ts'
 import { fileBasedRouter } from './utils/file-based-router.ts'
@@ -23,9 +25,8 @@ import * as types from './types.ts'
 import { cors } from 'hono/cors'
 import { except } from 'hono/combine'
 import { html } from 'hono/html'
-import { readFile } from 'node:fs/promises'
 
-const packageJSON = JSON.parse(await readFile('./package.json', 'utf-8'))
+const packageJSON = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
 export let rootdir = './node_modules/@alstar/studio'
 
@@ -40,11 +41,13 @@ export let studioConfig: types.StudioConfig = {
 
 const env = await getEnv()
 
+export let auth: unknown
+
 const createStudio = async (config: types.StudioConfigInput) => {
   loadDb('./studio.db')
   createStudioTables()
 
-  const auth = createAuthServer()
+  auth = createAuthServer()
 
   // const configFile = await getConfig<types.StudioConfig>()
 
@@ -54,7 +57,12 @@ const createStudio = async (config: types.StudioConfigInput) => {
 
   studioConfig = { ...studioConfig, ...config }
 
-  const app = new Hono(studioConfig.honoConfig)
+  const app = new Hono<{
+    Variables: {
+      user: typeof auth.$Infer.Session.user | null
+      session: typeof auth.$Infer.Session.session | null
+    }
+  }>(studioConfig.honoConfig)
 
   // app.use(
   //   '*',
@@ -73,6 +81,11 @@ const createStudio = async (config: types.StudioConfigInput) => {
   if (process.env.HOT_RELOAD === 'true') {
     app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
   }
+
+  /**
+   * Datastar middleware
+   */
+  app.use('/studio/*', datastar())
 
   /**
    * Static folders

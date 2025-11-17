@@ -30,7 +30,7 @@ export function getOrCreateRow(props: {
 
   if (data) return data
 
-  const change = db.insertInto('blocks', {
+  const change = db.insertInto('block', {
     name: name?.toString(),
     label: field.label?.toString(),
     type: field.instanceOf === BlockFieldInstance ? 'blocks' : field.type?.toString(),
