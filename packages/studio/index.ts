@@ -41,13 +41,11 @@ export let studioConfig: types.StudioConfig = {
 
 const env = await getEnv()
 
-export let auth: unknown
-
 const createStudio = async (config: types.StudioConfigInput) => {
   loadDb('./studio.db')
   createStudioTables()
 
-  auth = createAuthServer()
+  const auth = createAuthServer()
 
   // const configFile = await getConfig<types.StudioConfig>()
 

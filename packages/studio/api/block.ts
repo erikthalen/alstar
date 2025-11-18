@@ -112,7 +112,7 @@ app.patch('/block', async (c) => {
       transaction.run(status, id)
     }
 
-    if (sortOrder) {
+    if (typeof sortOrder === 'number') {
       const transaction = db.database.prepare(sql`
         update block
         set

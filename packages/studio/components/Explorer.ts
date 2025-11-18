@@ -32,31 +32,28 @@ export default (c: Context) => {
     ([_, block]) => block.type === 'collection'
   )
 
-  return html`
-    <nav
-      id="explorer"
-      class="${settings.explorer_locked === 'true' ? 'locked' : ''}"
-    >
-      <header class="ts-label">
-        <form
-          data-on:change="setTimeout(() => @post('/studio/api/user-settings', { contentType: 'form' }))"
-        >
-          <input type="hidden" name="type" value="explorer_locked" />
+  const signals = {
+    explorerLocked: settings.explorer_locked,
+  }
 
-          <quiet-toggle-icon
-            id="lock_explorer_button"
-            name="value"
-            value="true"
-            label="Open explorer settings"
-            effect="scale"
-            size="xs"
-            ${settings.explorer_locked === 'true' ? 'checked' : ''}
-            style="--unchecked-color: var(--quiet-text-body); --checked-color: var(--quiet-text-body);"
-          >
-            <quiet-icon slot="unchecked" name="lock-open"></quiet-icon>
-            <quiet-icon slot="checked" name="lock"></quiet-icon>
-          </quiet-toggle-icon>
-        </form>
+  return html`
+    <nav id="explorer" data-class:locked="$userSettings.explorerLocked">
+      <header
+        class="ts-label"
+        data-signals:user-settings="${JSON.stringify(signals)}"
+      >
+        <quiet-toggle-icon
+          data-attr:checked="$userSettings.explorerLocked"
+          data-on:quiet-change="$userSettings.explorerLocked = evt.target.checked; @post('/studio/api/user-settings', { filterSignals: 'user-settings' })"
+          id="lock_explorer_button"
+          label="Open explorer settings"
+          effect="scale"
+          size="xs"
+          style="--unchecked-color: var(--quiet-text-body); --checked-color: var(--quiet-text-body);"
+        >
+          <quiet-icon slot="unchecked" name="lock-open"></quiet-icon>
+          <quiet-icon slot="checked" name="lock"></quiet-icon>
+        </quiet-toggle-icon>
 
         <quiet-tooltip
           open-delay="0"
@@ -67,19 +64,6 @@ export default (c: Context) => {
         >
           Keep explorer open
         </quiet-tooltip>
-
-        <!-- <form
-          style="display: contents;"
-          data-on:change="@post('/studio/api/user-settings', { contentType: 'form' })"
-        >
-          <alstar-toggle-icon
-            name="locked"
-            value="true"
-            ${settings.explorer_locked === 'true' ? 'checked' : ''}
-          ></alstar-toggle-icon>
-
-          <input type="hidden" name="type" value="explorer_locked" />
-        </form> -->
 
         <h1 class="ts-label ts-bold">${studioConfig.siteName}</h1>
       </header>

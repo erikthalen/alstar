@@ -29,7 +29,7 @@ const app = new Hono<{
 }>()
 
 app.get('/user-settings', async (c) => {
-  const user = c.get('user') as { id: string } | undefined
+  const user = c.get('user')
 
   if (!user?.id) return c.json({ status: 401, message: 'no user' })
 
@@ -40,26 +40,36 @@ app.get('/user-settings', async (c) => {
   return c.text('settings')
 })
 
+function camelToSnake(camelCaseString: string): string {
+  return camelCaseString.replace(/[A-Z]/g, (match) => `_${match.toLowerCase()}`)
+}
+
 app.post('/user-settings', async (c) => {
-  const user = c.get('user') as { id: string } | undefined
+  const user = c.get('user')
+  const datastar = c.get('datastar')
 
   if (!user?.id) return c.json({ status: 401, message: 'no user' })
 
-  const body = await c.req.formData()
-  const data = Object.fromEntries(body.entries())
+  const body = datastar.signals
 
-  db.database
-    .prepare(
-      sql`
-        INSERT INTO setting (user_id, type, value, updated_at)
-        VALUES (?, ?, ?, datetime('now'))
-        ON CONFLICT(user_id, type)
-        DO UPDATE SET
-          value = excluded.value,
-          updated_at = datetime('now');
-      `
-    )
-    .run(user.id, data.type.toString(), data.value?.toString() || 'false')
+  if (!body) return c.json({ status: 401, message: 'no signals' })
+
+  const values = Object.values(body)[0] as object
+
+  for (const key in values) {
+    db.database
+      .prepare(
+        sql`
+          INSERT INTO setting (user_id, type, value, updated_at)
+          VALUES (?, ?, ?, datetime('now'))
+          ON CONFLICT(user_id, type)
+          DO UPDATE SET
+            value = excluded.value,
+            updated_at = datetime('now');
+        `
+      )
+      .run(user.id, camelToSnake(key), values[key].toString() || 'false')
+  }
 
   return c.json({ status: 200, message: 'value updated' })
 })
