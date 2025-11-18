@@ -85,10 +85,9 @@ function getBreadcrumbs(c: Context) {
         name: data.label,
       })
 
-      const title = query.block({ name: 'title', parent_id: entryId })
-      
       breadcrumbs.push({
-        name: title.value,
+        name: html`<span data-text="$entry?.title?.value || 'Untitled'">
+        </span>`,
         isEntry: true,
       })
     }

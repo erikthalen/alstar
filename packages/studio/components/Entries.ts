@@ -1,8 +1,16 @@
 import { html } from '@alstar/studio/html'
-import { query } from '../index.ts'
+import { query, studioStructure } from '../index.ts'
 
 export default ({ name }: { name: string }) => {
   const entries = query.blocks({ parent_id: null, status: 'enabled', name })
+  const structure = studioStructure[name]
+
+  const signals = {
+    type: structure.type,
+    name: name,
+    label: structure.label,
+    patchElements: [{ name: 'Entries', props: { name } }],
+  }
 
   return html`
     <section id="entries" class="entries">
@@ -11,9 +19,14 @@ export default ({ name }: { name: string }) => {
         <vscode-option>Albania</vscode-option>
       </vscode-single-select>
 
-      <!-- <quiet-text-field size="xs" name="search" label="Search">
-        <quiet-icon slot="start" name="search"></quiet-icon>
-      </quiet-text-field> -->
+      <quiet-button
+        data-signals:new-entry="${JSON.stringify(signals)}"
+        data-on:click="@post('/studio/api/block', { filterSignals: { include: 'newEntry' } })"
+        size="xs"
+        variant="primary"
+      >
+        New ${name}
+      </quiet-button>
 
       <vscode-table class="resizable-example" zebra bordered-columns resizable>
         <vscode-table-header slot="header">
@@ -40,7 +53,11 @@ export default ({ name }: { name: string }) => {
                   </a>
                 </vscode-table-cell>
                 <vscode-table-cell>
-                  ${slug?.value ? `/${slug?.value}` : ''}
+                  ${slug?.value
+                    ? `/${slug?.value}`
+                    : html`<span style="color: var(--quiet-text-muted)">
+                        [no slug]
+                      </span>`}
                 </vscode-table-cell>
               </vscode-table-row>
             `

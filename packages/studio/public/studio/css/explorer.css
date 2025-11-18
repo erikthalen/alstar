@@ -10,7 +10,7 @@ main:has(#explorer) {
 }
 
 main:has(#explorer:hover),
-main:has(#explorer quiet-toggle-icon:state(checked)) {
+main:has(#explorer.locked) {
   --explorer-width: 150px;
 
   #explorer:after {

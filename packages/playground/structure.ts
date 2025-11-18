@@ -8,7 +8,8 @@ import {
 const structure = defineStructure({
   page: defineBlock({
     label: 'Pages',
-    type: 'page',
+    type: 'collection',
+    icon: 'file',
     fields: {
       title: defineField({
         label: 'Title',

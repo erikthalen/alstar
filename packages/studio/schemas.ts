@@ -23,7 +23,7 @@ export const blocksTable = {
     sort_order INTEGER not null default 0,
     -- _depth INTEGER,
     parent_id INTEGER,
-    foreign key (parent_id) references blocks (id)
+    foreign key (parent_id) references block (id)
   `,
 }
 

@@ -1,4 +1,4 @@
-import { HtmlEscapedString } from 'hono/utils/html'
+import { type HtmlEscapedString } from 'hono/utils/html'
 import path from 'node:path'
 
 export async function getElementsToPatch(

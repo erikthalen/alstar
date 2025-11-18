@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { type HttpBindings } from '@hono/node-server'
 import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
+import { streamSSE } from 'hono/streaming'
 
 const app = new Hono<{
   Bindings: HttpBindings
@@ -45,21 +46,26 @@ function camelToSnake(camelCaseString: string): string {
 }
 
 app.post('/user-settings', async (c) => {
-  const user = c.get('user')
-  const datastar = c.get('datastar')
+  return streamSSE(c, async (stream) => {
+    const user = c.get('user')
+    const datastar = c.get('datastar')
 
-  if (!user?.id) return c.json({ status: 401, message: 'no user' })
+    if (!user?.id) return
 
-  const body = datastar.signals
+    const body = datastar.signals
 
-  if (!body) return c.json({ status: 401, message: 'no signals' })
+    if (!body) return
 
-  const values = Object.values(body)[0] as object
+    const values = body.usersettings
 
-  for (const key in values) {
-    db.database
-      .prepare(
-        sql`
+    console.log('VALUES:', values)
+
+    for (const key in values) {
+      if (key !== 'explorerLocked') continue
+
+      db.database
+        .prepare(
+          sql`
           INSERT INTO setting (user_id, type, value, updated_at)
           VALUES (?, ?, ?, datetime('now'))
           ON CONFLICT(user_id, type)
@@ -67,11 +73,12 @@ app.post('/user-settings', async (c) => {
             value = excluded.value,
             updated_at = datetime('now');
         `
-      )
-      .run(user.id, camelToSnake(key), values[key].toString() || 'false')
-  }
+        )
+        .run(user.id, camelToSnake(key), values[key].toString() || 'false')
+    }
 
-  return c.json({ status: 200, message: 'value updated' })
+    return
+  })
 })
 
 app.delete('/user-settings', async (c) => {})

@@ -6,7 +6,7 @@ import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { HTTPException } from 'hono/http-exception'
 
-import { loadDb } from '@alstar/db'
+import { db, loadDb } from '@alstar/db'
 import { getEnv } from '@alstar/studio/env'
 import { hotReload, hotReloadClient } from '@alstar/studio/hot-reload'
 import { datastar } from '@alstar/studio/hono-datastar'
@@ -25,8 +25,13 @@ import * as types from './types.ts'
 import { cors } from 'hono/cors'
 import { except } from 'hono/combine'
 import { html } from 'hono/html'
+import { createFactory } from 'hono/factory'
+import { type DatabaseSync } from 'node:sqlite'
 
 const packageJSON = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
+
+const consumerRoot = path.resolve('.')
+const studioRoot = import.meta.dirname
 
 export let rootdir = './node_modules/@alstar/studio'
 
@@ -39,11 +44,37 @@ export let studioConfig: types.StudioConfig = {
   structure: {},
 }
 
+const factory = createFactory()
+
 const env = await getEnv()
+
+function tableExists(db: DatabaseSync, tableName: string): boolean {
+  const row = db
+    .prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`)
+    .get(tableName)
+
+  return row !== undefined
+}
+
+async function applyBetterAuthMigration(db: DatabaseSync) {
+  const hasUserTable = tableExists(db, 'user')
+
+  if (hasUserTable) return
+
+  const migrationFile = await fsp.readFile(
+    path.resolve(studioRoot, 'migrations', 'better-auth-init.sql'),
+    { encoding: 'utf8' }
+  )
+
+  db.exec(migrationFile)
+}
 
 const createStudio = async (config: types.StudioConfigInput) => {
   loadDb('./studio.db')
+
   createStudioTables()
+
+  await applyBetterAuthMigration(db.database)
 
   const auth = createAuthServer()
 
@@ -94,7 +125,7 @@ const createStudio = async (config: types.StudioConfigInput) => {
   // redirect to /login if not logged in
   app.use(
     '/studio/*',
-    except('/studio/login', async (c, next) => {
+    except(['/studio/login', '/studio/register'], async (c, next) => {
       const session = await auth.api.getSession({ headers: c.req.raw.headers })
 
       if (!session) {
