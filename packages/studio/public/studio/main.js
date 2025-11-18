@@ -47,6 +47,12 @@ swup.hooks.on('page:view', () => {
   hydrateLinks()
 })
 
+swup.hooks.on('visit:end', (visit) => {
+  window.dispatchEvent(
+    new CustomEvent('tabs:update', { name: visit.to.url, href: visit.to.url })
+  )
+})
+
 window.alstar = {
   slugify: slugify,
 }

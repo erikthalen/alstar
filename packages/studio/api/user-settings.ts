@@ -56,9 +56,7 @@ app.post('/user-settings', async (c) => {
 
     if (!body) return
 
-    const values = body.usersettings
-
-    console.log('VALUES:', values)
+    const values = body.usersettings as any
 
     for (const key in values) {
       if (key !== 'explorerLocked') continue
@@ -74,7 +72,11 @@ app.post('/user-settings', async (c) => {
             updated_at = datetime('now');
         `
         )
-        .run(user.id, camelToSnake(key), values[key].toString() || 'false')
+        .run(
+          user.id,
+          camelToSnake(key),
+          values[key as keyof typeof values].toString() || 'false'
+        )
     }
 
     return

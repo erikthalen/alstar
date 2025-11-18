@@ -9,22 +9,42 @@ export class Tabs extends LitElement {
   constructor() {
     super()
 
-    this.tabs = [
-      {
-        name: 'Frontpage',
-        href: '/studio/entries/1',
-      },
-    ]
+    this.tabs = this.getTabs()
     this.abortController = new AbortController()
+
+    console.log('this.tabs', this.tabs)
   }
 
   connectedCallback() {
     super.connectedCallback()
+
+    window.addEventListener('tabs:update', this.updatedTabs.bind(this), {
+      signal: this.abortController.signal,
+    })
   }
 
   disconnectedCallback() {
     super.disconnectedCallback()
     this.abortController.abort()
+  }
+
+  updatedTabs(e) {
+    console.log(e)
+    // const newTab = e.detail
+
+    // this.setTab(newTab)
+  }
+
+  getTabs() {
+    return JSON.parse(window.localStorage.getItem('tabs') || '[]')
+  }
+
+  setTab(newTab) {
+    const currentTabs = this.getTabs()
+
+    const updatedTabs = [...currentTabs, newTab]
+
+    window.localStorage.setItem('tabs', JSON.stringify(updatedTabs))
   }
 
   render() {
