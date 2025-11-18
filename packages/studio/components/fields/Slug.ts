@@ -1,45 +1,6 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '@alstar/studio/html'
 import type { FieldDefStructure } from '../../types.ts'
-import { Hono } from 'hono'
-import { type HttpBindings } from '@hono/node-server'
-import { streamSSE } from 'hono/streaming'
-import { query } from '../../queries/index.ts'
-import { slugify } from '../../utils/slugify.ts'
-
-const app = new Hono<{ Bindings: HttpBindings }>()
-
-app.get('/slug', async (c) => {
-  try {
-    const params = await c.req.query()
-
-    if (!params.entryId) {
-      return c.json({
-        status: 404,
-        message: 'Needs an entryId to generate slug',
-      })
-    }
-
-    const entry = query.root({ id: params.entryId })
-    const title = entry?.fields?.title?.value
-
-    if (!title) {
-      return c.json({ status: 404, message: 'No title to generate slug from' })
-    }
-
-    return streamSSE(c, async (stream) => {
-      await stream.writeSSE({
-        event: 'datastar-patch-signals',
-        data: `signals { slug: '${slugify(title)}' }`,
-      })
-    })
-  } catch (error) {
-    console.log(error)
-    return c.text('Error generating slug')
-  }
-})
-
-export const routes = app
 
 export default (props: {
   entryId: number | string
@@ -61,88 +22,81 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const entry = query.root({ id: entryId })
-  const title = entry?.fields?.title?.value
-  const sluggedTitle = slugify(title)
+  const signals = {
+    id: data.id,
+    value: data.value,
+    patchElements: [
+      { name: 'EntryHeader', props: entryId },
+      { name: 'LivePreview', props: { entryId } },
+    ],
+  }
 
   return html`
-    <div style="display: flex; align-items: center">
-      <form
-        data-on:change="@patch('/studio/api/block', {
-          contentType: 'form',
-          headers: {
-            render: 'Entry LivePreview',
-            props: '${JSON.stringify({ entryId: entryId })}'
-          }
+    <form
+      data-signals:entry.slug="${JSON.stringify(signals)}"
+      data-signals:field-${data.id}="${JSON.stringify(signals)}"
+      data-on:input="@patch('/studio/api/block', {
+          filterSignals: { include: 'field-${data.id}' }
         })"
+    >
+      <vscode-form-container responsive>
+        <vscode-form-group>
+          <vscode-label for="block-${data.id}">
+            ${structure.label}
+          </vscode-label>
+          <vscode-textfield
+            data-bind:field-${data.id}.value
+            id="block-${data.id}"
+            name="value"
+          >
+            <quiet-button
+              slot="content-after"
+              data-on:click="@patch('/studio/api/block-recommended-slug', {
+                  filterSignals: { include: 'entry.' }
+                })"
+              appearance="text"
+              id="generate_slug_field"
+              icon-label="Reload"
+              size="xs"
+            >
+              <quiet-icon name="refresh"></quiet-icon>
+            </quiet-button>
+          </vscode-textfield>
+          <vscode-form-helper>
+            <p class="ts-xs">${structure.description}</p>
+          </vscode-form-helper>
+        </vscode-form-group>
+      </vscode-form-container>
+
+      <quiet-tooltip
+        distance="0"
+        without-arrow
+        class="ts-label"
+        for="generate_slug_field"
       >
-        <vscode-form-container responsive>
-          <vscode-form-group>
-            <vscode-label for="block-${data.id}">
-              ${structure.label}
-            </vscode-label>
-            <vscode-textfield
-              value="${data.value}"
-              id="block-${data.id}"
-              name="value"
-            ></vscode-textfield>
-            <vscode-form-helper>
-              <p class="ts-xs">${structure.description}</p>
-            </vscode-form-helper>
-          </vscode-form-group>
-        </vscode-form-container>
+        Generate slug
+      </quiet-tooltip>
+    </form>
 
-        <!-- <quiet-text-field
-          id="block-${data.id}"
-          name="value"
-          label="${structure.label}"
-          value="${data.value}"
-        >
-          ${structure.description
-          ? html`<span slot="description">
-              <small>${structure.description}</small>
-            </span>`
-          : ''}
-        </quiet-text-field> -->
-
-        <input type="hidden" name="type" value="${structure.type}" />
-        <input type="hidden" name="id" value="${data.id}" />
-        <input type="hidden" name="entryId" value="${entryId}" />
-        <input type="hidden" name="parentId" value="${parentId}" />
-        <input type="hidden" name="name" value="${name}" />
-      </form>
-
-      <form
-        data-on:submit="@patch('/studio/api/block', {
-          contentType: 'form',
-          headers: {
-            render: 'Entry LivePreview',
-            props: '${JSON.stringify({ entryId: entryId })}'
-          }
+    <!-- <quiet-button
+        data-on:submit="@patch('/studio/api/block-recommended-slug', {
+          filterSignals: { include: 'entry.' }
         })"
+        appearance="text"
+        id="generate_slug_field"
+        icon-label="Reload"
+        size="xs"
       >
-        <input type="hidden" name="id" value="${data.id}" />
-        <input type="hidden" name="value" value="${sluggedTitle}" />
+        <quiet-icon name="refresh"></quiet-icon>
+      </quiet-button>
 
-        <quiet-button
-          appearance="text"
-          id="generate_slug_field"
-          type="submit"
-          icon-label="Reload"
-          size="xs"
-        >
-          <quiet-icon name="refresh"></quiet-icon>
-        </quiet-button>
-
-        <quiet-tooltip
-          distance="0"
-          without-arrow
-          class="ts-label"
-          for="generate_slug_field"
-        >
-          Generate slug
-        </quiet-tooltip>
-      </form>
-    </div>
+      <quiet-tooltip
+        distance="0"
+        without-arrow
+        class="ts-label"
+        for="generate_slug_field"
+      >
+        Generate slug
+      </quiet-tooltip> -->
   `
 }

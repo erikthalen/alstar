@@ -15,7 +15,7 @@ export default (
     <!DOCTYPE html>
     <html lang="en" class="quiet-cloak quiet-dark quiet-zinc">
       <head>
-        <script>
+        <!-- <script>
           const darkModeMedia = window.matchMedia(
             '(prefers-color-scheme: dark)'
           )
@@ -29,7 +29,7 @@ export default (
           window
             .matchMedia('(prefers-color-scheme: dark)')
             .addEventListener('change', (e) => setTheme(e.matches))
-        </script>
+        </script> -->
 
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

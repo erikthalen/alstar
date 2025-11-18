@@ -1,3 +1,4 @@
+// components
 import './js/auth.js'
 import './js/markdown-editor.js'
 import './js/sortable-list.js'
@@ -6,8 +7,12 @@ import './js/settings-tabs.js'
 import './js/split-pane.js'
 import './js/tabs.js'
 
+// global
 import Swup from 'swup'
 import { allDefined } from '@quietui/quiet'
+
+// api
+import { slugify } from './js/utils/slugify.js'
 
 let abortController = new AbortController()
 
@@ -41,3 +46,7 @@ hydrateLinks()
 swup.hooks.on('page:view', () => {
   hydrateLinks()
 })
+
+window.alstar = {
+  slugify: slugify,
+}

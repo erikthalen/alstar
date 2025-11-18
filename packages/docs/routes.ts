@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import Index from './pages/index.ts'
 import DocsPage from './pages/docs-page.ts'
-import { type HtmlEscapedString } from '@alstar/studio'
+import { type HtmlEscapedString } from '@alstar/studio/html'
 import { type HttpBindings } from '@hono/node-server'
 
 type Page<C> = (c?: C) => HtmlEscapedString | Promise<HtmlEscapedString>

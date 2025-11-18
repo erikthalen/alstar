@@ -5,6 +5,7 @@ import { sql } from '../utils/sql.ts'
 import { db } from '@alstar/db'
 import { deleteBlockWithChildren } from '../queries/block-with-children.ts'
 import { getElementsToPatch } from '../utils/get-elements-to-patch.ts'
+import { slugify } from '../utils/slugify.ts'
 
 const app = new Hono<{ Bindings: HttpBindings }>()
 
@@ -151,6 +152,89 @@ app.delete('/block', async (c) => {
     db.database.prepare(deleteBlockWithChildren).all(values.id)
 
     const patches = await getElementsToPatch(values.patchElements)
+
+    for (const patch of patches) {
+      await datastar.patchElements(stream, patch)
+    }
+  })
+})
+
+type EntryTitleSignal = {
+  entry: {
+    id: number
+    recommendedSlug: string
+    slug: {
+      id: number
+      value: string
+      recommended: string
+      patchElements: ElementPatchPayload
+    }
+    title: {
+      id: number
+      value: string
+      patchElements: ElementPatchPayload
+    }
+  }
+}
+
+app.patch('/block-title', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const datastar = c.get('datastar')
+    const signals = datastar.signals as EntryTitleSignal
+
+    const { entry } = signals
+    const { title } = entry
+
+    const transaction = db.database.prepare(sql`
+        update block
+        set
+          value = ?,
+          updated_at = datetime('now')
+        where
+          id = ?;
+      `)
+
+    transaction.run(title.value, title.id)
+
+    await datastar.patchSignals(stream, {
+      entry: { slug: { recommended: slugify(title.value) } },
+    })
+
+    const patches = await getElementsToPatch(title.patchElements)
+
+    for (const patch of patches) {
+      await datastar.patchElements(stream, patch)
+    }
+  })
+})
+
+app.patch('/block-recommended-slug', async (c) => {
+  return streamSSE(c, async (stream) => {
+    const datastar = c.get('datastar')
+    const signals = datastar.signals as EntryTitleSignal
+
+    const { entry } = signals
+    const { slug } = entry
+
+    const transaction = db.database.prepare(sql`
+        update block
+        set
+          value = ?,
+          updated_at = datetime('now')
+        where
+          id = ?;
+      `)
+
+    transaction.run(slug.recommended, slug.id)
+
+    await datastar.patchSignals(stream, {
+      entry: { slug: { value: slug.recommended } },
+      [`field-${slug.id}`]: {
+        value: slug.recommended,
+      },
+    })
+
+    const patches = await getElementsToPatch(slug.patchElements)
 
     for (const patch of patches) {
       await datastar.patchElements(stream, patch)

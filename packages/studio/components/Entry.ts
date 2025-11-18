@@ -14,7 +14,7 @@ export default (props: { entryId: number | string }) => {
   if (!structure) return html`<p>No structure of type: ${data.name}</p>`
 
   return html`
-    <div id="entry" class="entry" data-signals="{ entryId: ${props.entryId} }">
+    <div id="entry" class="entry" data-signals:entry.id="${props.entryId}">
       ${EntryHeader(props.entryId)}
 
       <div class="content">

@@ -1,5 +1,9 @@
 import { Field } from './fields/index.ts'
-import type { BlocksFieldDefStructure, FieldDefStructure } from '../types.ts'
+import type {
+  BlocksFieldDefStructure,
+  FieldDefStructure,
+  ReferenceFieldStructure,
+} from '../types.ts'
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import { BlockFieldInstance } from '../utils/define.ts'
 import { html } from '@alstar/studio/html'
@@ -17,29 +21,37 @@ export default (props: {
     return BlockFieldRenderer({ entryId, parentId, name, structure, id })
   }
 
+  const fieldProps = { entryId, parentId, name, id, structure }
+
   switch (structure.type) {
     case 'text': {
-      return html`<div class="field">${Field.Text({ entryId, parentId, name, id, structure })}</div>`
+      return html`<div class="field">
+        ${entryId === parentId
+          ? Field.Title(fieldProps)
+          : Field.Text(fieldProps)}
+      </div>`
     }
 
     case 'slug': {
-      return html`<div class="field">${Field.Slug({ entryId, parentId, name, id, structure })}</div>`
+      return html`<div class="field">${Field.Slug(fieldProps)}</div>`
     }
 
     case 'markdown': {
-      return html`<div class="field">${Field.Markdown({ entryId, parentId, name, id, structure })}</div>`
+      return html`<div class="field">${Field.Markdown(fieldProps)}</div>`
     }
 
     case 'image': {
-      return html`<div class="field">${Field.Text({ entryId, parentId, name, structure, id })}</div>`
+      return html`<div class="field">${Field.Text(fieldProps)}</div>`
     }
 
     case 'reference': {
-      return html`<div class="field">${Field.Reference({ entryId, parentId, name, structure, id })}</div>`
+      return html`<div class="field">
+        ${Field.Reference({ entryId, parentId, name, id, structure })}
+      </div>`
     }
-    
+
     case 'svg': {
-      return html`<div class="field">${Field.SVG({ entryId, parentId, name, structure, id })}</div>`
+      return html`<div class="field">${Field.SVG(fieldProps)}</div>`
     }
   }
 }

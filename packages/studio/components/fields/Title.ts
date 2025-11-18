@@ -1,6 +1,7 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from '@alstar/studio/html'
 import type { FieldDefStructure } from '../../types.ts'
+import { slugify } from '../../utils/slugify.ts'
 
 export default (props: {
   entryId: number | string
@@ -22,21 +23,22 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const signals = JSON.stringify({
+  const signals = {
     id: data.id,
     value: data.value,
     patchElements: [
       { name: 'EntryHeader', props: entryId },
       { name: 'LivePreview', props: { entryId } },
     ],
-  })
+  }
 
   return html`
     <form
-      class="field-text"
-      data-signals:field_${data.id}="${signals}"
-      data-on:input="@patch('/studio/api/block', {
-        filterSignals: { include: 'field_${data.id}' }
+      class="field-text entry-title"
+      data-signals:entry.title="${JSON.stringify(signals)}"
+      data-signals:entry.slug.recommended="'${slugify(signals.value)}'"
+      data-on:input="@patch('/studio/api/block-title', {
+        filterSignals: { include: 'entry.' }
       })"
     >
       <vscode-form-container responsive>
@@ -45,7 +47,7 @@ export default (props: {
             ${structure.label}
           </vscode-label>
           <vscode-textfield
-            data-bind:field_${data.id}.value
+            data-bind:entry.title.value
             id="block-${data.id}"
             name="value"
           ></vscode-textfield>
