@@ -6,6 +6,7 @@ import './js/live-preview.js'
 import './js/settings-tabs.js'
 import './js/split-pane.js'
 import './js/tabs.js'
+import './js/bg-gradient.js'
 
 // global
 import Swup from 'swup'
