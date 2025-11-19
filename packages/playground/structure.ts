@@ -13,12 +13,16 @@ const structure = defineStructure({
     fields: {
       title: defineField({
         label: 'Title',
-        type: 'text',
+        type: 'title',
         description: 'The overall name of the entry',
       }),
       slug: defineField({
         label: 'Slug',
         type: 'slug',
+      }),
+      description: defineField({
+        label: 'Description',
+        type: 'text',
       }),
       md: defineField({
         label: 'Markdown',

@@ -22,21 +22,21 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const signals = JSON.stringify({
+  const signals = {
     id: data.id,
     value: data.value,
     patchElements: [
       { name: 'EntryHeader', props: entryId },
       { name: 'LivePreview', props: { entryId } },
     ],
-  })
+  }
 
   return html`
     <form
       class="field-text"
-      data-signals:field_${data.id}="${signals}"
-      data-on:input="@patch('/studio/api/block', {
-        filterSignals: { include: 'field_${data.id}' }
+      data-signals:${data.id}="${JSON.stringify(signals)}"
+      data-on:input="@patch('/studio/api/block/${data.id}', {
+        filterSignals: { include: '/${data.id}/' }
       })"
     >
       <vscode-form-container responsive>
@@ -45,7 +45,7 @@ export default (props: {
             ${structure.label}
           </vscode-label>
           <vscode-textfield
-            data-bind:field_${data.id}.value
+            data-bind:${data.id}.value
             id="block-${data.id}"
             name="value"
           ></vscode-textfield>

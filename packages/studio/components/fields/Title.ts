@@ -38,7 +38,7 @@ export default (props: {
       data-signals:entry.title="${JSON.stringify(signals)}"
       data-signals:entry.slug.recommended="'${slugify(signals.value)}'"
       data-on:input="@patch('/studio/api/block-title', {
-        filterSignals: { include: 'entry.' }
+        filterSignals: { include: '/entry/' }
       })"
     >
       <vscode-form-container responsive>

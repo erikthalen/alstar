@@ -11,7 +11,14 @@ import { type HtmlEscapedString } from 'hono/utils/html'
 
 export type BlockStatus = 'enabled' | 'disabled'
 
-type FieldType = 'text' | 'slug' | 'markdown' | 'image' | 'reference' | 'svg'
+type FieldType =
+  | 'text'
+  | 'title'
+  | 'slug'
+  | 'markdown'
+  | 'image'
+  | 'reference'
+  | 'svg'
 
 interface BaseField {
   label: string
@@ -22,7 +29,7 @@ interface BaseField {
 
 // text fields
 interface TextField extends BaseField {
-  type: 'text' | 'slug' | 'markdown' | 'svg'
+  type: 'text' | 'title' | 'slug' | 'markdown' | 'svg'
 }
 
 interface TextFieldStructure extends TextField {
@@ -49,7 +56,10 @@ export interface ReferenceFieldStructure extends ReferenceField {
 }
 
 export type FieldDef = TextField | ImageField | ReferenceField
-export type FieldDefStructure = TextFieldStructure | ImageFieldStructure | ReferenceFieldStructure
+export type FieldDefStructure =
+  | TextFieldStructure
+  | ImageFieldStructure
+  | ReferenceFieldStructure
 
 // blocks fields
 export interface BlocksFieldDef {
@@ -62,20 +72,25 @@ export interface BlocksFieldDefStructure extends BlocksFieldDef {
   instanceOf: typeof BlockFieldInstance
 }
 
-export type BlockFields = Record<string, FieldDefStructure | BlocksFieldDefStructure>
+export type BlockFields = Record<
+  string,
+  FieldDefStructure | BlocksFieldDefStructure
+>
 
 // block
 export type BlockDef<T extends BlockFields> = {
   type: string
   label: string
   description?: string
-  preview?: {
-    field: keyof T
-  } | {
-    slug: string
-  },
-  icon?: string, // https://tabler.io/icons
-  fields: T,
+  preview?:
+    | {
+        field: keyof T
+      }
+    | {
+        slug: string
+      }
+  icon?: string // https://tabler.io/icons
+  fields: T
 }
 
 export type BlockDefStructure = BlockDef<BlockFields> & {
@@ -109,7 +124,10 @@ export type DBBlockResult = BaseDBResult & {
   fields: Record<string, DBResult>
 }
 
-export type DBResult = DBPrimitiveFieldResult | DBBlockFieldResult | DBBlockResult
+export type DBResult =
+  | DBPrimitiveFieldResult
+  | DBBlockFieldResult
+  | DBBlockResult
 
 export type Structure = Record<string, BlockDefStructure>
 
@@ -119,7 +137,7 @@ export type StudioConfig = {
     logo?: HtmlEscapedString | Promise<HtmlEscapedString>
   }
   honoConfig: HonoOptions<BlankEnv>
-  fileBasedRouter: boolean,
+  fileBasedRouter: boolean
   port: number
   structure: Structure
 }
@@ -130,7 +148,7 @@ export type StudioConfigInput = {
     logo?: HtmlEscapedString | Promise<HtmlEscapedString>
   }
   honoConfig?: HonoOptions<BlankEnv>
-  fileBasedRouter?: boolean,
+  fileBasedRouter?: boolean
   port?: number
   structure: Structure
 }

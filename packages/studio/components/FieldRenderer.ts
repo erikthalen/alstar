@@ -25,11 +25,11 @@ export default (props: {
 
   switch (structure.type) {
     case 'text': {
-      return html`<div class="field">
-        ${entryId === parentId
-          ? Field.Title(fieldProps)
-          : Field.Text(fieldProps)}
-      </div>`
+      return html`<div class="field">${Field.Text(fieldProps)}</div>`
+    }
+
+    case 'title': {
+      return html`<div class="field">${Field.Title(fieldProps)}</div>`
     }
 
     case 'slug': {

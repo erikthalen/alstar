@@ -23,7 +23,7 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  const signals = JSON.stringify({
+  const signals = {
     id: data.id,
     value: data.value,
     patchElements: [
@@ -31,14 +31,14 @@ export default (props: {
       { name: 'utils/SVGOutput', props: data.id },
       { name: 'LivePreview', props: { entryId } },
     ],
-  })
+  }
 
   return html`
     <form
       class="field-text"
-      data-signals:${data.id}="${signals}"
+      data-signals:${data.id}="${JSON.stringify(signals)}"
       data-on:input="@patch('/studio/api/block', {
-        filterSignals: { include: '${data.id}' }
+        filterSignals: { include: '/${data.id}/' }
       })"
     >
       <vscode-form-container responsive>

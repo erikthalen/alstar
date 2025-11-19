@@ -34,9 +34,9 @@ export default (props: {
   return html`
     <form
       data-signals:entry.slug="${JSON.stringify(signals)}"
-      data-signals:field-${data.id}="${JSON.stringify(signals)}"
-      data-on:input="@patch('/studio/api/block', {
-          filterSignals: { include: 'field-${data.id}' }
+      data-signals:${data.id}="${JSON.stringify(signals)}"
+      data-on:input="@patch('/studio/api/block/${data.id}', {
+          filterSignals: { include: '/${data.id}/' }
         })"
     >
       <vscode-form-container responsive>
@@ -45,7 +45,7 @@ export default (props: {
             ${structure.label}
           </vscode-label>
           <vscode-textfield
-            data-bind:field-${data.id}.value
+            data-bind:${data.id}.value
             id="block-${data.id}"
             name="value"
           >

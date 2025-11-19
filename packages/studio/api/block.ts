@@ -63,14 +63,15 @@ type PatchBody = Record<
   }
 >
 
-app.patch('/block', async (c) => {
+app.patch('/block/:id', async (c) => {
   return streamSSE(c, async (stream) => {
+    const id = c.req.param('id')
     const datastar = c.get('datastar')
     const values = datastar
-      ? Object.values((datastar.signals as object) || '{}')[0]
+      ? (datastar.signals?.[id] as any) || '{}'
       : await c.req.json()
 
-    const { id, value, options, status, sortOrder, patchElements } = values
+    const { value, options, status, sortOrder, patchElements } = values
 
     if (!id) return
 
@@ -228,8 +229,12 @@ app.patch('/block-recommended-slug', async (c) => {
     transaction.run(slug.recommended, slug.id)
 
     await datastar.patchSignals(stream, {
-      entry: { slug: { value: slug.recommended } },
-      [`field-${slug.id}`]: {
+      entry: {
+        slug: {
+          value: slug.recommended,
+        },
+      },
+      [slug.id]: {
         value: slug.recommended,
       },
     })
