@@ -39,13 +39,11 @@ export default (c: Context) => {
   return html`
     <nav
       id="explorer"
+      data-signals:usersettings="${JSON.stringify(signals)}"
       data-class:locked="$usersettings.explorerLocked"
       class="${settings.explorer_locked === 'true' ? 'locked' : ''}"
     >
-      <header
-        class="ts-label"
-        data-signals:usersettings="${JSON.stringify(signals)}"
-      >
+      <header class="ts-label">
         <quiet-toggle-icon
           data-attr:checked="$usersettings.explorerLocked"
           data-on:quiet-change="$usersettings.explorerLocked = evt.target.checked; @post('/studio/api/user-settings', { filterSignals: 'usersettings.' })"

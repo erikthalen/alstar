@@ -29,6 +29,66 @@ export default (entryId: string | number) => {
         <span>Created:</span>
         <b>${parseDate(data.created_at)}</b>
       </p>
+
+      <aside>
+        <quiet-toggle-icon
+          class="disable-button"
+          label="Disable"
+          effect="scale"
+          id="tooltip-disable-${entryId}"
+          size="xs"
+          data-attr:checked="$${entryId}.status === 'enabled'"
+          data-on:quiet-change="$${entryId}.status = evt.target.checked ? 'enabled' : 'disabled'; @patch('/studio/api/block/${entryId}', {
+            filterSignals: { include: '/${entryId}/' }
+          })"
+        >
+          <quiet-icon
+            slot="unchecked"
+            name="circle"
+            family="filled"
+          ></quiet-icon>
+
+          <quiet-icon slot="checked" name="circle" family="filled"></quiet-icon>
+        </quiet-toggle-icon>
+
+        <quiet-tooltip
+          distance="0"
+          without-arrow
+          class="ts-label"
+          for="tooltip-disable-${entryId}"
+          data-text="$entry.status === 'enabled' ? 'Unpublish' : 'Publish'"
+        >
+        </quiet-tooltip>
+
+        <quiet-button
+          type="submit"
+          variant="neutral"
+          icon-label="Remove"
+          size="xs"
+          id="tooltip-remove-${entryId}"
+          data-signals:delete_${entryId}="{
+                      id: ${entryId},
+                      patchElements: [
+                        { name: 'Entry', props: { entryId: ${entryId} } },
+                        { name: 'LivePreview', props: { entryId: ${entryId} } }
+                      ]
+                    }"
+          data-on:click="@delete('/studio/api/block/${entryId}', {
+                      filterSignals: { include: '/delete_${entryId}/' }
+                    })"
+        >
+          <quiet-icon name="x"></quiet-icon>
+        </quiet-button>
+
+        <quiet-tooltip
+          distance="0"
+          without-arrow
+          for="tooltip-remove-${entryId}"
+          class="ts-label"
+        >
+          Remove
+        </quiet-tooltip>
+      </aside>
     </header>
   `
 }

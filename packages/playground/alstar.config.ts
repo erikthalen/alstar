@@ -26,6 +26,11 @@ export default {
           label: 'Description',
           type: 'text',
         }),
+        image: defineField({
+          label: 'Image',
+          type: 'image',
+          description: 'A featured image for the page',
+        }),
         md: defineField({
           label: 'Markdown',
           type: 'markdown',

@@ -35,8 +35,8 @@ export const loadDb = (databaseName: string) => {
   ) {
     const columns = {
       id: 'INTEGER PRIMARY KEY AUTOINCREMENT',
-      created_at: "DATE DEFAULT (datetime('now'))",
-      updated_at: "DATE DEFAULT (datetime('now'))",
+      created_at: "DATE DEFAULT (datetime('now', 'localtime'))",
+      updated_at: "DATE DEFAULT (datetime('now', 'localtime'))",
       ...userColumns,
     }
 
@@ -86,8 +86,8 @@ export const loadDb = (databaseName: string) => {
   function createTableRaw(tableName: string, query: string) {
     const columns = `
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        created_at DATE DEFAULT (datetime('now')),
-        updated_at DATE DEFAULT (datetime('now')),
+        created_at DATE DEFAULT (datetime('now', 'localtime')),
+        updated_at DATE DEFAULT (datetime('now', 'localtime')),
         ${query}
       `
 

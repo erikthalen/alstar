@@ -25,7 +25,7 @@ function hydrateLinks() {
   abortController = new AbortController()
 
   document.querySelectorAll('*[href]').forEach((link) => {
-    console.log(link)
+    // console.log(link)
     link.addEventListener(
       'click',
       (e) => {

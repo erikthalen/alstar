@@ -32,4 +32,10 @@
   h1 {
     margin: 0;
   }
+
+  aside {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
 }

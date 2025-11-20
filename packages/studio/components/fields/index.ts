@@ -4,5 +4,6 @@ import Slug from './Slug.ts'
 import Reference from './Reference.ts'
 import SVG from './SVG.ts'
 import Title from './Title.ts'
+import Image from './Image.ts'
 
-export const Field = { Text, Markdown, Slug, Reference, SVG, Title }
+export const Field = { Text, Markdown, Slug, Reference, SVG, Title, Image }

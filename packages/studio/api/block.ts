@@ -80,7 +80,7 @@ app.patch('/block/:id', async (c) => {
         update block
         set
           value = ?,
-          updated_at = datetime('now')
+          updated_at = datetime('now', 'localtime')
         where
           id = ?;
       `)
@@ -100,12 +100,14 @@ app.patch('/block/:id', async (c) => {
       transaction.run(JSON.stringify(options), id)
     }
 
+    console.log(status)
+
     if (status) {
       const transaction = db.database.prepare(sql`
         update block
         set
           status = ?,
-          updated_at = datetime('now')
+          updated_at = datetime('now', 'localtime')
         where
           id = ?;
       `)
@@ -195,7 +197,7 @@ app.patch('/block-title', async (c) => {
         update block
         set
           value = ?,
-          updated_at = datetime('now')
+          updated_at = datetime('now', 'localtime')
         where
           id = ?;
       `)
@@ -226,7 +228,7 @@ app.patch('/block-recommended-slug', async (c) => {
         update block
         set
           value = ?,
-          updated_at = datetime('now')
+          updated_at = datetime('now', 'localtime')
         where
           id = ?;
       `)

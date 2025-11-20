@@ -41,7 +41,7 @@ export default (props: {
     }
 
     case 'image': {
-      return html`<div class="field">${Field.Text(fieldProps)}</div>`
+      return html`<div class="field">${Field.Image(fieldProps)}</div>`
     }
 
     case 'reference': {
