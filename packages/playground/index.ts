@@ -7,7 +7,7 @@ import Index from './pages/index.ts'
 
 const app = new Hono()
 
-const { app: studio } = await createStudio()
+const { app: studio } = createStudio()
 
 app.route('/studio', studio)
 

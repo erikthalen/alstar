@@ -1,4 +1,5 @@
-import { defineEntry, query } from '@alstar/studio'
+import { query } from '@alstar/studio'
+import { defineEntry } from '@alstar/studio/define'
 import { html } from '@alstar/studio/html'
 import SiteLayout from '../components/SiteLayout.ts'
 import { marked } from 'marked'

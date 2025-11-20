@@ -143,16 +143,21 @@ type PatchDisableBody = Record<
   }
 >
 
-app.delete('/block', async (c) => {
+app.delete('/block/:id', async (c) => {
   return streamSSE(c, async (stream) => {
+    const id = c.req.param('id')
     const datastar = c.get('datastar')
-    const values = Object.values((datastar.signals as object) || '{}')[0]
+    const values = datastar
+      ? (datastar.signals as any) || '{}'
+      : await c.req.json()
 
-    if (!values.id) return
+    const v = Object.values(values)[0] as any
 
-    db.database.prepare(deleteBlockWithChildren).all(values.id)
+    if (!id) return
 
-    const patches = await getElementsToPatch(values.patchElements)
+    db.database.prepare(deleteBlockWithChildren).all(id)
+
+    const patches = await getElementsToPatch(v.patchElements)
 
     for (const patch of patches) {
       await datastar.patchElements(stream, patch)

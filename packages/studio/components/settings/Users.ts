@@ -1,5 +1,5 @@
 import { db } from '@alstar/db'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import { sql } from '../../utils/sql.ts'
 import { getEnv } from '@alstar/studio/env'
 

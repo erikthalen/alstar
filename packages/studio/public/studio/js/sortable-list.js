@@ -30,7 +30,7 @@ class SortableList extends HTMLElement {
 
         await Promise.all(
           items.map(async (child, idx) => {
-            return fetch('/studio/api/block', {
+            return fetch('/studio/api/block/' + child.dataset.id, {
               method: 'PATCH',
               body: JSON.stringify({
                 id: child.dataset.id,

@@ -1,13 +1,10 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { Hono } from 'hono'
 import { type HtmlEscapedString } from 'hono/utils/html'
 
 export type Page<C> = (c?: C) => HtmlEscapedString | Promise<HtmlEscapedString>
 
 export const fileBasedRouter = async (rootdir: string) => {
-  // const router = new Hono()
-
   const root = path.resolve(rootdir)
 
   let dirs
@@ -38,12 +35,6 @@ export const fileBasedRouter = async (rootdir: string) => {
       )
 
       if (pageFilePathWithoutExt === '/index') {
-        // if (typeof page !== 'function') {
-        //   router.get('/', (c) => c.notFound())
-        //   return
-        // }
-
-        // router.get('/', (c) => c.html((page as Page<typeof c>)(c)))
         return ['/', page]
       }
 
@@ -54,15 +45,7 @@ export const fileBasedRouter = async (rootdir: string) => {
         (_match, content) => `:${content}` // :foo and :bar
       )
 
-      // if (typeof page !== 'function') {
-      //   router.get(route, (c) => c.notFound())
-      //   return
-      // }
-
       return [route, page]
-      // router.get(route, (c) => c.html((page as Page<typeof c>)(c)))
     })
   )
-
-  // return router
 }

@@ -97,7 +97,7 @@ export default (props: {
           return html`
             <article
               data-id="${row.id}"
-              data-signals:block_${row.id}="${JSON.stringify(signals)}"
+              data-signals:${row.id}="${JSON.stringify(signals)}"
             >
               <header>
                 <div class="title">
@@ -114,9 +114,9 @@ export default (props: {
                     effect="scale"
                     id="tooltip-disable-${row.id}"
                     size="xs"
-                    data-attr:checked="$block_${row.id}.status === 'enabled'"
-                    data-on:quiet-change="$block_${row.id}.status = evt.target.checked ? 'enabled' : 'disabled'; @patch('/studio/api/block', {
-                      filterSignals: { include: 'block_${row.id}' }
+                    data-attr:checked="$${row.id}.status === 'enabled'"
+                    data-on:quiet-change="$${row.id}.status = evt.target.checked ? 'enabled' : 'disabled'; @patch('/studio/api/block/${row.id}', {
+                      filterSignals: { include: '/${row.id}/' }
                     })"
                   >
                     <quiet-icon
@@ -147,9 +147,9 @@ export default (props: {
                     effect="scale"
                     id="tooltip-collapse-${row.id}"
                     size="xs"
-                    data-attr:checked="$block_${row.id}.options?.collapsed === true"
-                    data-on:quiet-change="$block_${row.id}.options.collapsed = !!evt.target.checked; @patch('/studio/api/block', {
-                      filterSignals: { include: 'block_${row.id}' }
+                    data-attr:checked="$${row.id}.options?.collapsed === true"
+                    data-on:quiet-change="$${row.id}.options.collapsed = !!evt.target.checked; @patch('/studio/api/block/${row.id}', {
+                      filterSignals: { include: '/${row.id}/' }
                     })"
                   >
                     <quiet-icon slot="unchecked" name="eye"></quiet-icon>
@@ -161,7 +161,7 @@ export default (props: {
                     without-arrow
                     class="ts-label"
                     for="tooltip-collapse-${row.id}"
-                    data-text="$block_${row.id}.options.collapsed ? 'Show' : 'Hide'"
+                    data-text="$${row.id}.options.collapsed ? 'Show' : 'Hide'"
                   >
                   </quiet-tooltip>
 
@@ -198,8 +198,8 @@ export default (props: {
                         { name: 'LivePreview', props: { entryId: ${entryId} } }
                       ]
                     }"
-                    data-on:click="@delete('/studio/api/block', {
-                      filterSignals: { include: 'delete_${row.id}' }
+                    data-on:click="@delete('/studio/api/block/${row.id}', {
+                      filterSignals: { include: '/delete_${row.id}/' }
                     })"
                   >
                     <quiet-icon name="x"></quiet-icon>
@@ -218,7 +218,7 @@ export default (props: {
 
               <div
                 class="blocks-field-content"
-                data-show="$block_${row.id}.options?.collapsed !== true"
+                data-show="$${row.id}.options?.collapsed !== true"
               >
                 ${Render({
                   entryId,
