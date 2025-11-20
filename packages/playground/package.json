@@ -9,6 +9,8 @@
     "@types/node": "^24.1.0"
   },
   "dependencies": {
-    "@alstar/studio": "workspace:*"
+    "@alstar/studio": "workspace:*",
+    "@hono/node-server": "^1.19.6",
+    "hono": "^4.10.6"
   }
 }

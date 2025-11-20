@@ -1,7 +1,7 @@
 import { html } from '@alstar/studio/html'
 import { defineEntry } from '../utils/define.ts'
 import SiteLayout from '../components/SiteLayout.ts'
-import { studioConfig } from '../index.ts'
+import { config } from '../index.ts'
 import * as icons from '../components/icons.ts'
 import SiteHeader from '../components/SiteHeader.ts'
 
@@ -11,7 +11,7 @@ export default defineEntry(async (c) => {
 
       <div class="setup background-pattern">
         <quiet-card style="width: 100%; max-width: 300px;" class="ts-label">
-          <h1 class="sr-only">${studioConfig.siteName}</h1>
+          <h1 class="sr-only">${config.siteName}</h1>
 
           <form
             class="login-form"

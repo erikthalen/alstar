@@ -95,7 +95,10 @@ export default (props: {
           }
 
           return html`
-            <article data-id="${row.id}" data-signals:block_${row.id}="${JSON.stringify(signals)}">
+            <article
+              data-id="${row.id}"
+              data-signals:block_${row.id}="${JSON.stringify(signals)}"
+            >
               <header>
                 <div class="title">
                   ${'icon' in struct && struct.icon

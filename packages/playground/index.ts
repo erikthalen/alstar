@@ -1,7 +1,17 @@
+import { Hono } from 'hono'
 import { createStudio } from '@alstar/studio'
-import structure from './structure.ts'
+import { serve } from '@hono/node-server'
+import { serveStatic } from '@hono/node-server/serve-static'
 
-await createStudio({
-  siteName: 'Playground',
-  structure,
-})
+import Index from './pages/index.ts'
+
+const app = new Hono()
+
+const { app: studio } = await createStudio()
+
+app.route('/studio', studio)
+
+app.use('*', serveStatic({ root: './public' }))
+app.get('/', c => c.html(Index()))
+
+serve(app)

@@ -1,10 +1,10 @@
-import { db } from '@alstar/db'
 import { betterAuth } from 'better-auth'
 import { DatabaseSync } from 'node:sqlite'
 
-export const createAuthServer = () =>
+export const createAuthServer = (database: DatabaseSync) =>
   betterAuth({
-    database: db.database,
+    basePath: 'studio/api/auth',
+    database: database,
     emailAndPassword: {
       enabled: true,
     },

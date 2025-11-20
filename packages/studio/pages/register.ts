@@ -1,17 +1,17 @@
 import { html } from '@alstar/studio/html'
 import { defineEntry } from '../utils/define.ts'
 import SiteLayout from '../components/SiteLayout.ts'
-import { studioConfig } from '../index.ts'
+import { config } from '../index.ts'
 import * as icons from '../components/icons.ts'
 
 export default defineEntry(async () => {
   return SiteLayout(
     html`<div class="setup background-pattern">
       <header>
-        <div class="logo">${studioConfig.admin?.logo || icons.logo}</div>
+        <div class="logo">${config.admin?.logo || icons.logo}</div>
       </header>
 
-      <h1 class="sr-only">${studioConfig.siteName}</h1>
+      <h1 class="sr-only">${config.siteName}</h1>
 
       <br />
 

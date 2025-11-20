@@ -64,6 +64,12 @@ importers:
       '@alstar/studio':
         specifier: workspace:*
         version: link:../studio
+      '@hono/node-server':
+        specifier: ^1.19.6
+        version: 1.19.6(hono@4.10.6)
+      hono:
+        specifier: ^4.10.6
+        version: 4.10.6
     devDependencies:
       '@types/node':
         specifier: ^24.1.0
@@ -82,13 +88,13 @@ importers:
         version: link:../db
       '@hono/node-server':
         specifier: 1.18.1
-        version: 1.18.1(hono@4.8.12)
+        version: 1.18.1(hono@4.10.6)
       better-auth:
         specifier: 1.3.34
         version: 1.3.34
       hono:
-        specifier: 4.8.12
-        version: 4.8.12
+        specifier: ^4.10.6
+        version: 4.10.6
     devDependencies:
       '@types/node':
         specifier: ^24.1.0
@@ -187,6 +193,12 @@ packages:
 
   '@hono/node-server@1.18.1':
     resolution: {integrity: sha512-O3puG/b7owYYmoQ2XPBf3SxBz6Dhk5VmWFhbaBU8/5wcUaXUPS0goxaI2Zfyg+Cu14ILJHEU7IFRw7miFxuXxg==}
+    engines: {node: '>=18.14.1'}
+    peerDependencies:
+      hono: ^4
+
+  '@hono/node-server@1.19.6':
+    resolution: {integrity: sha512-Shz/KjlIeAhfiuE93NDKVdZ7HdBVLQAfdbaXEaoAVO3ic9ibRSLGIQGkcBbFyuLr+7/1D5ZCINM8B+6IvXeMtw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
@@ -553,6 +565,10 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
+
+  hono@4.10.6:
+    resolution: {integrity: sha512-BIdolzGpDO9MQ4nu3AUuDwHZZ+KViNm+EZ75Ae55eMXMqLVhDFqEMXxtUe9Qh8hjL+pIna/frs2j6Y2yD5Ua/g==}
+    engines: {node: '>=16.9.0'}
 
   hono@4.8.12:
     resolution: {integrity: sha512-MQSKk1Mg7b74k8l+A025LfysnLtXDKkE4pLaSsYRQC5iy85lgZnuyeQ1Wynair9mmECzoLu+FtJtqNZSoogBDQ==}
@@ -1155,9 +1171,17 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
+  '@hono/node-server@1.18.1(hono@4.10.6)':
+    dependencies:
+      hono: 4.10.6
+
   '@hono/node-server@1.18.1(hono@4.8.12)':
     dependencies:
       hono: 4.8.12
+
+  '@hono/node-server@1.19.6(hono@4.10.6)':
+    dependencies:
+      hono: 4.10.6
 
   '@inquirer/external-editor@1.0.2(@types/node@24.9.2)':
     dependencies:
@@ -1625,6 +1649,8 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
+
+  hono@4.10.6: {}
 
   hono@4.8.12: {}
 

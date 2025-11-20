@@ -6,7 +6,7 @@ import { type HtmlEscapedString } from 'hono/utils/html'
 export type Page<C> = (c?: C) => HtmlEscapedString | Promise<HtmlEscapedString>
 
 export const fileBasedRouter = async (rootdir: string) => {
-  const router = new Hono()
+  // const router = new Hono()
 
   const root = path.resolve(rootdir)
 
@@ -21,8 +21,8 @@ export const fileBasedRouter = async (rootdir: string) => {
 
   const files = dirs.filter((dir) => path.extname(dir))
 
-  await Promise.all(
-    files.map(async (file) => {
+  return Promise.all(
+    files.map(async (file): Promise<[string, any]> => {
       const pagePath = path.join(root, file)
       const page = Object.values(await import(pagePath)).at(-1)
 
@@ -30,38 +30,39 @@ export const fileBasedRouter = async (rootdir: string) => {
         .split(rootdir.replace('.', ''))
         .at(-1)
 
-      if (!relativePageFilePath) return
+      if (!relativePageFilePath) return ['', '']
 
       const pageFilePathWithoutExt = relativePageFilePath.replace(
         path.extname(relativePageFilePath),
-        '',
+        ''
       )
 
       if (pageFilePathWithoutExt === '/index') {
-        if (typeof page !== 'function') {
-          router.get('/', (c) => c.notFound())
-          return
-        }
+        // if (typeof page !== 'function') {
+        //   router.get('/', (c) => c.notFound())
+        //   return
+        // }
 
-        router.get('/', (c) => c.html((page as Page<typeof c>)(c)))
-        return
+        // router.get('/', (c) => c.html((page as Page<typeof c>)(c)))
+        return ['/', page]
       }
 
       const routePath = pageFilePathWithoutExt.replaceAll('/index', '')
 
       const route = routePath.replace(
         /\[([^\]]+)\]/g, // [foo] and [bar]
-        (_match, content) => `:${content}`, // :foo and :bar
+        (_match, content) => `:${content}` // :foo and :bar
       )
 
-      if (typeof page !== 'function') {
-        router.get(route, (c) => c.notFound())
-        return
-      }
+      // if (typeof page !== 'function') {
+      //   router.get(route, (c) => c.notFound())
+      //   return
+      // }
 
-      router.get(route, (c) => c.html((page as Page<typeof c>)(c)))
-    }),
+      return [route, page]
+      // router.get(route, (c) => c.html((page as Page<typeof c>)(c)))
+    })
   )
 
-  return router
+  // return router
 }

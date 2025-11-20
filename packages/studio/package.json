@@ -17,7 +17,7 @@
     "@alstar/db": "workspace:*",
     "@hono/node-server": "1.18.1",
     "better-auth": "1.3.34",
-    "hono": "4.8.12"
+    "hono": "^4.10.6"
   },
   "devDependencies": {
     "@types/node": "^24.1.0"
@@ -37,6 +37,9 @@
     },
     "./hono-datastar": {
       "import": "./helpers/hono-datastar/index.ts"
+    },
+    "./define": {
+      "import": "./utils/define.ts"
     }
   },
   "prettier": {

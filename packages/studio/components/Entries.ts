@@ -1,9 +1,9 @@
 import { html } from '@alstar/studio/html'
-import { query, studioStructure } from '../index.ts'
+import { query, config } from '../index.ts'
 
 export default ({ name }: { name: string }) => {
   const entries = query.blocks({ parent_id: null, status: 'enabled', name })
-  const structure = studioStructure[name]
+  const structure = config.structure[name]
 
   const signals = {
     type: structure.type,

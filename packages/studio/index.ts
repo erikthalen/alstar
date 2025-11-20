@@ -2,11 +2,11 @@ import path from 'node:path'
 import fsp from 'node:fs/promises'
 
 import { Hono } from 'hono'
-import { serve } from '@hono/node-server'
+// import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
-import { HTTPException } from 'hono/http-exception'
+// import { HTTPException } from 'hono/http-exception'
 
-import { db, loadDb } from '@alstar/db'
+import { loadDb } from '@alstar/db'
 import { getEnv } from '@alstar/studio/env'
 import { hotReload, hotReloadClient } from '@alstar/studio/hot-reload'
 import { datastar } from '@alstar/studio/hono-datastar'
@@ -31,22 +31,40 @@ import { type DatabaseSync } from 'node:sqlite'
 const packageJSON = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
 const consumerRoot = path.resolve('.')
-const studioRoot = import.meta.dirname
+export const studioRoot = import.meta.dirname
 
-export let rootdir = './node_modules/@alstar/studio'
-
-export let studioStructure: types.Structure = {}
-export let studioConfig: types.StudioConfig = {
+export let defaultConfig: types.StudioConfig = {
   siteName: '',
-  honoConfig: {},
+  database: './studio.db',
   fileBasedRouter: true,
   port: 3000,
   structure: {},
 }
 
+const consumerConfig = await getConfig<types.StudioConfigInput>()
+
 const factory = createFactory()
 
 const env = await getEnv()
+
+export const config = { ...defaultConfig, ...consumerConfig }
+
+const db = loadDb('./studio.db')
+
+createStudioTables()
+
+await applyBetterAuthMigration(db.database)
+
+const auth = createAuthServer(db.database)
+
+type AuthType = {
+  user: typeof auth.$Infer.Session.user | null
+  session: typeof auth.$Infer.Session.session | null
+}
+
+declare module 'hono' {
+  interface ContextVariableMap extends AuthType {}
+}
 
 function tableExists(db: DatabaseSync, tableName: string): boolean {
   const row = db
@@ -69,34 +87,13 @@ async function applyBetterAuthMigration(db: DatabaseSync) {
   db.exec(migrationFile)
 }
 
-const createStudio = async (config: types.StudioConfigInput) => {
-  loadDb('./studio.db')
-
-  createStudioTables()
-
-  await applyBetterAuthMigration(db.database)
-
-  const auth = createAuthServer()
-
-  // const configFile = await getConfig<types.StudioConfig>()
-
-  if (config.structure) {
-    studioStructure = config.structure
-  }
-
-  studioConfig = { ...studioConfig, ...config }
-
-  const app = new Hono<{
-    Variables: {
-      user: typeof auth.$Infer.Session.user | null
-      session: typeof auth.$Infer.Session.session | null
-    }
-  }>(studioConfig.honoConfig)
+const createStudio = async () => {
+  const app = new Hono()
 
   // app.use(
   //   '*',
   //   cors({
-  //     origin: `http://localhost:${studioConfig.port}`, // replace with your origin
+  //     origin: `http://localhost:${config.port}`, // replace with your origin
   //     allowHeaders: ['Content-Type', 'Authorization'],
   //     allowMethods: ['POST', 'GET', 'OPTIONS'],
   //     exposeHeaders: ['Content-Length'],
@@ -105,8 +102,6 @@ const createStudio = async (config: types.StudioConfigInput) => {
   //   })
   // )
 
-  // app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
-
   if (process.env.HOT_RELOAD === 'true') {
     app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
   }
@@ -114,124 +109,108 @@ const createStudio = async (config: types.StudioConfigInput) => {
   /**
    * Datastar middleware
    */
-  app.use('/studio/*', datastar())
+  app.use('*', datastar())
 
   /**
-   * Static folders
+   * Static folder
    */
-  app.use('*', serveStatic({ root: path.join(rootdir, 'public') }))
-  app.use('*', serveStatic({ root: './public' }))
+  app.use('*', serveStatic({ root: path.join(studioRoot, 'public') }))
 
   // redirect to /login if not logged in
   app.use(
-    '/studio/*',
-    except(['/studio/login', '/studio/register'], async (c, next) => {
-      const session = await auth.api.getSession({ headers: c.req.raw.headers })
+    '*',
+    except(
+      ['/studio/api/auth/*', '/studio/login', '/studio/register'],
+      async (c, next) => {
+        const session = await auth.api.getSession({
+          headers: c.req.raw.headers,
+        })
 
-      if (!session) {
-        c.set('user', null)
-        c.set('session', null)
-        return c.redirect('/studio/login')
+        if (!session) {
+          c.set('user', null)
+          c.set('session', null)
+          return c.redirect('/studio/login')
+        }
+
+        c.set('user', session.user)
+        c.set('session', session.session)
+        await next()
       }
-
-      c.set('user', session.user)
-      c.set('session', session.session)
-      await next()
-    })
+    )
   )
 
   // redirect from /login to /studio if logged in
-  app.use('/studio/login', async (c, next) => {
+  app.use('/login', async (c, next) => {
     const session = await auth.api.getSession({ headers: c.req.raw.headers })
     if (session?.user) return c.redirect('/studio')
+    await next()
+  })
+
+  // redirect to /register if there's no users
+  app.use('*', async (c, next) => {
+    const users = db.database.prepare('select id from user').all()
+    if (!users.length) return c.redirect('/studio/register')
     await next()
   })
 
   /**
    * Studio API routes
    */
-  app.route('/studio/api', apiRoutes)
-  app.route('/studio/mcp', mcpRoutes)
+  app.route('/api', apiRoutes)
+  app.route('/mcp', mcpRoutes)
 
   /**
    * Studio pages
    */
-  const studioPages = await fileBasedRouter(path.join(rootdir, 'pages'))
-  if (studioPages) app.route('/studio', studioPages)
+  const studioPages = await fileBasedRouter(path.join(studioRoot, 'pages'))
 
-  /**
-   * User pages
-   */
-  if (studioConfig.fileBasedRouter) {
-    const pages = await fileBasedRouter('./pages')
-    if (pages) app.route('/', pages)
+  if (studioPages) {
+    for (const page of studioPages) {
+      app.get(page[0], (c) => c.html(page[1](c)))
+    }
   }
 
-  app.on(['POST', 'GET'], '/api/auth/*', (c) => auth.handler(c.req.raw))
+  app.on(['POST', 'GET'], '/api/auth/*', (c) => {
+    return auth.handler(c.req.raw)
+  })
 
   /**
    * Error pages
    */
-  app.notFound((c) => c.html(ErrorPage(c.error)))
+  // app.notFound((c) => {
+  //   return c.html(ErrorPage(c.error))
+  // })
 
-  app.onError((err, c) => {
-    if (err instanceof HTTPException) {
-      // Get the custom response
-      // const error = err.getResponse()
-      return c.html(ErrorPage(err))
-    }
+  // app.onError((err, c) => {
+  //   console.log('error:', err)
 
-    return c.notFound()
-  })
+  //   if (err instanceof HTTPException) {
+  //     // Get the custom response
+  //     // const error = err.getResponse()
+  //     return c.html(ErrorPage(err))
+  //   }
+
+  //   return c.notFound()
+  // })
 
   app.use(
-    '/studio/backups/*',
+    '/backups/*',
     serveStatic({
       root: './',
-      rewriteRequestPath: (path) =>
-        path.replace(/^\/studio\/backups/, '/backups'),
+      rewriteRequestPath: (path) => path.replace(/^\/backups/, '/backups'),
     })
   )
 
-  /**
-   * Run server
-   */
-  const server = serve({
-    fetch: app.fetch,
-    port: studioConfig.port,
-  })
+  startupLog({ port: config.port })
 
-  // graceful shutdown
-  process.on('SIGINT', () => {
-    server.close()
-    process.exit(0)
-  })
-  process.on('SIGTERM', () => {
-    server.close((err) => {
-      if (err) {
-        console.error(err)
-        process.exit(1)
-      }
-      process.exit(0)
-    })
-  })
-
-  startupLog({ port: studioConfig.port })
+  app.get('*', (c) => c.html(ErrorPage()))
 
   return {
     app,
-    hotReloadClient: hotReloadClient(studioConfig.port),
+    hotReloadClient: hotReloadClient(config.port),
   }
 }
 
-export {
-  defineConfig,
-  defineEntry,
-  defineStructure,
-  defineBlock,
-  defineField,
-  defineBlockField,
-} from './utils/define.ts'
 export { type RequestContext } from './types.ts'
 export { createStudio }
 export { query } from './queries/index.ts'

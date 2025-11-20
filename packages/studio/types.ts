@@ -136,7 +136,7 @@ export type StudioConfig = {
   admin?: {
     logo?: HtmlEscapedString | Promise<HtmlEscapedString>
   }
-  honoConfig: HonoOptions<BlankEnv>
+  database: string
   fileBasedRouter: boolean
   port: number
   structure: Structure
@@ -147,7 +147,7 @@ export type StudioConfigInput = {
   admin?: {
     logo?: HtmlEscapedString | Promise<HtmlEscapedString>
   }
-  honoConfig?: HonoOptions<BlankEnv>
+  database: string
   fileBasedRouter?: boolean
   port?: number
   structure: Structure

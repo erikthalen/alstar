@@ -11,9 +11,6 @@ import './js/tabs.js'
 import Swup from 'swup'
 import { allDefined } from '@quietui/quiet'
 
-// api
-import { slugify } from './js/utils/slugify.js'
-
 let abortController = new AbortController()
 
 await allDefined()
@@ -52,7 +49,3 @@ swup.hooks.on('visit:end', (visit) => {
     new CustomEvent('tabs:update', { name: visit.to.url, href: visit.to.url })
   )
 })
-
-window.alstar = {
-  slugify: slugify,
-}

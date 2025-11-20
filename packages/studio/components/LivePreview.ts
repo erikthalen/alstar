@@ -1,13 +1,13 @@
 import { html } from '@alstar/studio/html'
 import { query } from '../queries/index.ts'
-import { studioConfig, studioStructure } from '../index.ts'
+import { config } from '../index.ts'
 
 export default (props: { entryId: number | string }) => {
   const data = query.root({ id: props.entryId })
 
   if (!data) return html`<p>No entry with id: "${props.entryId}"</p>`
 
-  const structure = studioStructure[data.name]
+  const structure = config.structure[data.name]
 
   if (!structure) return html`<p>No structure of type: ${data.name}</p>`
 
@@ -38,7 +38,7 @@ export default (props: { entryId: number | string }) => {
   >
     <header>
       <quiet-toggle-icon
-      data-on:click="document.getElementById('split_pane').resetHandlePosition = '24px'"
+        data-on:click="document.getElementById('split_pane').resetHandlePosition = '24px'"
         label="Toggle live preview visibility"
         effect="scale"
         style="--unchecked-color: var(--quiet-text-body); --checked-color: var(--quiet-text-body);"
@@ -58,7 +58,6 @@ export default (props: { entryId: number | string }) => {
         class="ts-label"
         data-text="$livePreviewEnabled ? 'Disable live preview' : 'Enable live preview'"
       >
-        
       </quiet-tooltip>
 
       <h1 class="ts-label">Live preview</h1>
@@ -66,7 +65,7 @@ export default (props: { entryId: number | string }) => {
 
     <quiet-zoomable-frame
       data-show="$livePreviewEnabled"
-      src="http://localhost:${studioConfig.port}/${slug === '/' ? '' : slug}"
+      src="http://localhost:${config.port}/${slug === '/' ? '' : slug}"
       zoom="1"
     >
     </quiet-zoomable-frame>

@@ -1,33 +1,9 @@
 import { Hono } from 'hono'
-import { type HttpBindings } from '@hono/node-server'
 import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
 import { streamSSE } from 'hono/streaming'
 
-const app = new Hono<{
-  Bindings: HttpBindings
-  Variables: {
-    user: {
-      id: string
-      createdAt: Date
-      updatedAt: Date
-      email: string
-      emailVerified: boolean
-      name: string
-      image?: string | null | undefined
-    } | null
-    session: {
-      id: string
-      createdAt: Date
-      updatedAt: Date
-      userId: string
-      expiresAt: Date
-      token: string
-      ipAddress?: string | null | undefined
-      userAgent?: string | null | undefined
-    } | null
-  }
-}>()
+const app = new Hono()
 
 app.get('/user-settings', async (c) => {
   const user = c.get('user')

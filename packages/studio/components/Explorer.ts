@@ -1,5 +1,5 @@
 import { html } from 'hono/html'
-import { studioConfig, studioStructure } from '../index.ts'
+import { config } from '../index.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { type Context } from 'hono'
 import { db } from '@alstar/db'
@@ -25,7 +25,7 @@ function getSettings(c: Context) {
 export default (c: Context) => {
   const settings = getSettings(c)
 
-  const entries = Object.entries(studioStructure)
+  const entries = Object.entries(config.structure)
 
   const singles = entries.filter(([_, block]) => block.type === 'single')
   const collections = entries.filter(
@@ -69,7 +69,7 @@ export default (c: Context) => {
           Keep explorer open
         </quiet-tooltip>
 
-        <h1 class="ts-label ts-bold">${studioConfig.siteName}</h1>
+        <h1 class="ts-label ts-bold">${config.siteName}</h1>
       </header>
 
       <vscode-tree hide-arrows>

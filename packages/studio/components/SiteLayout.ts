@@ -1,5 +1,5 @@
 import { raw, html, type HtmlEscapedString } from '@alstar/studio/html'
-import { studioConfig } from '../index.ts'
+import { config } from '../index.ts'
 import { hotReloadClient } from '@alstar/studio/hot-reload'
 
 export default (
@@ -9,7 +9,7 @@ export default (
     | HtmlEscapedString
     | Promise<HtmlEscapedString>
 ) => {
-  const title = studioConfig.siteName ? studioConfig.siteName + ' | ' : ''
+  const title = config.siteName ? config.siteName + ' | ' : ''
 
   return html`
     <!DOCTYPE html>

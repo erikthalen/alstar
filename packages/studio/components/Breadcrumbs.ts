@@ -32,7 +32,6 @@ export default (c: Context) => {
 
 function getBreadcrumbs(c: Context) {
   const relativeURL = routePath(c)
-  const nameQuery = c.req.query('name')
 
   let breadcrumbs = []
 
@@ -53,6 +52,8 @@ function getBreadcrumbs(c: Context) {
       url: '/studio/entries',
       name: 'Entries',
     })
+
+    const nameQuery = c.req.query('name')
 
     if (nameQuery) {
       const data = query.block({ name: nameQuery })

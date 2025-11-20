@@ -1,7 +1,7 @@
 import { html } from '@alstar/studio/html'
 import { defineEntry } from '../utils/define.ts'
 
-import { studioStructure } from '../index.ts'
+import { config } from '../index.ts'
 import SiteLayout from '../components/SiteLayout.ts'
 import SiteHeader from '../components/SiteHeader.ts'
 import Explorer from '../components/Explorer.ts'
@@ -10,11 +10,8 @@ import Tabs from '../components/Tabs.ts'
 export default defineEntry((c) => {
   return SiteLayout(html`${Explorer(c)}
     <section class="page">
-      ${SiteHeader(c)}
-
-      ${Tabs()}
-      
-      ${!Object.values(studioStructure).length
+      ${SiteHeader(c)} ${Tabs()}
+      ${!Object.values(config.structure).length
         ? html`<div class="background-pattern">
             <quiet-empty-state style="min-height: 400px;">
               <quiet-icon slot="illustration" name="file-code-2"></quiet-icon>

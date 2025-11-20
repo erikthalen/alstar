@@ -1,6 +1,6 @@
 import { html } from '@alstar/studio/html'
 import { query } from '../queries/index.ts'
-import { studioStructure } from '../index.ts'
+import { config } from '../index.ts'
 import Render from './Render.ts'
 import EntryHeader from './EntryHeader.ts'
 
@@ -9,7 +9,7 @@ export default (props: { entryId: number | string }) => {
 
   if (!data) return html`<p>No entry with id: "${props.entryId}"</p>`
 
-  const structure = studioStructure[data.name]
+  const structure = config.structure[data.name]
 
   if (!structure) return html`<p>No structure of type: ${data.name}</p>`
 

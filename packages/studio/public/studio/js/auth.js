@@ -1,6 +1,8 @@
 import { createAuthClient } from 'better-auth/client'
 
-export const authClient = createAuthClient()
+export const authClient = createAuthClient({
+  basePath: '/studio/api/auth',
+})
 
 /** @param {FormData} formData */
 async function login(formData) {
@@ -17,7 +19,7 @@ async function login(formData) {
       },
       onSuccess: (ctx) => {
         console.log(ctx)
-        window.location.replace(window.location.origin + '/studio')
+        // window.location.replace(window.location.origin + '/studio')
       },
       onError: (ctx) => {
         // display the error message
@@ -25,13 +27,15 @@ async function login(formData) {
       },
     }
   )
+
+  console.log(data)
 }
 
 async function logout() {
   await authClient.signOut({
     fetchOptions: {
       onSuccess: () => {
-        window.location.replace(window.location.origin + '/studio/login')
+        // window.location.replace(window.location.origin + '/studio/login')
       },
     },
   })
@@ -52,7 +56,7 @@ async function register(formData) {
       },
       onSuccess: (ctx) => {
         console.log(ctx)
-        window.location.replace(window.location.origin + '/studio')
+        // window.location.replace(window.location.origin + '/studio')
       },
       onError: (ctx) => {
         // display the error message
