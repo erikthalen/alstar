@@ -6,7 +6,7 @@ import type {
 } from '../types.ts'
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import { BlockFieldInstance } from '../utils/define.ts'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 
 export default (props: {
   entryId: number | string

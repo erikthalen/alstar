@@ -1,5 +1,5 @@
 import crypto from 'node:crypto'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import SiteLayout from '../components/SiteLayout.ts'
 import { getEnv } from '@alstar/studio/env'
 import { type StudioConfig } from '../types.ts'

@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import { query } from '../queries/index.ts'
 import { config } from '../index.ts'
 

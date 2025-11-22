@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import { query, config } from '../index.ts'
 
 export default ({ name }: { name: string }) => {

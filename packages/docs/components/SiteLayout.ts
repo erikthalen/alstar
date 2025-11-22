@@ -1,4 +1,4 @@
-import { html, raw, type HtmlEscapedString } from '@alstar/studio/html'
+import { html, raw, type HtmlEscapedString } from 'hono/html'
 import { hotReloadClient } from '../index.ts'
 
 export default (

@@ -21,18 +21,31 @@ export const blocksTable = {
     options JSON,
     status TEXT default 'enabled',
     sort_order INTEGER not null default 0,
-    -- _depth INTEGER,
     parent_id INTEGER,
     foreign key (parent_id) references block (id)
   `,
 }
 
 // -- API keys
-export const apiKeysTable = {
-  tableName: 'api_keys',
+export const mediaTable = {
+  tableName: 'media',
   columns: sql`
     name TEXT not null,
-    value TEXT,
-    hint TEXT
+    filename TEXT not null,
+    filepath TEXT not null,
+    mimeType TEXT,
+    width INTEGER,
+    height INTEGER,
+    url TEXT not null
   `,
 }
+
+// -- API keys
+// export const apiKeysTable = {
+//   tableName: 'api_keys',
+//   columns: sql`
+//     name TEXT not null,
+//     value TEXT,
+//     hint TEXT
+//   `,
+// }

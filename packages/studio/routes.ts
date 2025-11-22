@@ -1,6 +1,7 @@
 import entriesId from './pages/entries/[id].ts'
 import entries from './pages/entries/index.ts'
 import index from './pages/index.ts'
+import mediaLibrary from './pages/media-library.ts'
 import login from './pages/login.ts'
 import profile from './pages/profile.ts'
 import register from './pages/register.ts'
@@ -12,6 +13,7 @@ export default [
   { name: '/entries/:id', handler: entriesId },
   { name: '/entries', handler: entries },
   { name: '/', handler: index },
+  { name: '/media-library', handler: mediaLibrary },
   { name: '/login', handler: login },
   { name: '/profile', handler: profile },
   { name: '/register', handler: register },

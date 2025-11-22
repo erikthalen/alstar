@@ -1,19 +1,11 @@
 import packageJSON from '../package.json' with { type: 'json' }
 
-export default ({ port }: { port: number }) => {
-  console.log('\x1b[32m%s\x1b[0m', '╭───────────────╮')
-  console.log('\x1b[32m%s\x1b[0m', '│ Alstar Studio │')
-  console.log('\x1b[32m%s\x1b[0m', '╰───────────────╯')
+const versionLength = packageJSON.version.length
+
+export default () => {
+  console.log()
+  console.log('\x1b[47m\x1b[30m%s\x1b[0m', ` ╭${'─'.repeat(17 + versionLength)}╮ `)
+  console.log('\x1b[47m\x1b[30m%s\x1b[0m', ` │ Alstar Studio v${packageJSON.version} │ `)
+  console.log('\x1b[47m\x1b[30m%s\x1b[0m', ` ╰${'─'.repeat(17 + versionLength)}╯ `)
   console.log(' ')
-  console.log('\x1b[32m%s\x1b[0m', `Version:`)
-  console.log(packageJSON.version)
-  console.log(' ')
-  console.log('\x1b[32m%s\x1b[0m', `App:`)
-  console.log(`http://localhost:${port}`)
-  console.log(' ')
-  console.log('\x1b[32m%s\x1b[0m', `Studio:`)
-  console.log(`http://localhost:${port}/studio`)
-  // console.log(' ')
-  // console.log('\x1b[32m%s\x1b[0m', `Refresher:`)
-  // console.log(`http://localhost:${refresherPort}`)  
 }

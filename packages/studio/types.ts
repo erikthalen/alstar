@@ -1,7 +1,6 @@
 import { type HttpBindings } from '@hono/node-server'
 import { type Context } from 'hono'
-import { type HonoOptions } from 'hono/hono-base'
-import { type BlankInput, type BlankEnv } from 'hono/types'
+import { type BlankInput } from 'hono/types'
 import {
   BlockFieldInstance,
   BlockInstance,
@@ -136,9 +135,9 @@ export type StudioConfig = {
   admin?: {
     logo?: HtmlEscapedString | Promise<HtmlEscapedString>
   }
+  uploadBase: string
   database: string
   fileBasedRouter: boolean
-  port: number
   structure: Structure
 }
 
@@ -147,9 +146,9 @@ export type StudioConfigInput = {
   admin?: {
     logo?: HtmlEscapedString | Promise<HtmlEscapedString>
   }
-  database: string
+  database?: string
+  uploadBase?: string
   fileBasedRouter?: boolean
-  port?: number
   structure: Structure
 }
 

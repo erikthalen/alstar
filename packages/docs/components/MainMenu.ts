@@ -1,5 +1,5 @@
 import { query, version } from '@alstar/studio'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import { raw } from 'hono/html'
 
 export default () => {

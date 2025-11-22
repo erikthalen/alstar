@@ -1,5 +1,5 @@
 import { query } from '@alstar/studio'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 
 type Props = {
   fields: {

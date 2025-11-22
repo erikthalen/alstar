@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import * as icons from '../icons.ts'
 import { db } from '@alstar/db'
 import { sql } from '../../utils/sql.ts'

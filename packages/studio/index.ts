@@ -8,6 +8,7 @@ import { loadDb } from '@alstar/db'
 import { getEnv } from '@alstar/studio/env'
 import { hotReload, hotReloadClient } from '@alstar/studio/hot-reload'
 import { datastar } from '@alstar/studio/hono-datastar'
+import { mediaRouter } from '@alstar/studio/media'
 
 import routes from './routes.ts'
 import { createStudioTables } from './utils/create-studio-tables.ts'
@@ -33,14 +34,14 @@ export const studioRoot = import.meta.dirname
 export let defaultConfig: types.StudioConfig = {
   siteName: '',
   database: './studio.db',
+  uploadBase: './public/media',
   fileBasedRouter: true,
-  port: 3000,
   structure: {},
 }
 
 const consumerConfig = await getConfig<types.StudioConfigInput>()
 
-const env = await getEnv()
+// const env = await getEnv()
 
 export const config = { ...defaultConfig, ...consumerConfig }
 
@@ -155,6 +156,11 @@ const createStudio = () => {
   app.route('/mcp', mcpRoutes)
 
   /**
+   * Media route
+   */
+  app.route('/media', mediaRouter())
+
+  /**
    * Studio pages
    */
 
@@ -179,7 +185,7 @@ const createStudio = () => {
   //   if (err instanceof HTTPException) {
   //     // Get the custom response
   //     // const error = err.getResponse()
-  //     return c.html(ErrorPage(err))
+  //     return ErrorPage(config)[0]
   //   }
 
   //   return c.notFound()
@@ -193,13 +199,13 @@ const createStudio = () => {
     })
   )
 
-  startupLog({ port: config.port })
+  startupLog()
 
   app.get('*', ErrorPage(config)[0])
 
   return {
     app,
-    hotReloadClient: hotReloadClient(config.port),
+    // hotReloadClient: hotReloadClient(config.port),
   }
 }
 

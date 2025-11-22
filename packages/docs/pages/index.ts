@@ -1,5 +1,5 @@
 import { defineEntry, query } from '@alstar/studio'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 
 import SiteLayout from '../components/SiteLayout.ts'
 import { raw } from 'hono/html'

@@ -147,6 +147,18 @@ export default (c: Context) => {
               </vscode-tree-item>`
             : ''}
         </vscode-tree-item>
+        <vscode-tree-item>
+          <a
+            href="/studio/media-library"
+            aria-title="Go to the Media Library"
+          ></a>
+
+          <div slot="icon-leaf" class="icon">
+            <quiet-icon name="photo" variant="outline"></quiet-icon>
+          </div>
+
+          Media Library
+        </vscode-tree-item>
       </vscode-tree>
     </nav>
   `

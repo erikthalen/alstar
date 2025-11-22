@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import SiteLayout from '../components/SiteLayout.ts'
 import { type StudioConfig } from '../types.ts'
 import { factory } from '../factory.ts'

@@ -1,6 +1,6 @@
 import type { FieldDefStructure } from '../../types.ts'
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 
 export default (props: {
   entryId: number | string

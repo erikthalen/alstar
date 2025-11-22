@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import type { BlockDefStructure } from '../types.ts'
 import Render from './Render.ts'
 

@@ -25,9 +25,17 @@ export default (entryId: string | number) => {
 
       <p class="ts-xs">
         <span>Modified:</span>
-        <b>${parseDate(data.updated_at)}</b>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;
+        <quiet-relative-time date="${data.updated_at}"></quiet-relative-time>
+        <!-- <b>${parseDate(data.updated_at)}</b> -->
+        &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;
         <span>Created:</span>
-        <b>${parseDate(data.created_at)}</b>
+        <quiet-date
+          date-style="medium"
+          time-style="medium"
+          hour-format="24"
+          date="${data.created_at}"
+        ></quiet-date>
+        <!-- <b>${parseDate(data.created_at)}</b> -->
       </p>
 
       <aside>
@@ -52,32 +60,22 @@ export default (entryId: string | number) => {
         </quiet-toggle-icon>
 
         <quiet-tooltip
-          distance="0"
+          distance="2"
           without-arrow
           class="ts-label"
           for="tooltip-disable-${entryId}"
-          data-text="$entry.status === 'enabled' ? 'Unpublish' : 'Publish'"
+          data-text="$${entryId}.status === 'enabled' ? 'Unpublish' : 'Publish'"
         >
         </quiet-tooltip>
 
         <quiet-button
-          type="submit"
           variant="neutral"
           icon-label="Remove"
           size="xs"
           id="tooltip-remove-${entryId}"
-          data-signals:delete_${entryId}="{
-                      id: ${entryId},
-                      patchElements: [
-                        { name: 'Entry', props: { entryId: ${entryId} } },
-                        { name: 'LivePreview', props: { entryId: ${entryId} } }
-                      ]
-                    }"
-          data-on:click="@delete('/studio/api/block/${entryId}', {
-                      filterSignals: { include: '/delete_${entryId}/' }
-                    })"
+          data-on:click="@delete('/studio/api/block/${entryId}'); window.history.back()"
         >
-          <quiet-icon name="x"></quiet-icon>
+          <quiet-icon name="trash"></quiet-icon>
         </quiet-button>
 
         <quiet-tooltip

@@ -1,9 +1,9 @@
 import { query } from '@alstar/studio'
 import { defineEntry } from '@alstar/studio/define'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import SiteLayout from '../components/SiteLayout.ts'
 import { marked } from 'marked'
-import { raw } from '@alstar/studio/html'
+import { raw } from 'hono/html'
 import MainMenu from '../components/MainMenu.ts'
 
 export default defineEntry(async c => {

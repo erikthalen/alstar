@@ -5,7 +5,7 @@ import {
   defineField,
   defineBlockField,
 } from '@alstar/studio'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import { routes } from './routes.ts'
 
 export const { app, hotReloadClient } = await createStudio({

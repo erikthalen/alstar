@@ -1,6 +1,7 @@
-import { raw, html, type HtmlEscapedString } from '@alstar/studio/html'
+import { raw, html } from 'hono/html'
 import { config } from '../index.ts'
 import { hotReloadClient } from '@alstar/studio/hot-reload'
+import { type HtmlEscapedString } from 'hono/utils/html'
 
 export default (
   content:

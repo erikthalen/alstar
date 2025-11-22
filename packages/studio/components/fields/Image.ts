@@ -1,5 +1,5 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import type { FieldDefStructure } from '../../types.ts'
 
 export default (props: {
@@ -45,16 +45,75 @@ export default (props: {
             ${structure.label}
           </vscode-label>
           <vscode-textfield
+            placeholder="No image"
             data-bind:${data.id}.value
             id="block-${data.id}"
             name="value"
-            type="file"
-          ></vscode-textfield>
+            readonly
+          >
+            <quiet-button
+              slot="content-after"
+              data-on:click="$${data.id}.value = ''; @patch('/studio/api/block/${data.id}', {
+                filterSignals: { include: '/${data.id}/' }
+              })"
+              appearance="text"
+              id="remove_${data.id}"
+              icon-label="Remove"
+              size="xs"
+            >
+              <quiet-icon name="x"></quiet-icon>
+            </quiet-button>
+
+            <quiet-button
+              slot="content-after"
+              data-dialog="open dialog__overview"
+              data-on:click="@get('/studio/api/component?name=MediaLibrary')"
+              appearance="text"
+              id="change_${data.id}"
+              icon-label="Change image"
+              size="xs"
+            >
+              <quiet-icon name="photo"></quiet-icon>
+            </quiet-button>
+          </vscode-textfield>
           <vscode-form-helper>
             <p class="ts-xs">${structure.description}</p>
           </vscode-form-helper>
         </vscode-form-group>
       </vscode-form-container>
     </form>
+
+    <quiet-tooltip
+      distance="0"
+      without-arrow
+      class="ts-label"
+      for="remove_${data.id}"
+    >
+      Clear
+    </quiet-tooltip>
+
+    <quiet-tooltip
+      distance="0"
+      without-arrow
+      class="ts-label"
+      for="change_${data.id}"
+    >
+      Change
+    </quiet-tooltip>
+
+    <quiet-dialog id="dialog__overview" light-dismiss>
+      <!-- <h3 slot="header" class="ts-xs">Media Library</h3> -->
+
+      <div id="media_library"></div>
+
+      <quiet-button
+        slot="footer"
+        size="xs"
+        data-dialog="close"
+        variant="primary"
+      >
+        Close
+      </quiet-button>
+    </quiet-dialog>
   `
 }

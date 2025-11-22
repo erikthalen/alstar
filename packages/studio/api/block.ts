@@ -75,7 +75,7 @@ app.patch('/block/:id', async (c) => {
 
     if (!id) return
 
-    if (value) {
+    if (value !== undefined) {
       const transaction = db.database.prepare(sql`
         update block
         set
@@ -99,8 +99,6 @@ app.patch('/block/:id', async (c) => {
 
       transaction.run(JSON.stringify(options), id)
     }
-
-    console.log(status)
 
     if (status) {
       const transaction = db.database.prepare(sql`
@@ -157,7 +155,14 @@ app.delete('/block/:id', async (c) => {
 
     if (!id) return
 
+    const block = db.database
+      .prepare(sql`select parent_id from block where id = ?`)
+      .get(id)
+
     db.database.prepare(deleteBlockWithChildren).all(id)
+
+    // a root was deleted
+    if (block?.parent_id === null) {}
 
     const patches = await getElementsToPatch(v.patchElements)
 

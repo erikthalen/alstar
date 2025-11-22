@@ -1,5 +1,5 @@
 import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import type { FieldDefStructure } from '../../types.ts'
 
 export default (props: {
@@ -77,26 +77,5 @@ export default (props: {
         Generate slug
       </quiet-tooltip>
     </form>
-
-    <!-- <quiet-button
-        data-on:submit="@patch('/studio/api/block-recommended-slug', {
-          filterSignals: { include: 'entry.' }
-        })"
-        appearance="text"
-        id="generate_slug_field"
-        icon-label="Reload"
-        size="xs"
-      >
-        <quiet-icon name="refresh"></quiet-icon>
-      </quiet-button>
-
-      <quiet-tooltip
-        distance="0"
-        without-arrow
-        class="ts-label"
-        for="generate_slug_field"
-      >
-        Generate slug
-      </quiet-tooltip> -->
   `
 }

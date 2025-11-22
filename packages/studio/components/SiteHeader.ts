@@ -1,19 +1,8 @@
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import { type Context } from 'hono'
 import Breadcrumbs from './Breadcrumbs.ts'
 
-
-
 export default (c: Context) => {
-  
-
-  // console.log(breadcrumbs, c.req.routeIndex, {
-  //   routePath: routePath(c), // '/posts/:id'
-  //   baseRoutePath: baseRoutePath(c), // '/api'
-  //   basePath: basePath(c), // '/api' (with actual params)
-  //   matchedRoutes: matchedRoutes(c),
-  // })
-
   return html`
     <header class="site-header">
       <section>
@@ -29,8 +18,6 @@ export default (c: Context) => {
               label="Avatar"
             ></quiet-avatar>
           </quiet-button>
-
-          <!-- <h3>Profile</h3> -->
 
           <quiet-dropdown-item href="/studio/profile">
             <quiet-icon slot="icon" name="user-circle"></quiet-icon>

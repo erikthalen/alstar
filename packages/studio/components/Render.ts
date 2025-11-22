@@ -1,4 +1,4 @@
-import { html, type HtmlEscapedString } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import FieldRenderer from './FieldRenderer.ts'
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import BlockRenderer from './BlockRenderer.ts'
@@ -12,6 +12,7 @@ import type {
   BlocksFieldDefStructure,
   FieldDefStructure,
 } from '../types.ts'
+import { type HtmlEscapedString } from 'hono/utils/html'
 
 export default (props: {
   entryId: number | string

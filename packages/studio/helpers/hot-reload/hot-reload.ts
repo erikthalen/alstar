@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { type Context } from 'hono'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 
 let resolvers = new Set<(value: unknown) => void>()
 

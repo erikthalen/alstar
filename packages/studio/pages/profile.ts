@@ -1,4 +1,4 @@
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import SiteLayout from '../components/SiteLayout.ts'
 import SiteHeader from '../components/SiteHeader.ts'
 import Explorer from '../components/Explorer.ts'

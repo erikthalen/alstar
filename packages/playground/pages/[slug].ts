@@ -1,6 +1,6 @@
 import { query } from '@alstar/studio'
 import { defineEntry } from '@alstar/studio/define'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import SiteLayout from '../components/SiteLayout.ts'
 // import structure from '../structure.ts'
 // import { db } from '../../db/index.ts'

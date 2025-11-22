@@ -1,13 +1,6 @@
 import * as types from '../types.ts'
-import { type HtmlEscapedString } from '../helpers/html/html.ts'
 
 export const defineConfig = (config: types.StudioConfig) => config
-
-export const defineEntry = (
-  fn: (
-    c: types.RequestContext,
-  ) => HtmlEscapedString | Promise<HtmlEscapedString>,
-) => fn
 
 export const FieldInstance = Symbol('field')
 export const BlockFieldInstance = Symbol('blockfield')
@@ -22,7 +15,7 @@ export function defineField(field: types.FieldDef): types.FieldDefStructure {
 }
 
 export function defineBlockField(
-  field: types.BlocksFieldDef,
+  field: types.BlocksFieldDef
 ): types.BlocksFieldDefStructure {
   return {
     ...field,
@@ -30,8 +23,10 @@ export function defineBlockField(
   }
 }
 
-export function defineBlock<const O extends types.BlockFields>(block: types.BlockDef<O>): types.BlockDef<O> & {
-  instanceOf: typeof BlockInstance;
+export function defineBlock<const O extends types.BlockFields>(
+  block: types.BlockDef<O>
+): types.BlockDef<O> & {
+  instanceOf: typeof BlockInstance
 } {
   return { ...block, instanceOf: BlockInstance }
 }

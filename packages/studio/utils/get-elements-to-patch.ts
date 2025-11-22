@@ -4,9 +4,11 @@ import path from 'node:path'
 export async function getElementsToPatch(
   patchElements: {
     name: string
-    props: any
+    props?: any
   }[]
 ): Promise<HtmlEscapedString[]> {
+  if (!patchElements) return []
+
   return Promise.all(
     patchElements.map(async (patchElement) => {
       try {

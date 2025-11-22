@@ -2,7 +2,7 @@ import { query } from '../queries/index.ts'
 import type { BlocksFieldDefStructure } from '../types.ts'
 import { BlockInstance } from '../utils/define.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
-import { html } from '@alstar/studio/html'
+import { html } from 'hono/html'
 import Render from './Render.ts'
 
 export default (props: {

@@ -1,0 +1,15 @@
+.media-library-page {
+  padding: 1rem;
+}
+
+.media-library {
+  ul {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    li {
+      list-style: none;
+    }
+  }
+}
