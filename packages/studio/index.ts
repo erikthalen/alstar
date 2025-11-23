@@ -203,10 +203,7 @@ const createStudio = () => {
 
   app.get('*', ErrorPage(config)[0])
 
-  return {
-    app,
-    // hotReloadClient: hotReloadClient(config.port),
-  }
+  return app
 }
 
 export { type RequestContext } from './types.ts'

@@ -12,7 +12,6 @@ export default () => {
 
         <meta name="color-scheme" content="light dark" />
 
-        <script src="refresh-client.js"></script>
         <link rel="stylesheet" href="/main.css" />
       </head>
       <body>

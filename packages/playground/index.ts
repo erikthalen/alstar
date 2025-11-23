@@ -7,11 +7,10 @@ import Index from './pages/index.ts'
 
 const app = new Hono()
 
-const { app: studio } = createStudio()
-
-app.route('/studio', studio)
+app.route('/studio', createStudio())
 
 app.use('*', serveStatic({ root: './public' }))
+
 app.get('/', (c) => c.html(Index()))
 
 serve(app, () => console.log('http://localhost:3000'))

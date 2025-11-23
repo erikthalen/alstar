@@ -30,25 +30,7 @@ export default (config: StudioConfig) =>
                     </quiet-button>
                   </quiet-empty-state>
                 </div>`
-              : html`<div class="background-pattern">
-                  <quiet-empty-state style="min-height: 400px;">
-                    <quiet-icon
-                      slot="illustration"
-                      name="terminal-2"
-                    ></quiet-icon>
-
-                    <h1>Alstar Studio</h1>
-
-                    <quiet-button
-                      size="xs"
-                      href="/studio/entries"
-                      variant="neutral"
-                    >
-                      <quiet-icon slot="start" name="files"></quiet-icon>
-                      Entries
-                    </quiet-button>
-                  </quiet-empty-state>
-                </div> `}
+              : html`<div class="background-pattern"></div> `}
           </section>`,
       ),
     )

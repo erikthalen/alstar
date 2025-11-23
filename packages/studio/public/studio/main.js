@@ -17,7 +17,7 @@ await allDefined()
 
 export const swup = new Swup({
   animationSelector: false,
-  cache: true,
+  cache: false,
 })
 
 function hydrateLinks() {
