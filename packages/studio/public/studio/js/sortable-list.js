@@ -37,7 +37,7 @@ class SortableList extends HTMLElement {
                 sortOrder: idx,
               }),
             })
-          })
+          }),
         )
 
         this.querySelectorAll('[name="sort_order"]').forEach((input, idx) => {

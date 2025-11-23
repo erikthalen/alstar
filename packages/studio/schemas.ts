@@ -31,12 +31,28 @@ export const mediaTable = {
   tableName: 'media',
   columns: sql`
     name TEXT not null,
+    filename TEXT unique not null,
+    -- filepath TEXT not null,
+    mime_type TEXT,
+    width INTEGER,
+    height INTEGER
+    -- url TEXT not null
+  `,
+}
+
+// -- API keys
+export const mediaCacheTable = {
+  tableName: 'media_cache',
+  columns: sql`
+    -- name TEXT not null,
+    original_filename TEXT not null,
     filename TEXT not null,
-    filepath TEXT not null,
-    mimeType TEXT,
+    -- filepath TEXT not null,
+    mime_type TEXT,
     width INTEGER,
     height INTEGER,
-    url TEXT not null
+    -- url TEXT not null,
+    foreign key (original_filename) references media (filename)
   `,
 }
 

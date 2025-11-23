@@ -31,7 +31,7 @@ export const fileBasedRouter = async (rootdir: string) => {
 
       const pageFilePathWithoutExt = relativePageFilePath.replace(
         path.extname(relativePageFilePath),
-        ''
+        '',
       )
 
       if (pageFilePathWithoutExt === '/index') {
@@ -42,10 +42,10 @@ export const fileBasedRouter = async (rootdir: string) => {
 
       const route = routePath.replace(
         /\[([^\]]+)\]/g, // [foo] and [bar]
-        (_match, content) => `:${content}` // :foo and :bar
+        (_match, content) => `:${content}`, // :foo and :bar
       )
 
       return [route, page]
-    })
+    }),
   )
 }

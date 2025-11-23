@@ -6,27 +6,12 @@ export default (entryId: string | number) => {
 
   if (!data) return ''
 
-  const parseDate = (date: string) => {
-    const english = new Intl.DateTimeFormat('en', {
-      day: '2-digit',
-      month: 'short',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    })
-
-    return english.format(new Date(date))
-  }
-
   return html`
     <header id="entry_header_${entryId}" class="entry-header">
-      <!-- <h1 class="ts-label">Entry content</h1> -->
 
       <p class="ts-xs">
         <span>Modified:</span>
         <quiet-relative-time date="${data.updated_at}"></quiet-relative-time>
-        <!-- <b>${parseDate(data.updated_at)}</b> -->
         &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;
         <span>Created:</span>
         <quiet-date
@@ -35,7 +20,6 @@ export default (entryId: string | number) => {
           hour-format="24"
           date="${data.created_at}"
         ></quiet-date>
-        <!-- <b>${parseDate(data.created_at)}</b> -->
       </p>
 
       <aside>

@@ -13,7 +13,7 @@ export default async () => {
         name
       from
         user
-    `
+    `,
     )
     .all()
 
@@ -39,7 +39,7 @@ export default async () => {
               <tr>
                 <th scope="row">${user.username}</th>
               </tr>
-            `
+            `,
           )}
         </tbody>
       </table>

@@ -33,7 +33,7 @@ function hydrateLinks() {
         e.stopPropagation()
         swup.navigate(link.href)
       },
-      { signal: abortController.signal }
+      { signal: abortController.signal },
     )
   })
 }
@@ -46,6 +46,6 @@ swup.hooks.on('page:view', () => {
 
 swup.hooks.on('visit:end', (visit) => {
   window.dispatchEvent(
-    new CustomEvent('tabs:update', { name: visit.to.url, href: visit.to.url })
+    new CustomEvent('tabs:update', { name: visit.to.url, href: visit.to.url }),
   )
 })

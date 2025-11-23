@@ -75,7 +75,7 @@ export default (config: StudioConfig) =>
               }
             </style>
           </form>
-        </div>`
-      )
-    )
+        </div>`,
+      ),
+    ),
   )

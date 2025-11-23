@@ -5,7 +5,7 @@ export type DatabaseAPI = {
   createTable: (tableName: string, userColumns: Record<string, string>) => void
   insertInto: (
     tableName: string,
-    values: Record<string, string | number | bigint | null>
+    values: Record<string, string | number | bigint | null>,
   ) => StatementResultingChanges
   updateTable: ({
     tableName,
@@ -31,7 +31,7 @@ export const loadDb = (databaseName: string) => {
 
   function createTable(
     tableName: string,
-    userColumns: Record<string, string | number | null>
+    userColumns: Record<string, string | number | null>,
   ) {
     const columns = {
       id: 'INTEGER PRIMARY KEY AUTOINCREMENT',
@@ -49,14 +49,14 @@ export const loadDb = (databaseName: string) => {
 
   function insertInto(
     tableName: string,
-    values: Record<string, string | number | bigint | null>
+    values: Record<string, string | number | bigint | null>,
   ) {
     const columns = Object.keys(values)
 
     const transaction = database.prepare(
       `INSERT INTO ${tableName} (${columns.join(', ')}) values (${Array(
-        columns.length
-      ).fill('? ')});`
+        columns.length,
+      ).fill('? ')});`,
     )
 
     return transaction.run(...Object.values(values))
@@ -76,8 +76,8 @@ export const loadDb = (databaseName: string) => {
 
     const transaction = database.prepare(
       `UPDATE ${tableName} SET ${keys
-        .map(key => `${key} = ?`)
-        .join(', ')} WHERE id = ?;`
+        .map((key) => `${key} = ?`)
+        .join(', ')} WHERE id = ?;`,
     )
 
     transaction.run(...values, id)

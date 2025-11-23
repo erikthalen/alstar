@@ -15,7 +15,7 @@ export function defineField(field: types.FieldDef): types.FieldDefStructure {
 }
 
 export function defineBlockField(
-  field: types.BlocksFieldDef
+  field: types.BlocksFieldDef,
 ): types.BlocksFieldDefStructure {
   return {
     ...field,
@@ -24,7 +24,7 @@ export function defineBlockField(
 }
 
 export function defineBlock<const O extends types.BlockFields>(
-  block: types.BlockDef<O>
+  block: types.BlockDef<O>,
 ): types.BlockDef<O> & {
   instanceOf: typeof BlockInstance
 } {

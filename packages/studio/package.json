@@ -43,10 +43,6 @@
       "import": "./helpers/media/index.ts"
     }
   },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
   "publishConfig": {
     "access": "public"
   }

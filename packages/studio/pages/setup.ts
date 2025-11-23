@@ -64,7 +64,7 @@ export default (config: StudioConfig) =>
               </quiet-button>
             </form>
           </quiet-card>
-        </div>`
-      )
+        </div>`,
+      ),
     )
   })

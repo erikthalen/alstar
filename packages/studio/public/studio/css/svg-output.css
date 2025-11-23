@@ -2,7 +2,7 @@
   background-color: var(--quiet-neutral-fill-softer);
   margin-top: 1rem;
   padding: 1rem;
-  
+
   p {
     color: var(--quiet-text-muted);
     margin-bottom: 0.5rem;
@@ -11,7 +11,7 @@
   output {
     display: grid;
     max-height: 300px;
-    
+
     padding: 0.5rem;
     border: 1px dotted var(--border-color);
 

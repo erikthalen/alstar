@@ -17,25 +17,23 @@ export default (config: StudioConfig) =>
     }
 
     return c.html(
-      SiteLayout(
-        html`
-          ${Explorer(c)}
+      SiteLayout(html`
+        ${Explorer(c)}
 
-          <section class="page">
-            ${SiteHeader(c)} ${Tabs()}
+        <section class="page">
+          ${SiteHeader(c)} ${Tabs()}
 
-            <div class="entry-page">
-              <vscode-split-layout
-                id="split_pane"
-                fixed-pane="start"
-                initial-handle-position="50%"
-              >
-                <div slot="start">${Entry({ entryId: id })}</div>
-                <div slot="end">${LivePreview({ entryId: id })}</div>
-              </vscode-split-layout>
-            </div>
-          </section>
-        `
-      )
+          <div class="entry-page">
+            <vscode-split-layout
+              id="split_pane"
+              fixed-pane="start"
+              initial-handle-position="50%"
+            >
+              <div slot="start">${Entry({ entryId: id })}</div>
+              <div slot="end">${LivePreview({ entryId: id })}</div>
+            </vscode-split-layout>
+          </div>
+        </section>
+      `),
     )
   })

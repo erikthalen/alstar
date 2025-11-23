@@ -5,7 +5,6 @@ import { apiKeyRoutes } from './api-key.ts'
 import { backupRoutes } from './backup.ts'
 import { userSettingsRoutes } from './user-settings.ts'
 import { componentRoutes } from './component.ts'
-import { mediaRoutes } from './media.ts'
 
 const routes = new Hono()
 
@@ -14,6 +13,5 @@ routes.route('/', apiKeyRoutes)
 routes.route('/', backupRoutes)
 routes.route('/', userSettingsRoutes)
 routes.route('/', componentRoutes)
-routes.route('/', mediaRoutes)
 
 export const apiRoutes = routes

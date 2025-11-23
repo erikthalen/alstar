@@ -15,23 +15,27 @@ export default (config: StudioConfig) =>
     const tab = c.req.query('tab')
 
     return c.html(
-      SiteLayout(html` ${Explorer(c)}
-        <section class="page">
-          ${SiteHeader(c)} ${Tabs()}
+      SiteLayout(
+        html` ${Explorer(c)}
+          <section class="page">
+            ${SiteHeader(c)} ${Tabs()}
 
-          <settings-tabs id="settings">
-            <h1 class="sr-only">Settings</h1>
+            <settings-tabs id="settings">
+              <h1 class="sr-only">Settings</h1>
 
-            <quiet-tab-list label="Settings" tab="${tab}">
-              <quiet-tab panel="api_keys" class="ts-xs">API Keys</quiet-tab>
-              <quiet-tab panel="backup" class="ts-xs">Backup</quiet-tab>
-              <quiet-tab panel="users" class="ts-xs">Users</quiet-tab>
+              <quiet-tab-list label="Settings" tab="${tab}">
+                <quiet-tab panel="api_keys" class="ts-xs">API Keys</quiet-tab>
+                <quiet-tab panel="backup" class="ts-xs">Backup</quiet-tab>
+                <quiet-tab panel="users" class="ts-xs">Users</quiet-tab>
 
-              <quiet-tab-panel name="api_keys"> ${ApiKeys()} </quiet-tab-panel>
-              <quiet-tab-panel name="backup"> ${Backups()} </quiet-tab-panel>
-              <quiet-tab-panel name="users"> ${Users()} </quiet-tab-panel>
-            </quiet-tab-list>
-          </settings-tabs>
-        </section>`)
+                <quiet-tab-panel name="api_keys">
+                  ${ApiKeys()}
+                </quiet-tab-panel>
+                <quiet-tab-panel name="backup"> ${Backups()} </quiet-tab-panel>
+                <quiet-tab-panel name="users"> ${Users()} </quiet-tab-panel>
+              </quiet-tab-list>
+            </settings-tabs>
+          </section>`,
+      ),
     )
   })

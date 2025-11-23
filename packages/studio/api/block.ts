@@ -39,7 +39,7 @@ app.post('/block', async (c) => {
         label: values.label,
         parent_id: values.parent_id,
         sort_order: values.sort_order,
-      })
+      }),
     )
 
     db.insertInto('block', data)
@@ -162,7 +162,8 @@ app.delete('/block/:id', async (c) => {
     db.database.prepare(deleteBlockWithChildren).all(id)
 
     // a root was deleted
-    if (block?.parent_id === null) {}
+    if (block?.parent_id === null) {
+    }
 
     const patches = await getElementsToPatch(v.patchElements)
 

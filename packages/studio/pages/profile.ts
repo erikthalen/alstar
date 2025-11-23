@@ -42,7 +42,7 @@ export default (config: StudioConfig) =>
 
               <pre><code data-signals="{ session: null }" data-init="setTimeout(async () => $session = await window.auth.getSession(), 1000)" data-text="JSON.stringify($session, null, 2)"></code></pre>
             </div>
-          </section>`
-      )
-    )
+          </section>`,
+      ),
+    ),
   )

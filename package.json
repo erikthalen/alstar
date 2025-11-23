@@ -8,6 +8,7 @@
     "docs:build": "pnpm -r --parallel run docs:build"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.5"
+    "@changesets/cli": "^2.29.5",
+    "prettier": "^3.6.2"
   }
 }

@@ -25,7 +25,7 @@ async function login(formData) {
         // display the error message
         alert(ctx.error.message)
       },
-    }
+    },
   )
 
   console.log(data)
@@ -62,7 +62,7 @@ async function register(formData) {
         // display the error message
         alert(ctx.error.message)
       },
-    }
+    },
   )
 
   console.log('data', data, error)

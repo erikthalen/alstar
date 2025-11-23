@@ -1,21 +1,17 @@
 import type { Context, Env } from 'hono'
 import type { ReadStream, Stats } from 'node:fs'
 import { createReadStream, lstatSync } from 'node:fs'
-import type { MediaSchema } from './create-media.ts'
+import type { MediaCacheSchema, MediaSchema } from './create-media.ts'
 import type { BlankInput } from 'hono/types'
+import path from 'node:path'
+import { mediaCachePath, mediaPath } from './router.ts'
 
 const createStreamBody = (stream: ReadStream) => {
   const body = new ReadableStream({
     start(controller) {
-      stream.on('data', (chunk) => {
-        controller.enqueue(chunk)
-      })
-      stream.on('error', (err) => {
-        controller.error(err)
-      })
-      stream.on('end', () => {
-        controller.close()
-      })
+      stream.on('data', (chunk) => controller.enqueue(chunk))
+      stream.on('error', (err) => controller.error(err))
+      stream.on('end', () => controller.close())
     },
 
     cancel() {
@@ -35,15 +31,21 @@ const getStats = (path: string) => {
 
 export const serveStatic = (
   c: Context<Env, ':filename', BlankInput>,
-  media: MediaSchema
+  media: MediaSchema | MediaCacheSchema,
+  fromCached?: boolean,
 ) => {
-  let stats = getStats(media.filepath)
+  const filepath = path.join(
+    fromCached ? mediaCachePath : mediaPath,
+    media.filename,
+  )
+
+  let stats = getStats(filepath)
 
   if (!stats) {
     return c.notFound()
   }
 
-  c.header('Content-Type', media.mimeType || 'application/octet-stream')
+  c.header('Content-Type', media.mime_type || 'application/octet-stream')
 
   let result
   const size = stats.size
@@ -55,7 +57,7 @@ export const serveStatic = (
     result = c.body(null)
   } else if (!range) {
     c.header('Content-Length', size.toString())
-    result = c.body(createStreamBody(createReadStream(media.filepath)), 200)
+    result = c.body(createStreamBody(createReadStream(filepath)), 200)
   } else {
     c.header('Accept-Ranges', 'bytes')
     c.header('Date', stats.birthtime.toUTCString())
@@ -68,7 +70,7 @@ export const serveStatic = (
     }
 
     const chunksize = end - start + 1
-    const stream = createReadStream(media.filepath, { start, end })
+    const stream = createReadStream(filepath, { start, end })
 
     c.header('Content-Length', chunksize.toString())
     c.header('Content-Range', `bytes ${start}-${end}/${stats.size}`)

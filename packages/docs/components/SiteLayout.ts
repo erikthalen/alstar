@@ -3,7 +3,7 @@ import { hotReloadClient } from '../index.ts'
 
 export default (
   content: string | HtmlEscapedString | Promise<HtmlEscapedString>,
-  title?: string | null
+  title?: string | null,
 ) => {
   return html`
     <!DOCTYPE html>

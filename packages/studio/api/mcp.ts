@@ -18,14 +18,16 @@ app.use(
       const digest = hash.digest().toString('base64')
 
       const exists = db.database
-        .prepare(sql`
+        .prepare(
+          sql`
           select
             value
           from
             api_keys
           where
             value = ?
-        `)
+        `,
+        )
         .get(digest)
 
       return !!exists

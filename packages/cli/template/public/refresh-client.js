@@ -7,5 +7,5 @@ eventSource.onmessage = ({ data }) => {
 
 console.log(
   '%c REFRESHER ACTIVE ',
-  'color: green; background: lightgreen; border-radius: 2px'
+  'color: green; background: lightgreen; border-radius: 2px',
 )

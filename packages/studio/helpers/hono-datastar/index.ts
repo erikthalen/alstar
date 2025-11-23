@@ -19,7 +19,7 @@ type DatastarVariables = {
     patchElements: (stream: SSEStreamingApi, template: string) => Promise<void>
     patchSignals: (
       stream: SSEStreamingApi,
-      signals: Jsonifiable
+      signals: Jsonifiable,
     ) => Promise<void>
   }
 }
@@ -45,11 +45,11 @@ export type ReadSignalsResult = Promise<
  * @returns An object containing a success boolean and either the client's signals or an error message.
  */
 export const readSignals = async (
-  request: IncomingMessage
+  request: IncomingMessage,
 ): ReadSignalsResult => {
   if (request.method === 'GET') {
     const url = new URL(
-      `http://${process.env.HOST ?? 'localhost'}${request.url}`
+      `http://${process.env.HOST ?? 'localhost'}${request.url}`,
     )
     const params = url.searchParams
 

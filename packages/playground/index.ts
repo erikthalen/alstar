@@ -12,6 +12,6 @@ const { app: studio } = createStudio()
 app.route('/studio', studio)
 
 app.use('*', serveStatic({ root: './public' }))
-app.get('/', c => c.html(Index()))
+app.get('/', (c) => c.html(Index()))
 
-serve(app)
+serve(app, () => console.log('http://localhost:3000'))

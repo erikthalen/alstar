@@ -11,10 +11,12 @@ import MediaLibrary from '../components/MediaLibrary.ts'
 export default (config: StudioConfig) =>
   factory.createHandlers((c) => {
     return c.html(
-      SiteLayout(html`${Explorer(c)}
-        <section class="page">
-          ${SiteHeader(c)} ${Tabs()}
-          <div class="media-library-page">${MediaLibrary()}</div>
-        </section>`)
+      SiteLayout(
+        html`${Explorer(c)}
+          <section class="page">
+            ${SiteHeader(c)} ${Tabs()}
+            <div class="media-library-page">${MediaLibrary()}</div>
+          </section>`,
+      ),
     )
   })

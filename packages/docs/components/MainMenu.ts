@@ -19,15 +19,13 @@ export default () => {
       <aside>
         <nav>
           <ul>
-            ${pages.map(page => {
+            ${pages.map((page) => {
               const title = query.block({ name: 'title', parent_id: page.id })
               const slug = query.block({ name: 'slug', parent_id: page.id })
-              
+
               return html`
                 <li>
-                  <a href="${slug?.value}">
-                    ${title?.value}
-                  </a>
+                  <a href="${slug?.value}"> ${title?.value} </a>
                 </li>
               `
             })}
@@ -35,8 +33,12 @@ export default () => {
         </nav>
       </aside>
 
-      <a class="github-link" href="https://github.com/erikthalen/alstar" aria-title="Link to github repo">
-        <img src="github.png">
+      <a
+        class="github-link"
+        href="https://github.com/erikthalen/alstar"
+        aria-title="Link to github repo"
+      >
+        <img src="github.png" />
       </a>
     </div>
   `

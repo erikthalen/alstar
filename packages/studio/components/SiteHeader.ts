@@ -5,9 +5,7 @@ import Breadcrumbs from './Breadcrumbs.ts'
 export default (c: Context) => {
   return html`
     <header class="site-header">
-      <section>
-        ${Breadcrumbs(c)}
-      </section>
+      <section>${Breadcrumbs(c)}</section>
 
       <section class="secondary">
         <quiet-dropdown class="ts-label">

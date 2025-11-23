@@ -67,14 +67,14 @@ if (await directoryExists(fullpath)) {
 await fs.cp(templatePath, fullpath, { recursive: true })
 await fs.rename(
   path.join(fullpath, '_gitignore'),
-  path.join(fullpath, '.gitignore')
+  path.join(fullpath, '.gitignore'),
 )
 
 const RANDOM_TOKEN = crypto.randomBytes(64).toString('hex')
 
 await fs.writeFile(
   path.join(fullpath, '.env'),
-  `ALSTAR_JWT_ACCESS_TOKEN_SECRET=${RANDOM_TOKEN}`
+  `ALSTAR_JWT_ACCESS_TOKEN_SECRET=${RANDOM_TOKEN}`,
 )
 
 s.stop(`Created project in ${path.join(projectDir, projectName)}`)

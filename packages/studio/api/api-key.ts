@@ -51,7 +51,7 @@ app.delete('/api-key', async (c) => {
         delete from api_keys
         where
           value = ?
-      `
+      `,
       )
       .run(value)
 

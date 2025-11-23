@@ -1,8 +1,0 @@
-/* esm.sh - @quietui/quiet-browser@1.6.1/dist/chunks/chunk.GZKI332L */
-var c=Object.create;var r=Object.defineProperty;var d=Object.getOwnPropertyDescriptor;var j=Object.getOwnPropertyNames;var l=Object.getPrototypeOf,p=Object.prototype.hasOwnProperty;var u=(t,m)=>()=>(m||t((m={exports:{}}).exports,m),m.exports);var i=(t,m,a,o)=>{if(m&&typeof m=="object"||typeof m=="function")for(let e of j(m))!p.call(t,e)&&e!==a&&r(t,e,{get:()=>m[e],enumerable:!(o=d(m,e))||o.enumerable});return t};var x=(t,m,a)=>(a=t!=null?c(l(t)):{},i(m||!t||!t.__esModule?r(a,"default",{value:t,enumerable:!0}):a,t));var s=u(()=>{});var f=x(s()),k=f.default??f;export{k as default};
-/*! Bundled license information:
-
-@quietui/quiet-browser/dist/chunks/chunk.GZKI332L.js:
-  (*! Required Notice: Copyright 2025 A Beautiful Site, LLC - https://quietui.org *)
-*/
-//# sourceMappingURL=chunk.GZKI332L.mjs.map

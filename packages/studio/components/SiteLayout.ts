@@ -8,7 +8,7 @@ export default (
     | string
     | Promise<string>
     | HtmlEscapedString
-    | Promise<HtmlEscapedString>
+    | Promise<HtmlEscapedString>,
 ) => {
   const title = config.siteName ? config.siteName + ' | ' : ''
 

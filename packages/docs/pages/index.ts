@@ -32,7 +32,7 @@ export default defineEntry(() => {
         </header>
 
         <div>
-          ${page.fields.sections.blocks.map(section => {
+          ${page.fields.sections.blocks.map((section) => {
             switch (section.type) {
               case 'hero': {
                 return Hero(section)

@@ -286,7 +286,7 @@ function buildFilterSql(params: Record<string, any>) {
   const entries = Object.entries(params)
   const filterSql = entries
     .map(([key, value]) =>
-      value === null ? `${key} is null` : `${key} = :${key}`
+      value === null ? `${key} is null` : `${key} = :${key}`,
     )
     .join(' and ')
 
@@ -380,7 +380,7 @@ function buildTree2(items: DBRow[]): TODO | null {
 
 export function root(
   params: Record<string, any>,
-  options?: { depth?: number }
+  options?: { depth?: number },
 ): DBBlockResult | null {
   const { filterSql, sqlParams } = buildFilterSql(params)
 

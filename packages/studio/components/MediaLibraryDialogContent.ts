@@ -1,19 +1,6 @@
 import { html } from 'hono/html'
 import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
-import fsp from 'node:fs/promises'
-import { mediaCachePath } from '@alstar/studio/media'
-import path from 'node:path'
-
-const dirSize = async (directory: string) => {
-  const files = await fsp.readdir(directory)
-  const stats = files.map((file) => fsp.stat(path.join(directory, file)))
-
-  return (await Promise.all(stats)).reduce(
-    (accumulator, { size }) => accumulator + size,
-    0,
-  )
-}
 
 export default async () => {
   const medias = db.database.prepare(sql`select * from media`).all()
@@ -31,14 +18,12 @@ export default async () => {
   }
 
   const signals = {
-    patchElements: [{ name: 'MediaLibrary' }],
+    patchElements: [{ name: 'MediaLibraryDialogContent' }],
   }
-
-  const cacheFolderStats = await dirSize(mediaCachePath)
 
   return html`
     <div
-      id="media_library"
+      id="media_library_dialog_content"
       class="media-library"
       data-signals:medialibrary="${JSON.stringify(signals)}"
     >
@@ -51,25 +36,6 @@ export default async () => {
                     <img src="${getThumbnailUrl(media.filename?.toString())}" />
                     <figcaption class="ts-xs">
                       <span>${media.name}</span>
-
-                      <quiet-button
-                        variant="neutral"
-                        icon-label="Remove"
-                        size="xs"
-                        id="tooltip-remove-${media.filename}"
-                        data-on:click="@delete('/studio/media/${media.filename}', { filterSignals: { include: /medialibrary/ } })"
-                      >
-                        <quiet-icon name="trash"></quiet-icon>
-                      </quiet-button>
-
-                      <quiet-tooltip
-                        distance="0"
-                        without-arrow
-                        for="tooltip-remove-${media.filename}"
-                        class="ts-label"
-                      >
-                        Remove
-                      </quiet-tooltip>
                     </figcaption>
                   </figure>
                 </li>`,
@@ -97,13 +63,6 @@ export default async () => {
         id="media_library_file_input"
         style="display: none;"
       />
-
-      <quiet-divider></quiet-divider>
-
-      <p class="ts-xs">
-        Total size of cached folder:
-        <quiet-bytes value="${cacheFolderStats}"></quiet-bytes>
-      </p>
     </div>
   `
 }

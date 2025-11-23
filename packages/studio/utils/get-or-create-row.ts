@@ -33,7 +33,10 @@ export function getOrCreateRow(props: {
   const change = db.insertInto('block', {
     name: name?.toString(),
     label: field.label?.toString(),
-    type: field.instanceOf === BlockFieldInstance ? 'blocks' : field.type?.toString(),
+    type:
+      field.instanceOf === BlockFieldInstance
+        ? 'blocks'
+        : field.type?.toString(),
     sort_order: sortOrder,
     parent_id: parentId,
   })

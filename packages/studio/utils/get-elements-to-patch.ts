@@ -5,7 +5,7 @@ export async function getElementsToPatch(
   patchElements: {
     name: string
     props?: any
-  }[]
+  }[],
 ): Promise<HtmlEscapedString[]> {
   if (!patchElements) return []
 
@@ -23,6 +23,6 @@ export async function getElementsToPatch(
         console.log(error)
         return ''
       }
-    })
+    }),
   )
 }

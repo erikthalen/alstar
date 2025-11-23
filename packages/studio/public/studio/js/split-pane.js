@@ -16,8 +16,8 @@ export class SplitPane extends LitElement {
       this.fixed === 'start'
         ? 'fixed-start'
         : this.fixed === 'end'
-        ? 'fixed-end'
-        : ''
+          ? 'fixed-end'
+          : ''
 
     this.locked = false
 
@@ -31,7 +31,7 @@ export class SplitPane extends LitElement {
     window.addEventListener(
       'pointerup',
       () => this.activeAbortController.abort(),
-      { signal: this.abortController.signal }
+      { signal: this.abortController.signal },
     )
 
     setTimeout(() => {
@@ -63,7 +63,7 @@ export class SplitPane extends LitElement {
 
         this.setCSS(width, newPosition)
       },
-      { signal: this.activeAbortController.signal }
+      { signal: this.activeAbortController.signal },
     )
   }
 

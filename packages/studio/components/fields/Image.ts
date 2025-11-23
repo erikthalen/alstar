@@ -67,7 +67,7 @@ export default (props: {
             <quiet-button
               slot="content-after"
               data-dialog="open dialog__overview"
-              data-on:click="@get('/studio/api/component?name=MediaLibrary')"
+              data-on:click="@get('/studio/api/component?name=MediaLibraryDialogContent')"
               appearance="text"
               id="change_${data.id}"
               icon-label="Change image"
@@ -102,18 +102,7 @@ export default (props: {
     </quiet-tooltip>
 
     <quiet-dialog id="dialog__overview" light-dismiss>
-      <!-- <h3 slot="header" class="ts-xs">Media Library</h3> -->
-
-      <div id="media_library"></div>
-
-      <quiet-button
-        slot="footer"
-        size="xs"
-        data-dialog="close"
-        variant="primary"
-      >
-        Close
-      </quiet-button>
+      <div id="media_library_dialog_content"></div>
     </quiet-dialog>
   `
 }

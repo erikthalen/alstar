@@ -25,7 +25,9 @@ export default (props: {
         }
       })"
     >
-      <hgroup style="width: 150px; display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
+      <hgroup
+        style="width: 150px; display: flex; justify-content: flex-end; margin-bottom: 0.5rem;"
+      >
         <label class="ts-xs" for="block-${data.id}">${structure.label}</label>
         <p class="ts-xs">${structure.description}</p>
       </hgroup>

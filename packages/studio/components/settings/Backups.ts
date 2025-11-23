@@ -79,7 +79,7 @@ export default async () => {
                   </form>
                 </vscode-table-cell>
               </vscode-table-row>
-            `
+            `,
           )}
         </vscode-table-body>
       </vscode-table>

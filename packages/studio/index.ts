@@ -77,7 +77,7 @@ async function applyBetterAuthMigration(db: DatabaseSync) {
 
   const migrationFile = await fsp.readFile(
     path.resolve(studioRoot, 'migrations', 'better-auth-init.sql'),
-    { encoding: 'utf8' }
+    { encoding: 'utf8' },
   )
 
   db.exec(migrationFile)
@@ -131,8 +131,8 @@ const createStudio = () => {
         c.set('user', session.user)
         c.set('session', session.session)
         await next()
-      }
-    )
+      },
+    ),
   )
 
   // redirect from /login to /studio if logged in
@@ -196,7 +196,7 @@ const createStudio = () => {
     serveStatic({
       root: './',
       rewriteRequestPath: (path) => path.replace(/^\/backups/, '/backups'),
-    })
+    }),
   )
 
   startupLog()

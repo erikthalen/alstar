@@ -6,7 +6,7 @@ import SiteLayout from '../components/SiteLayout.ts'
 // import { db } from '../../db/index.ts'
 // import { getBlockTrees } from "./getBlockTrees";
 
-export default defineEntry(c => {
+export default defineEntry((c) => {
   const slug = c.req.param('slug')
   // const entry = query.root({ type: 'slug', value: slug })
 

@@ -46,12 +46,12 @@ app.post('/user-settings', async (c) => {
           DO UPDATE SET
             value = excluded.value,
             updated_at = datetime('now');
-        `
+        `,
         )
         .run(
           user.id,
           camelToSnake(key),
-          values[key as keyof typeof values].toString() || 'false'
+          values[key as keyof typeof values].toString() || 'false',
         )
     }
 

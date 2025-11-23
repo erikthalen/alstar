@@ -16,7 +16,7 @@ function getSettings(c: Context) {
 
   const settings = settingRows.reduce(
     (acc, row) => ({ ...acc, [row.type as string]: row.value }),
-    {}
+    {},
   )
 
   return settings
@@ -29,7 +29,7 @@ export default (c: Context) => {
 
   const singles = entries.filter(([_, block]) => block.type === 'single')
   const collections = entries.filter(
-    ([_, block]) => block.type === 'collection'
+    ([_, block]) => block.type === 'collection',
   )
 
   const signals = {

@@ -6,7 +6,7 @@ import { marked } from 'marked'
 import { raw } from 'hono/html'
 import MainMenu from '../components/MainMenu.ts'
 
-export default defineEntry(async c => {
+export default defineEntry(async (c) => {
   const slug = c.req.url.split('/').at(-1)
 
   try {
@@ -24,7 +24,7 @@ export default defineEntry(async c => {
           <section class="canvas">${output}</section>
         </div>
       </main>`,
-      page.fields.title?.value
+      page.fields.title?.value,
     )
   } catch (error) {
     console.log(error)

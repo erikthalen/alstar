@@ -1,6 +1,6 @@
 ---
-"@alstar/studio": patch
-"@alstar/create": patch
+'@alstar/studio': patch
+'@alstar/create': patch
 ---
 
 add cli tool

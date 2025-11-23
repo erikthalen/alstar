@@ -14,7 +14,7 @@ class SettingsTabs extends HTMLElement {
         url.searchParams.set('tab', activeTab)
         window.history.replaceState(null, '', url.toString())
       },
-      { signal: this.abortController.signal }
+      { signal: this.abortController.signal },
     )
   }
 

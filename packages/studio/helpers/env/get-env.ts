@@ -35,7 +35,7 @@ export async function getEnv(asJSON: boolean = true) {
 
   if (envFile) {
     // if (asJSON) {
-      return parseEnvFile(envFile.toString())
+    return parseEnvFile(envFile.toString())
     // } else {
     //   return envFile.toString()
     // }

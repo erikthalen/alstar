@@ -21,7 +21,7 @@ const routeMap = {
 for (const route in routeMap) {
   const handler = routeMap[route as keyof typeof routeMap]
 
-  routes.get(route, c => c.html((handler as Page<typeof c>)(c)))
+  routes.get(route, (c) => c.html((handler as Page<typeof c>)(c)))
 }
 
 export { routes }

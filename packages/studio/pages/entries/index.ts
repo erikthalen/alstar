@@ -12,17 +12,15 @@ export default (config: StudioConfig) =>
     const pageType = c.req.query('name')
 
     return c.html(
-      SiteLayout(
-        html`
-          ${Explorer(c)}
-          <section class="page">
-            ${SiteHeader(c)} ${Tabs()}
+      SiteLayout(html`
+        ${Explorer(c)}
+        <section class="page">
+          ${SiteHeader(c)} ${Tabs()}
 
-            <div class="entries-container">
-              ${pageType ? Entries({ name: pageType }) : ''}
-            </div>
-          </section>
-        `
-      )
+          <div class="entries-container">
+            ${pageType ? Entries({ name: pageType }) : ''}
+          </div>
+        </section>
+      `),
     )
   })

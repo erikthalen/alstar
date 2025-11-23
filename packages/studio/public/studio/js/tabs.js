@@ -74,7 +74,7 @@ export class Tabs extends LitElement {
                 </svg>
               </button>
             </div>
-          `
+          `,
         )}
       </div>
     `
