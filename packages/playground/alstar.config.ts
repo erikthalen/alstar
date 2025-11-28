@@ -45,6 +45,7 @@ export default {
                 title: defineField({
                   label: 'Title',
                   type: 'text',
+                  description: 'Hero title'
                 }),
                 text: defineField({
                   label: 'Text',

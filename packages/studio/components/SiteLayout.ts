@@ -14,7 +14,11 @@ export default (
 
   return html`
     <!DOCTYPE html>
-    <html lang="en" class="quiet-cloak quiet-dark quiet-zinc">
+    <html
+      lang="en"
+      class="quiet-cloak quiet-dark quiet-zinc"
+      data-init="@get('/studio/cqrs')"
+    >
       <head>
         <!-- <script>
           const darkModeMedia = window.matchMedia(
@@ -86,7 +90,12 @@ export default (
         ${raw(hotReloadClient(8787))}
       </head>
 
-      <body>
+      <body
+        data-signals:cursor="[0, 0]"
+        data-on:pointermove__throttle.50ms="$cursor = [evt.clientX, evt.clientY]; @post('/studio/cqrs/cursor')"
+      >
+        <div id="cursors"></div>
+
         <main id="swup">${content}</main>
       </body>
     </html>

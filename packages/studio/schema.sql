@@ -10,8 +10,7 @@ CREATE TABLE block (
   options JSON,
   status TEXT default 'enabled',
   parent_id INTEGER,
-  _depth INTEGER,
-  foreign key (parent_id) references blocks (id)
+  foreign key (parent_id) references block (id)
 );
 
 CREATE TABLE setting (

@@ -6,6 +6,7 @@ import { db } from '@alstar/db'
 import { deleteBlockWithChildren } from '../queries/block-with-children.ts'
 import { getElementsToPatch } from '../utils/get-elements-to-patch.ts'
 import { slugify } from '../utils/slugify.ts'
+import { eventEmitter } from '../helpers/cqrs/index.ts'
 
 const app = new Hono<{ Bindings: HttpBindings }>()
 
@@ -66,6 +67,7 @@ type PatchBody = Record<
 app.patch('/block/:id', async (c) => {
   return streamSSE(c, async (stream) => {
     const id = c.req.param('id')
+    const user = c.get('user')
     const datastar = c.get('datastar')
     const values = datastar
       ? (datastar.signals?.[id] as any) || '{}'
@@ -126,11 +128,7 @@ app.patch('/block/:id', async (c) => {
     }
 
     if (patchElements) {
-      const patches = await getElementsToPatch(patchElements)
-
-      for (const patch of patches) {
-        await datastar.patchElements(stream, patch)
-      }
+      eventEmitter.emit('patch', patchElements, user)
     }
   })
 })

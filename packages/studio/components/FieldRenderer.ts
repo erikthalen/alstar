@@ -7,6 +7,7 @@ import type {
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import { BlockFieldInstance } from '../utils/define.ts'
 import { html } from 'hono/html'
+import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 
 export default (props: {
   entryId: number | string
@@ -21,37 +22,66 @@ export default (props: {
     return BlockFieldRenderer({ entryId, parentId, name, structure, id })
   }
 
+  const data = getOrCreateRow({
+    parentId,
+    name,
+    field: structure,
+  })
+
   const fieldProps = { entryId, parentId, name, id, structure }
+
+  let fieldComponent
 
   switch (structure.type) {
     case 'text': {
-      return html`<div class="field">${Field.Text(fieldProps)}</div>`
+      fieldComponent = Field.Text({ id: data.id })
+      break
     }
 
     case 'title': {
-      return html`<div class="field">${Field.Title(fieldProps)}</div>`
+      fieldComponent = Field.Title({ id: data.id })
+      break
     }
 
     case 'slug': {
-      return html`<div class="field">${Field.Slug(fieldProps)}</div>`
+      fieldComponent = Field.Slug({ id: data.id })
+      break
     }
 
     case 'markdown': {
-      return html`<div class="field">${Field.Markdown(fieldProps)}</div>`
+      fieldComponent = Field.Markdown({ id: data.id })
+      break
     }
 
     case 'image': {
-      return html`<div class="field">${Field.Image(fieldProps)}</div>`
+      fieldComponent = Field.Image({ id: data.id })
+      break
     }
 
     case 'reference': {
-      return html`<div class="field">
-        ${Field.Reference({ entryId, parentId, name, id, structure })}
-      </div>`
+      fieldComponent = Field.Reference({ id: data.id })
+      break
     }
 
     case 'svg': {
-      return html`<div class="field">${Field.SVG(fieldProps)}</div>`
+      fieldComponent = Field.SVG({ id: data.id })
+      break
     }
   }
+
+  return html` <div class="field">
+    <form class="field-text">
+      <vscode-form-container responsive>
+        <vscode-form-group>
+          <vscode-label> ${structure.label} </vscode-label>
+
+          ${fieldComponent}
+
+          <vscode-form-helper>
+            <p class="description ts-xs">${structure.description}</p>
+          </vscode-form-helper>
+        </vscode-form-group>
+      </vscode-form-container>
+    </form>
+  </div>`
 }

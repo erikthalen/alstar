@@ -126,6 +126,20 @@ quiet-tooltip {
   pointer-events: none;
 }
 
+#cursors {
+  .cursor {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    font-size: 12px;
+    color: #111;
+    padding: 0.1em 0.5em;
+    border-radius: 4px;
+  }
+}
+
 .background-pattern {
   background-color: var(--quiet-background-color);
   background-image: radial-gradient(

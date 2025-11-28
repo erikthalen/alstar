@@ -10,7 +10,7 @@
 .entry-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.25rem;
   height: calc(var(--unit) * 2);
   padding-inline: calc(var(--unit) * 0.5);
   border-bottom: 1px solid var(--border-color);
@@ -23,6 +23,9 @@
 
   p {
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     span {
       color: var(--quiet-text-muted);

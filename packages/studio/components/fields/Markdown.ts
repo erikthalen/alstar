@@ -1,53 +1,39 @@
-import type { FieldDefStructure } from '../../types.ts'
-import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
+import { query } from '../../queries/index.ts'
 import { html } from 'hono/html'
 
-export default (props: {
-  entryId: number | string
-  parentId: number | string
-  name: string
-  id?: number
-  structure: FieldDefStructure
-}) => {
-  const { entryId, parentId, name, structure, id } = props
+export default (props: { id: number }) => {
+  if (!props.id) {
+    return html`<p>No id provided</p>`
+  }
 
-  const data = getOrCreateRow({ parentId, name, field: structure, id })
+  const data = query.block({ id: props.id })
 
   if (!data) return html`<p>No block</p>`
 
-  return html`
-    <form
-      data-on:input="@patch('/studio/api/block', {
-        contentType: 'form',
-        headers: {
-          render: 'LivePreview',
-          props: '${JSON.stringify({ entryId: entryId })}'
-        }
-      })"
-    >
-      <hgroup
-        style="width: 150px; display: flex; justify-content: flex-end; margin-bottom: 0.5rem;"
-      >
-        <label class="ts-xs" for="block-${data.id}">${structure.label}</label>
-        <p class="ts-xs">${structure.description}</p>
-      </hgroup>
+  const entry = query.root({ id: props.id })
 
-      <markdown-editor
-        data-content="${data.value?.trim()}"
-        data-id="${data.id}"
-        data-entry-id="${entryId}"
-      >
-        <!-- <textarea id="block-{data.id}" name="value" class="markdown">
+  const signals = {
+    id: data.id,
+    value: data.value,
+    patchElements: [
+      { name: 'fields/Markdown', props: { id: data.id } },
+      { name: 'EntryHeader', props: entry?.id },
+      { name: 'LivePreview', props: { entryId: entry?.id } },
+    ],
+  }
+
+  return html`
+    <markdown-editor
+      data-signals="${JSON.stringify(signals)}"
+      data-content="${data.value?.trim()}"
+      data-id="${data.id}"
+      data-entry-id="${entry?.id}"
+      data-on:input="@patch('/studio/api/block', { filterSignals: { include: /${data.id}/ } })"
+    >
+      <!-- <textarea id="block-{data.id}" name="value" class="markdown">
           {data.value}
         </textarea
         > -->
-      </markdown-editor>
-
-      <input type="hidden" name="type" value="${structure.type}" />
-      <input type="hidden" name="id" value="${data.id}" />
-      <input type="hidden" name="entryId" value="${entryId}" />
-      <input type="hidden" name="parentId" value="${parentId}" />
-      <input type="hidden" name="name" value="${name}" />
-    </form>
+    </markdown-editor>
   `
 }

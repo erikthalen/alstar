@@ -25,6 +25,7 @@ import { cors } from 'hono/cors'
 import { except } from 'hono/combine'
 import { type DatabaseSync } from 'node:sqlite'
 import { factory } from './factory.ts'
+import cqrs from './helpers/cqrs/index.ts'
 
 const packageJSON = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
@@ -53,7 +54,7 @@ await applyBetterAuthMigration(db.database)
 
 const auth = createAuthServer(db.database)
 
-type AuthType = {
+export type AuthType = {
   user: typeof auth.$Infer.Session.user | null
   session: typeof auth.$Infer.Session.session | null
 }
@@ -159,6 +160,11 @@ const createStudio = () => {
    * Media route
    */
   app.route('/media', mediaRouter())
+
+  /**
+   * CQRS route
+   */
+  app.route('/cqrs', cqrs())
 
   /**
    * Studio pages

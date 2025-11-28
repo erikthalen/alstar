@@ -1,59 +1,42 @@
-import { getOrCreateRow } from '../../utils/get-or-create-row.ts'
 import { html } from 'hono/html'
-import type { FieldDefStructure } from '../../types.ts'
+import { query } from '../../queries/index.ts'
+import EditedBy from '../utils/EditedBy.ts'
 
-export default (props: {
-  entryId: number | string
-  parentId: number | string
-  name: string
-  id?: number
-  structure: FieldDefStructure
-  sortOrder?: number
-}) => {
-  const { entryId, parentId, name, structure, sortOrder = 0, id } = props
-
-  const data = getOrCreateRow({
-    parentId,
-    name,
-    field: structure,
-    sortOrder,
-    id,
-  })
+export default (props: { id: number }) => {
+  const data = query.block({ id: props.id })
 
   if (!data) return html`<p>No block</p>`
+
+  const entry = query.root({ id: data.id })
 
   const signals = {
     id: data.id,
     value: data.value,
     patchElements: [
-      { name: 'EntryHeader', props: entryId },
-      { name: 'LivePreview', props: { entryId } },
+      { name: 'fields/Text', props: { id: data.id } },
+      { name: 'EntryHeader', props: entry?.id },
+      { name: 'LivePreview', props: { entryId: entry?.id } },
     ],
   }
 
   return html`
-    <form
-      class="field-text"
+    <vscode-textfield
+      id="id_${data.id}"
       data-signals:${data.id}="${JSON.stringify(signals)}"
+      data-bind:${data.id}.value
+      name="value"
       data-on:input="@patch('/studio/api/block/${data.id}', {
+        filterSignals: { include: '/${data.id}/' },
+        openWhenHidden: true
+      })"
+      data-on:focus="@post('/studio/cqrs/editing', {
+        filterSignals: { include: '/${data.id}/' }
+      })"
+      data-on:blur="@post('/studio/cqrs/not-editing', {
         filterSignals: { include: '/${data.id}/' }
       })"
     >
-      <vscode-form-container responsive>
-        <vscode-form-group>
-          <vscode-label for="block-${data.id}">
-            ${structure.label}
-          </vscode-label>
-          <vscode-textfield
-            data-bind:${data.id}.value
-            id="block-${data.id}"
-            name="value"
-          ></vscode-textfield>
-          <vscode-form-helper>
-            <p class="ts-xs">${structure.description}</p>
-          </vscode-form-helper>
-        </vscode-form-group>
-      </vscode-form-container>
-    </form>
+      ${EditedBy({ id: data.id })}
+    </vscode-textfield>
   `
 }
