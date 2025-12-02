@@ -32,7 +32,7 @@ export default (props: {
   return html`
     <div class="blocks-field">
       <header>
-        <p class="ts-xs">${structure.label}</p>
+        <p class="truncate ts-xs">${structure.label}</p>
 
         <quiet-dropdown placement="bottom-end">
           <quiet-button size="xs" slot="trigger" with-caret>Add</quiet-button>
@@ -100,11 +100,11 @@ export default (props: {
               data-signals:${row.id}="${JSON.stringify(signals)}"
             >
               <header>
-                <div class="title">
+                <div class="truncate title">
                   ${'icon' in struct && struct.icon
                     ? html` <quiet-icon name=${struct.icon}></quiet-icon>`
                     : ''}
-                  <p class="ts-xs">${struct.label}</p>
+                  <p class="truncate ts-xs">${struct.label}</p>
                 </div>
 
                 <aside>
@@ -161,7 +161,7 @@ export default (props: {
                     without-arrow
                     class="ts-label"
                     for="tooltip-collapse-${row.id}"
-                    data-text="$${row.id}.options.collapsed ? 'Show' : 'Hide'"
+                    data-text="$${row.id}.options.collapsed ? 'Expand' : 'Collapse'"
                   >
                   </quiet-tooltip>
 

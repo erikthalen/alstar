@@ -11,7 +11,7 @@ export default async () => {
     const base = '/studio/media'
     const searchParams = new URLSearchParams()
 
-    searchParams.set('w', '400')
+    searchParams.set('w', '200')
     searchParams.set('format', 'webp')
 
     return `${base}/${filename}?${searchParams.toString()}`
@@ -32,12 +32,21 @@ export default async () => {
           ? medias.map(
               (media) =>
                 html`<li>
-                  <figure>
-                    <img src="${getThumbnailUrl(media.filename?.toString())}" />
-                    <figcaption class="ts-xs">
-                      <span>${media.name}</span>
-                    </figcaption>
-                  </figure>
+                  <button
+                    type="submit"
+                    name="filename"
+                    value="${media.filename}"
+                    data-on:click="evt.target.dispatchEvent(new CustomEvent('input', { detail: '${media.filename}', bubbles: true }))"
+                  >
+                    <figure>
+                      <img
+                        src="${getThumbnailUrl(media.filename?.toString())}"
+                      />
+                      <figcaption class="ts-xs">
+                        <span>${media.name}</span>
+                      </figcaption>
+                    </figure>
+                  </button>
                 </li>`,
             )
           : html`<li class="ts-xs">No media</li>`}

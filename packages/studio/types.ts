@@ -157,3 +157,11 @@ export type RequestContext = Context<
   string,
   BlankInput
 >
+
+export type MediaRow = {
+  name: string
+  filename: string
+  mime_type: string
+  width: number
+  height: number
+}

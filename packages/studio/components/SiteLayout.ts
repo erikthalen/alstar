@@ -92,8 +92,8 @@ export default (
 
       <body
         data-signals:cursor="[0, 0]"
-        data-on:pointermove__throttle.50ms="$cursor = [evt.clientX, evt.clientY]; @post('/studio/cqrs/cursor')"
-      >
+        >
+        <!-- data-on:pointermove__throttle.50ms="$cursor = [evt.clientX, evt.clientY]; @post('/studio/cqrs/cursor')" -->
         <div id="cursors"></div>
 
         <main id="swup">${content}</main>

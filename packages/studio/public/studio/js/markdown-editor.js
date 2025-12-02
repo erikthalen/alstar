@@ -1,44 +1,48 @@
-let ink
+import { ink } from 'ink-mde'
 
 class MarkdownEditor extends HTMLElement {
   instance = null
 
   async connectedCallback() {
-    if (!ink) {
-      const module = await import('ink-mde')
-      ink = module.ink
-    }
-
-    this.style.width = '100%'
+    const signals = this.dataset[`signals:${this.dataset.id}`]
+    const value = JSON.parse(signals)?.value
 
     this.instance = ink(this, {
+      doc: value,
+      interface: {
+        appearance: 'dark',
+        attribution: false,
+        autocomplete: true,
+        images: false,
+        lists: true,
+        spellcheck: true,
+        toolbar: true,
+      },
+      toolbar: {
+        bold: true,
+        code: true,
+        codeBlock: true,
+        heading: true,
+        image: false,
+        italic: true,
+        link: true,
+        list: true,
+        orderedList: true,
+        quote: true,
+        taskList: true,
+        upload: false,
+      },
       hooks: {
-        afterUpdate: async (e) => {
-          await fetch('/studio/api/value', {
-            method: 'PATCH',
-            headers: {
-              render: 'LivePreview',
-              props: this.dataset.entryId,
-            },
-            body: JSON.stringify({
-              value: e,
-              id: this.dataset.id,
-            }),
-          })
-
+        afterUpdate: async (value) => {
+          this.dispatchEvent(new CustomEvent('update', { detail: value }))
           window.dispatchEvent(new CustomEvent('markdown-editor:update'))
         },
       },
-      interface: {
-        attribution: false,
-      },
     })
-
-    this.instance.update(this.dataset.content)
   }
 
   disconnectedCallback() {
-    // this.instance.destroy()
+    this.instance.destroy()
   }
 }
 

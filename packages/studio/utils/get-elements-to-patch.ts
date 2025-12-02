@@ -21,7 +21,7 @@ export async function getElementsToPatch(
         return partialToRender.default(props)
       } catch (error) {
         console.log(error)
-        return ''
+        return null
       }
     }),
   )

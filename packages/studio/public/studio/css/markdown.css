@@ -1,53 +1,49 @@
-.ͼ1 .cm-content.ink-mde-editor-content {
-  min-height: 10lh;
+:root {
+  --ink-border-radius: 2px;
+  --ink-font-family: var(--alstar-font-family);
+  --ink-editor-line-height: 1.6;
+
+  --ink-block-background-color-on-hover: var(--border-color);
+  --ink-block-background-color: #3c3c3c;
+  --ink-toolbar-group-spacing: var(--unit);
 }
 
-div.ink-mde {
-  padding: 0 0.75em;
-  border: var(--quiet-border-style) var(--quiet-border-width)
-    var(--quiet-neutral-stroke-soft);
-  border-radius: var(--quiet-border-radius-md);
-  background-color: var(--quiet-paper-color);
-  color: var(--quiet-text-body);
-  font-size: 12px;
+markdown-editor {
+  display: flex;
+  width: 320px;
+  max-width: 100%;
 }
 
-.ink-mde-textarea {
-}
+.ink.ink-mde {
+  border-width: 1px;
+  background-color: #313131;
+  max-width: inherit;
 
-div.ink-mde:has(.cm-focused) {
-  --pico-outline-width: 0.1rem;
-  --pico-box-shadow: 0 0 0 var(--pico-outline-width)
-    var(--pico-form-element-focus-color);
+  .ink-mde-toolbar {
+    padding: 0;
 
-  box-shadow: var(--pico-box-shadow);
-}
+    .ink-button {
+      min-height: auto;
+      width: 1em;
+      height: 1em;
+      padding: 4px;
+      box-sizing: content-box;
 
-.ͼ1.cm-focused {
-  outline: none;
-}
+      svg {
+        height: 15px;
+        width: 15px;
+      }
+    }
+  }
 
-.ink-mde-textarea {
-  width: 100%;
+  .ink-mde-editor {
+    padding: 3px 4px;
+    min-height: 4lh;
 
-  --pico-background-color: var(--pico-form-element-background-color);
-
-  --pico-color: var(--pico-form-element-color);
-  --pico-box-shadow: none;
-
-  outline: 0;
-  background-color: var(--pico-background-color);
-  box-shadow: var(--pico-box-shadow);
-  color: var(--pico-color);
-  font-weight: var(--pico-font-weight);
-  transition:
-    background-color var(--pico-transition),
-    border-color var(--pico-transition),
-    color var(--pico-transition),
-    box-shadow var(--pico-transition);
-}
-
-.markdown {
-  width: 100%;
-  height: 10lh;
+    .cm-editor,
+    .cm-scroller,
+    .cm-content {
+      min-height: inherit;
+    }
+  }
 }

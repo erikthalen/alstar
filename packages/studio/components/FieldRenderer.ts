@@ -70,18 +70,16 @@ export default (props: {
   }
 
   return html` <div class="field">
-    <form class="field-text">
-      <vscode-form-container responsive>
-        <vscode-form-group>
-          <vscode-label> ${structure.label} </vscode-label>
+    <vscode-form-container responsive>
+      <vscode-form-group>
+        <vscode-label> ${structure.label} </vscode-label>
 
-          ${fieldComponent}
+        ${fieldComponent}
 
-          <vscode-form-helper>
-            <p class="description ts-xs">${structure.description}</p>
-          </vscode-form-helper>
-        </vscode-form-group>
-      </vscode-form-container>
-    </form>
+        <vscode-form-helper style="width: 100%;">
+          <p class="description ts-xs">${structure.description}</p>
+        </vscode-form-helper>
+      </vscode-form-group>
+    </vscode-form-container>
   </div>`
 }

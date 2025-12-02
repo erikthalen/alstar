@@ -32,7 +32,7 @@ eventEmitter.on('cursor', (datastar, user) => {
 
     connections.forEach((innerItem) => {
       if (!innerItem.cursor) return
-      if (innerItem.user?.id === user.id) return
+      if (innerItem.user?.id === user?.id) return
 
       const [x, y] = innerItem.cursor
 
@@ -47,11 +47,9 @@ eventEmitter.on('cursor', (datastar, user) => {
 
 eventEmitter.on('patch', (elementsToPatch, user) => {
   connections.forEach(async (connection) => {
-    // if (connection.user?.id === user.id) return
+    if (user && connection.user?.id === user?.id) return
 
     const patches = await getElementsToPatch(elementsToPatch)
-
-    console.log(patches)
 
     for (const patch of patches) {
       await patchElements(connection.stream, patch)
@@ -71,7 +69,7 @@ eventEmitter.on('editing', (datastar, user) => {
   })
 
   connections.forEach(async (connection) => {
-    // if (connection.user?.id === user.id) return
+    if (user && connection.user?.id === user?.id) return
 
     await patchElements(connection.stream, template.toString())
   })
@@ -109,6 +107,9 @@ export default () => {
       const event = c.req.param('event')
       const user = c.get('user')
       const datastar = c.get('datastar')
+      const query = c.req.query()
+
+      console.log('query', query)
 
       if (!user) return
 

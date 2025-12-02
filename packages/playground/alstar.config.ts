@@ -31,6 +31,11 @@ export default {
           type: 'image',
           description: 'A featured image for the page',
         }),
+        svg: defineField({
+          label: 'SVG',
+          type: 'svg',
+          description: 'An SVG',
+        }),
         md: defineField({
           label: 'Markdown',
           type: 'markdown',

@@ -1,7 +1,5 @@
 .svg-output {
-  background-color: var(--quiet-neutral-fill-softer);
-  margin-top: 1rem;
-  padding: 1rem;
+  max-width: 320px;
 
   p {
     color: var(--quiet-text-muted);
@@ -10,10 +8,19 @@
 
   output {
     display: grid;
-    max-height: 300px;
+    max-height: 50px;
 
-    padding: 0.5rem;
-    border: 1px dotted var(--border-color);
+    padding: 3px 4px;
+    border-radius: 2px;
+    border: 1px solid var(--vscode-settings-textInputBorder);
+
+    background: repeating-linear-gradient(
+      130deg,
+      var(--vscode-settings-textInputBackground),
+      var(--vscode-settings-textInputBackground) 5px,
+      var(--vscode-settings-textInputBorder) 5px,
+      var(--vscode-settings-textInputBorder) 10px
+    );
 
     svg {
       height: 100%;

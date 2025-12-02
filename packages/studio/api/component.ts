@@ -7,16 +7,23 @@ const app = new Hono()
 app.get('/component', async (c) => {
   return streamSSE(c, async (stream) => {
     const name = c.req.query('name')
+    const props = c.req.query('props')
     const datastar = c.get('datastar')
 
-    // console.log(datastar.signals)
+    console.log(name, props)
 
-    if (name) {
-      const patches = await getElementsToPatch([{ name }])
+    try {
+      if (name) {
+        const patches = await getElementsToPatch([
+          { name, props: JSON.parse(props || '{}') },
+        ])
 
-      for (const patch of patches) {
-        await datastar.patchElements(stream, patch)
+        for (const patch of patches) {
+          await datastar.patchElements(stream, patch)
+        }
       }
+    } catch (error) {
+      console.log(error)
     }
   })
 })

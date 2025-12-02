@@ -8,7 +8,9 @@ export default (props: { id: number }) => {
 
   const data = query.block({ id: props.id })
 
-  if (!data) return html`<p>No block</p>`
+  if (!data) {
+    return html`<p>No block</p>`
+  }
 
   const entry = query.root({ id: props.id })
 
@@ -24,16 +26,12 @@ export default (props: { id: number }) => {
 
   return html`
     <markdown-editor
-      data-signals="${JSON.stringify(signals)}"
-      data-content="${data.value?.trim()}"
+      id="id_${data.id}"
+      class="ts-xs"
       data-id="${data.id}"
-      data-entry-id="${entry?.id}"
-      data-on:input="@patch('/studio/api/block', { filterSignals: { include: /${data.id}/ } })"
+      data-signals:${data.id}="${JSON.stringify(signals)}"
+      data-on:update="$${data.id}.value = evt.detail; @patch('/studio/api/block/${data.id}', { filterSignals: { include: /${data.id}/ } })"
     >
-      <!-- <textarea id="block-{data.id}" name="value" class="markdown">
-          {data.value}
-        </textarea
-        > -->
     </markdown-editor>
   `
 }

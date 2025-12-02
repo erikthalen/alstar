@@ -10,7 +10,7 @@ export default (props: { id: number }) => {
 
   const signals = {
     id: data.id,
-    value: data.value,
+    value: data.value || '',
     patchElements: [
       { name: 'fields/Slug', props: { id: data.id } },
       { name: 'EntryHeader', props: entry?.id },
@@ -26,13 +26,13 @@ export default (props: { id: number }) => {
       data-signals:entry.slug="${JSON.stringify(signals)}"
       data-signals:${data.id}="${JSON.stringify(signals)}"
       data-on:input="@patch('/studio/api/block/${data.id}', {
-          filterSignals: { include: '/${data.id}/' }
-        })"
+        filterSignals: { include: '/${data.id}/' }
+      })"
     >
       <quiet-button
         slot="content-after"
         data-on:click="@patch('/studio/api/block-recommended-slug', {
-          filterSignals: { include: 'entry.' }
+          filterSignals: { include: '/entry./' }
         })"
         appearance="text"
         id="generate_slug_field"

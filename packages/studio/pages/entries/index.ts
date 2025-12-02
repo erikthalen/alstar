@@ -18,7 +18,7 @@ export default (config: StudioConfig) =>
           ${SiteHeader(c)} ${Tabs()}
 
           <div class="entries-container">
-            ${pageType ? Entries({ name: pageType }) : ''}
+            ${pageType ? Entries({ page: 1, name: pageType }) : ''}
           </div>
         </section>
       `),

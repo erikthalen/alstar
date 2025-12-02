@@ -1,7 +1,7 @@
 import { html } from 'hono/html'
 import { query, config } from '../index.ts'
 
-export default ({ name }: { name: string }) => {
+export default ({ page = 1, name }: { page: number; name: string }) => {
   const entries = query.blocks({ parent_id: null, status: 'enabled', name })
   const structure = config.structure[name]
 
@@ -12,13 +12,17 @@ export default ({ name }: { name: string }) => {
     patchElements: [{ name: 'Entries', props: { name } }],
   }
 
+  const PAGE_SIZE = 30
+
+  const paginatedEntries = entries.slice(
+    (page - 1) * PAGE_SIZE,
+    (page - 1) * PAGE_SIZE + PAGE_SIZE,
+  )
+
+  const pages = Math.ceil(entries.length / PAGE_SIZE)
+
   return html`
     <section id="entries" class="entries">
-      <vscode-single-select id="combobox-example" combobox>
-        <vscode-option>Afghanistan</vscode-option>
-        <vscode-option>Albania</vscode-option>
-      </vscode-single-select>
-
       <quiet-button
         data-signals:new-entry="${JSON.stringify(signals)}"
         data-on:click="@post('/studio/api/block', { filterSignals: { include: 'newEntry' } })"
@@ -28,13 +32,18 @@ export default ({ name }: { name: string }) => {
         New ${name}
       </quiet-button>
 
-      <vscode-table class="resizable-example" zebra bordered-columns resizable>
+      <vscode-single-select id="combobox-example" combobox>
+        <vscode-option>Afghanistan</vscode-option>
+        <vscode-option>Albania</vscode-option>
+      </vscode-single-select>
+
+      <vscode-table zebra bordered-columns resizable>
         <vscode-table-header slot="header">
           <vscode-table-header-cell>Title</vscode-table-header-cell>
           <vscode-table-header-cell>Slug</vscode-table-header-cell>
         </vscode-table-header>
         <vscode-table-body slot="body">
-          ${entries?.map((block) => {
+          ${paginatedEntries?.map((block) => {
             const title = query.block({
               parent_id: block.id.toString(),
               name: 'title',
@@ -64,6 +73,15 @@ export default ({ name }: { name: string }) => {
           })}
         </vscode-table-body>
       </vscode-table>
+
+      <div class="pagination">
+        <!-- data-on:quiet-before-page-change="console.log(evt.detail.requestedPage); @get('/studio/api/component?name=Entries&props={name:{page}, page:evt.detail.requestedPage}')" -->
+        <quiet-pagination
+          total-pages="${pages}"
+          page="${page}"
+          class="ts-xs"
+        ></quiet-pagination>
+      </div>
     </section>
   `
 }

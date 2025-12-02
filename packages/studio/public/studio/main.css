@@ -50,6 +50,7 @@
 
 :root {
   --alstar-font-family: 'Inter';
+  --alstar-split-pane-border: var(--border-color);
 
   --quiet-font-family: var(--alstar-font-family);
   --quiet-border-radius-sm: 0;
@@ -58,9 +59,10 @@
   --vscode-font-family: var(--alstar-font-family);
   --vscode-font-size: 12px;
 
-  --border-color: var(--quiet-neutral-stroke-softer);
+  --vscode-settings-textInputBackground: #313131;
+  --vscode-settings-textInputBorder: #3c3c3c;
 
-  --alstar-split-pane-border: var(--border-color);
+  --border-color: var(--quiet-neutral-stroke-softer);
 
   --unit: 0.75rem;
 }
@@ -99,7 +101,7 @@ alstar-split-pane {
 }
 
 .page {
-  height: inherit;
+  height: 100vh;
 }
 
 .profile {
@@ -200,4 +202,14 @@ quiet-tooltip {
   .sortable-ghost {
     opacity: 0.3;
   }
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+vscode-textfield {
+  max-width: 100%;
 }

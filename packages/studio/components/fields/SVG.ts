@@ -11,7 +11,7 @@ export default (props: { id: number }) => {
 
   const signals = {
     id: data.id,
-    value: data.value,
+    value: data.value || '',
     patchElements: [
       { name: 'fields/SVG', props: { id: props.id } },
       { name: 'EntryHeader', props: entry?.id },
@@ -21,17 +21,20 @@ export default (props: { id: number }) => {
   }
 
   return html`
-    ${SVGOutput(data.id)}
+    <div>
+      ${SVGOutput(data.id)}
 
-    <vscode-textfield
-      placeholder="<svg> ..."
-      data-signals:${data.id}="${JSON.stringify(signals)}"
-      data-on:input="@patch('/studio/api/block', {
+      <vscode-textfield
+        id="id_${data.id}"
+        placeholder="<svg> ..."
+        data-signals:${data.id}="${JSON.stringify(signals)}"
+        data-on:input="@patch('/studio/api/block/${data.id}', {
         filterSignals: { include: '/${data.id}/' }
       })"
-      data-bind:${data.id}.value
-      id="id_${data.id}"
-      name="value"
-    ></vscode-textfield>
+        data-bind:${data.id}.value
+        name="value"
+      >
+      </vscode-textfield>
+    </div>
   `
 }

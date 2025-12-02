@@ -8,22 +8,28 @@ export default (entryId: string | number) => {
 
   return html`
     <header id="entry_header_${entryId}" class="entry-header">
-
       <p class="ts-xs">
-        <span>Modified:</span>
-        <quiet-relative-time date="${data.updated_at}"></quiet-relative-time>
-        &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;
-        <span>Created:</span>
-        <quiet-date
-          date-style="medium"
-          time-style="medium"
-          hour-format="24"
-          date="${data.created_at}"
-        ></quiet-date>
+        <span>
+          Modified:
+          <quiet-relative-time date="${data.updated_at}"></quiet-relative-time>
+        </span>
+
+        <span>·</span>
+
+        <span>
+          Created:
+          <quiet-date
+            date-style="medium"
+            time-style="medium"
+            hour-format="24"
+            date="${data.created_at}"
+          ></quiet-date>
+        </span>
       </p>
 
       <aside>
         <quiet-toggle-icon
+          data-signals:${entryId}="{ status: '${data.status}' }"
           class="disable-button"
           label="Disable"
           effect="scale"
@@ -57,10 +63,24 @@ export default (entryId: string | number) => {
           icon-label="Remove"
           size="xs"
           id="tooltip-remove-${entryId}"
-          data-on:click="@delete('/studio/api/block/${entryId}'); window.history.back()"
         >
           <quiet-icon name="trash"></quiet-icon>
         </quiet-button>
+
+        <quiet-popover for="tooltip-remove-${entryId}" placement="bottom">
+          <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+            <quiet-button
+              size="xs"
+              class="ts-label"
+              variant="destructive"
+              data-popover="close"
+              data-on:click="@delete('/studio/api/block/${entryId}'); window.history.back()"
+            >
+              Delete
+            </quiet-button>
+            <quiet-button size="xs" data-popover="close">Cancel</quiet-button>
+          </div>
+        </quiet-popover>
 
         <quiet-tooltip
           distance="0"

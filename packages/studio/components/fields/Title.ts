@@ -12,7 +12,7 @@ export default (props: { id: number }) => {
 
   const signals = {
     id: data.id,
-    value: data.value,
+    value: data.value || '',
     patchElements: [
       { name: 'fields/Title', props: { id: data.id } },
       { name: 'EntryHeader', props: entry?.id },
@@ -23,16 +23,17 @@ export default (props: { id: number }) => {
   return html`
     <vscode-textfield
       data-bind:entry.title.value
+      data-signals:${data.id}="${JSON.stringify(signals)}"
       data-signals:entry.title="${JSON.stringify(signals)}"
       data-signals:entry.slug.recommended="'${slugify(signals.value)}'"
       data-on:input="@patch('/studio/api/block-title', {
         filterSignals: { include: '/entry/' }
       })"
       data-on:focus="@post('/studio/cqrs/editing', {
-        filterSignals: { include: '/entry/' }
+        filterSignals: { include: '/${data.id}/' }
       })"
       data-on:blur="@post('/studio/cqrs/not-editing', {
-        filterSignals: { include: '/entry/' }
+        filterSignals: { include: '/${data.id}/' }
       })"
       id="id_${data.id}"
       name="value"

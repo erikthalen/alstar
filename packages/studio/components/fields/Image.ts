@@ -14,7 +14,7 @@ export default (props: { id: number }) => {
 
   const signals = {
     id: data.id,
-    value: data.value,
+    value: data.value || '',
     patchElements: [
       { name: 'fields/Image', props: { id: entry?.id } },
       { name: 'EntryHeader', props: entry?.id },
@@ -78,7 +78,13 @@ export default (props: { id: number }) => {
       Change
     </quiet-tooltip>
 
-    <quiet-dialog id="dialog__overview" light-dismiss>
+    <quiet-dialog
+      id="dialog__overview"
+      light-dismiss
+      data-on:input="$${data.id}.value = evt.detail; @patch('/studio/api/block/${data.id}', {
+        filterSignals: { include: '/${data.id}/' }
+      }); document.getElementById('dialog__overview').open = false"
+    >
       <div id="media_library_dialog_content"></div>
     </quiet-dialog>
   `

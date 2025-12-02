@@ -18,8 +18,8 @@ export default (props: { entryId: number | string }) => {
       id="entry"
       class="entry"
       data-signals:entry.id="${props.entryId}"
-      data-signals:${props.entryId}="${JSON.stringify(data)}"
-    >
+      >
+      <!-- data-signals:{props.entryId}="{JSON.stringify(data)}" -->
       ${EntryHeader(props.entryId)}
 
       <div class="content">

@@ -11,7 +11,7 @@ export default (props: { id: number }) => {
 
   const signals = {
     id: data.id,
-    value: data.value,
+    value: data.value || '',
     patchElements: [
       { name: 'fields/Text', props: { id: data.id } },
       { name: 'EntryHeader', props: entry?.id },

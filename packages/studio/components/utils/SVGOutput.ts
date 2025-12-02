@@ -8,8 +8,8 @@ export default (id: string | number) => {
 
   return html`
     <div class="svg-output" id="output_${id}">
-      <p class="ts-xs">Output:</p>
-      <output>${raw(data.value)}</output>
+      <!-- <p class="ts-xs">Output:</p> -->
+      <output>${raw(data.value || '')}</output>
     </div>
   `
 }

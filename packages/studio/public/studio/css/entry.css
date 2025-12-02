@@ -1,18 +1,13 @@
 .entry {
   height: 100%;
   overflow: auto;
-
-  .content {
-    overflow: auto;
-  }
 }
 
 .entry-header {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
   height: calc(var(--unit) * 2);
-  padding-inline: calc(var(--unit) * 0.5);
+  /* padding-inline: calc(var(--unit) * 0.5); */
   border-bottom: 1px solid var(--border-color);
 
   background-color: var(--quiet-neutral-fill-softer);
@@ -26,9 +21,19 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-inline: calc(var(--unit) * 0.5);
 
     span {
       color: var(--quiet-text-muted);
+
+      quiet-relative-time,
+      quiet-date {
+        color: var(--quiet-text-body);
+      }
+    }
+
+    span:nth-of-type(2) {
+      margin-inline: 0.5rem;
     }
   }
 
@@ -40,5 +45,10 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+  }
+
+  quiet-popover::part(content) {
+    width: 100px;
+    padding: 0.5rem;
   }
 }
