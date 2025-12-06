@@ -1,10 +1,11 @@
 import { query, version } from '@alstar/studio'
+import { getEntry, getFields } from '@alstar/studio/sql'
 import { html } from 'hono/html'
 import { raw } from 'hono/html'
 
 export default () => {
-  const settings = query.root({ name: 'settings' })
-  const pages = query.blocks({ name: 'page' })
+  const settings = getEntry({ name: 'settings' })
+  const pages = getFields({ name: 'page' })
 
   return html`
     <div class="main-menu">

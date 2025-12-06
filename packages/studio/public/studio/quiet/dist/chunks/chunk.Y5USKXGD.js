@@ -1,0 +1,74 @@
+/*! Required Notice: Copyright 2025 A Beautiful Site, LLC - https://quietui.org */
+import {
+  i
+} from "./chunk.A5SY4VDT.js";
+
+// src/components/toast/toast.styles.ts
+var toast_styles_default = i`
+  :host {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    width: 460px;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    inset: unset;
+    padding: 1.5em;
+    overflow-y: auto;
+    gap: 1em;
+    border: none;
+    background: transparent;
+    pointer-events: none;
+    scrollbar-width: thin;
+  }
+
+  :host(:not(:state(visible))) {
+    display: none;
+  }
+
+  @media screen and (max-width: 499px) {
+    :host {
+      width: 100%;
+    }
+  }
+
+  /* Placements */
+  :host([placement*='top']) {
+    top: 0;
+  }
+
+  :host([placement*='bottom']) {
+    bottom: 0;
+    align-content: end;
+  }
+
+  :host([placement*='start']:dir(ltr)) {
+    left: 0;
+  }
+
+  :host([placement*='start']:dir(rtl)) {
+    right: 0;
+  }
+
+  :host([placement*='center']) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  :host([placement*='end']:dir(ltr)) {
+    right: 0;
+  }
+
+  :host([placement*='end']:dir(rtl)) {
+    left: 0;
+  }
+
+  :host([placement*='bottom']) {
+    justify-content: end;
+  }
+`;
+
+export {
+  toast_styles_default
+};

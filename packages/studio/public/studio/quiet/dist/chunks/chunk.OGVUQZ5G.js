@@ -1,0 +1,140 @@
+/*! Required Notice: Copyright 2025 A Beautiful Site, LLC - https://quietui.org */
+import {
+  i
+} from "./chunk.A5SY4VDT.js";
+
+// src/components/scroller/scroller.styles.ts
+var scroller_styles_default = i`
+  :host {
+    --shadow-color: var(--quiet-background-color);
+    --shadow-size: 2rem;
+    --thumb-color: var(--quiet-neutral-fill-mid);
+    --track-color: transparent;
+
+    /* private (defined dynamically) */
+    --start-shadow-opacity: 0;
+    --end-shadow-opacity: 0;
+
+    display: block;
+    position: relative;
+    max-width: 100%;
+    isolation: isolate;
+  }
+
+  :host([orientation='vertical']) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  #content {
+    z-index: 1; /* below shadows */
+    border-radius: inherit;
+    scroll-behavior: smooth;
+    scrollbar-color: var(--thumb-color) var(--track-color);
+    scrollbar-width: thin;
+
+    /* Prevent text in mobile Safari from being larger when the container width larger than the viewport */
+    -webkit-text-size-adjust: 100%;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: var(--quiet-focus-ring);
+      outline-offset: var(--quiet-outline-offset);
+    }
+  }
+
+  :host([without-scrollbar]) #content {
+    scrollbar-width: none;
+  }
+
+  :host([orientation='horizontal']) #content {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  :host([orientation='vertical']) #content {
+    flex: 1 1 auto;
+    min-height: 0; /* This is crucial for flex children to respect overflow */
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #start-shadow,
+  #end-shadow {
+    z-index: 2; /* above content */
+  }
+
+  /* Horizontal shadows */
+  :host([orientation='horizontal']) {
+    #start-shadow,
+    #end-shadow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: var(--shadow-size);
+      pointer-events: none;
+    }
+
+    #start-shadow {
+      opacity: var(--start-shadow-opacity);
+    }
+
+    #end-shadow {
+      opacity: var(--end-shadow-opacity);
+    }
+
+    #start-shadow {
+      &:dir(ltr) {
+        left: 0;
+        background: linear-gradient(to right, var(--shadow-color), transparent 100%);
+      }
+
+      &:dir(rtl) {
+        right: 0;
+        background: linear-gradient(to left, var(--shadow-color), transparent 100%);
+      }
+    }
+
+    #end-shadow {
+      &:dir(ltr) {
+        right: 0;
+        background: linear-gradient(to left, var(--shadow-color), transparent 100%);
+      }
+
+      &:dir(rtl) {
+        left: 0;
+        background: linear-gradient(to right, var(--shadow-color), transparent 100%);
+      }
+    }
+  }
+
+  /* Vertical shadows */
+  :host([orientation='vertical']) {
+    #start-shadow,
+    #end-shadow {
+      position: absolute;
+      right: 0;
+      left: 0;
+      height: var(--shadow-size);
+      pointer-events: none;
+    }
+
+    #start-shadow {
+      top: 0;
+      background: linear-gradient(to bottom, var(--shadow-color), transparent 100%);
+    }
+
+    #end-shadow {
+      bottom: 0;
+      background: linear-gradient(to top, var(--shadow-color), transparent 100%);
+    }
+  }
+`;
+
+export {
+  scroller_styles_default
+};

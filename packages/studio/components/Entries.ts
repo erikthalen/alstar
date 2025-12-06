@@ -1,16 +1,8 @@
 import { html } from 'hono/html'
-import { query, config } from '../index.ts'
+import { getField, getFields } from '../helpers/sql/index.ts'
 
 export default ({ page = 1, name }: { page: number; name: string }) => {
-  const entries = query.blocks({ parent_id: null, status: 'enabled', name })
-  const structure = config.structure[name]
-
-  const signals = {
-    type: structure.type,
-    name: name,
-    label: structure.label,
-    patchElements: [{ name: 'Entries', props: { name } }],
-  }
+  const entries = getFields({ parent_id: null, status: 'enabled', name })
 
   const PAGE_SIZE = 30
 
@@ -23,39 +15,29 @@ export default ({ page = 1, name }: { page: number; name: string }) => {
 
   return html`
     <section id="entries" class="entries">
-      <quiet-button
-        data-signals:new-entry="${JSON.stringify(signals)}"
-        data-on:click="@post('/studio/api/block', { filterSignals: { include: 'newEntry' } })"
-        size="xs"
-        variant="primary"
-      >
-        New ${name}
-      </quiet-button>
-
-      <vscode-single-select id="combobox-example" combobox>
-        <vscode-option>Afghanistan</vscode-option>
-        <vscode-option>Albania</vscode-option>
-      </vscode-single-select>
-
-      <vscode-table zebra bordered-columns resizable>
+      <vscode-table zebra bordered-rows resizable>
         <vscode-table-header slot="header">
+          <vscode-table-header-cell>Check</vscode-table-header-cell>
           <vscode-table-header-cell>Title</vscode-table-header-cell>
           <vscode-table-header-cell>Slug</vscode-table-header-cell>
         </vscode-table-header>
         <vscode-table-body slot="body">
           ${paginatedEntries?.map((block) => {
-            const title = query.block({
+            const title = getField({
               parent_id: block.id.toString(),
               name: 'title',
             })
 
-            const slug = query.block({
+            const slug = getField({
               parent_id: block.id.toString(),
               name: 'slug',
             })
 
             return html`
               <vscode-table-row>
+                <vscode-table-cell>
+                  <quiet-checkbox size="sm"></quiet-checkbox>
+                </vscode-table-cell>
                 <vscode-table-cell>
                   <a href="/studio/entries/${block.id}">
                     <h4 class="ts-xs name">${title?.value || 'Untitled'}</h4>

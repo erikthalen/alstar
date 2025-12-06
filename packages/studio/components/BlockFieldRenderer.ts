@@ -1,15 +1,14 @@
-import { query } from '../queries/index.ts'
-import type { BlocksFieldDefStructure } from '../types.ts'
-import { BlockInstance } from '../utils/define.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { html } from 'hono/html'
 import Render from './Render.ts'
+import { getFields } from '../helpers/sql/index.ts'
+import type { BlockFieldInstanceType } from '../helpers/structure/types.ts'
 
 export default (props: {
   entryId: number | string
   parentId: number | string
   name: string
-  structure: BlocksFieldDefStructure
+  structure: BlockFieldInstanceType
   id?: number
   sortOrder?: number
 }) => {
@@ -27,7 +26,7 @@ export default (props: {
 
   const entries = Object.entries(structure.blocks)
 
-  const rows = query.blocks({ parent_id: data.id })
+  const rows = getFields({ parent_id: data.id })
 
   return html`
     <div class="blocks-field">
@@ -41,9 +40,9 @@ export default (props: {
 
           ${entries.map(([name, block]) => {
             const signals = {
-              type: block.type,
-              label: block.type,
               name: name,
+              label: block.label,
+              type: block.instanceOf.description,
               parent_id: data.id,
               entry_id: entryId,
               sort_order: rows.length,
@@ -55,11 +54,11 @@ export default (props: {
 
             return html`
               <quiet-dropdown-item
-                data-signals:select_${block.type}="${JSON.stringify(signals)}"
+                data-signals:select_${name}="${JSON.stringify(signals)}"
                 value="${name}"
                 class="ts-xs"
                 data-on:click="@post('/studio/api/block', {
-                  filterSignals: { include: 'select_${block.type}' }
+                  filterSignals: { include: 'select_${name}' }
                 })"
               >
                 ${'icon' in block && block.icon
@@ -222,8 +221,7 @@ export default (props: {
               >
                 ${Render({
                   entryId,
-                  parentId:
-                    struct.instanceOf === BlockInstance ? row.id : data.id,
+                  parentId: 'instanceOf' in struct ? row.id : data.id,
                   id: row.id,
                   structure: struct,
                   name: name,

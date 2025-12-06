@@ -14,11 +14,7 @@ export default (
 
   return html`
     <!DOCTYPE html>
-    <html
-      lang="en"
-      class="quiet-cloak quiet-dark quiet-zinc"
-      data-init="@get('/studio/cqrs')"
-    >
+    <html lang="en" class="quiet-cloak quiet-dark quiet-zinc">
       <head>
         <!-- <script>
           const darkModeMedia = window.matchMedia(
@@ -50,20 +46,11 @@ export default (
         ></script>
 
         <!-- Quiet theme + autoloader -->
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.6.1/dist/themes/quiet.css"
-        />
-        <script
-          type="module"
-          src="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.6.1/dist/quiet.loader.js"
-        ></script>
+        <link rel="stylesheet" href="/studio/quiet/dist/themes/quiet.css" />
+        <script type="module" src="/studio/quiet/dist/quiet.loader.js"></script>
 
         <!-- Optional CSS reset -->
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.6.1/dist/themes/restyle.css"
-        />
+        <link rel="stylesheet" href="/studio/quiet/dist/themes/restyle.css" />
 
         <script
           src="https://esm.sh/@vscode-elements/elements/dist/bundled.js"
@@ -71,13 +58,18 @@ export default (
           crossorigin="anonymous"
         ></script>
 
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/vs2015.min.css"
+        />
+
         <script type="importmap">
           {
             "imports": {
               "swup": "https://esm.sh/swup@4",
               "sortablejs": "https://esm.sh/sortablejs@1.15.6/modular/sortable.core.esm.js",
               "ink-mde": "https://esm.sh/ink-mde@0.34.0",
-              "@quietui/quiet": "https://esm.sh/@quietui/quiet-browser@1.6.1/dist/quiet.js",
+              "@quietui/quiet": "/studio/quiet/dist/quiet.js",
               "better-auth/client": "https://esm.sh/better-auth@1.3.34/client",
               "lit": "https://esm.sh/lit"
             }
@@ -90,9 +82,7 @@ export default (
         ${raw(hotReloadClient(8787))}
       </head>
 
-      <body
-        data-signals:cursor="[0, 0]"
-        >
+      <body data-signals:cursor="[0, 0]">
         <!-- data-on:pointermove__throttle.50ms="$cursor = [evt.clientX, evt.clientY]; @post('/studio/cqrs/cursor')" -->
         <div id="cursors"></div>
 

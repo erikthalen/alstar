@@ -4,6 +4,10 @@ import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { type Context } from 'hono'
 import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
+import {
+  CollectionInstance,
+  SingleInstance,
+} from '../helpers/structure/index.ts'
 
 function getSettings(c: Context) {
   const user = c.get('user')
@@ -14,8 +18,8 @@ function getSettings(c: Context) {
         .all(user.id)
     : []
 
-  const settings = settingRows.reduce(
-    (acc, row) => ({ ...acc, [row.type as string]: row.value }),
+  const settings = settingRows.reduce<Record<string, string | undefined>>(
+    (acc, row) => ({ ...acc, [row.type as string]: row.value?.toString() }),
     {},
   )
 
@@ -27,9 +31,11 @@ export default (c: Context) => {
 
   const entries = Object.entries(config.structure)
 
-  const singles = entries.filter(([_, block]) => block.type === 'single')
+  const singles = entries.filter(
+    ([_, block]) => block.instanceOf === SingleInstance,
+  )
   const collections = entries.filter(
-    ([_, block]) => block.type === 'collection',
+    ([_, block]) => block.instanceOf === CollectionInstance,
   )
 
   const signals = {
@@ -42,6 +48,7 @@ export default (c: Context) => {
       data-signals:usersettings="${JSON.stringify(signals)}"
       data-class:locked="$usersettings.explorerLocked"
       class="${settings.explorer_locked === 'true' ? 'locked' : ''}"
+      data-init="@get('/studio/cqrs')"
     >
       <header class="ts-label">
         <quiet-toggle-icon

@@ -144,11 +144,13 @@ quiet-tooltip {
 
 .background-pattern {
   background-color: var(--quiet-background-color);
-  background-image: radial-gradient(
-    var(--quiet-neutral-700) 0.5px,
-    var(--quiet-background-color) 0.5px
-  );
-  background-size: 50px 50px;
+  background-image:
+    radial-gradient(var(--quiet-neutral-900) 0.5px, transparent 0.5px),
+    radial-gradient(var(--quiet-neutral-900) 0.5px, var(--quiet-background-color) 0.5px);
+  background-size: 10px 10px;
+  background-position:
+    0 0,
+    5px 5px;
 }
 
 .background-gradient {

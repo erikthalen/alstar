@@ -1,0 +1,3286 @@
+# Quiet UI
+
+> A UI library for the Web with a focus on accessibility, longevity, performance, and simplicity.
+
+Quiet UI provides a comprehensive set of accessible, customizable web components for building modern web applications.
+All of its custom elements use shadow DOM. Its form controls are form-associated elements that follow native form
+control patterns such as the Constraint Validation API.
+
+The current version of Quiet UI is: 1.6.1
+
+Quiet offers an optional, opinionated, classless CSS reset called Quiet Restyle that's good for building out new
+websites and apps.
+
+Tabler is the default icon library, so `<quiet-icon family="..." name="...">` values must come from this manifest,
+where `outline` and `filled` are the only family options: https://cdn.jsdelivr.net/npm/@tabler/icons@3/icons.json
+
+When installing Quiet, follow the instructions on https://quietui.org/docs/ to install the components, theme, and the
+optional CSS reset. Users can install the library using the Autoloader via CDN (recommended) or via npm (bundlers and
+advanced use cases).
+
+## Resources
+
+Use these official links to find more information about how to use Quiet UI.
+
+- [Documentation](https://quietui.org/): The project's website.
+- [Theming & Design Tokens](https://quietui.org/docs/theming): Theme documentation, including details about light/dark color schemes and a comprehensive list of design tokens (as CSS custom properties) to learn how to customize the library's overall appearance.
+- [Quiet Restyle](https://quietui.org/docs/restyle): An opinionated CSS reset you can use with or without Quiet's components.
+- [GitHub Repository](https://github.com/quietui/quiet): Source code and development information
+- [X / Twitter](https://x.com/quiet_ui): Follow the project on X
+- [Bluesky](https://bsky.app/profile/quietui.org): Follow the project on Bluesky
+
+## Component docs
+
+Comprehensive documentation for each component can be found using the following links.
+
+- [Accordion](https://quietui.org/docs/components/accordion): A container for content that expands and collapses when selected.
+- [Accordion Item](https://quietui.org/docs/components/accordion-item): An individual section within an accordion, consisting of a header and content that shows when expanded.
+- [Avatar](https://quietui.org/docs/components/avatar): Provides a visual representation of a user to enhance personalization and recognition.
+- [Badge](https://quietui.org/docs/components/badge): Displays useful information or notifications such as a new feature or an unread message count.
+- [Breadcrumb](https://quietui.org/docs/components/breadcrumb): Offers a trail of links that correspond to an app or website's hierarchy, making navigation more predictable for users.
+- [Breadcrumb Item](https://quietui.org/docs/components/breadcrumb-item): Represents a single link or step in the hierarchical structure of an app or website.
+- [Browser Frame](https://quietui.org/docs/components/browser-frame): An on-page browser UI that displays arbitrary content inside of it.
+- [Button](https://quietui.org/docs/components/button): Allows users to navigate, submit forms, and perform other actions.
+- [Button Group](https://quietui.org/docs/components/button-group): Displays related buttons in a stylized group.
+- [Bytes](https://quietui.org/docs/components/bytes): Formats an arbitrary number of bytes or bits into a human-readable size.
+- [Callout](https://quietui.org/docs/components/callout): Draws attention to important information, provides context, or prompts users to take action.
+- [Card](https://quietui.org/docs/components/card): Provides a flexible and visually appealing way to organize and present content in a consistent and easily digestible format.
+- [Carousel](https://quietui.org/docs/components/carousel): Displays content in a scrollable horizontal slider with navigation controls.
+- [Carousel Item](https://quietui.org/docs/components/carousel-item): Represents individual items used in a carousel.
+- [Checkbox](https://quietui.org/docs/components/checkbox): Allows users to select one or more options from a list or toggle single options on and off.
+- [Checkbox Group](https://quietui.org/docs/components/checkbox-group): Attaches a label and description to a group of related checkboxes or switches.
+- [Color Input](https://quietui.org/docs/components/color-input): Allows users to enter or select a color and submit it with a form.
+- [Color Picker](https://quietui.org/docs/components/color-picker): Provides a customizable interface for selecting a color.
+- [Combobox](https://quietui.org/docs/components/combobox): Allows users to select from a list of options with type-ahead search.
+- [Combobox Item](https://quietui.org/docs/components/combobox-item): An item that can be selected from a combobox control.
+- [Comparison](https://quietui.org/docs/components/comparison): Displays two elements side-by-side with a draggable divider, allowing users to adjust the visible portions for direct visual comparison.
+- [Copy](https://quietui.org/docs/components/copy): Copies text and other types of data to the clipboard.
+- [Countdown](https://quietui.org/docs/components/countdown): Displays a countdown until the specified date.
+- [Date](https://quietui.org/docs/components/date): Outputs a date or time in the specified format.
+- [Dialog](https://quietui.org/docs/components/dialog): Displays modal content for alerts, confirmations, configurations, and other important interactions that require immediate attention.
+- [Divider](https://quietui.org/docs/components/divider): Separates and groups content visually.
+- [Dropdown](https://quietui.org/docs/components/dropdown): Provides a menu of options that appear when the corresponding trigger is activated.
+- [Dropdown Item](https://quietui.org/docs/components/dropdown-item): Can be selected from inside a dropdown menu.
+- [Empty State](https://quietui.org/docs/components/empty-state): Guides users during first-time experiences or when content is missing, transforming blank spaces into opportunities with helpful visuals and clear actions.
+- [Expander](https://quietui.org/docs/components/expander): An expandable content container with smooth animation on show/hide.
+- [File Input](https://quietui.org/docs/components/file-input): Allows the user to select files to upload to the server.
+- [Fit Text](https://quietui.org/docs/components/fit-text): Scales a line of text to fit within its container.
+- [Flip Card](https://quietui.org/docs/components/flip-card): Displays information on two sides, allowing users to flip between the front and back with the click of a button.
+- [Hotkey](https://quietui.org/docs/components/hotkey): Shows keyboard shortcut combinations based on the user's operating system.
+- [Icon](https://quietui.org/docs/components/icon): Provides a visual representation of an object, action, or idea.
+- [Include](https://quietui.org/docs/components/include): Pulls content from another file into your page.
+- [Infinite Scroller](https://quietui.org/docs/components/infinite-scroller): Provides an accessible container for continuously loading content feeds.
+- [Intersection Observer](https://quietui.org/docs/components/intersection-observer): Watches child elements and dispatches events when they intersect with their root element.
+- [Joystick](https://quietui.org/docs/components/joystick): A directional joystick that can be controlled via touch or mouse.
+- [Listbox](https://quietui.org/docs/components/listbox): Displays a list of options, allowing users to select one or more items from the available choices.
+- [Listbox Item](https://quietui.org/docs/components/listbox-item): Represents individual choices within a listbox.
+- [Lorem Ipsum](https://quietui.org/docs/components/lorem-ipsum): Outputs placeholder text in various formats for testing designs with random content.
+- [Mesh Gradient](https://quietui.org/docs/components/mesh-gradient): Generates beautiful mesh gradients with customizable colors and complexity.
+- [Mutation Observer](https://quietui.org/docs/components/mutation-observer): Watches child elements and dispatches an event when they mutate.
+- [Navicon](https://quietui.org/docs/components/navicon): A navicon, or "hamburger button", is a special button used to control mobile navigation menus.
+- [Number](https://quietui.org/docs/components/number): Outputs a formatted number with support for currency, percentages, and units.
+- [Number Field](https://quietui.org/docs/components/number-field): Allows users to input and edit numbers.
+- [Number Ticker](https://quietui.org/docs/components/number-ticker): Animates a number from a starting value to an ending value.
+- [Pagination](https://quietui.org/docs/components/pagination): Splits content into numbered pages so users can navigate datasets in manageable chunks.
+- [Passcode](https://quietui.org/docs/components/passcode): Allows users to enter fixed-length passcodes, verification tokens, one-time codes, and similar data in a user-friendly way.
+- [Popover](https://quietui.org/docs/components/popover): Provides additional information or functionality without interrupting the flow of content.
+- [Progress](https://quietui.org/docs/components/progress): Visually represents the progress of a request or task.
+- [Qr](https://quietui.org/docs/components/qr): Generates a QR Code with embedded data.
+- [Radio](https://quietui.org/docs/components/radio): Allows the user to select one option from a group of choices.
+- [Radio Item](https://quietui.org/docs/components/radio-item): Represents individual choices within a radio.
+- [Random Content](https://quietui.org/docs/components/random-content): Randomly displays one or more elements from a list.
+- [Rating](https://quietui.org/docs/components/rating): Allows users to provide feedback based on their satisfaction with a product or service.
+- [Relative Time](https://quietui.org/docs/components/relative-time): Outputs a relative time in a human-readable format.
+- [Resize Observer](https://quietui.org/docs/components/resize-observer): Watches child elements and dispatches an event when they resize.
+- [Scroller](https://quietui.org/docs/components/scroller): Adds an accessible container with visual affordances to help users identify and navigate scrolling content.
+- [Search List](https://quietui.org/docs/components/search-list): Queries a collection of items based on their content and keywords.
+- [Select](https://quietui.org/docs/components/select): Allows users to choose an option from a predefined list of options.
+- [Share](https://quietui.org/docs/components/share): Allows users to share links, files and text via their operating system's share interface.
+- [Slide Activator](https://quietui.org/docs/components/slide-activator): Gives users a draggable thumb that must be moved to the end of its track to trigger an action.
+- [Slider](https://quietui.org/docs/components/slider): Allows users to select numeric values within a given range by moving a thumb along a track.
+- [Sparkline](https://quietui.org/docs/components/sparkline): Shows at-a-glance trends in a small, inline chart that fits within text or tables.
+- [Spinner](https://quietui.org/docs/components/spinner): Tells the user that content is loading or a request is processing in the background.
+- [Splitter](https://quietui.org/docs/components/splitter): A draggable splitter that separates two panels, allowing users to resize them.
+- [Spoiler](https://quietui.org/docs/components/spoiler): Conceals sensitive content and gives the user the option of showing it or not, preventing unintentional disclosure.
+- [Stamp](https://quietui.org/docs/components/stamp): Renders templates with simple expressions, logic, and custom data.
+- [Switch](https://quietui.org/docs/components/switch): Allows the user to toggle between two mutually exclusive states, such as on and off.
+- [Tab](https://quietui.org/docs/components/tab): Describes and selects a tab panel within a tab list.
+- [Tab List](https://quietui.org/docs/components/tab-list): Allows users to switch between different sections of content without leaving the page, providing a clean and organized interface.
+- [Tab Panel](https://quietui.org/docs/components/tab-panel): Holds the content that gets displayed when a tab is selected.
+- [Text Area](https://quietui.org/docs/components/text-area): Allows users to edit multi-line, plain text content.
+- [Text Field](https://quietui.org/docs/components/text-field): Allows users to input and edit text.
+- [Text Mask](https://quietui.org/docs/components/text-mask): Applies text as a mask over an image, creating visually stylized characters.
+- [Timed Content](https://quietui.org/docs/components/timed-content): Shows certain content based on the current date and time.
+- [Toast](https://quietui.org/docs/components/toast): A mechanism for showing temporary, non-intrusive notifications that appear above the page's content.
+- [Toast Item](https://quietui.org/docs/components/toast-item): Notifications displayed by the toast component.
+- [Toggle Icon](https://quietui.org/docs/components/toggle-icon): Similar to checkboxes, except with icons to represent the checked and unchecked states.
+- [Toggle Tag](https://quietui.org/docs/components/toggle-tag): Similar to checkboxes, except with tags to represent the checked and unchecked states.
+- [Toolbar](https://quietui.org/docs/components/toolbar): Turns a collection of buttons and button groups into an accessible toolbar.
+- [Tooltip](https://quietui.org/docs/components/tooltip): Provides additional information when the user hovers or focuses on an element.
+- [Transition Group](https://quietui.org/docs/components/transition-group): Improves the user's experience by adding subtle animations as items are added, removed, and reordered in the group.
+- [Typewriter](https://quietui.org/docs/components/typewriter): Simulates a natural typing effect with customizable speed, delay, and looping options.
+- [Veil](https://quietui.org/docs/components/veil): Covers elements visually and disables interaction during important states such as submitting or loading.
+- [Zoomable Frame](https://quietui.org/docs/components/zoomable-frame): Renders iframe content with zoom and interaction controls.
+
+## Optional
+
+The following is a quick reference describing every component's API. For more comprehensive documentation, refer to the component documentation using the URLs provided above.
+
+### `<quiet-accordion>`
+
+**Description:** A container for content that expands and collapses when selected.
+
+**Documentation:** https://quietui.org/docs/components/accordion
+
+**Slots:**
+
+- `(default)`: One or more `<quiet-accordion-item>` elements to place in the accordion.
+
+**Properties:**
+
+- `autoCollapse` (attribute: `auto-collapse`): When set, selecting an accordion item will automatically collapse the others. (Type: `boolean`, Default: `false`)
+- `appearance`: Determines the accordion's appearance. (Type: `'normal' | 'contained' | 'separated' | 'unstyled'`, Default: `'normal'`)
+- `iconPlacement` (attribute: `icon-placement`): Determines which side of the accordion item the expand/collapse icon shows. (Type: `'start' | 'end'`, Default: `'end'`)
+
+**Events:**
+
+- `quiet-before-expand`: Emitted when an accordion item is instructed to expand but before it is shown. Calling `event.preventDefault()` will prevent the item from expanding. `event.detail.item` will contain the expanding item.
+- `quiet-expand`: Emitted after an accordion item has been expanded. `event.detail.item` will contain the expanded item.
+- `quiet-before-collapse`: Emitted when an accordion item is instructed to collapse but before it is hidden. Calling `event.preventDefault()` will prevent the item from collapsing. `event.detail.item` will contain the collapsing item.
+- `quiet-collapse`: Emitted after an accordion item has been collapsed. `event.detail.item` will contain the collapsed item.
+
+**CSS Custom Properties:**
+
+- `--duration`: The expand and collapse duration. (Default: `200ms`)
+- `--easing`: The expand and collapse easing. (Default: `ease`)
+- `--border-color`: The accordion's border color. (Default: `var(--quiet-neutral-stroke-softer)`)
+- `--border-width`: The accordion's border width. (Default: `var(--quiet-border-width)`)
+- `--border-style`: The accordion's border style. (Default: `var(--quiet-border-style)`)
+- `--border-radius`: The border radius to apply to rounded edges. (Default: `var(--quiet-border-radius-md)`)
+
+### `<quiet-accordion-item>`
+
+**Description:** An individual section within an accordion, consisting of a header and content that shows when expanded.
+
+**Documentation:** https://quietui.org/docs/components/accordion-item
+
+**Slots:**
+
+- `(default)`: The content to show when expanded.
+- `icon`: The expand/collapse icon.
+- `label`: The accordion item's label. For plain-text labels, you can use the `label` attribute instead.
+
+**Properties:**
+
+- `label`: The accordion item's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `appearance`: The accordion item's appearance. This will be set automatically by the accordion controller. (Type: `'normal' | 'contained' | 'separated' | 'unstyled'`, Default: `'normal'`)
+- `iconPlacement` (attribute: `icon-placement`): The position of the expand/collapse icon. This will be set automatically by the accordion controller. (Type: `'start' | 'end'`, Default: `'end'`)
+- `disabled`: Disables the accordion item. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the accordion item.
+- `blur()`: Removes focus from the accordion item.
+- `animateExpand()`: Animate the expansion of the body - called by the accordion controller
+- `animateCollapse()`: Animate the collapse of the body - called by the accordion controller
+
+**CSS Parts:**
+
+- `header`: The accordion item's header that contains the label and icon.
+- `label`: The label container.
+- `icon`: The icon container.
+- `body`: The accordion item's body that contains the content.
+- `content`: The content wrapper inside the body.
+
+**CSS Custom States:**
+
+- `disabled`: Applies when the accordion item is disabled.
+- `expanded`: Applies when the accordion item is expanded.
+
+### `<quiet-avatar>`
+
+**Description:** Provides a visual representation of a user to enhance personalization and recognition.
+
+**Documentation:** https://quietui.org/docs/components/avatar
+
+**Slots:**
+
+- `icon`: A custom icon to use instead of the default. Will not be shown when an image or initials are present. For best results, use a `<quiet-icon>` or an `<svg>` element.
+
+**Properties:**
+
+- `label`: An accessible label for the avatar. This won't be visible, but it will be read to assistive devices so you should always include one. (Type: `string | undefined`)
+- `characters`: A string of characters to display in the avatar when an image isn't available or fails to load. Up to five characters are supported. (Type: `string | undefined`)
+- `image`: The URL of an image to display in the avatar. Non-square images will be clipped to fit. (Type: `string | undefined`)
+
+**CSS Custom Properties:**
+
+- `--size`: The size of the avatar to draw. (Default: `3rem`)
+
+### `<quiet-badge>`
+
+**Description:** Displays useful information or notifications such as a new feature or an unread message count.
+
+**Documentation:** https://quietui.org/docs/components/badge
+
+**Slots:**
+
+- `(default)`: The badge's content.
+
+**Properties:**
+
+- `variant`: The type of badge to draw. (Type: `'neutral' | 'primary' | 'constructive' | 'destructive'`, Default: `'neutral'`)
+- `appearance`: Determines the badges's appearance. (Type: `'normal' | 'outline'`, Default: `'normal'`)
+- `attention`: Draws attention to the badge using an animation. (Type: `'tap' | 'shake' | 'sparkle'`)
+
+**CSS Custom Properties:**
+
+- `--attention-duration`: The speed at which the attention animation will run. (Default: `1.5s`)
+- `--attention-easing`: The easing to use for the attention animation. (Default: `ease`)
+
+### `<quiet-breadcrumb>`
+
+**Description:** Offers a trail of links that correspond to an app or website's hierarchy, making navigation more predictable for users.
+
+**Documentation:** https://quietui.org/docs/components/breadcrumb
+
+**Slots:**
+
+- `(default)`: The default slot containing one or more breadcrumb items.
+
+**CSS Custom Properties:**
+
+- `--item-spacing`: The amount of spacing to use between breadcrumb items. (Default: `0.5em`)
+
+### `<quiet-breadcrumb-item>`
+
+**Description:** Represents a single link or step in the hierarchical structure of an app or website.
+
+**Documentation:** https://quietui.org/docs/components/breadcrumb-item
+
+**Slots:**
+
+- `(default)`: The default slot.
+- `start`: An icon or similar element to place before the breadcrumb item. Works great with `<quiet-icon>`.
+- `end`: An icon or similar element to place after the breadcrumb item. Works great with `<quiet-icon>`.
+- `separator`: A custom separator to show instead of the default. Works great with `<quiet-icon>`.
+
+**Properties:**
+
+- `current`: Indicates that this item is the current page or view. (Type: `boolean`, Default: `false`)
+- `href`: The URL the breadcrumb item should point to. If omitted, the breadcrumb item will be drawn as a `<span>` instead of a link, enabling alternate content such as dropdowns. (Type: `string`)
+- `target`: Opens the link in the specified target. (Type: `'_blank' | '_parent' | '_self' | '_top' | undefined`)
+- `rel`: Sets the link's `rel` attribute. Note that the default value is `noreferrer noopener`, meaning you might need to set it to an empty string if you're also using `target`. (Type: `string`, Default: `'noreferrer noopener'`)
+
+**CSS Parts:**
+
+- `label`: The breadcrumb's label, an `<a>` element if `href` is set or a `<span>` element otherwise.
+- `separator`: The container that wraps the breadcrumb's separator, a `span` element.
+
+### `<quiet-browser-frame>`
+
+**Description:** An on-page browser UI that displays arbitrary content inside of it.
+
+**Documentation:** https://quietui.org/docs/components/browser-frame
+
+**Slots:**
+
+- `(default)`: The content to display in the browser window body.
+- `icon`: An optional icon to display at the start of the address bar.
+
+**Properties:**
+
+- `label`: The label to display in the address bar. This will override the domain that shows when using `href`. (Type: `string`, Default: `''`)
+- `href`: When set, the address bar will be wrapped by a link that goes to this URL. A human-readable domain name will be shown in the address bar unless `label` is also provided. (Type: `string`, Default: `''`)
+- `target`: Opens the link in the specified target. Only works when `href` is set. (Type: `'_blank' | '_parent' | '_self' | '_top' | undefined`)
+- `rel`: Sets the link's `rel` attribute.  Only works when `href` is set. When linking to an external domain, you should probably set this to `noreferrer noopener`. (Type: `string | undefined`)
+- `download`: Sets the link's `download` attribute, causing the linked file to be downloaded. Only works when `href` is set. (Type: `string | undefined`)
+- `flush`: When set, removes all padding from the body element and removes border radius from slotted media. Useful for displaying images and videos that span edge-to-edge in the browser frame. (Type: `boolean`, Default: `false`)
+- `platform`: Sets the window control style to use. 'mac' uses the traffic light controls, 'windows' uses Windows 11-style controls, and 'auto' will use the most appropriate style based on the user's operating system. (Type: `'mac' | 'windows' | 'auto'`, Default: `'auto'`)
+
+**CSS Custom Properties:**
+
+- `--address-background-color`: Background color for the address bar.
+- `--address-color`: Text color for the address bar.
+- `--border-color`: Border color for the browser frame.
+- `--body-padding`: Padding to apply to the browser frame's body.
+- `--header-background-color`: Background color for the header.
+- `--header-height`: Height of the browser frame header.
+- `--windows-control-color`: The color for Windows-style control buttons.
+
+**CSS Parts:**
+
+- `header`: The browser frame's header that contains controls and address bar.
+- `controls`: The browser frame's control buttons container (red, yellow, green dots or Windows controls).
+- `address-bar`: The browser frame's address bar. Either an `<a>` or a `<span>` depending on `href`.
+- `body`: The browser frame's body, where content shows.
+
+### `<quiet-button>`
+
+**Description:** Allows users to navigate, submit forms, and perform other actions.
+
+**Documentation:** https://quietui.org/docs/components/button
+
+**Slots:**
+
+- `(default)`: The button's label.
+- `start`: An icon or similar element to place before the label. Works great with `<quiet-icon>`.
+- `end`: An icon or similar element to place after the label. Works great with `<quiet-icon>`.
+
+**Properties:**
+
+- `appearance`: Determines the button's appearance. (Type: `'normal' | 'outline' | 'text' | 'image'`, Default: `'normal'`)
+- `variant`: The type of button to render. This attribute has no effect on text or image buttons. (Type: `'neutral' | 'primary' | 'destructive'`, Default: `'neutral'`)
+- `disabled`: Disables the button. (Type: `boolean`, Default: `false`)
+- `loading`: Draws the button in a loading state. (Type: `boolean`, Default: `false`)
+- `toggle`: Turns the button into a two-state toggle button. Clicking once will turn it on. Clicking again will turn it off. Cannot be used with links buttons or submit buttons. (Type: `'on' | 'off' | undefined`)
+- `size`: The button's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `iconLabel` (attribute: `icon-label`): To create an icon button, slot an icon into the button's default slot and set this attribute to an appropriate label. The label won't be visible, but it will be available to assistive devices. (Type: `string`)
+- `pill`: Draws the button in a pill shape. (Type: `boolean`, Default: `false`)
+- `type`: Determines the button's type. (Type: `'button' | 'submit' | 'reset'`, Default: `'button'`)
+- `name`: The name to submit when the button is used to submit the form. (Type: `string`)
+- `value`: The value to submit when the button is used to submit the form. (Type: `string`, Default: `''`)
+- `withCaret` (attribute: `with-caret`): When true, the button will be rendered with a caret to indicate a dropdown menu. (Type: `boolean`, Default: `false`)
+- `href`: Set this to render the button as an `<a>` tag instead of a `<button>`. The button will act as a link. When this is set, form attributes and features will not work. (Type: `string`)
+- `target`: Opens the link in the specified target. Only works with link buttons. (Type: `'_blank' | '_parent' | '_self' | '_top' | undefined`)
+- `rel`: Sets the link's `rel` attribute. Only works with link buttons. When linking to an external domain, you should probably set this to `noreferrer noopener`. (Type: `string | undefined`)
+- `download`: Sets the link's `download` attribute, causing the linked file to be downloaded. Only works with link buttons. (Type: `string | undefined`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `formAction` (attribute: `formaction`): Overrides the containing form's `action` attribute. (Type: `string | undefined`)
+- `formEnctype` (attribute: `formenctype`): Overrides the containing form's `enctype` attribute. (Type: `| 'application/x-www-form-urlencoded'     | 'multipart/form-data'     | 'text/plain'     | undefined`)
+- `formMethod` (attribute: `formmethod`): Overrides the containing form's `method` attribute. (Type: `'post' | 'get' | undefined`)
+- `formNoValidate` (attribute: `formnovalidate`): Overrides the containing form's `novalidate` attribute. (Type: `boolean | undefined`)
+- `formTarget` (attribute: `formtarget`): Overrides the containing form's `target` attribute. (Type: `'_self' | '_blank' | '_parent' | '_top' | string | undefined`)
+
+**Events:**
+
+- `quiet-blur`: Emitted when the button loses focus. This event does not bubble.
+- `quiet-long-press`: Emitted when the button is pressed and held by tapping or with the mouse. You can look at `event.detail.originalEvent.type` to see the type of event that initiated the long press.
+- `quiet-focus`: Emitted when the button receives focus. This event does not bubble.
+
+**CSS Parts:**
+
+- `button`: The internal `<button>` element. Other than `width`, this is where most custom styles should be applied.
+- `caret`: The caret icon, a `<quiet-icon>` element. Only present with the `with-caret` attribute.
+- `caret__svg`: The caret icon's `<svg>` part.
+- `spinner`: The loading indicator, a `<quiet-spinner>` element. Only present with the `loading` attribute.
+- `toggle-indicator`: When the button is a toggle button, this is the indicator that shows the current state.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the button is disabled.
+- `focused`: Applied when the button has focus.
+- `loading`: Applied when a toggle button is loading.
+- `toggled`: Applied when a toggle button is activated.
+
+### `<quiet-button-group>`
+
+**Description:** Displays related buttons in a stylized group.
+
+**Documentation:** https://quietui.org/docs/components/button-group
+
+**Slots:**
+
+- `(default)`: One or more `<quiet-button>` elements to place in the button group.
+
+**Properties:**
+
+- `label`: An accessible label for the tab list. This won't be visible, but it will be read to assistive devices so it's usually a good idea to include one. (Type: `string`, Default: `''`)
+- `orientation`: The button group's orientation. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+
+### `<quiet-bytes>`
+
+**Description:** Formats an arbitrary number of bytes or bits into a human-readable size.
+
+**Documentation:** https://quietui.org/docs/components/bytes
+
+**Properties:**
+
+- `value`: The number of bytes to format. (Type: `number`, Default: `0`)
+- `unit`: The unit to display. (Type: `'byte' | 'bit'`, Default: `'byte'`)
+- `display`: How to display the bytes, e.g. "100 bytes", "100 b", or "100b". (Type: `'long' | 'short' | 'narrow'`, Default: `'narrow'`)
+
+### `<quiet-callout>`
+
+**Description:** Draws attention to important information, provides context, or prompts users to take action.
+
+**Documentation:** https://quietui.org/docs/components/callout
+
+**Slots:**
+
+- `(default)`: Content to show in the callout.
+- `icon`: An optional icon to show in the callout. Works well with `<quiet-icon>` and `<svg>` elements.
+
+**Properties:**
+
+- `variant`: The type of callout to render. (Type: `'neutral' | 'primary' | 'constructive' | 'destructive'`, Default: `'neutral'`)
+
+**CSS Parts:**
+
+- `icon`: The container the wraps the icon.
+- `body`: The container that wraps the callout's content.
+
+### `<quiet-card>`
+
+**Description:** Provides a flexible and visually appealing way to organize and present content in a consistent and easily digestible format.
+
+**Documentation:** https://quietui.org/docs/components/card
+
+**Slots:**
+
+- `(default)`: Content to place in the dialog's body.
+- `header`: Content to place in the dialog's header.
+- `actions`: Slot in one or more text buttons to add actions to the card's header (vertical) or footer (horizontal). Only available when the respective header/footer is enabled.
+- `footer`: Content to place in the dialog's footer.
+
+**Properties:**
+
+- `appearance`: Determines the card's appearance. (Type: `'normal' | 'filled'`, Default: `'normal'`)
+- `orientation`: The card's orientation. (Type: `'horizontal' | 'vertical'`, Default: `'vertical'`)
+
+**CSS Custom Properties:**
+
+- `--spacing`: The spacing to use throughout the card. (Default: `1.5rem`)
+- `--border-width`: The width of the card's border, including interior borders.
+- `--border-style`: The style of the card's border.
+
+**CSS Parts:**
+
+- `body`: The container that wraps the card's body.
+- `header`: The container that wraps the card's header. A flex container, by default.
+- `footer`: The container that wraps the card's footer. A flex container, by default.
+- `media`: The container that wraps the card's media.
+
+### `<quiet-carousel>`
+
+**Description:** Displays content in a scrollable horizontal slider with navigation controls.
+
+**Documentation:** https://quietui.org/docs/components/carousel
+
+**Slots:**
+
+- `(default)`: The default slot for carousel items.
+
+**Properties:**
+
+- `label`: A custom label for the carousel. This won't be visible, but it will be read to assistive devices. (Type: `string`, Default: `''`)
+- `activeIndex` (attribute: `active-index`): The current active item's index. (Type: `number`, Default: `0`)
+- `activeName` (attribute: `active-name`): The current active item's name. (Type: `string`, Default: `''`)
+- `loop`: Enables looping navigation. When true, prev/next buttons wrap around to the opposite end. (Type: `boolean`, Default: `false`)
+- `withoutNav` (attribute: `without-nav`): Hides navigation buttons. (Type: `boolean`, Default: `false`)
+- `withoutPagination` (attribute: `without-pagination`): Hides pagination dots. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `scrollToIndex(index: number, scrollBehavior: ScrollBehavior)`: Navigate to the specified item.
+- `scrollToNext(scrollBehavior: ScrollBehavior)`: Navigate to the next item
+- `scrollToPrevious(scrollBehavior: ScrollBehavior)`: Navigate to the previous item
+
+**Events:**
+
+- `quiet-item-change`: Emitted when the active item changes and the slide has been fully scrolled into view.
+
+**CSS Custom Properties:**
+
+- `--aspect-ratio`: The aspect ratio of the carousel. By default, carousels render 100% wide, so this helps retain proportions across various devices. Gets applied to the `items` part. (Default: `16/9`)
+- `--item-gap`: The gap between items in the carousel. (Default: `2rem`)
+- `--dot-size`: The size of each pagination dot. (Default: `0.875em`)
+- `--dot-gap`: The size of the gap between pagination dots. (Default: `0.5em`)
+- `--dot-color`: The color of inactive pagination dots. (Default: `var(--quiet-neutral-fill-soft)`)
+- `--dot-active-color`: The color of active pagination dots. (Default: `var(--quiet-neutral-fill-loud)`)
+
+**CSS Parts:**
+
+- `items`: The scrollable container that holds the carousel items.
+- `controls`: The container that surrounds nav buttons and pagination.
+- `previous-button`: The previous button.
+- `next-button`: The next button.
+- `pagination`: The container for the pagination dots.
+- `pagination-dot`: Each individual pagination dot.
+- `pagination-dot-active`: The active pagination dot.
+
+**CSS Custom States:**
+
+- `scrolling`: Applied when the carousel is scrolling.
+
+### `<quiet-carousel-item>`
+
+**Description:** Represents individual items used in a carousel.
+
+**Documentation:** https://quietui.org/docs/components/carousel-item
+
+**Slots:**
+
+- `(default)`: The content to show inside the carousel item.
+
+**Properties:**
+
+- `name`: An optional name for the carousel item so you can reference it with the `active-name` attribute. (Type: `string`, Default: `''`)
+
+**CSS Parts:**
+
+- `content`: A flex wrapper around the carousel item's content.
+
+### `<quiet-checkbox>`
+
+**Description:** Allows users to select one or more options from a list or toggle single options on and off.
+
+**Documentation:** https://quietui.org/docs/components/checkbox
+
+**Slots:**
+
+- `(default)`: The checkbox's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The checkbox's description. For plain-text descriptions, you can use the `description` attribute instead.
+
+**Properties:**
+
+- `label`: The checkbox's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The checkbox's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the checkbox. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The checkbox's value. (Type: `string`, Default: `''`)
+- `checked`: The checkbox's checked state. (Type: `boolean`, Default: `false`)
+- `indeterminate`: Puts the checkbox in an indeterminate state. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the checkbox. (Type: `boolean`, Default: `false`)
+- `appearance`: The type of checkbox to render. (Type: `'normal' | 'filled'`, Default: `'normal'`)
+- `size`: The checkbox's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the checkbox required. Form submission will not be allowed until the checkbox is checked. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the checkbox.
+- `blur()`: Removes focus from the checkbox.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the checkbox loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the checkbox's value.
+- `quiet-focus`: Emitted when the checkbox receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the checkbox receives input.
+
+**CSS Parts:**
+
+- `label`: The `<label>` that wraps the entire control.
+- `description`: The element that contains the checkbox's description.
+- `visual-box`: The element that wraps the internal checkbox.
+- `check-icon`: The check icon, a `<quiet-icon>` element.
+- `check-icon__svg`: The check icon's `svg` part.
+- `indeterminate-icon`: The indeterminate icon, a `<quiet-icon>` element.
+- `indeterminate-icon__svg`: The indeterminate icon's `<svg>` part.
+
+**CSS Custom States:**
+
+- `checked`: Applied when the checkbox is checked.
+- `disabled`: Applied when the checkbox is disabled.
+- `focused`: Applied when the checkbox has focus.
+- `user-valid`: Applied when the checkbox is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the checkbox is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-checkbox-group>`
+
+**Description:** Attaches a label and description to a group of related checkboxes or switches.
+
+**Documentation:** https://quietui.org/docs/components/checkbox-group
+
+**Slots:**
+
+- `(default)`: The checkboxes to place in the group.
+- `label`: The checkbox's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The checkbox's description. For plain-text descriptions, you can use the `description` attribute instead.
+
+**Properties:**
+
+- `label`: The checkbox's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The checkbox's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `orientation`: The orientation of grouped items. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+- `required`: Indicates at least one option in the checkbox group is required. This just adds a visual indicator. To perform validation, use the checkbox's `required` attribute and/or `setCustomValidity()` method. (Type: `boolean`, Default: `false`)
+
+**CSS Custom Properties:**
+
+- `--gap`: The gap between checkboxes. (Default: `1em`)
+
+**CSS Parts:**
+
+- `label`: The element that contains the checkbox group's label.
+- `description`: The element that contains the checkbox group's description.
+- `group`: The element that wraps the grouped checkboxes.
+
+### `<quiet-color-input>`
+
+**Description:** Allows users to enter or select a color and submit it with a form.
+
+**Documentation:** https://quietui.org/docs/components/color-input
+
+**Slots:**
+
+- `label`: The color input's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The color input's description. For plain-text descriptions, you can use the `description` attribute instead.
+
+**Properties:**
+
+- `label`: The color input's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The color input's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the color input. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The color input's value. (Type: `string`, Default: `''`)
+- `placeholder`: A placeholder to show in the color input when it's blank. (Type: `string`)
+- `disabled`: Disables the color input. (Type: `boolean`, Default: `false`)
+- `readonly`: Makes the color input a read-only area. (Type: `boolean`, Default: `false`)
+- `withClear` (attribute: `with-clear`): Adds a clear button to the color input when it's not blank. (Type: `boolean`, Default: `false`)
+- `appearance`: The type of color input to render. (Type: `'normal' | 'filled' | 'unstyled'`, Default: `'normal'`)
+- `size`: The color input's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `pill`: Draws the text field in a pill shape. (Type: `boolean`, Default: `false`)
+- `format`: The format to use for the color's value. (Type: `'hex' | 'rgb' | 'hsl'`, Default: `'hex'`)
+- `swatches`: One or more semicolon-delimited colors (any valid CSS color format or name) to show as preset swatches below the color picker. (Type: `string`, Default: `''`)
+- `withAlpha` (attribute: `with-alpha`): Enables the alpha slider. (Type: `boolean`, Default: `false`)
+- `withEyeDropper` (attribute: `with-eye-dropper`): Enables the eye dropper button. Only available in [supportive browsers](https://caniuse.com/?search=eyedropper%20API). (Type: `boolean`, Default: `false`)
+- `placement`: The placement of the dropdown menu in reference to the trigger. The menu will shift to a more optimal location if the preferred placement doesn't have enough room. (Type: `| 'top'     | 'top-start'     | 'top-end'     | 'bottom'     | 'bottom-start'     | 'bottom-end'     | 'right'     | 'right-start'     | 'right-end'     | 'left'     | 'left-start'     | 'left-end'`, Default: `'bottom-start'`)
+- `distance`: The distance of the dropdown menu from its trigger. (Type: `number`, Default: `0`)
+- `offset`: The offset of the dropdown menu along its trigger. (Type: `number`, Default: `0`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the color input required. Form submission will not be allowed when this is set and the color input is blank. (Type: `boolean`, Default: `false`)
+- `autocomplete`: Tells the browser how to autocomplete the color input. See [this page](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. (Type: `string`)
+- `autofocus`: Tells the browser to focus the color input when the page loads or a dialog is shown. (Type: `boolean`)
+- `enterkeyhint`: Sets the enter key label on virtual keyboards. (Type: `'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'`)
+- `inputmode`: Provides the browser with a hint about the type of data that might be entered by the user, allowing the appropriate virtual keyboard to be displayed on supported devices. (Type: `'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'`)
+
+**Methods:**
+
+- `blur()`: Removes focus from the color input.
+- `focus()`: Sets focus to the color input.
+- `getValueAs(format: 'hex' | 'hex8' | 'hsl' | 'rgb')`: Gets the current value as a hex string, a hex8 string, an RGB object, or an HSL object. RBG objects have `r`, `g`, and `b` properties ranging from 0–255 and an `a` property (representing opacity) that ranges from 0-1. HSL objects have an `h` property ranging from `0-359` and `s`, `l`, and `a` properties ranging from 0–1.
+- `select()`: Selects all text in the color input.
+- `setSelectionRange(start: number, end: number, direction: 'forward' | 'backward' | 'none')`: Sets the start and end positions of the current text selection in the color input.
+- `setRangeText(replacement: string, start: number, end: number, selectMode: 'select' | 'start' | 'end' | 'preserve')`: Replaces a range of text in the color input with a new string.
+- `showPicker()`: Shows the color picker.
+- `hidePicker()`: Hides the color picker.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the color input loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the color input's value.
+- `quiet-focus`: Emitted when the color input receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the color input receives input.
+
+**CSS Custom Properties:**
+
+- `--show-duration`: The duration of the show/hide animation. (Default: `50ms`)
+- `--preview-size`: The size of the color preview. (Default: `1.6em`)
+
+**CSS Parts:**
+
+- `label`: The element that contains the color input's label.
+- `description`: The element that contains the color input's description.
+- `visual-box`: The element that wraps the internal text box.
+- `text-box`: The internal text box, an `<input>` element.
+- `clear-button`: The clear button, a `<button>` element.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the color input is disabled.
+- `blank`: Applied when the color input has a blank value.
+- `focused`: Applied when the color input has focus.
+- `open`: Applied when the color picker is open.
+- `user-valid`: Applied when the color input is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the color input is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-color-picker>`
+
+**Description:** Provides a customizable interface for selecting a color.
+
+**Documentation:** https://quietui.org/docs/components/color-picker
+
+**Properties:**
+
+- `label`: The color picker's label. This won't be visible, but it will be read to assistive devices so you should always include one. (Type: `string`)
+- `value`: The color picker's value. (Type: `string`, Default: `''`)
+- `format`: The format to use for the color's value. (Type: `'hex' | 'rgb' | 'hsl'`, Default: `'hex'`)
+- `disabled`: Disables the color picker. (Type: `boolean`, Default: `false`)
+- `size`: The color picker's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `swatches`: One or more semicolon-delimited colors (any valid CSS color format or name) to show as preset swatches below the color picker. (Type: `string`, Default: `''`)
+- `withAlpha` (attribute: `with-alpha`): Enables the alpha slider. (Type: `boolean`, Default: `false`)
+- `withEyeDropper` (attribute: `with-eye-dropper`): Enables the eye dropper button. Only available in [supportive browsers](https://caniuse.com/?search=eyedropper%20API). (Type: `boolean`, Default: `false`)
+- `withInput` (attribute: `with-input`): Enables the color value text field. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the color picker.
+- `blur()`: Removes focus from the color picker.
+- `getValueAs(format: 'hex' | 'hex8' | 'hsl' | 'rgb')`: Gets the current value as a hex string, a hex8 string, an RGB object, or an HSL object. RBG objects have `r`, `g`, and `b` properties ranging from 0–255 and an `a` property (representing opacity) that ranges from 0-1. HSL objects have an `h` property ranging from `0-359` and `s`, `l`, and `a` properties ranging from 0–1.
+
+**Events:**
+
+- `quiet-change`: Emitted when the user commits changes to the color picker's value.
+- `quiet-input`: Emitted when the color picker receives input. This can fire very frequently during dragging, so avoid doing expensive operations in the handler. If you don't live feedback, use the `quiet-change` event instead.
+
+**CSS Parts:**
+
+- `picker`: The element the wraps the color picker.
+- `color-slider`: The 2d color slider.
+- `color-slider-thumb`: The color slider's thumb.
+- `controls`: The container that wraps the sliders and preview.
+- `sliders`: The container that wraps the hue and alpha slider.
+- `hue-slider`: The slider that controls the color's hue.
+- `hue-slider__label`: The hue slider's `label` part.
+- `hue-slider__description`: The hue slider's `description` part.
+- `hue-slider__slider`: The hue slider's `slider` part.
+- `hue-slider__track`: The hue slider's `track` part.
+- `hue-slider__indicator`: The hue slider's `indicator` part.
+- `hue-slider__thumb`: The hue slider's `thumb` part.
+- `alpha-slider`: The slider that controls the color's opacity.
+- `alpha-slider__label`: The alpha slider's `label` part.
+- `alpha-slider__description`: The alpha slider's `description` part.
+- `alpha-slider__slider`: The alpha slider's `slider` part.
+- `alpha-slider__track`: The alpha slider's `track` part.
+- `alpha-slider__indicator`: The alpha slider's `indicator` part.
+- `alpha-slider__thumb`: The alpha slider's `thumb` part.
+- `eye-dropper-button`: The eye dropper button, a `<quiet-button>` element.
+- `preview-button`: The button that shows a preview of the current color, a `<quiet-button>` element.
+- `color-input`: The color input text field, a `<quiet-text-field>` element.
+- `color-input__visual-box`: The element that wraps the internal text box.
+- `color-input__text-box`: The internal text box, an `<input>` element.
+- `swatches`: The element that contains swatches.
+- `swatch`: Each individual swatch.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the color picker is disabled.
+- `focused`: Applied when the color picker has focus.
+
+### `<quiet-combobox>`
+
+**Description:** Allows users to select from a list of options with type-ahead search.
+
+**Documentation:** https://quietui.org/docs/components/combobox
+
+**Slots:**
+
+- `(default)`: One or more `<quiet-combobox-item>` elements to show as options.
+- `label`: The combobox's label. For plain-text labels, use the `label` attribute instead.
+- `description`: The combobox's description. For plain-text descriptions, use the `description` attribute instead.
+- `start`: An icon or similar element to place before the input. Works great with `<quiet-icon>`.
+- `end`: An icon or similar element to place after the input. Works great with `<quiet-icon>`.
+
+**Properties:**
+
+- `label`: The combobox's label. (Type: `string`)
+- `description`: The combobox's description. (Type: `string`)
+- `name`: The name of the combobox for form submission. (Type: `string`)
+- `value`: The combobox's value(s). (Type: `string | string[]`, Default: `''`)
+- `placeholder`: Placeholder text for the input. (Type: `string`)
+- `disabled`: Disables the combobox. (Type: `boolean`, Default: `false`)
+- `required`: Makes the combobox required. (Type: `boolean`, Default: `false`)
+- `multiple`: Enables multiple selection. (Type: `boolean`, Default: `false`)
+- `withClear` (attribute: `with-clear`): Adds a clear button when not blank. (Type: `boolean`, Default: `false`)
+- `appearance`: The visual appearance of the combobox. (Type: `'normal' | 'filled' | 'unstyled'`, Default: `'normal'`)
+- `size`: The size of the combobox. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `pill`: Draws the combobox in a pill shape. (Type: `boolean`, Default: `false`)
+- `placement`: The dropdown's placement relative to the input. (Type: `'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'`, Default: `'bottom-start'`)
+- `distance`: The distance of the dropdown from the input. (Type: `number`, Default: `0`)
+- `offset`: The offset of the dropdown along the input. (Type: `number`, Default: `0`)
+- `form`: The form to associate with. (Type: `string`)
+
+**Methods:**
+
+- `getTagContent(item: QuietComboboxItem)`: A custom function for rendering tag content. By default, this function returns the item's full `textContent`. You can override it to customize the content that gets rendered in tags in `multiple` mode.
+- `focus()`: Sets focus to the combobox.
+- `blur()`: Removes focus from the combobox.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the combobox loses focus.
+- `quiet-change`: Emitted when the user commits changes to the combobox's value.
+- `quiet-focus`: Emitted when the combobox receives focus.
+- `quiet-input`: Emitted when the combobox receives input.
+- `quiet-before-open`: Emitted when the dropdown is instructed to open but before it is shown.
+- `quiet-open`: Emitted when the dropdown opens.
+- `quiet-before-close`: Emitted when the dropdown is instructed to close but before it is hidden.
+- `quiet-close`: Emitted when the dropdown closes.
+
+**CSS Custom Properties:**
+
+- `--text-box-min-width`: The minimum width of the input field when shown next to tags. Only available in `multiple` mode. (Default: `12ch`)
+- `--show-duration`: The duration of the show/hide animation for the dropdown. (Default: `50ms`)
+
+**CSS Parts:**
+
+- `label`: The element that contains the combobox's label.
+- `description`: The element that contains the combobox's description.
+- `visual-box`: The element that wraps the internal text box.
+- `input-area`: The wrapper surrounding tags and the internal text box.
+- `tag`: Individual tag elements.
+- `tag-remove`: The remove button for tags.
+- `text-box`: The internal text box, an `<input>` element.
+- `chevron`: The chevron icon, a `<quiet-icon>` element.
+- `chevron__svg`: The chevron icon's `<svg>` part.
+- `clear-button`: The clear button.
+- `dropdown`: The dropdown container.
+
+**CSS Custom States:**
+
+- `open`: Applied when the dropdown is open.
+- `disabled`: Applied when the combobox is disabled.
+- `focused`: Applied when the combobox has focus.
+- `blank`: Applied when the combobox has no value.
+- `user-valid`: Applied when valid after user interaction.
+- `user-invalid`: Applied when invalid after user interaction.
+
+### `<quiet-combobox-item>`
+
+**Description:** An item that can be selected from a combobox control.
+
+**Documentation:** https://quietui.org/docs/components/combobox-item
+
+**Slots:**
+
+- `(default)`: The item's label.
+- `icon`: An optional icon to display at the start of the item.
+- `details`: Optional details to display at the end of the item.
+
+**Properties:**
+
+- `value`: The value to submit when this item is selected. If not provided, the text content is used. (Type: `string`)
+- `disabled`: Disables the item. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `getLabelText()`: Gets the text content from the combobox item's label.
+
+**CSS Parts:**
+
+- `icon`: The container that wraps the icon slot.
+- `label`: The container that wraps the item's label.
+- `details`: The container that wraps the details slot.
+- `checkmark`: The checkmark icon shown when selected in multiple mode.
+
+**CSS Custom States:**
+
+- `selected`: Applied when the item is selected.
+- `disabled`: Applied when the item is disabled.
+- `active`: Applied when the item is active (keyboard navigation).
+
+### `<quiet-comparison>`
+
+**Description:** Displays two elements side-by-side with a draggable divider, allowing users to adjust the visible portions for direct visual comparison.
+
+**Documentation:** https://quietui.org/docs/components/comparison
+
+**Slots:**
+
+- `start`: The content to show on the left/start side or top side, depending on orientation.
+- `end`: The content to show on the right/end side or bottom side, depending on orientation.
+- `handle-icon`: A custom icon to use for the divider's handle.
+
+**Properties:**
+
+- `position`: The position of the divider as a decimal (0-1). (Type: `number`, Default: `0.5`)
+- `orientation`: The orientation of the comparison slider, either 'horizontal' or 'vertical'. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+- `disabled`: Disables the comparison component, preventing it from being focused and adjusted. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-resize`: Dispatched when the comparison's handle is moved.
+
+**CSS Parts:**
+
+- `start`: The container for the start content.
+- `end`: The container for the end content.
+- `divider`: The draggable divider between start and end.
+- `handle`: The visual handle within the divider.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the comparison is disabled.
+- `dragging`: Applied when the divider is being dragged.
+- `focused`: Applied when the divider has focus.
+
+### `<quiet-copy>`
+
+**Description:** Copies text and other types of data to the clipboard.
+
+**Documentation:** https://quietui.org/docs/components/copy
+
+**Slots:**
+
+- `(default)`: A custom button to use instead of the default.
+
+**Properties:**
+
+- `data`: The text content that will be copied to the clipboard. (Type: `string | ClipboardItem[]`, Default: `''`)
+- `disabled`: Disables the button. (Type: `boolean`, Default: `false`)
+- `feedbackPlacement` (attribute: `feedback-placement`): The placement of the feedback animation. (Type: `| 'top'     | 'right'     | 'bottom'     | 'left'     | 'hidden'`, Default: `'top'`)
+
+**Events:**
+
+- `quiet-copy`: Emitted when the content has been copied. This event does not bubble. You can inspect `event.detail.data` to see the content that was copied.
+- `quiet-copy-error`: Emitted when the browser refuses to allow the content to be copied. This event does not bubble. You can inspect `event.detail.error` to see the error that occurred.
+
+**CSS Parts:**
+
+- `copy-button`: The default copy button, a `<quiet-button>` element.
+- `copy-button__button`: The default copy button's `button` part.
+- `copy-icon`: The default copy icon, a `<quiet-icon>` element.
+- `copy-icon__svg`: The copy icon's `svg` part.
+- `feedback`: The feedback that shows when copying.
+
+### `<quiet-countdown>`
+
+**Description:** Displays a countdown until the specified date.
+
+**Documentation:** https://quietui.org/docs/components/countdown
+
+**Slots:**
+
+- `seconds`: A custom label to show for seconds.
+- `minutes`: A custom label to show for minutes.
+- `hours`: A custom label to show for hours.
+- `days`: A custom label to show for days.
+- `months`: A custom label to show for months.
+- `years`: A custom label to show for years.
+
+**Properties:**
+
+- `label`: An accessible label for the countdown. This won't be visible, but it will be read to assistive devices so you should always include one. (Type: `string`, Default: `''`)
+- `date`: The date in the future at which the countdown will end. If an attribute is passed, the date should be an [ISO 8601 string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString). If set as a property, a `Date` object can be used instead. (Type: `Date | string`)
+- `delimiter`: A visual delimiter to show between units. (Type: `string`, Default: `''`)
+- `minUnit` (attribute: `min-unit`): The smallest unit to display in the countdown. (Type: `'seconds' | 'minutes' | 'hours' | 'days' | 'months' | 'years'`, Default: `'seconds'`)
+- `maxUnit` (attribute: `max-unit`): The largest unit to display in the countdown. (Type: `'seconds' | 'minutes' | 'hours' | 'days' | 'months' | 'years'`, Default: `'days'`)
+- `grouping`: Whether to group numbers, e.g. with a thousands separator. (Type: `'always' | 'never' | 'auto' | 'min2'`, Default: `'auto'`)
+- `valueFormatter`: A custom formatting function to apply to the number. When set, `decimal-places` and `grouping` will be ignored. Property only. (Type: `(value: number) => string`)
+
+**Methods:**
+
+- `start(options: { resume?: boolean })`: Starts or resumes the countdown timer after validating dates.
+- `stop()`: Stops the countdown timer and records the time it was stopped.
+
+**Events:**
+
+- `quiet-finished`: Dispatched when the countdown finishes.
+- `quiet-tick`: Dispatched every time the visible countdown changes. For example, if the timer displays seconds, this will be once every second; if `min-unit` is minutes, it will be once every minute; and so on.
+
+**CSS Parts:**
+
+- `unit`: The container that holds each unit, including its values and labels.
+- `value`: The value of each unit.
+- `label`: The label of each unit.
+- `delimiter`: The delimiters between units.
+
+**CSS Custom States:**
+
+- `active`: Applied when the countdown is actively counting down.
+
+### `<quiet-date>`
+
+**Description:** Outputs a date or time in the specified format.
+
+**Documentation:** https://quietui.org/docs/components/date
+
+**Properties:**
+
+- `date`: The date to format. If an attribute is passed, the date should be an [ISO 8601 string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString). If set as a property, a `Date` object can be used instead. If unset, the current date will be assumed. (Type: `Date | string`, Default: `new Date()`)
+- `dateStyle` (attribute: `date-style`): A shortcut property for formatting the date. This can be used with `time-style`, but not with other formatting properties such as `weekday`, `hour`, `month`, etc. (Type: `'full' | 'long' | 'medium' | 'short'`)
+- `timeStyle` (attribute: `time-style`): A shortcut property for formatting the time. This can be used with `date-style`, but not with other formatting properties such as `weekday`, `hour`, `month`, etc. (Type: `'full' | 'long' | 'medium' | 'short'`)
+- `hourFormat` (attribute: `hour-format`): Whether to use 12-hour time (as opposed to 24-hour time). If `auto`, the default value is determined by the user's locale. (Type: `'auto' | '12' | '24'`, Default: `'auto'`)
+- `hourCycle`: The hour cycle to use. (Type: `'h11' | 'h12' | 'h23' | 'h24'`)
+- `timeZone` (attribute: `time-zone`): The time zone to use. The default is the user's default time zone. (Type: `string`)
+- `weekday`: The representation of the weekday. (Type: `'long' | 'short' | 'narrow'`)
+- `era`: The representation of the era. (Type: `'long' | 'short' | 'narrow'`)
+- `year`: The representation of the year. (Type: `'numeric' | '2-digit'`)
+- `month`: The representation of the month. (Type: `'numeric' | '2-digit' | 'long' | 'short' | 'narrow'`)
+- `day`: The representation of the day. (Type: `'numeric' | '2-digit'`)
+- `dayPeriod` (attribute: `day-period`): The formatting style used for day periods like "in the morning", "am", "noon", "n" etc. This option only has an effect if a 12-hour clock is used. (Type: `'long' | 'short' | 'narrow'`)
+- `hour`: The representation of the hour. (Type: `'numeric' | '2-digit'`)
+- `minute`: The representation of the minute. (Type: `'numeric' | '2-digit'`)
+- `second`: The representation of the second. (Type: `'numeric' | '2-digit'`)
+- `fractionalSecondDigits` (attribute: `fractional-second-digits`): The number of digits used to represent fractions of a second (any additional digits are truncated). (Type: `1 | 2 | 3`)
+- `timeZoneName` (attribute: `time-zone-name`): The localized representation of the time zone name. (Type: `| 'long'     | 'short'     | 'shortOffset'     | 'longOffset'     | 'shortGeneric'     | 'longGeneric'`)
+- `formatMatcher` (attribute: `format-matcher`): The format matching algorithm to use. (Type: `'basic' | 'best-fit'`)
+
+### `<quiet-dialog>`
+
+**Description:** Displays modal content for alerts, confirmations, configurations, and other important interactions that require immediate attention.
+
+**Documentation:** https://quietui.org/docs/components/dialog
+
+**Slots:**
+
+- `(default)`: Content to place in the dialog's body. Note that, due to [this Chrome bug](https://issues.chromium.org/issues/40800208), you should wrap text nodes in an element to allow text selection in that browser.
+- `header`: Content to place in the dialog's header.
+- `actions`: Slot in one or more text buttons to customize the actions that appear in the dialog's header. Only available when the header is enabled.
+- `footer`: Content to place in the dialog's footer.
+
+**Properties:**
+
+- `open`: Opens or closes the dialog. (Type: `boolean`, Default: `false`)
+- `placement`: By default, the dialog will appear in the center of the screen. Changing the placement will cause the dialog to slide in from the side of the screen like a drawer. (Type: `'center' | 'top' | 'bottom' | 'start' | 'end' | 'full'`, Default: `'center'`)
+- `lightDismiss` (attribute: `light-dismiss`): Allows the dialog to be closed when clicking outside of it. (Type: `boolean`, Default: `false`)
+- `resetScroll` (attribute: `reset-scroll`): For dialogs that scroll, this will reset the scroll position when the dialog closes. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `scrollBodyTo(options: ScrollToOptions)`: Scrolls the dialog's body to the specified position.
+
+**Events:**
+
+- `quiet-before-open`: Emitted when the dialog is instructed to open but before it is shown. Calling `event.preventDefault()` will prevent the dialog from opening.
+- `quiet-open`: Emitted after the dialog has been opened and the show animation has completed.
+- `quiet-before-close`: Emitted when the dialog is dismissed. Calling `event.preventDefault()` will prevent the dialog from closing and show a brief animation.<br><br>You can check `event.detail.source` to see which element triggered the dialog to close, such as a button. If the source is the dialog itself, the user has pressed [[Escape]] or the dialog has been closed programmatically.
+- `quiet-close`: Emitted after the dialog has been closed and the hide animation has completed.
+
+**CSS Custom Properties:**
+
+- `--height`: The default height of the dialog. Note that dialogs shrink to fit as necessary. (Default: `fit-content`)
+- `--show-duration`: The duration of the show/hide animation. (Default: `200ms`)
+- `--spacing`: The spacing to use throughout the dialog. (Default: `1.5rem`)
+- `--width`: The default width of the dialog. Note that dialogs shrink to fit as necessary. (Default: `30rem`)
+
+**CSS Parts:**
+
+- `dialog`: The internal `<dialog>` element.
+- `body`: The container that wraps the dialog's body.
+- `header`: The container that wraps the dialog's header. A flex container, by default.
+- `footer`: The container that wraps the dialog's footer. A flex container, by default.
+
+**CSS Custom States:**
+
+- `open`: Applied when the dialog is open.
+
+### `<quiet-divider>`
+
+**Description:** Separates and groups content visually.
+
+**Documentation:** https://quietui.org/docs/components/divider
+
+**Slots:**
+
+- `symbol`: Optional text or a symbol to show in the center of the divider.
+
+**Properties:**
+
+- `orientation`: Sets the divider's orientation. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+
+**CSS Custom Properties:**
+
+- `--color`: The color of the divider. (Default: `var(--quiet-neutral-stroke-soft)`)
+- `--spacing`: The spacing around the divider. (Default: `1rem`)
+- `--thickness`: The thickness of the divider. (Default: `var(--quiet-border-width)`)
+
+**CSS Parts:**
+
+- `symbol`: The container that wraps the slotted symbol or icon.
+
+### `<quiet-dropdown>`
+
+**Description:** Provides a menu of options that appear when the corresponding trigger is activated.
+
+**Documentation:** https://quietui.org/docs/components/dropdown
+
+**Slots:**
+
+- `(default)`: One or more `<dropdown-item>` elements to show in the dropdown. You can also use `<quiet-divider>` here.
+- `trigger`: The dropdown's trigger. Must be a `<quiet-button>` or `<button>` element.
+
+**Properties:**
+
+- `open`: Opens or closes the dropdown. (Type: `boolean`, Default: `false`)
+- `contextMenu` (attribute: `context-menu`): The ID of an element to apply the dropdown as a context menu. (Type: `string`, Default: `''`)
+- `placement`: The placement of the dropdown menu in reference to the trigger. The menu will shift to a more optimal location if the preferred placement doesn't have enough room. (Type: `| 'top'     | 'top-start'     | 'top-end'     | 'bottom'     | 'bottom-start'     | 'bottom-end'     | 'right'     | 'right-start'     | 'right-end'     | 'left'     | 'left-start'     | 'left-end'`, Default: `'bottom-start'`)
+- `distance`: The distance of the dropdown menu from its trigger. (Type: `number`, Default: `0`)
+- `offset`: The offset of the dropdown menu along its trigger. (Type: `number`, Default: `0`)
+
+**Events:**
+
+- `quiet-before-open`: Emitted when the dropdown is instructed to open but before it is shown.
+- `quiet-open`: Emitted when the dropdown menu has opened and the animation has completed.
+- `quiet-before-close`: Emitted when the dropdown is dismissed but before it is hidden.
+- `quiet-close`: Emitted when the dropdown menu has closed and the animation has completed.
+- `quiet-select`: Emitted when a dropdown item has been selected. You can inspect `event.detail.item` to see the `<quiet-dropdown-item>` that was selected. Calling `event.preventDefault()` will keep the dropdown open.
+
+**CSS Custom Properties:**
+
+- `--show-duration`: The duration of the show/hide animation. (Default: `50ms`)
+
+**CSS Parts:**
+
+- `menu`: The dropdown menu's container.
+
+**CSS Custom States:**
+
+- `open`: Applied when the dropdown is open.
+
+### `<quiet-dropdown-item>`
+
+**Description:** Can be selected from inside a dropdown menu.
+
+**Documentation:** https://quietui.org/docs/components/dropdown-item
+
+**Slots:**
+
+- `(default)`: The item's label or description.
+- `icon`: An optional icon to show at the start of the item.
+- `details`: Optional details, such as a keyboard shortcut, to display at the end of the item.
+- `submenu`: Optional submenu items to display in a nested dropdown. For best results, use `<quiet-submenu-item>` and `<quiet-divider>` elements.
+
+**Properties:**
+
+- `value`: An optional value for the menu item. This is useful for determining which item was selected when listening to the dropdown's `quiet-select` event. (Type: `string`)
+- `type`: Set to `checkbox` to make the item a checkbox. (Type: `'normal' | 'checkbox'`, Default: `'normal'`)
+- `variant`: The type of menu item to render. (Type: `'destructive' | 'neutral'`, Default: `'neutral'`)
+- `checked`: Set to true to check the dropdown item. Only valid when `type` is `checkbox`. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the dropdown item. (Type: `boolean`, Default: `false`)
+- `submenuOpen`: Whether the submenu is currently open. (Type: `boolean`, Default: `false`)
+- `href`: Tells the dropdown item to behave like a link. When selected, the browser will navigate to the target URL. (Type: `string`)
+- `target`: Opens the link in the specified target. Only works when `href` is provided. (Type: `'_blank' | '_parent' | '_self' | '_top' | undefined`)
+- `rel`: Sets the link's `rel` attribute. Only works when `href` is provided. When linking to an external domain, you should probably set this to `noreferrer noopener`. (Type: `string | undefined`)
+- `download`: Sets the link's `download` attribute, causing the linked file to be downloaded. Only works when `href` is provided. (Type: `string | undefined`)
+
+**Methods:**
+
+- `openSubmenu()`: Opens the submenu.
+- `closeSubmenu()`: Closes the submenu.
+
+**CSS Parts:**
+
+- `checkmark`: The checkmark icon that's shown when checked, a `<quiet-icon>` element.
+- `checkmark__svg`: The checkmark icon's `svg` part.
+- `icon`: The container that wraps the icon.
+- `label`: The container that wraps the label.
+- `details`: The container that wraps the menu item's details.
+- `submenu`: The container that wraps the submenu items.
+- `submenu-icon`: The icon indicating that a submenu is available.
+- `submenu-icon__svg`: The submenu icon's `svg` part.
+
+**CSS Custom States:**
+
+- `active`: Applied when the dropdown item is active.
+- `disabled`: Applied when the dropdown item is disabled.
+- `checked`: Applied when the dropdown item is checked.
+- `submenu-open`: Applied when the dropdown item's submenu is open.
+- `has-submenu`: Applied when the dropdown item has a submenu.
+
+### `<quiet-empty-state>`
+
+**Description:** Guides users during first-time experiences or when content is missing, transforming blank spaces into opportunities with helpful visuals and clear actions.
+
+**Documentation:** https://quietui.org/docs/components/empty-state
+
+**Slots:**
+
+- `(default)`: Content to show in the empty state. Usually includes a heading, a paragraph, and sometimes buttons.
+- `illustration`: An optional illustration to show in the empty state. Works well with an image or a `<quiet-icon>` element.
+
+**CSS Custom Properties:**
+
+- `--content-width`: The maximum width of the empty state's content. When space is limited, the content will wrap automatically. (Default: `40ch`)
+- `--illustration-width`: The maximum width of the illustration. By default, this will be half of `--content-width`. This property does not affect the size of icons.
+
+**CSS Parts:**
+
+- `content`: The container that wraps the content.
+- `illustration`: The container that wraps the illustration.
+
+### `<quiet-expander>`
+
+**Description:** An expandable content container with smooth animation on show/hide.
+
+**Documentation:** https://quietui.org/docs/components/expander
+
+**Slots:**
+
+- `(default)`: The default slot for content to be expanded/collapsed.
+- `expand-label`: The label for the button that expands the content.
+- `collapse-label`: The label for the button that collapses the content.
+
+**Properties:**
+
+- `expanded`: Whether the content is expanded (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the expand/collapse functionality (Type: `boolean`, Default: `false`)
+- `withoutShadow` (attribute: `without-shadow`): When true, the shadow above collapsed content will not be rendered. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-before-open`: Emitted before the expander opens. Cancelable event that prevents opening when canceled.
+- `quiet-open`: Emitted after the expander has opened.
+- `quiet-before-close`: Emitted before the expander closes. Cancelable event that prevents closing when canceled.
+- `quiet-close`: Emitted after the expander has closed.
+
+**CSS Custom Properties:**
+
+- `--preview-height`: The visible height of the expander's content when collapsed. (Default: `3lh`)
+- `--duration`: The duration of the expand/collapse animation. (Default: `200ms`)
+- `--easing`: The easing to use for the expand/collapse animation. (Default: `ease`)
+
+**CSS Parts:**
+
+- `content`: The container holding the expandable content.
+- `shadow`: The shadow that shows above collapsed content.
+- `trigger`: The button that toggles between expanded and collapsed states.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the expander is disabled.
+- `expanded`: Applied when the content is expanded.
+
+### `<quiet-file-input>`
+
+**Description:** Allows the user to select files to upload to the server.
+
+**Documentation:** https://quietui.org/docs/components/file-input
+
+**Slots:**
+
+- `label`: The file input's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The file input's description. For plain-text descriptions, you can use the `description` attribute instead.
+- `dropzone`: Custom content to show in the dropzone.
+
+**Properties:**
+
+- `files`: An array of files that are currently selected. (Property only) (Type: `File[]`, Default: `[]`)
+- `label`: The text field's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The text field's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the file input. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `disabled`: Disables the file input. (Type: `boolean`, Default: `false`)
+- `accept`: A list of acceptable file types. Must be a comma-separated list of [unique file type specifiers](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers). (Type: `boolean`, Default: `false`)
+- `multiple`: Allows more than one file to be selected. (Type: `boolean`, Default: `false`)
+- `size`: The file input's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the file input required. Form submission will not be allowed when this is set and no files are selected. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-blur`: Emitted when the file input loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user selects or removes a file.
+- `quiet-focus`: Emitted when the file input receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the file input receives input.
+
+**CSS Parts:**
+
+- `label`: The element that contains the text field's label, a `<label>` element.
+- `description`: The element that contains the text field's description.
+- `dropzone`: The bordered region where files can be dropped.
+- `file-list`: The list of files shown when at least one file is selected.
+- `file`: A selected file will be drawn in this container.
+- `file-thumbnail`: The container that hold's the file's image or icon.
+- `file-image`: The file's image preview (if it's an image).
+- `file-icon`: The file's icon (if it's not an image).
+- `file-icon__svg`: The `<svg>` part of the file icon.
+- `file-details`: The container that holds the filename and size.
+- `file-name`: The container that holds the file's name, a `<span>` element.
+- `file-size`: The container that holds the file's size, a `<small>` element.
+- `file-actions`: The container that holds the file's remove button.
+- `file-remove-button`: The file's remove button.
+- `file-remove-button__button`: The `button` part of the file's remove button.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the file input is disabled.
+- `blank`: Applied when the file input has a blank value.
+- `focused`: Applied when the file input has focus.
+- `user-valid`: Applied when the file input is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the file input is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-fit-text>`
+
+**Description:** Scales a line of text to fit within its container.
+
+**Documentation:** https://quietui.org/docs/components/fit-text
+
+**Slots:**
+
+- `(default)`: One or more text nodes to display. Non-text nodes will be ignored.
+
+**Properties:**
+
+- `minFontSize` (attribute: `min-font-size`): The minimum font size to use when scaling, in pixels. The text will never be smaller than this value, which may lead to overflows if the text is excessively long. (Type: `number`, Default: `1`)
+- `maxFontSize` (attribute: `max-font-size`): The maximum font size to use when scaling, in pixels. The text will never be larger than this value, which may cause the text to not scale the full width of the container. (Type: `number`, Default: `128`)
+- `precision`: The precision, in pixels, used to scale the text to fit. Larger values are more performant but result in less accurate measurements. (Type: `number`, Default: `0.1`)
+
+**Methods:**
+
+- `resize()`: Resizes the text to fit inside the container. You probably won't need to call this unless you're loading a font dynamically and need to resize the text after it loads.
+
+### `<quiet-flip-card>`
+
+**Description:** Displays information on two sides, allowing users to flip between the front and back with the click of a button.
+
+**Documentation:** https://quietui.org/docs/components/flip-card
+
+**Slots:**
+
+- `front`: The content to show on the front of the card.
+- `back`: The content to show on the back of the card.
+
+**Properties:**
+
+- `flipped`: Flips the card. (Type: `boolean`, Default: `false`)
+- `orientation`: Determines the flip direction. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+
+**Events:**
+
+- `quiet-before-flip`: Emitted when the flip card is instructed to flip but before it actually flips. Calling `event.preventDefault()` will prevent the flip card from flipping.
+- `quiet-flip`: Emitted after the flip card has been flipped and the animation has completed.
+
+**CSS Custom Properties:**
+
+- `--flip-duration`: The duration of the card flip animation. (Default: `0.6s`)
+- `--flip-easing`: The easing to use for the flip animation. (Default: `cubic-bezier(0.2, 0.85, 0.3, 1.15)`)
+
+**CSS Custom States:**
+
+- `flipped`: Applied when the card is flipped over.
+
+### `<quiet-hotkey>`
+
+**Description:** Shows keyboard shortcut combinations based on the user's operating system.
+
+**Documentation:** https://quietui.org/docs/components/hotkey
+
+**Properties:**
+
+- `keys`: The primary keys to display in the hotkey, separated by a space. (Type: `string`, Default: `''`)
+- `linux`: The keys to display on Linux devices, separated by a space. (Type: `string`, Default: `''`)
+- `mac`: The keys to display on Mac devices, separated by a space. (Type: `string`, Default: `''`)
+- `windows`: The keys to display on Windows devices, separated by a space. (Type: `string`, Default: `''`)
+- `label`: Optional label for screen readers. If not provided, the hotkey text will be used. (Type: `string`)
+- `delimiter`: The delimiter to show between each key. When set to `auto`, the delimiter will be determined by the platform (no character for Mac and "+" for others). (Type: `'auto' | string`, Default: `'auto'`)
+- `platform`: Determines the platform to show. When set to `auto`, the platform will be automatically detected. The `linux` platform will be used for most Linux, Unix, and BSD operating systems. (Type: `'auto' | 'linux' | 'mac' | 'windows'`, Default: `'auto'`)
+- `appearance`: The hotkey's appearance. (Type: `'normal' | 'unstyled'`, Default: `'normal'`)
+
+**CSS Parts:**
+
+- `key`: The `<kbd>` elements that wrap keys.
+- `keyword`: The `<kbd>` elements that wrap keywords.
+- `delimiter`: The `<span>` elements that wrap delimiters.
+
+### `<quiet-icon>`
+
+**Description:** Provides a visual representation of an object, action, or idea.
+
+**Documentation:** https://quietui.org/docs/components/icon
+
+**Properties:**
+
+- `library`: The name of the icon library to use. (Type: `string`, Default: `'default'`)
+- `family`: The icon family to use for this icon, e.g. `filled` or `outline`. (Type: `string`, Default: `'outline'`)
+- `name`: The name of the icon to render. (Type: `string`)
+- `label`: A label to use for assistive devices. If omitted, the icon will be considered presentational. (Type: `string`)
+- `flipX` (attribute: `flip-x`): Flips the icon horizontally. (Type: `boolean`, Default: `false`)
+- `flipY` (attribute: `flip-y`): Flips the icon vertically. (Type: `boolean`, Default: `false`)
+- `rotate`: Rotates the icon the specified number of degrees. (Type: `number`, Default: `0`)
+
+**Methods:**
+
+- `load()`: Loads or reloads and draws the icon.
+
+**Events:**
+
+- `quiet-loaded`: The icon has reloaded and rendered. This event does not bubble.
+- `quiet-load-error`: The icon failed to load. This event does not bubble.
+
+**CSS Parts:**
+
+- `svg`: The internal SVG element.
+
+### `<quiet-include>`
+
+**Description:** Pulls content from another file into your page.
+
+**Documentation:** https://quietui.org/docs/components/include
+
+**Properties:**
+
+- `src`: The URL of the file to include. Must be a CORS-enabled endpoint. (Type: `string`)
+- `mode`: The mode to use when fetching the request. (Type: `RequestMode`, Default: `'cors'`)
+- `allowScripts` (attribute: `allow-scripts`): By default, scripts in included files will not be executed. Setting this to true will allow them to run. If you use this option, make sure you trust the included HTML, otherwise you may become vulnerable to XSS exploits. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-included`: Emitted when the include file has been fetched and rendered. The HTTP status code will be available in `event.detail.status`. This event does not bubble.
+- `quiet-include-error`: Emitted when the fetch results in a network error or receives an HTTP response outside of the 200 range. If a network error occurs, it will be available in `event.detail.error`. If an HTTP status code was returned, it will be available in `event.detail.status`. This event does not bubble.
+
+### `<quiet-infinite-scroller>`
+
+**Description:** Provides an accessible container for continuously loading content feeds.
+
+**Documentation:** https://quietui.org/docs/components/infinite-scroller
+
+**Slots:**
+
+- `(default)`: The default slot for feed items. Each item should have role="article" and be focusable.
+
+**Properties:**
+
+- `label`: An accessible label for the feed. (Type: `string`, Default: `''`)
+- `threshold`: The scroll threshold at which to trigger loading more items. Accepts percentages (e.g., "20%") or pixels (e.g., "200px"). (Type: `string`, Default: `'20%'`)
+
+**Methods:**
+
+- `complete()`: Mark the feed as completed, preventing further load events. Changing content in the default slot will reset this and re-enable infinite scrolling.
+
+**Events:**
+
+- `quiet-load-more`: Emitted when scrolling reaches the threshold and more items should be loaded.
+
+**CSS Custom States:**
+
+- `loading`: Applied when the infinite scroller is loading more content.
+- `complete`: Applied when the infinite scroller has no more content to load.
+
+### `<quiet-intersection-observer>`
+
+**Description:** Watches child elements and dispatches events when they intersect with their root element.
+
+**Documentation:** https://quietui.org/docs/components/intersection-observer
+
+**Slots:**
+
+- `(default)`: The elements to observe. Only direct children of the host element are observed.
+
+**Properties:**
+
+- `root`: The ID of the element to use as as the bounding box of the viewport for the observed targets. (Type: `string | null`, Default: `null`)
+- `rootMargin` (attribute: `root-margin`): Margin around the root. Can have values similar to the CSS margin property. (Type: `string`, Default: `'0px'`)
+- `threshold`: Either a single number or space-delimited numbers which indicate at what percentage of the target's visibility the observer's callback should be executed. (Type: `string`, Default: `'0'`)
+- `intersectClass` (attribute: `intersect-class`): A CSS class name to apply to elements while they're intersecting. The class will be removed when the element is no longer in the viewport. This allows you to apply styles to elements as they enter and exit the viewport using pure CSS. (Type: `string`, Default: `''`)
+- `once`: When true, stops observing after the first intersection. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the intersection observer. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-intersect`: Emitted when an observed element starts or stops intersecting. `event.detail.entry` contains the respective [`IntersectionObserverEntry`](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) object.
+
+### `<quiet-joystick>`
+
+**Description:** A directional joystick that can be controlled via touch or mouse.
+
+**Documentation:** https://quietui.org/docs/components/joystick
+
+**Slots:**
+
+- `thumb`: An optional icon to display inside the thumb.
+
+**Properties:**
+
+- `label`: An accessible label for the joystick. This won't be visible, but it will be read to assistive devices so you should always include one. (Type: `string`, Default: `''`)
+- `disabled`: Indicates whether the joystick is disabled. When `true`, the joystick does not respond to mouse or touch input. (Type: `boolean`, Default: `false`)
+- `mode`: The operational mode of the joystick. 'normal' snaps back to center on release, 'sticky' retains its last position. (Type: `'normal' | 'sticky'`, Default: `'normal'`)
+- `deadZone` (attribute: `dead-zone`): The normalized distance (0-1) from the center below which no movement is registered. (Type: `number`)
+
+**Methods:**
+
+- `reset()`: Programmatically resets the joystick's position. Useful for resetting it in sticky mode, e.g. when a game restarts.
+
+**Events:**
+
+- `quiet-joystick-before-start`: Emitted before interaction begins. Calling `event.preventDefault()` will cancel activation.
+- `quiet-joystick-start`: Emitted when movement begins.
+- `quiet-joystick-move`: Emitted continuously during movement. Consider debouncing for performance-sensitive applications.
+- `quiet-joystick-before-stop`: Emitted before interaction ends. Calling `event.preventDefault()` will cancel deactivation.
+- `quiet-joystick-stop`: Emitted when movement ends.
+
+**CSS Custom Properties:**
+
+- `--size`: The overall width and height of the joystick. (Default: `7rem`)
+- `--thumb-size`: The width and height of the movable thumb. (Default: `2.5rem`)
+- `--distance`: A readonly custom property that represents the normalized distance (0-1) of the thumb from the center, updated dynamically during movement. You can use this to change the joystick's appearance as the user moves the thumb. (Default: `0`)
+
+**CSS Parts:**
+
+- `thumb`: The movable thumb within the joystick.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the joystick is disabled.
+- `dragging`: Applied when the joystick is being dragged.
+
+### `<quiet-listbox>`
+
+**Description:** Displays a list of options, allowing users to select one or more items from the available choices.
+
+**Documentation:** https://quietui.org/docs/components/listbox
+
+**Slots:**
+
+- `(default)`: Listbox items to show in the listbox.
+- `label`: The listbox's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The listbox's description. For plain-text descriptions, you can use the `description` attribute instead.
+
+**Properties:**
+
+- `label`: The listbox's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The listbox's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the listbox. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `multiple`: Enables multiple selection mode. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the listbox. (Type: `boolean`, Default: `false`)
+- `readonly`: Makes the text field a read-only field. (Type: `boolean`, Default: `false`)
+- `size`: The text field's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the listbox required. Form submission will not be allowed when this is set and the listbox is blank. (Type: `boolean`, Default: `false`)
+- `value`: The listbox's value. For multiple selection, this will be the value of the first selected item. (Type: `unknown`)
+- `selectedValues`: Gets or sets the currently selected values as an array. This property provides a consistent way to access or modify the selection state regardless of whether the listbox is in single or multiple selection mode.  In single selection mode, it returns an array with either zero or one value. In multiple selection mode, it returns an array of all selected values.  When setting this property in single mode, the first value in the array (if any) becomes the selected value. In multiple mode, all values in the array become selected. (Type: `unknown`)
+- `selectedItems`: Gets or sets an array of selected listbox items. (Type: `QuietListboxItem[]`)
+
+**Methods:**
+
+- `getSelectedValues()`: Returns an array of all selected values.
+- `setSelectedValues(values: string|string[])`: Sets the selected items by value(s) without triggering events. Works for both single and multiple selection modes.
+- `selectAll()`: Convenience method for selecting all items.
+- `deselectAll()`: Convenience method for deselecting all items.
+- `focus()`: Sets focus to the listbox.
+- `blur()`: Removes focus from the listbox.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the list box loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the list box's selection. In single select mode, it occurs when a change is made and the listbox loses focus. In multiselect mode, it occurs whenever an option is toggled even while the listbox has focus.
+- `quiet-focus`: Emitted when the list box receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the list box's selection changes from user input.
+
+**CSS Parts:**
+
+- `label`: The element that contains the text field's label.
+- `description`: The element that contains the text field's description.
+- `listbox`: The internal listbox container that holds listbox items.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the text field is disabled.
+- `blank`: Applied when the text field has a blank value.
+- `focused`: Applied when the text field has focus.
+- `user-valid`: Applied when the text field is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the text field is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-listbox-item>`
+
+**Description:** Represents individual choices within a listbox.
+
+**Documentation:** https://quietui.org/docs/components/listbox-item
+
+**Slots:**
+
+- `(default)`: The listbox item's label. For plain-text labels, you can use the `label` attribute instead.
+
+**Properties:**
+
+- `label`: The listbox item's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The listbox item's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `value`: The listbox item's value. (Type: `string`, Default: `''`)
+- `selected`: The listbox item's selected state. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the listbox item. (Type: `boolean`, Default: `false`)
+
+**CSS Custom States:**
+
+- `selected`: Applied when the listbox item is selected.
+- `disabled`: Applied when the listbox item is disabled.
+- `controller-disabled`: Applied when the listbox controller is disabled.
+- `controller-focused`: Applied when the listbox controller focused.
+- `controller-readonly`: Applied when the listbox controller is readonly.
+
+### `<quiet-lorem-ipsum>`
+
+**Description:** Outputs placeholder text in various formats for testing designs with random content.
+
+**Documentation:** https://quietui.org/docs/components/lorem-ipsum
+
+**Properties:**
+
+- `type`: The type of HTML content to generate. (Type: `'sentence' | 'title' | 'paragraph' | 'ol' | 'ul'`, Default: `'sentence'`)
+- `length`: The length of the content to generate, e.g. the number of words, sentences, paragraphs, or list items. This should be a number or a range in the format of `{min}-{max}`, e.g. `2-4`. (Type: `number | string`, Default: `'3-5'`)
+- `seed`: By default, the generator will produce random content every time it runs. Use this option to seed the generator with a non-zero number and force it to output the same content every time. (Type: `number`)
+- `wordsPerSentence` (attribute: `words-per-sentence`): The number of words that should occur in a sentence or list item. This should be a number or a range in the format of `{min}-{max}`, e.g. `4-16`. (Type: `number | string`, Default: `'4-16'`)
+- `sentencesPerParagraph` (attribute: `sentences-per-paragraph`): The number of sentences that should occur in a paragraph. This should be a number or a range in the format of `{min}-{max}`, e.g. `3-6`. (Type: `number | string`, Default: `'3-6'`)
+
+### `<quiet-mesh-gradient>`
+
+**Description:** Generates beautiful mesh gradients with customizable colors and complexity.
+
+**Documentation:** https://quietui.org/docs/components/mesh-gradient
+
+**Slots:**
+
+- `(default)`: Content to display over the gradient.
+
+**Properties:**
+
+- `complexity`: The number of gradient layers to generate. (Type: `number`, Default: `4`)
+- `seed`: A seed value for consistent gradient generation. If not provided, the gradient will be random. (Type: `number | undefined`)
+
+**Methods:**
+
+- `regenerate()`: Regenerates the gradient. Useful for creating new random gradients programmatically.
+
+**CSS Custom Properties:**
+
+- `--gradient-color`: The base color for the gradient. Accepts any valid CSS color format, but does not accept custom properties, e.g. `var(--my-color)`.
+- `--brightness`: Adjusts the brightness of the gradient from -100 (darker) to +100 (lighter). (Default: `0`)
+- `--optimal-text-color`: A readonly custom property that maps to the optimal text color (black or white) based on the gradient's base color.
+
+**CSS Parts:**
+
+- `gradient`: The gradient container element for styling the gradient layer.
+- `content`: The content container element for styling the content layer.
+
+### `<quiet-mutation-observer>`
+
+**Description:** Watches child elements and dispatches an event when they mutate.
+
+**Documentation:** https://quietui.org/docs/components/mutation-observer
+
+**Slots:**
+
+- `(default)`: The elements to observe. All direct children of the host element are observed, but not nested elements.
+
+**Properties:**
+
+- `disabled`: Disables the mutation observer. (Type: `boolean`, Default: `false`)
+- `attr`: Indicates whether attributes should be observed. (Type: `boolean`, Default: `false`)
+- `attrOldValue` (attribute: `attr-old-value`): Indicates whether attribute old value should be recorded. (Type: `boolean`, Default: `false`)
+- `attrFilter` (attribute: `attr-filter`): One or more attributes to limit observations to, separate by a space. When not specified, all attributes are observed. (Type: `string`, Default: `''`)
+- `childList` (attribute: `child-list`): Indicates whether mutations to target's children are to be observed. (Type: `boolean`, Default: `false`)
+- `subtree`: Indicates whether mutations to target's descendants are to be observed. (Type: `boolean`, Default: `false`)
+- `characterData` (attribute: `character-data`): Indicates whether character data should be observed. (Type: `boolean`, Default: `false`)
+- `characterDataOldValue` (attribute: `character-data-old-value`): Indicates whether character data old value should be recorded. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-mutation`: Emitted when a slotted element is mutated. The `event.detail.record` property contains a [`MutationRecord`](https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord) with information about the mutation.
+
+### `<quiet-navicon>`
+
+**Description:** A navicon, or "hamburger button", is a special button used to control mobile navigation menus.
+
+**Documentation:** https://quietui.org/docs/components/navicon
+
+**Properties:**
+
+- `for`: The ID of the associated menu that gets shown/hidden when the navicon is toggled. The element must be in the same document as the navicon. (Type: `string`)
+- `expanded`: Determines if the navicon is toggled on. (Type: `boolean`, Default: `false`)
+- `symbol`: Determines the navicon's symbol. (Type: `'hamburger' | 'equals' | 'horizontal-dots' | 'vertical-dots'`, Default: `'hamburger'`)
+- `disabled`: Disables the navicon. (Type: `boolean`, Default: `false`)
+- `label`: The accessible label for the navicon. (Type: `string`, Default: `'Toggle navigation'`)
+
+**Events:**
+
+- `quiet-blur`: Emitted when the navicon loses focus. This event does not bubble.
+- `quiet-focus`: Emitted when the navicon receives focus. This event does not bubble.
+
+**CSS Custom Properties:**
+
+- `--dot-size`: The width of each dot. Available when symbol is `vertical-dots` or `horizontal-dots`. (Default: `0.125em`)
+- `--line-width`: The width of each line. Available when symbol is `hamburger` or `equals`. (Default: `0.0625em`)
+- `--line-transition-duration`: The duration of the symbol's animation. (Default: `200ms`)
+- `--line-transition-easing`: The easing to use for the symbol's animation. (Default: `cubic-bezier(0.4, 0, 0.2, 1)`)
+- `--dot-size`: The size of the dots in the dots symbol. (Default: `0.125em`)
+
+**CSS Parts:**
+
+- `line`: The individual lines that make up the navicon symbol.
+- `line-top`: The top line.
+- `line-middle`: The middle line (hamburger symbol only).
+- `line-bottom`: The bottom line.
+
+**CSS Custom States:**
+
+- `expanded`: Applied when the navicon is toggled on.
+- `disabled`: Applied when the navicon is disabled.
+- `focused`: Applied when the navicon has focus.
+
+### `<quiet-number>`
+
+**Description:** Outputs a formatted number with support for currency, percentages, and units.
+
+**Documentation:** https://quietui.org/docs/components/number
+
+**Properties:**
+
+- `number`: The number to format. (Type: `number`, Default: `0`)
+- `type`: The formatting style to use. (Type: `'decimal' | 'currency' | 'percent' | 'unit'`, Default: `'decimal'`)
+- `currency`: The currency to use when formatting currency. Must be an ISO 4217 currency code, e.g. "EUR" for euro. If not provided, USD will be assumed. (Type: `string`, Default: `'USD'`)
+- `currencyDisplay` (attribute: `currency-display`): How to display the currency in currency formatting. (Type: `'code' | 'symbol' | 'narrowSymbol' | 'name'`)
+- `currencySign` (attribute: `currency-sign`): In many locales, accounting format means to wrap the number with parentheses instead of appending a minus sign. (Type: `'standard' | 'accounting'`)
+- `unit`: The unit to use in unit formatting. [Possible values can be found here.](https://tc39.es/ecma402/#table-sanctioned-single-unit-identifiers) There is no default value. If the style is `unit`, this option must be provided. (Type: `string`)
+- `unitDisplay` (attribute: `unit-display`): The unit formatting style to use in unit formatting. (Type: `'narrow' | 'short' | 'long'`)
+- `minimumIntegerDigits` (attribute: `minimum-integer-digits`): The minimum number of integer digits to use. A value with a smaller number of integer digits than this number will be left-padded with zeros (to the specified length) when formatted. Possible values are from `1` to `21`. The default is `1`. (Type: `number`)
+- `minimumFractionDigits` (attribute: `minimum-fraction-digits`): The minimum number of fraction digits to use. Possible values are from `0` to `20`. (Type: `number`)
+- `maximumFractionDigits` (attribute: `maximum-fraction-digits`): The maximum number of fraction digits to use. Possible values are from `0` to `20`. (Type: `number`)
+- `minimumSignificantDigits` (attribute: `minimum-significant-digits`): The minimum number of significant digits to use. Possible values are from `1` to `21`; the default is `1`. (Type: `number`)
+- `maximumSignificantDigits` (attribute: `maximum-significant-digits`): The maximum number of significant digits to use. Possible values are from `1` to `21`; the default is `21`. (Type: `number`)
+- `roundingPriority` (attribute: `rounding-priority`): Specifies how rounding conflicts will be resolved. (Type: `'auto' | 'morePrecision' | 'lessPrecision'`)
+- `roundingIncrement` (attribute: `rounding-increment`): Indicates the increment at which rounding should take place relative to the calculated rounding magnitude. Possible values are `1`, `2`, `5`, `10`, `20`, `25`, `50`, `100`, `200`, `250`, `500`, `1000`, `2000`, `2500`, and `5000`. Cannot be mixed with significant-digits rounding or any setting of `roundingPriority` other than auto. (Type: `| '1'     | '2'     | '5'     | '10'     | '20'     | '25'     | '50'     | '100'     | '200'     | '250'     | '500'     | '1000'     | '2000'     | '2500'     | '5000'`)
+- `roundingMode` (attribute: `rounding-mode`): How decimals should be rounded. [See this page for more details.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#roundingmode) (Type: `| 'ceil'     | 'floor'     | 'expand'     | 'trunc'     | 'halfCeil'     | 'halfFloor'     | 'halfExpand'     | 'halfTrunc'     | 'halfEven'`)
+- `trailingZeroDisplay` (attribute: `trailing-zero-display`): The strategy for displaying trailing zeros on whole numbers. (Type: `'auto' | 'stripIfInteger'`)
+- `notation`: The formatting that should be displayed for the number. (Type: `'standard' | 'scientific' | 'engineering' | 'compact'`)
+- `compactDisplay` (attribute: `compact-display`): Only used when `notation` is `compact`. (Type: `'short' | 'long'`)
+- `grouping`: Whether to use grouping separators, such as thousands separators or thousand/lakh/crore separators. (Type: `'always' | 'never' | 'auto' | 'min2'`, Default: `'auto'`)
+- `signDisplay` (attribute: `sign-display`): When to display the sign for the number. (Type: `'auto' | 'always' | 'exceptZero' | 'negative' | 'never'`)
+
+### `<quiet-number-field>`
+
+**Description:** Allows users to input and edit numbers.
+
+**Documentation:** https://quietui.org/docs/components/number-field
+
+**Slots:**
+
+- `label`: The number field's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The number field's description. For plain-text descriptions, you can use the `description` attribute instead.
+- `start`: An icon or similar element to place before the label. Works great with `<quiet-icon>`.
+- `end`: An icon or similar element to place after the label. Works great with `<quiet-icon>`.
+
+**Properties:**
+
+- `label`: The number field's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The number field's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the number field. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The number field's value. (Type: `string`, Default: `''`)
+- `placeholder`: A placeholder to show in the number field when it's blank. (Type: `string`)
+- `disabled`: Disables the number field. (Type: `boolean`, Default: `false`)
+- `readonly`: Makes the number field a read-only field. (Type: `boolean`, Default: `false`)
+- `appearance`: The type of number field to render. (Type: `'normal' | 'filled' | 'unstyled'`, Default: `'normal'`)
+- `size`: The number field's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `pill`: Draws the number field in a pill shape. (Type: `boolean`, Default: `false`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the number field required. Form submission will not be allowed when this is set and the number field is blank. (Type: `boolean`, Default: `false`)
+- `pattern`: A regular expression the value should match to be considered valid. (Type: `string`)
+- `min`: The minimum value for date/time types. (Type: `number`)
+- `max`: The maximum value for date/time types. (Type: `number`)
+- `step`: The granularity the value must adhere to when incrementing and decrementing. (Type: `number | 'any'`)
+- `autocomplete`: Tells the browser how to autocomplete the number field. See [this page](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. (Type: `string`)
+- `autofocus`: Tells the browser to focus the number field when the page loads or a dialog is shown. (Type: `boolean`)
+- `enterkeyhint`: Sets the enter key label on virtual keyboards. (Type: `'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'`)
+- `withoutSteppers` (attribute: `without-steppers`): When true, the add/subtract steppers won't be displayed. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the number field.
+- `blur()`: Removes focus from the number field.
+- `select()`: Selects all text in the number field.
+- `setSelectionRange(start: number, end: number, direction: 'forward' | 'backward' | 'none')`: Sets the start and end positions of the current text selection in the number field.
+- `setRangeText(replacement: string, start: number, end: number, selectMode: 'select' | 'start' | 'end' | 'preserve')`: Replaces a range of text in the number field with a new string.
+- `stepDown()`: When a supported `type` is used, this method will decrease the number field's value by `step`. This is a programmatic change, so `input` and `change` events will not be emitted when this is called.
+- `stepUp()`: When a supported `type` is used, this method will increase the number field's value by `step`. This is a programmatic change, so `input` and `change` events will not be emitted when this is called.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the number field loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the number field's value.
+- `quiet-focus`: Emitted when the number field receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the number field receives input.
+
+**CSS Parts:**
+
+- `label`: The element that contains the number field's label.
+- `description`: The element that contains the number field's description.
+- `visual-box`: The element that wraps the internal text box.
+- `text-box`: The internal text box, an `<input>` element.
+- `stepper`: The up and down stepper buttons.
+- `stepper-up`: The up stepper button.
+- `stepper-down`: The down stepper button.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the number field is disabled.
+- `blank`: Applied when the number field has a blank value.
+- `focused`: Applied when the number field has focus.
+- `user-valid`: Applied when the number field is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the number field is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-number-ticker>`
+
+**Description:** Animates a number from a starting value to an ending value.
+
+**Documentation:** https://quietui.org/docs/components/number-ticker
+
+**Properties:**
+
+- `startValue` (attribute: `start-value`): The starting value for the count. (Type: `number`, Default: `0`)
+- `endValue` (attribute: `end-value`): The target value to count to. (Type: `number`, Default: `0`)
+- `duration`: Duration of the animation in milliseconds. (Type: `number`, Default: `2000`)
+- `delay`: Delay in milliseconds before counting starts. (Type: `number`, Default: `0`)
+- `decimalPlaces` (attribute: `decimal-places`): Number of decimal places to display. (Type: `number`, Default: `0`)
+- `grouping`: Whether to group numbers, e.g. with a thousands separator. (Type: `'always' | 'never' | 'auto' | 'min2'`, Default: `'auto'`)
+- `startOnView` (attribute: `start-on-view`): Whether to start the animation when the component comes into view. (Type: `boolean`, Default: `false`)
+- `ignoreReducedMotion` (attribute: `ignore-reduced-motion`): By default, no animation will occur when the user indicates a preference for reduced motion. Use this attribute to override this behavior when necessary. (Type: `boolean`, Default: `false`)
+- `valueFormatter`: A custom formatting function to apply to the number. When set, `decimal-places` and `grouping` will be ignored. Property only. (Type: `(value: number) => string`)
+
+**Events:**
+
+- `quiet-animation-complete`: Emitted when the counting animation has completed.
+
+### `<quiet-pagination>`
+
+**Description:** Splits content into numbered pages so users can navigate datasets in manageable chunks.
+
+**Documentation:** https://quietui.org/docs/components/pagination
+
+**Slots:**
+
+- `previous-icon`: A custom icon to use for the previous button.
+- `next-icon`: A custom icon to use for the next button.
+- `jump-backward-icon`: A custom icon to use for the jump backward button.
+- `jump-forward-icon`: A custom icon to use for jump forward button.
+
+**Properties:**
+
+- `label`: A label to use to describe the control to assistive devices. Defaults to "Pagination" when not set. (Type: `string`, Default: `''`)
+- `totalPages` (attribute: `total-pages`): The total number of pages to show. (Type: `number`, Default: `1`)
+- `page`: The current page. (Type: `number`, Default: `1`)
+- `siblings`: The number of pages to show on each side of the current page. Minimum 2. (Type: `number`, Default: `3`)
+- `jump`: The number of pages to increase or decrease when jump buttons are clicked. (Type: `number`, Default: `5`)
+- `format`: How the pagination will display buttons. (Type: `'compact' | 'standard'`, Default: `'standard'`)
+- `linkFormatter` (attribute: `link-formatter`): A string that, when provided, renders `<a>` elements instead of `<${tag}s>` using this as the link's template. Use `$page` to indicate the page number, e.g. `"/path/to/$page"`. Alternatively, you can provide a JavaScript function that accepts a page number and returns a URL. (Type: `string | ((page: number) => string)`, Default: `''`)
+- `disabled`: Disables the pagination control. (Type: `boolean`, Default: `false`)
+- `appearance`: Determine's the pagination's appearance. (Type: `'normal' | 'filled' | 'unstyled'`, Default: `'normal'`)
+- `withoutNav` (attribute: `without-nav`): Removes the previous and next buttons. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-before-page-change`: Emitted when the page is going to change but before it actually changes. Calling `event.preventDefault()` will prevent the page from changing. Inspect `event.detail` to get the `currentPage` and `requestedPage` properties.
+- `quiet-page-change`: Emitted after the page has been changed and the UI has been updated.
+
+**CSS Parts:**
+
+- `nav`: The navigation container, a `<nav>` element.
+- `list`: The list that contains the pagination items, a `<ul>` element.
+- `item`: A pagination item, an `<li>` element.
+- `button`: A pagination button, a `<button>` or an `<a>` element.
+- `button-first`: The button that navigates to the first page.
+- `button-previous`: The button that navigates to the previous page.
+- `button-next`: The button that navigates to the next page.
+- `button-last`: The button that navigates to the last page.
+- `button-page`: A button that navigates to a specific page.
+- `button-current`: The button that represents the current page.
+- `button-jump-backward`: The jump backward button.
+- `button-jump-forward`: The jump forward button.
+- `range`: The page range that shows the page when viewed in the compact format, e.g. "1 of 10".
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the pagination is disabled.
+
+### `<quiet-passcode>`
+
+**Description:** Allows users to enter fixed-length passcodes, verification tokens, one-time codes, and similar data in a user-friendly way.
+
+**Documentation:** https://quietui.org/docs/components/passcode
+
+**Slots:**
+
+- `label`: The passcode's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The passcode's description. For plain-text descriptions, you can use the `description` attribute instead.
+
+**Properties:**
+
+- `label`: The passcode's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The passcode's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the passcode. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The passcode's value. (Type: `string`, Default: `''`)
+- `format`: The format of the passcode. This dictates the number of characters and where delimiters will show. Use `#` to represent an allowed character. Use a space, dash, or any other character to represent a delimiter. Delimiters are shown for visual clarity, but won't be included in the submitted value. (Type: `string`, Default: `'####'`)
+- `disabled`: Disables the passcode. (Type: `boolean`, Default: `false`)
+- `appearance`: The type of passcode to render. (Type: `'normal' | 'filled' | 'unstyled'`, Default: `'normal'`)
+- `size`: The passcode's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `masked`: Masks the characters so they're not displayed on screen.=. (Type: `boolean`, Default: `false`)
+- `type`: The type of characters to allow in the input. (Type: `'numeric' | 'alpha' | 'alphanumeric' | 'any'`, Default: `'numeric'`)
+- `caseSensitive` (attribute: `case-sensitive`): Makes the passcode case sensitive. (Type: `boolean`, Default: `false`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the passcode required. Form submission will not be allowed when this is set and the passcode is blank. (Type: `boolean`, Default: `false`)
+- `pattern`: A regular expression the value should match to be considered valid. (Type: `string`)
+- `autocomplete`: Tells the browser how to autocomplete the passcode. See [this page](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. (Type: `string`, Default: `'one-time-code'`)
+- `autofocus`: Tells the browser to focus the passcode when the page loads or a dialog is shown. (Type: `boolean`)
+- `enterkeyhint`: Sets the enter key label on virtual keyboards. (Type: `'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the passcode.
+- `blur()`: Removes focus from the passcode.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the passcode loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the passcode's value.
+- `quiet-focus`: Emitted when the passcode receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the passcode receives input.
+- `quiet-input-complete`: Emitted when the final character in the passcode is entered. This is useful as a hook to verify the passcode as soon as it's typed in without requiring the user to explicitly submit it.
+
+**CSS Parts:**
+
+- `label`: The element that contains the passcode's label.
+- `description`: The element that contains the passcode's description.
+- `visual-box`: The element that wraps the characters, delimiters, and the hidden input.
+- `character-box`: Each individual character box.
+- `delimiter`: Each individual delimiter.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the passcode is disabled.
+- `blank`: Applied when the passcode has a blank value.
+- `focused`: Applied when the passcode has focus.
+- `user-valid`: Applied when the passcode is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the passcode is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-popover>`
+
+**Description:** Provides additional information or functionality without interrupting the flow of content.
+
+**Documentation:** https://quietui.org/docs/components/popover
+
+**Slots:**
+
+- `(default)`: The popover's content. Do not include interactive elements such as button, links, etc. as they won't be accessible to users inside the popover.
+
+**Properties:**
+
+- `for`: The ID of of popover's anchor element. This must be an interactive/focusable element such as a button and it must be in the same document as the popover. (Type: `string`)
+- `open`: Shows or hides the popover. (Type: `boolean`, Default: `false`)
+- `placement`: The placement of the popover in reference to the anchor. The menu will shift to a more optimal location if the preferred placement doesn't have enough room. (Type: `| 'top'     | 'top-start'     | 'top-end'     | 'bottom'     | 'bottom-start'     | 'bottom-end'     | 'right'     | 'right-start'     | 'right-end'     | 'left'     | 'left-start'     | 'left-end'`, Default: `'top'`)
+- `distance`: The distance of the popover from its anchor. (Type: `number`, Default: `8`)
+- `offset`: The offset of the popover along its trigger. (Type: `number`, Default: `0`)
+- `withoutArrow` (attribute: `without-arrow`): Renders the popover without an arrow. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-before-open`: Emitted when the popover is instructed to open but before it is shown.
+- `quiet-open`: Emitted when the popover has opened and the animation has completed.
+- `quiet-before-close`: Emitted when the popover is dismissed but before it is hidden.
+- `quiet-close`: Emitted when the popover has closed. and the animation has completed.
+
+**CSS Custom Properties:**
+
+- `--arrow-size`: The size of the arrow. To hide the arrow, use the `without-arrow` attribute. (Default: `0.3125rem`)
+- `--max-width`: The maximum width the popover be before wrapping. (Default: `25rem`)
+- `--show-duration`: The duration of the show/hide animation. (Default: `100ms`)
+
+**CSS Parts:**
+
+- `dialog`: The element that powers the popover, a `<dialog>` element.
+- `content`: The element that wraps the popover's content.
+- `arrow`: The popover's arrow. To change the arrow's size, use `--arrow-size` instead.
+
+**CSS Custom States:**
+
+- `open`: Applied when the popover is open.
+
+### `<quiet-progress>`
+
+**Description:** Visually represents the progress of a request or task.
+
+**Documentation:** https://quietui.org/docs/components/progress
+
+**Slots:**
+
+- `(default)`: Text to render inside the progress bar.
+
+**Properties:**
+
+- `label`: A custom label for assistive devices. (Type: `string`)
+- `appearance`: The type of progress bar to render. (Type: `'bar' | 'ring' | 'pie'`, Default: `'bar'`)
+- `min`: The progress bar's minimum value. (Type: `number`, Default: `0`)
+- `max`: The progress bar's maximum value. (Type: `number`, Default: `100`)
+- `value`: The progress bar's current value. (Type: `number`, Default: `0`)
+- `percentage`: The progress bar's current value as a percentage. This is a readonly property. (Type: `unknown`)
+- `indeterminate`: When the completion status can't be determined, the progress bar is considered indeterminate and the value is ignored. Useful for tasks whose progress can't be reported. (Type: `boolean`, Default: `false`)
+
+**CSS Custom Properties:**
+
+- `--track-color`: The color of the progress bar's track. (Default: `var(--quiet-neutral-fill-softer)`)
+- `--track-size`: The height or thickness of the track, depending on the type of progress bar. (Default: `1.5em | 1em`)
+- `--indicator-color`: The color of the progress bar's value indicator. (Default: `var(--quiet-primary-fill-mid)`)
+- `--diameter`: For progress rings, the diameter of the ring. (Default: `10em`)
+
+**CSS Parts:**
+
+- `track`: The progress bar's track, a `<div>` for progress bars and a `<circle>` for progress rings.
+- `indicator`: The progress bar's current value indicator, a `<div>` for progress bars and an SVG `<circle>` for progress rings.
+- `content`: The container that holds any content that's been slotted in.
+
+### `<quiet-qr>`
+
+**Description:** Generates a QR Code with embedded data.
+
+**Documentation:** https://quietui.org/docs/components/qr
+
+**Properties:**
+
+- `data`: A string of data to encode. URLs, email addresses, and other types of text are fine. (Type: `string`, Default: `''`)
+- `label`: A descriptive label for assistive devices. This will not be shown, but it will be announced by screen readers. If no label is provided, the raw data will be used instead. (Type: `string`, Default: `''`)
+- `errorCorrection` (attribute: `error-correction`): Determines the level of error correction. The values correspond to those in the [QR Code specification](https://www.qrcode.com/en/about/standards.html). (Type: `'L' | 'M' | 'Q' | 'H'`, Default: `'L'`)
+- `corners`: The corner radius of the blocks that make up the QR code. For best results, keep this within 0–0.5. (Type: `number`, Default: `0.25`)
+- `size`: The size of the resulting code in pixels. In most cases, 128–512 is ideal. (Type: `number`, Default: `128`)
+
+### `<quiet-radio>`
+
+**Description:** Allows the user to select one option from a group of choices.
+
+**Documentation:** https://quietui.org/docs/components/radio
+
+**Slots:**
+
+- `(default)`: The radio items to place in the group.
+- `label`: The radio's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The radios's description. For plain-text descriptions, you can use the `description` attribute instead.
+
+**Properties:**
+
+- `label`: The radio's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The radio's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the radio. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The radio's current value. Set this to change the selected item. (Type: `string`, Default: `''`)
+- `orientation`: The orientation of grouped items. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Indicates at least one option in the radio is required. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the radio control. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `focus(options: FocusOptions)`: Sets focus to the selected item or the first item if none are selected.
+
+**Events:**
+
+- `quiet-change`: Emitted when the user commits changes to the radio's value.
+- `quiet-input`: Emitted when the radio receives input.
+
+**CSS Parts:**
+
+- `label`: The element that contains the radio's label.
+- `description`: The element that contains the radio's description.
+- `group`: The element that wraps the grouped radios.
+
+**CSS Custom States:**
+
+- `user-valid`: Applied when the radio is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the radio is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-radio-item>`
+
+**Description:** Represents individual choices within a radio.
+
+**Documentation:** https://quietui.org/docs/components/radio-item
+
+**Slots:**
+
+- `(default)`: The radio item's label. For plain-text labels, you can use the `label` attribute instead.
+
+**Properties:**
+
+- `label`: The radio item's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The radio item's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `value`: The radio item's value. (Type: `string`, Default: `''`)
+- `checked`: The radio item's checked state. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the radio item. (Type: `boolean`, Default: `false`)
+- `appearance`: The type of radio item to render. (Type: `'normal' | 'filled'`, Default: `'normal'`)
+- `size`: The radio item's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+
+**Events:**
+
+- `quiet-blur`: Emitted when the radio item loses focus. This event does not bubble.
+- `quiet-focus`: Emitted when the radio item receives focus. This event does not bubble.
+
+**CSS Parts:**
+
+- `label`: The `<label>` that wraps the entire control.
+- `visual-box`: The element that wraps the internal radio.
+- `radio-icon`: The radio icon, a `<quiet-icon>` element.
+- `radio-icon__svg`: The radio icon's `svg` part.
+
+**CSS Custom States:**
+
+- `checked`: Applied when the radio item is checked.
+- `disabled`: Applied when the radio item is disabled.
+- `focused`: Applied when the radio item has focus.
+
+### `<quiet-random-content>`
+
+**Description:** Randomly displays one or more elements from a list.
+
+**Documentation:** https://quietui.org/docs/components/random-content
+
+**Slots:**
+
+- `(default)`: A pool of items that will be randomly displayed. Each item _must_ be a direct descendant of the host element.
+
+**Properties:**
+
+- `items`: The number of items to show. (Type: `number`, Default: `1`)
+- `mode`: The selection mode. The default is 'unique', which ensures different items are shown after calling `randomize()`, when possible. Use `random` for true randomization or `sequence` to show the next set of items based on their DOM position. (Type: `'unique' | 'random' | 'sequence'`, Default: `'unique'`)
+
+**Methods:**
+
+- `randomize()`: Rotates the visible item(s) based on the selected mode.
+
+### `<quiet-rating>`
+
+**Description:** Allows users to provide feedback based on their satisfaction with a product or service.
+
+**Documentation:** https://quietui.org/docs/components/rating
+
+**Slots:**
+
+- `label`: The rating's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The rating's description. For plain-text descriptions, you can use the `description` attribute instead.
+
+**Properties:**
+
+- `label`: The rating's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The rating's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the rating. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The rating's value. (Type: `number`, Default: `0`)
+- `disabled`: Disables the rating. (Type: `boolean`, Default: `false`)
+- `readonly`: Makes the rating a read-only field. (Type: `boolean`, Default: `false`)
+- `size`: The rating's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an iD of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the rating required. Form submission will not be allowed when this is set and the rating is empty. (Type: `boolean`, Default: `false`)
+- `max`: The maximum value allowed. (Type: `number`, Default: `5`)
+- `step`: The granularity the value must adhere to when incrementing and decrementing. (Type: `number`, Default: `1`)
+- `autofocus`: Tells the browser to focus the rating when the page loads or a dialog is shown. (Type: `boolean`)
+- `symbolFormatter`: A function that returns the HTML for each symbol. The function will receive the `value` and `isSelected` arguments that you can use to customize the symbol based on specific values or whether the symbol is in the selected state. You should only return trusted HTML from this function, otherwise you may become vulnerable to XSS exploits. (Type: `(step: number, isSelected: boolean) => string`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the rating.
+- `blur()`: Removes focus from the rating.
+- `stepDown()`: Decreases the rating's value by `step`. This is a programmatic change, so `input` and `change` events will not be emitted when this is called.
+- `stepUp()`: Increases the rating's value by `step`. This is a programmatic change, so `input` and `change` events will not be emitted when this is called.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the rating loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the rating's value.
+- `quiet-focus`: Emitted when the rating receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the rating receives input.
+
+**CSS Parts:**
+
+- `label`: The element that contains the ratings's label.
+- `description`: The element that contains the rating's description.
+- `rating`: The element that wraps all of the rating's symbols.
+- `symbol`: The container that holds the selected and unselected version of each symbol.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the rating is disabled.
+- `focused`: Applied when the rating has focus.
+- `user-valid`: Applied when the rating is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the rating is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-relative-time>`
+
+**Description:** Outputs a relative time in a human-readable format.
+
+**Documentation:** https://quietui.org/docs/components/relative-time
+
+**Properties:**
+
+- `date`: The date from which to calculate the relative time from. If an attribute is passed, the date should be an [ISO 8601 string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString). If set as a property, a `Date` object can be used instead. If unset, the current date will be assumed. (Type: `Date | string`, Default: `new Date()`)
+- `format`: The style of date to render. (Type: `'long' | 'short' | 'narrow'`, Default: `'long'`)
+- `numeric`: When `auto`, the date may produce strings such as "yesterday" instead of "1 day ago". (Type: `'auto' | 'always'`, Default: `'auto'`)
+- `live`: When set, the time will update itself. (Type: `boolean`, Default: `false`)
+
+### `<quiet-resize-observer>`
+
+**Description:** Watches child elements and dispatches an event when they resize.
+
+**Documentation:** https://quietui.org/docs/components/resize-observer
+
+**Slots:**
+
+- `(default)`: The elements to observe. All direct children of the host element are observed, but not nested elements.
+
+**Properties:**
+
+- `disabled`: Disables the resize observer. (Type: `boolean`, Default: `false`)
+- `box`: Sets which box model the observer will observe changes to. (Type: `'content-box' | 'border-box' | 'device-pixel-content-box'`, Default: `'content-box'`)
+
+**Events:**
+
+- `quiet-resize`: Emitted when a slotted element is resized. Like `ResizeObserver`, this event is also dispatched when each element is first observed. The `event.detail.entry` property contains a [`ResizeObserverEntry`](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserverEntry) with information about the element's dimensions.
+
+### `<quiet-scroller>`
+
+**Description:** Adds an accessible container with visual affordances to help users identify and navigate scrolling content.
+
+**Documentation:** https://quietui.org/docs/components/scroller
+
+**Slots:**
+
+- `(default)`: The content to show inside the scroller.
+
+**Properties:**
+
+- `orientation`: The scroller's orientation. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+- `withoutScrollbar` (attribute: `without-scrollbar`): Removes the visible scrollbar. (Type: `boolean`, Default: `false`)
+- `withoutShadow` (attribute: `without-shadow`): Removes the shadows. (Type: `boolean`, Default: `false`)
+
+**CSS Custom Properties:**
+
+- `--shadow-color`: The base color of the shadow. (Default: `var(--quiet-neutral-fill-mid)`)
+- `--shadow-size`: The width of the shadow. (Default: `2rem`)
+- `--thumb-color`: The color of the scrollbar's thumb (supportive browsers only). (Default: `var(--quiet-neutral-fill-mid)`)
+- `--track-color`: The color of the scrollbar's track (supportive browsers only). (Default: `transparent`)
+
+**CSS Parts:**
+
+- `content`: The container that wraps the slotted content.
+- `start-shadow`: The starting shadow.
+- `end-shadow`: The ending shadow.
+
+### `<quiet-search-list>`
+
+**Description:** Queries a collection of items based on their content and keywords.
+
+**Documentation:** https://quietui.org/docs/components/search-list
+
+**Slots:**
+
+- `(default)`: One or more elements to be searched. Each element must be a direct descendent of the host, i.e. do not wrap items in other containers. If desired, you can apply flex and grid styles to the `items` part to control how items appear in the list. By default, items will be displayed in a flex column.
+- `controller`: A `<quiet-text-field>` or `<input>` element that will control the search list.
+- `initial`: Optional content to display when no search query has been entered.
+- `empty`: Optional content to display when the search yields no results.
+
+**Properties:**
+
+- `controller`: In most cases, you should slot the controller into the `controller` slot. However, when the controller must exist outside the search list, you can set this property to the ID of an external `<input>` or `<quiet-text-field>` element instead. (Type: `string`)
+- `match`: The search behavior to use when finding a matching item. The `exact` search is case-insensitive but requires an exact match. The `fuzzy` search is more forgiving to typos. When using `custom`, you can set the `isMatch` property to a custom function to determine if the provided query matches the element's content. (Type: `'exact' | 'fuzzy' | 'custom'`, Default: `'exact'`)
+- `debounce`: The time in milliseconds to use for debouncing the search results while the user types. (Type: `number`, Default: `300`)
+- `isMatch`: A custom search function you can provide to change the search behavior. The function is applied to each item when the search query changes. The `query` argument is the current search term, `content` is a string containing the element's searchable content, including its `textContent` and `data-keywords"`, and `el` is the element being searched. Property only. (Type: `(query: string, content: string, el: Element) => boolean`)
+
+**Methods:**
+
+- `setQuery(query: unknown)`: Sets the search query and updates the results. To clear the search, set this to an empty string.
+
+**CSS Parts:**
+
+- `items`: The container that wraps the slotted items. Displays as a flex column by default.
+
+**CSS Custom States:**
+
+- `empty`: Applied when a query is entered and no matching results are found.
+- `initial`: Applied when the query is empty and the `initial` slot is showing.
+
+### `<quiet-select>`
+
+**Description:** Allows users to choose an option from a predefined list of options.
+
+**Documentation:** https://quietui.org/docs/components/select
+
+**Slots:**
+
+- `label`: The select's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The select's description. For plain-text descriptions, you can use the `description` attribute instead.
+- `start`: An icon or similar element to place before the label. Works great with `<quiet-icon>`.
+- `end`: An icon or similar element to place after the label. Works great with `<quiet-icon>`.
+
+**Properties:**
+
+- `label`: The select's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The select's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the select. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The select's value. (Type: `string`, Default: `''`)
+- `disabled`: Disables the select. (Type: `boolean`, Default: `false`)
+- `readonly`: Makes the select a read-only field. (Type: `boolean`, Default: `false`)
+- `appearance`: The type of select to render. (Type: `'normal' | 'filled' | 'unstyled'`, Default: `'normal'`)
+- `size`: The select's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `pill`: Draws the select in a pill shape. (Type: `boolean`, Default: `false`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the select required. Form submission will not be allowed when this is set and the select is blank. (Type: `boolean`, Default: `false`)
+- `autocomplete`: Tells the browser how to autocomplete the select. See [this page](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. (Type: `string`)
+- `enterkeyhint`: Sets the enter key label on virtual keyboards. (Type: `'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the select.
+- `blur()`: Removes focus from the select.
+- `showPicker()`: Shows the picker in supportive browsers.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the select loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the select's value.
+- `quiet-focus`: Emitted when the select receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the select receives input.
+
+**CSS Parts:**
+
+- `label`: The element that contains the select's label.
+- `description`: The element that contains the select's description.
+- `visual-box`: The element that wraps the internal text box.
+- `text-box`: The internal text box, a `<select>` element.
+- `chevron`: The chevron icon, a `<quiet-icon>` element.
+- `chevron__svg`: The chevron icon's `<svg>` part.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the select is disabled.
+- `blank`: Applied when the select has no selected option.
+- `focused`: Applied when the select has focus.
+- `user-valid`: Applied when the select is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the select is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-share>`
+
+**Description:** Allows users to share links, files and text via their operating system's share interface.
+
+**Documentation:** https://quietui.org/docs/components/share
+
+**Slots:**
+
+- `(default)`: A custom button to use instead of the default.
+
+**Properties:**
+
+- `label`: A human-readable label to be shared. This is sometimes ignored by the operating system, but you should usually provide it as a fallback value. (Type: `string`)
+- `text`: A string of text to be shared. (Type: `string`)
+- `url`: A URL to be shares. (Type: `string`)
+- `files`: An array of [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File) objects to be shared. Property only. (Type: `File[]`)
+- `disabled`: Disables the button. (Type: `boolean`, Default: `false`)
+- `feedbackPlacement` (attribute: `feedback-placement`): The placement of the feedback animation when falling back to copying. (Type: `| 'top'     | 'right'     | 'bottom'     | 'left'     | 'hidden'`, Default: `'top'`)
+
+**CSS Parts:**
+
+- `share-button`: The default share button, a `<quiet-button>` element.
+- `share-button__button`: The default share button's `button` part.
+- `share-icon`: The default share icon, a `<quiet-icon>` element.
+- `share-icon__svg`: The share icon's `svg` part.
+- `feedback`: The feedback that shows when copying (e.g. when the Web Share API is unsupported).
+
+### `<quiet-slide-activator>`
+
+**Description:** Gives users a draggable thumb that must be moved to the end of its track to trigger an action.
+
+**Documentation:** https://quietui.org/docs/components/slide-activator
+
+**Slots:**
+
+- `label`: The slide activator's label. For plain-text labels, you can use the `label` attribute instead.
+- `activated-label`: The label to show when activated. For plain-text labels, you can use the `activated-label` attribute instead.
+- `thumb`: The thumb element that users drag. Defaults to a double chevron icon if not provided.
+
+**Properties:**
+
+- `label`: The label to show in the slide activator's track. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`, Default: `''`)
+- `activatedLabel` (attribute: `activated-label`): The label to show when the control is activated. If omitted, the regular label will be shown. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`, Default: `''`)
+- `activated`: Reflects when the control is activated. Remove this attribute to deactivate it. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the control. (Type: `boolean`, Default: `false`)
+- `attention`: Draws attention to the track by adding a subtle animation. (Type: `'shimmer'`)
+
+**Events:**
+
+- `quiet-before-activate`: Emitted when the control will activate. Calling `event.preventDefault()` will prevent the activation from occurring.
+- `quiet-activate`: Emitted immediately after the control is activated.
+- `quiet-before-deactivate`: Emitted when the control will deactivate. Calling `event.preventDefault()` will prevent the deactivation from occurring.
+- `quiet-deactivate`: Emitted immediately after the control is deactivated.
+- `quiet-progress`: Emitted as the slider progresses. Use `event.details.percent` to see how far along it is.
+
+**CSS Custom Properties:**
+
+- `--border-radius`: The control's border radius. We use a CSS custom property so we can properly calculate the inset border radius for the thumb. (Default: `var(--quiet-border-radius-lg)`)
+- `--thumb-width`: The thumb's width. (Default: `4em`)
+- `--thumb-inset`: The thumb's inset from the host element. (Default: `0.125em`)
+- `--shimmer-color`: The color to use as a base for the shimmer animation.
+- `--thumb-position`: A read-only property that moves from 0 to 1 as the user slides the thumb to activate the control. Useful as a hook to transition background styles based on the thumb's position. (Default: `(read-only)`)
+
+**CSS Parts:**
+
+- `thumb`: The slide activator's thumb.
+- `label`: The slide activator's label.
+
+**CSS Custom States:**
+
+- `activated`: Applied briefly when the slide activator has been activated.
+- `dragging`: Applied when the slide activator is dragging.
+- `pressing`: Applied when the user is pressing a key to activate the slide activator.
+- `disabled`: Applied when the slide activator is disabled.
+
+### `<quiet-slider>`
+
+**Description:** Allows users to select numeric values within a given range by moving a thumb along a track.
+
+**Documentation:** https://quietui.org/docs/components/slider
+
+**Slots:**
+
+- `label`: The slider's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The slider's description. For plain-text descriptions, you can use the `description` attribute instead.
+- `reference`: One or more reference labels to show visually below the slider.
+
+**Properties:**
+
+- `label`: The slider's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The slider's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the slider. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The slider's value. (Type: `number`, Default: `0`)
+- `minValue` (attribute: `min-value`): The minimum value of a range selection. Used only when range attribute is set. (Type: `number`, Default: `0`)
+- `maxValue` (attribute: `max-value`): The maximum value of a range selection. Used only when range attribute is set. (Type: `number`, Default: `50`)
+- `range`: Converts the slider to a range slider with two thumbs. (Type: `boolean`, Default: `false`)
+- `isRange`: Get if this is a range slider (Type: `boolean`)
+- `disabled`: Disables the slider. (Type: `boolean`, Default: `false`)
+- `readonly`: Makes the slider a read-only field. (Type: `boolean`, Default: `false`)
+- `orientation`: The orientation of the slider. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+- `size`: The slider's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `indicatorOffset` (attribute: `indicator-offset`): The starting value from which to draw the slider's fill, which is based on its current value. (Type: `number`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `min`: The minimum value allowed. (Type: `number`, Default: `0`)
+- `max`: The maximum value allowed. (Type: `number`, Default: `100`)
+- `step`: The granularity the value must adhere to when incrementing and decrementing. (Type: `number`, Default: `1`)
+- `autofocus`: Tells the browser to focus the slider when the page loads or a dialog is shown. (Type: `boolean`)
+- `tooltipDistance` (attribute: `tooltip-distance`): The distance of the tooltip from the slider's thumb. (Type: `number`, Default: `8`)
+- `tooltipPlacement` (attribute: `tooltip-placement`): The placement of the tooltip in reference to the slider's thumb. (Type: `'top' | 'right' | 'bottom' | 'left'`, Default: `'top'`)
+- `withMarkers` (attribute: `with-markers`): Draws markers at each step along the slider. (Type: `boolean`, Default: `false`)
+- `withTooltip` (attribute: `with-tooltip`): Draws a tooltip above the thumb when the control has focus or is dragged. (Type: `boolean`, Default: `false`)
+- `valueFormatter`: A custom formatting function to apply to the value. This will be shown in the tooltip and announced by screen readers. Must be set with JavaScript. Property only. (Type: `(value: number) => string`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the slider.
+- `blur()`: Removes focus from the slider.
+- `stepDown()`: Decreases the slider's value by `step`. This is a programmatic change, so `input` and `change` events will not be emitted when this is called.
+- `stepUp()`: Increases the slider's value by `step`. This is a programmatic change, so `input` and `change` events will not be emitted when this is called.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the slider loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the slider's value.
+- `quiet-focus`: Emitted when the slider receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the slider receives input.
+
+**CSS Custom Properties:**
+
+- `--track-size`: The height or width of the slider's track. (Default: `0.75em`)
+- `--marker-width`: The width of each individual marker. (Default: `0.1875em`)
+- `--marker-height`: The height of each individual marker. (Default: `0.1875em`)
+- `--thumb-width`: The width of the thumb. (Default: `1.25em`)
+- `--thumb-height`: The height of the thumb. (Default: `1.25em`)
+
+**CSS Parts:**
+
+- `label`: The element that contains the sliders's label.
+- `description`: The element that contains the slider's description.
+- `slider`: The focusable element with `role="slider"`. Contains the track and reference slot.
+- `track`: The slider's track.
+- `indicator`: The colored indicator that shows from the start of the slider to the current value.
+- `markers`: The container that holds all the markers when `with-markers` is used.
+- `marker`: The individual markers that are shown when `with-markers` is used.
+- `references`: The container that holds references that get slotted in.
+- `thumb`: The slider's thumb.
+- `thumb-min`: The min value thumb in a range slider.
+- `thumb-max`: The max value thumb in a range slider.
+- `tooltip`: The tooltip, a `<quiet-tooltip>` element.
+- `tooltip__tooltip`: The tooltip's `tooltip` part.
+- `tooltip__content`: The tooltip's `content` part.
+- `tooltip__arrow`: The tooltip's `arrow` part.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the slider is disabled.
+- `dragging`: Applied when the slider is being dragged.
+- `focused`: Applied when the slider has focus.
+- `user-valid`: Applied when the slider is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the slider is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-sparkline>`
+
+**Description:** Shows at-a-glance trends in a small, inline chart that fits within text or tables.
+
+**Documentation:** https://quietui.org/docs/components/sparkline
+
+**Properties:**
+
+- `label`: An accessible label for the sparkline. This will be read by screen readers for users who can't see the chart, so make sure to describe it appropriately. (Type: `string`, Default: `''`)
+- `data`: A space-separated list of positive values to show in the sparkline, e.g. "10 25 18 30". At least two values are required to generate a chart. (Type: `string`, Default: `''`)
+- `appearance`: Determines the sparkline's appearance. (Type: `'gradient' | 'line' | 'solid'`, Default: `'gradient'`)
+- `trend`: Draws the component with colors to visually indicate the specified trend. (Type: `'positive' | 'negative' | 'neutral'`)
+- `curve`: The interpolation method used to connect data points on the line. (Type: `'linear' | 'natural' | 'step'`, Default: `'linear'`)
+
+**CSS Custom Properties:**
+
+- `--fill-color`: The start color of the gradient fill
+- `--gradient-stop-color`: The end color of the gradient fill
+
+### `<quiet-spinner>`
+
+**Description:** Tells the user that content is loading or a request is processing in the background.
+
+**Documentation:** https://quietui.org/docs/components/spinner
+
+**Slots:**
+
+- `(default)`: A custom spinner to show in lieu of the default one. Works best with `<img>` and `<svg>` elements. Custom spinners will not be animated, allowing you to use animated GIF, APNG, and SVG animations without conflict.
+
+**Properties:**
+
+- `label`: A custom label for screen readers. (Type: `string`, Default: `''`)
+
+**CSS Custom Properties:**
+
+- `--indicator-color`: The color of the spinner's indicator. (Default: `var(--quiet-primary-fill-mid)`)
+- `--track-color`: The color of the spinner's track. (Default: `color-mix(in oklab, var(--quiet-neutral-fill-mid), transparent 75%)`)
+- `--speed`: The speed for one complete rotation. (Default: `0.75s`)
+
+**CSS Parts:**
+
+- `track`: the spinner's track, a `<circle>` SVG element.
+- `indicator`: the spinner's indicator, a `<circle>` SVG element.
+
+### `<quiet-splitter>`
+
+**Description:** A draggable splitter that separates two panels, allowing users to resize them.
+
+**Documentation:** https://quietui.org/docs/components/splitter
+
+**Slots:**
+
+- `start`: The content for the primary (start) panel.
+- `end`: The content for the secondary (end) panel.
+- `handle`: The draggable handle that separates the panels.
+
+**Properties:**
+
+- `position`: The current position of the divider as a decimal (0-1). (Type: `number`, Default: `0.5`)
+- `orientation`: The orientation of the splitter. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+- `disabled`: Disables the splitter, preventing it from being focused and resized. (Type: `boolean`, Default: `false`)
+- `snap`: A space-separated list of percentage snap points, e.g. "25% 50% 75%". (Type: `string`, Default: `''`)
+- `snapThreshold` (attribute: `snap-threshold`): The maximum distance (in pixels) within which the divider will snap to a specified snap point. (Type: `number`, Default: `10`)
+
+**Events:**
+
+- `quiet-resize`: Dispatched when the splitter's handle is moved.
+
+**CSS Custom Properties:**
+
+- `--divider-min-position`: Minimum position of the divider (as a percentage or pixel value). (Default: `0%`)
+- `--divider-max-position`: Maximum position of the divider (as a percentage or pixel value). (Default: `100%`)
+- `--divider-draggable-area`: The size of the divider's draggable area (can be larger than the visible area). (Default: `1rem`)
+- `--divider-width`: The width of the visual divider. (Default: `0.125rem`)
+
+**CSS Parts:**
+
+- `start`: The content to show in the first (start) panel.
+- `end`: The content to show in the second (end) panel.
+- `divider`: The draggable divider that separates the panels.
+- `handle`: The visual handle within the divider (only present when not using the `handle` slot).
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the splitter is disabled.
+- `dragging`: Applied when the splitter is being dragged.
+- `focused`: Applied when the splitter has focus.
+
+### `<quiet-spoiler>`
+
+**Description:** Conceals sensitive content and gives the user the option of showing it or not, preventing unintentional disclosure.
+
+**Documentation:** https://quietui.org/docs/components/spoiler
+
+**Slots:**
+
+- `(default)`: The spoiler's content.
+- `label`: A custom label for the reveal text. For plain-text labels, you can use the `label` attribute instead.
+
+**Properties:**
+
+- `visible`: Shows or hides the spoiler's content. (Type: `boolean`, Default: `false`)
+- `inline`: Renders the spoiler inline. (Type: `boolean`, Default: `false`)
+- `persist`: Removes the hide button and persists the content when shown. (Type: `boolean`, Default: `false`)
+- `effect`: Determines how the spoiler is hidden. (Type: `'blur' | 'solid' | 'noise'`, Default: `'blur'`)
+- `label`: The spoiler's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `name`: When more than one spoilers share the same name, only will be shown at a time. (Type: `string`, Default: `''`)
+
+**CSS Custom Properties:**
+
+- `--blur`: The amount of blur when using the blur effect. (Default: `8px`)
+
+**CSS Parts:**
+
+- `content`: The container that holds the spoiler's content.
+- `cover`: The element that covers the spoiler, a `<button>` element.
+- `label`: The container that wraps the label, a `<span>` element.
+- `hide-button`: The button that hides the spoiler, a `<button>` element containing an icon.
+- `hide-icon`: The hide icon, a `<quiet-icon>` element.
+- `hide-icon__svg`: The hide icon's `svg` part.
+
+### `<quiet-stamp>`
+
+**Description:** Renders templates with simple expressions, logic, and custom data.
+
+**Documentation:** https://quietui.org/docs/components/stamp
+
+**Properties:**
+
+- `template`: The ID of the `<template>` element to use as a stamp. (Type: `string`, Default: `''`)
+- `replace`: When true, the stamped content will replace the `<quiet-stamp>` element instead of being appended to it. This can be useful for controlling exactly what appears in the DOM, but it can also be confusing for developers who may not understand how the stamped content was generated. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `renderTemplate()`: Processes the associated template and renders it to the DOM.
+
+### `<quiet-switch>`
+
+**Description:** Allows the user to toggle between two mutually exclusive states, such as on and off.
+
+**Documentation:** https://quietui.org/docs/components/switch
+
+**Slots:**
+
+- `(default)`: The switch's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The switch's description. For plain-text descriptions, you can use the `description` attribute instead.
+- `off-label`: The label to show when the switch is off.
+- `on-label`: The label to show when the switch is on.
+
+**Properties:**
+
+- `label`: The switch's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The switch's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the switch. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The switch's value. (Type: `string`, Default: `''`)
+- `checked`: The switch's checked state. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the switch. (Type: `boolean`, Default: `false`)
+- `size`: The switch's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the switch required. Form submission will not be allowed until the switch is checked. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the switch.
+- `blur()`: Removes focus from the switch.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the switch loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the switch's value.
+- `quiet-focus`: Emitted when the switch receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the switch receives input.
+
+**CSS Parts:**
+
+- `label`: The `<label>` that wraps the entire control.
+- `description`: The element that contains the switch's description.
+- `visual-box`: The element that wraps the internal switch.
+- `switch`: The internal switch, an `<input type="checkbox" role="switch">` element.
+- `thumb`: The switch's thumb.
+- `on-label`: The container wrapping the `on-label`.
+- `off-label`: The container wrapping the `off-label`.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the switch is disabled.
+- `focused`: Applied when the switch has focus.
+- `user-valid`: Applied when the switch is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the switch is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-tab>`
+
+**Description:** Describes and selects a tab panel within a tab list.
+
+**Documentation:** https://quietui.org/docs/components/tab
+
+**Slots:**
+
+- `(default)`: The tab's content. This is usually a short label, but sometimes includes an icon.
+
+**Properties:**
+
+- `panel`: The name of the tab panel this tab will link to. The tab panel must be an HTML element inside the `<quiet-tab-list>` element with a `name` attribute. (Type: `string | undefined`)
+- `disabled`: Disables the tab, preventing it from being activated. (Type: `boolean`, Default: `false`)
+
+**CSS Custom States:**
+
+- `active`: Applied when the tab is selected.
+- `disabled`: Applied when the tab is selected.
+
+### `<quiet-tab-list>`
+
+**Description:** Allows users to switch between different sections of content without leaving the page, providing a clean and organized interface.
+
+**Documentation:** https://quietui.org/docs/components/tab-list
+
+**Slots:**
+
+- `(default)`: One or more `<quiet-tab-panel>` elements, each with a `name` attribute unique to the tab list.
+- `tab`: One or more `<quiet-tab>` elements, each with a `panel` attribute linked to the `name` of a tab panel. Note that tabs will automatically apply this slot to themselves, so you can safely omit `slot="tab"` in your markup. Also useful for adding close buttons to tabs.
+
+**Properties:**
+
+- `label`: An accessible label for the tab list. This won't be visible, but it will be read to assistive devices so you should always include one. (Type: `string`)
+- `tab`: The name of the tab panel that's currently active. (Type: `string`)
+- `placement`: The placement of tab controls. (Type: `'top' | 'bottom' | 'start' | 'end'`, Default: `'top'`)
+
+**Events:**
+
+- `quiet-tab-shown`: Emitted after a tab is shown. The event will include a `detail` object with `tab` and `panel`properties that reference the respective tab and panel elements.
+- `quiet-tab-hidden`: Emitted after a tab is hidden. The event will include a `detail` object with `tab` and `panel` properties that reference the respective tab and panel elements.
+
+**CSS Parts:**
+
+- `tabs`: The container that holds all of the tabs, a `<quiet-scroller>` element.
+- `tabs-content`: The scroller's `content` part.
+- `panels`: The container that holds all of the tab panels.
+
+### `<quiet-tab-panel>`
+
+**Description:** Holds the content that gets displayed when a tab is selected.
+
+**Documentation:** https://quietui.org/docs/components/tab-panel
+
+**Slots:**
+
+- `(default)`: Content to show inside the tab panel.
+
+**Properties:**
+
+- `name`: The name of the tab panel. Used for assigning tabs to panels. (Type: `string`)
+
+**CSS Custom States:**
+
+- `visible`: Applied when the tab panel is visible.
+
+### `<quiet-text-area>`
+
+**Description:** Allows users to edit multi-line, plain text content.
+
+**Documentation:** https://quietui.org/docs/components/text-area
+
+**Slots:**
+
+- `label`: The text area's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The text area's description. For plain-text descriptions, you can use the `description` attribute instead.
+
+**Properties:**
+
+- `label`: The text area's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The text area's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the text area. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The text area's value. (Type: `string`, Default: `''`)
+- `placeholder`: A placeholder to show in the text area when it's blank. (Type: `string`)
+- `disabled`: Disables the text area. (Type: `boolean`, Default: `false`)
+- `readonly`: Makes the text area a read-only area. (Type: `boolean`, Default: `false`)
+- `resize`: Determines how the text area can be resized. (Type: `'vertical' | 'auto' | 'none'`, Default: `'vertical'`)
+- `rows`: The default number of rows visible in the text area. (Type: `number`, Default: `3`)
+- `appearance`: The type of text area to render. (Type: `'normal' | 'filled' | 'unstyled'`, Default: `'normal'`)
+- `size`: The text area's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the text area required. Form submission will not be allowed when this is set and the text area is blank. (Type: `boolean`, Default: `false`)
+- `minLength` (attribute: `minlength`): The minimum string length that will be considered valid. (Type: `number`)
+- `maxLength` (attribute: `maxlength`): The maximum string length that will be considered valid. (Type: `number`)
+- `autocapitalize`: Turns autocapitalize on or off in supported browsers. (Type: `'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters'`)
+- `autocomplete`: Tells the browser how to autocomplete the text area. See [this page](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. (Type: `string`)
+- `autocorrect`: Turns autocorrect on or off in supported browsers. (Type: `'off' | 'on'`)
+- `autofocus`: Tells the browser to focus the text area when the page loads or a dialog is shown. (Type: `boolean`)
+- `enterkeyhint`: Sets the enter key label on virtual keyboards. (Type: `'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'`)
+- `inputmode`: Provides the browser with a hint about the type of data that might be entered by the user, allowing the appropriate virtual keyboard to be displayed on supported devices. (Type: `'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'`)
+- `spellcheck`: Turns spell checking on or off in supported browsers. (Type: `boolean`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the text area.
+- `blur()`: Removes focus from the text area.
+- `select()`: Selects all text in the text area.
+- `setSelectionRange(start: number, end: number, direction: 'forward' | 'backward' | 'none')`: Sets the start and end positions of the current text selection in the text area.
+- `setRangeText(replacement: string, start: number, end: number, selectMode: 'select' | 'start' | 'end' | 'preserve')`: Replaces a range of text in the text area with a new string.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the text area loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the text area's value.
+- `quiet-focus`: Emitted when the text area receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the text area receives input.
+
+**CSS Parts:**
+
+- `label`: The element that contains the text area's label.
+- `description`: The element that contains the text area's description.
+- `visual-box`: The element that wraps the internal text box.
+- `text-box`: The internal text box, a `<textarea>` element.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the text area is disabled.
+- `blank`: Applied when the text area has a blank value.
+- `focused`: Applied when the text area has focus.
+- `user-valid`: Applied when the text area is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the text area is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-text-field>`
+
+**Description:** Allows users to input and edit text.
+
+**Documentation:** https://quietui.org/docs/components/text-field
+
+**Slots:**
+
+- `label`: The text field's label. For plain-text labels, you can use the `label` attribute instead.
+- `description`: The text field's description. For plain-text descriptions, you can use the `description` attribute instead.
+- `start`: An icon or similar element to place before the label. Works great with `<quiet-icon>`.
+- `end`: An icon or similar element to place after the label. Works great with `<quiet-icon>`.
+
+**Properties:**
+
+- `label`: The text field's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `description`: The text field's description. If you need to provide HTML in the description, use the `description` slot instead. (Type: `string`)
+- `name`: The name of the text field. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The text field's value. (Type: `string`, Default: `''`)
+- `placeholder`: A placeholder to show in the text field when it's blank. (Type: `string`)
+- `disabled`: Disables the text field. (Type: `boolean`, Default: `false`)
+- `readonly`: Makes the text field a read-only field. (Type: `boolean`, Default: `false`)
+- `withClear` (attribute: `with-clear`): Adds a clear button to the text field when it's not blank. (Type: `boolean`, Default: `false`)
+- `appearance`: The type of text field to render. (Type: `'normal' | 'filled' | 'unstyled'`, Default: `'normal'`)
+- `size`: The text field's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `pill`: Draws the text field in a pill shape. (Type: `boolean`, Default: `false`)
+- `type`: The type of data the text field will accept. (Type: `| 'color'     | 'date'     | 'datetime-local'     | 'email'     | 'month'     | 'number'     | 'password'     | 'search'     | 'tel'     | 'text'     | 'time'     | 'url'     | 'week'`, Default: `'text'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the text field required. Form submission will not be allowed when this is set and the text field is blank. (Type: `boolean`, Default: `false`)
+- `pattern`: A regular expression the value should match to be considered valid. (Type: `string`)
+- `minLength` (attribute: `minlength`): The minimum string length that will be considered valid. (Type: `number`)
+- `maxLength` (attribute: `maxlength`): The maximum string length that will be considered valid. (Type: `number`)
+- `min`: The minimum value for date/time types. (Type: `number`)
+- `max`: The maximum value for date/time types. (Type: `number`)
+- `step`: The granularity the value must adhere to when incrementing and decrementing. (Type: `number | 'any'`)
+- `autocapitalize`: Turns autocapitalize on or off in supported browsers. (Type: `'off' | 'none' | 'on' | 'sentences' | 'words' | 'characters'`)
+- `autocomplete`: Tells the browser how to autocomplete the text field. See [this page](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) for available values. (Type: `string`)
+- `autocorrect`: Turns autocorrect on or off in supported browsers. (Type: `'off' | 'on'`)
+- `autofocus`: Tells the browser to focus the text field when the page loads or a dialog is shown. (Type: `boolean`)
+- `enterkeyhint`: Sets the enter key label on virtual keyboards. (Type: `'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send'`)
+- `inputmode`: Provides the browser with a hint about the type of data that might be entered by the user, allowing the appropriate virtual keyboard to be displayed on supported devices. (Type: `'none' | 'text' | 'decimal' | 'numeric' | 'tel' | 'search' | 'email' | 'url'`)
+- `spellcheck`: Turns spell checking on or off in supported browsers. (Type: `boolean`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the text field.
+- `blur()`: Removes focus from the text field.
+- `select()`: Selects all text in the text field.
+- `setSelectionRange(start: number, end: number, direction: 'forward' | 'backward' | 'none')`: Sets the start and end positions of the current text selection in the text field.
+- `setRangeText(replacement: string, start: number, end: number, selectMode: 'select' | 'start' | 'end' | 'preserve')`: Replaces a range of text in the text field with a new string.
+- `showPicker()`: For types that support a picker, such as color and date selectors, this will cause the picker to show.
+- `stepDown()`: When a supported `type` is used, this method will decrease the text field's value by `step`. This is a programmatic change, so `input` and `change` events will not be emitted when this is called.
+- `stepUp()`: When a supported `type` is used, this method will increase the text field's value by `step`. This is a programmatic change, so `input` and `change` events will not be emitted when this is called.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the text field loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the text field's value.
+- `quiet-focus`: Emitted when the text field receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the text field receives input.
+
+**CSS Parts:**
+
+- `label`: The element that contains the text field's label.
+- `description`: The element that contains the text field's description.
+- `visual-box`: The element that wraps the internal text box.
+- `text-box`: The internal text box, an `<input>` element.
+- `clear-button`: The clear button, a `<button>` element.
+- `password-toggle-button`: The password toggle button, a `<button>` element.
+
+**CSS Custom States:**
+
+- `disabled`: Applied when the text field is disabled.
+- `blank`: Applied when the text field has a blank value.
+- `focused`: Applied when the text field has focus.
+- `user-valid`: Applied when the text field is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the text field is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-text-mask>`
+
+**Description:** Applies text as a mask over an image, creating visually stylized characters.
+
+**Documentation:** https://quietui.org/docs/components/text-mask
+
+**Slots:**
+
+- `(default)`: The text to be masked.
+
+**Properties:**
+
+- `image`: The URL of the image to use for the mask. (Type: `string`, Default: `''`)
+- `fixed`: Creates a parallax-like effect where the image stays fixed while scrolling (Type: `boolean`, Default: `false`)
+
+**CSS Custom Properties:**
+
+- `--brightness`: Adjusts the brightness of the mask image (0-200%, where 100% is normal)
+- `--contrast`: Adjusts the contrast of the mask image (0-200%, where 100% is normal)
+- `--grayscale`: Converts the mask to grayscale (0-100%, where 0% is normal and 100% is fully grayscale)
+- `--hue-rotate`: Rotates the hue of the mask (0-360deg)
+
+### `<quiet-timed-content>`
+
+**Description:** Shows certain content based on the current date and time.
+
+**Documentation:** https://quietui.org/docs/components/timed-content
+
+**Slots:**
+
+- `(default)`: The default slot.
+- `before`: Optional content that shows before the specified date/time.
+- `after`: Optional content that shows after the specified date/time.
+
+**Properties:**
+
+- `startDate` (attribute: `start-date`): The date to start showing the content. (Type: `string | Date`, Default: `''`)
+- `endDate` (attribute: `end-date`): The date to stop showing the content. (Type: `string | Date`, Default: `''`)
+- `live`: When set, the content will update as the time changes. (Type: `boolean`, Default: `false`)
+
+### `<quiet-toast>`
+
+**Description:** A mechanism for showing temporary, non-intrusive notifications that appear above the page's content.
+
+**Documentation:** https://quietui.org/docs/components/toast
+
+**Properties:**
+
+- `transitionAnimation`: A custom animation to use for enter/exit transitions. This gets passed through to the internal transition group. Works well with animations from `@quietui/scurry`. (Property only) (Type: `QuietTransitionAnimation | undefined`)
+- `placement`: The placement of the toast stack on the screen. (Type: `| 'top-start'     | 'top-center'     | 'top-end'     | 'bottom-start'     | 'bottom-center'     | 'bottom-end'`, Default: `'bottom-end'`)
+
+**Methods:**
+
+- `create(content: string, options: Partial<CreateOptions>)`: Creates a toast notification and adds it to the stack. Returns a reference to the created toast item.
+- `createFromTemplate(template: HTMLTemplateElement)`: Creates a toast notification using an existing `<quiet-toast-item>` element. Useful if you want to create your own toast items declaratively. Returns a reference to the cloned toast item.
+- `empty()`: Removes all elements from the toast stack and turns when the remove transition finishes.
+- `escapeHtml(html: string)`: Escapes HTML special characters in the given string.
+
+**CSS Custom States:**
+
+- `visible`: Applied when the toast stack is visible.
+
+### `<quiet-toast-item>`
+
+**Description:** Notifications displayed by the toast component.
+
+**Documentation:** https://quietui.org/docs/components/toast-item
+
+**Slots:**
+
+- `(default)`: Content to show in the toast item.
+- `icon`: Content to show as a visual. Usually an icon, image, avatar, etc.
+
+**Properties:**
+
+- `variant`: The type of notification to render. (Type: `'primary' | 'constructive' | 'destructive' | 'neutral'`, Default: `'neutral'`)
+- `duration`: The length of time to show the notification before removing it. Set this to `0` to show the notification until the user dismisses it. (Type: `number`, Default: `5000`)
+- `withoutClose` (attribute: `without-close`): When set, the close button will be omitted. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-before-close`: Emitted when the toast item is dismissed.
+- `quiet-close`: Emitted after the toast has been dismissed and the hide animation has completed.
+
+**CSS Custom Properties:**
+
+- `--accent-line-width`: The width of the notification's accent line. (Default: `0.33em`)
+- `--progress`: A readonly value that goes from 100% to 0%, representing the progress remaining until the notification closes. Useful for creating custom content with visual indicators of the notification's progress.
+
+**CSS Parts:**
+
+- `icon`: undefined
+- `content`: undefined
+- `close-button`: The close button, a `<button>` element.
+- `progress`: The progress ring, a `<quiet-progress>` element.
+- `progress__track`: The progress ring's exported `track` part.
+- `progress__indicator`: The progress ring's exported `indicator` part.
+- `progress__content`: The progress ring's exported `content` part.
+- `close-icon`: The close icon, a `<quiet-icon>` element.
+- `close-icon__svg`: The close icons exported `svg` part.
+
+### `<quiet-toggle-icon>`
+
+**Description:** Similar to checkboxes, except with icons to represent the checked and unchecked states.
+
+**Documentation:** https://quietui.org/docs/components/toggle-icon
+
+**Slots:**
+
+- `checked`: The icon to show when checked. Works best with a `<quiet-icon>` element.
+- `unchecked`: The default icon to show when unchecked. Works best with a `<quiet-icon>` element.
+
+**Properties:**
+
+- `label`: The toggle icon's label. The label won't be displayed, but it will be announced by assistive devices. (Type: `string`)
+- `name`: The name of the toggle icon. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The toggle icon's value. (Type: `string`, Default: `''`)
+- `checked`: The toggle icon's checked state. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the toggle icon. (Type: `boolean`, Default: `false`)
+- `size`: The checkbox's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `effect`: The animation to use when toggling. (Type: `'fade' | 'scale' | 'flip-x' | 'flip-y' | 'translate-x' | 'translate-y' | 'none'`, Default: `'none'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the toggle icon required. Form submission will not be allowed until the toggle icon is checked. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-blur`: Emitted when the toggle icon loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the toggle's value.
+- `quiet-focus`: Emitted when the checkbox receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the checkbox receives input.
+
+**CSS Custom Properties:**
+
+- `--animation-speed`: The animation speed to use when effects are selected. (Default: `300ms`)
+- `--checked-color`: The color to use for checked toggle icons. (Default: `#f59e0b`)
+- `--unchecked-color`: The color to use for unchecked toggle icons. (Default: `var(--quiet-neutral-fill-mid)`)
+
+**CSS Parts:**
+
+- `button`: The internal button that contains the toggle icons, a `<button>` element.
+
+**CSS Custom States:**
+
+- `checked`: Applied when the toggle icon is active.
+- `disabled`: Applied when the toggle icon is disabled.
+- `focused`: Applied when the toggle icon has focus.
+- `user-valid`: Applied when the toggle icon is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the toggle icon is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-toggle-tag>`
+
+**Description:** Similar to checkboxes, except with tags to represent the checked and unchecked states.
+
+**Documentation:** https://quietui.org/docs/components/toggle-tag
+
+**Slots:**
+
+- `(default)`: The toggle tag's label. For plain-text labels, you can use the `label` attribute instead.
+
+**Properties:**
+
+- `label`: The toggle tag's label. If you need to provide HTML in the label, use the `label` slot instead. (Type: `string`)
+- `name`: The name of the toggle tag. This will be submitted with the form as a name/value pair. (Type: `string`)
+- `value`: The toggle tag's value. (Type: `string`, Default: `''`)
+- `checked`: The toggle tag's checked state. (Type: `boolean`, Default: `false`)
+- `disabled`: Disables the toggle tag. (Type: `boolean`, Default: `false`)
+- `size`: The toggle tag's size. (Type: `'xs' | 'sm' | 'md' | 'lg' | 'xl'`, Default: `'md'`)
+- `form`: The form to associate this control with. If omitted, the closest containing `<form>` will be used. The value of this attribute must be an ID of a form in the same document or shadow root. (Type: `string`)
+- `required`: Makes the toggle tag required. Form submission will not be allowed until the toggle tag is checked. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `focus()`: Sets focus to the toggle tag.
+- `blur()`: Removes focus from the toggle tag.
+
+**Events:**
+
+- `quiet-blur`: Emitted when the toggle tag loses focus. This event does not bubble.
+- `quiet-change`: Emitted when the user commits changes to the toggle tag's value.
+- `quiet-focus`: Emitted when the toggle tag receives focus. This event does not bubble.
+- `quiet-input`: Emitted when the toggle tag receives input.
+
+**CSS Parts:**
+
+- `label`: The `<label>` that wraps the entire control.
+
+**CSS Custom States:**
+
+- `checked`: Applied when the toggle tag is checked.
+- `disabled`: Applied when the toggle tag is disabled.
+- `focused`: Applied when the toggle tag has focus.
+- `user-valid`: Applied when the toggle tag is valid and the user has sufficiently interacted with it.
+- `user-invalid`: Applied when the toggle tag is invalid and the user has sufficiently interacted with it.
+
+### `<quiet-toolbar>`
+
+**Description:** Turns a collection of buttons and button groups into an accessible toolbar.
+
+**Documentation:** https://quietui.org/docs/components/toolbar
+
+**Slots:**
+
+- `(default)`: A mixture of buttons and/or button groups.
+
+**Properties:**
+
+- `orientation`: The toolbar's orientation. This changes which arrow keys are used to select adjacent buttons. (Type: `'horizontal' | 'vertical'`, Default: `'horizontal'`)
+
+### `<quiet-tooltip>`
+
+**Description:** Provides additional information when the user hovers or focuses on an element.
+
+**Documentation:** https://quietui.org/docs/components/tooltip
+
+**Slots:**
+
+- `(default)`: The tooltip's content. Do not include interactive elements such as button, links, etc. as they won't be accessible to users inside the tooltip.
+
+**Properties:**
+
+- `for`: The ID of the tooltip's anchor element. This must be an interactive/focusable element such as a button and it must be in the same document as the tooltip. (Type: `string`)
+- `open`: Shows or hides the tooltip. (Type: `boolean`, Default: `false`)
+- `placement`: The placement of the tooltip in reference to the anchor. The menu will shift to a more optimal location if the preferred placement doesn't have enough room. (Type: `| 'top'     | 'top-start'     | 'top-end'     | 'bottom'     | 'bottom-start'     | 'bottom-end'     | 'right'     | 'right-start'     | 'right-end'     | 'left'     | 'left-start'     | 'left-end'`, Default: `'top'`)
+- `distance`: The distance of the tooltip from its anchor. (Type: `number`, Default: `8`)
+- `offset`: The offset of the tooltip along its trigger. (Type: `number`, Default: `0`)
+- `openDelay` (attribute: `open-delay`): The number of milliseconds to wait before opening the tooltip when hovering in. (Type: `number`, Default: `50`)
+- `closeDelay` (attribute: `close-delay`): The number of milliseconds to wait before closing the tooltip when hovering out. (Type: `number`, Default: `100`)
+- `activation`: By default, the tooltip automatically shows when the user focuses or hovers over the anchor. If you want to control the tooltip programmatically, set this to `manual`. (Type: `'auto' | 'manual'`, Default: `'auto'`)
+- `withoutArrow` (attribute: `without-arrow`): Renders the tooltip without an arrow. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-before-open`: Emitted when the tooltip is instructed to open but before it is shown.
+- `quiet-open`: Emitted when the tooltip has opened and the animation has completed.
+- `quiet-before-close`: Emitted when the tooltip is dismissed but before it is hidden.
+- `quiet-close`: Emitted when the tooltip has closed. and the animation has completed.
+
+**CSS Custom Properties:**
+
+- `--arrow-size`: The size of the arrow. To hide the arrow, use the `without-arrow` attribute. (Default: `0.3125rem`)
+- `--max-width`: The maximum width the tooltip can be before wrapping. (Default: `20rem`)
+- `--show-duration`: The duration of the show/hide animation. (Default: `100ms`)
+
+**CSS Parts:**
+
+- `tooltip`: The element that powers the tooltip.
+- `content`: The element that wraps the tooltip's content.
+- `arrow`: The tooltip's arrow. To change the arrow's size, use `--arrow-size` instead.
+
+**CSS Custom States:**
+
+- `open`: Applied when the tooltip is open.
+
+### `<quiet-transition-group>`
+
+**Description:** Improves the user's experience by adding subtle animations as items are added, removed, and reordered in the group.
+
+**Documentation:** https://quietui.org/docs/components/transition-group
+
+**Slots:**
+
+- `(default)`: One or more elements to transition when adding, removing, and reordering the DOM.
+
+**Properties:**
+
+- `isTransitioning`: Determines if the transition group is currently animating. (Property only) (Type: `boolean`, Default: `false`)
+- `transitionAnimation`: A custom animation to use for enter/exit transitions. Works well with animations from `@quietui/scurry`. (Property only) (Type: `QuietTransitionAnimation | undefined`)
+- `transitionContainer`: By default, the transition group observes and animates its own children. In some cases, you may want it to control another element's children. This is useful in cases where you can't directly wrap child elements with the `<quiet-transition-group>` element.  For example, if you embed a transition group in a component's shadow root but need it to control slotted (light DOM) elements, you can't simply wrap the slot because the mutation observer can't see projected (slotted) elements. In this case, point this property to the target element and the transition group will hide itself and observe the target container's children instead. (Property only) (Type: `HTMLElement`, Default: `this`)
+- `disableTransitions` (attribute: `disable-transitions`): Disables transition animations. However, the `quiet-content-changed` and `quiet-transition-end` events will still be dispatched. (Type: `boolean`, Default: `false`)
+- `ignoreReducedMotion` (attribute: `ignore-reduced-motion`): By default, no animation will occur when the user indicates a preference for reduced motion. Use this attribute to override this behavior when necessary. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `transitionComplete()`: Returns a promise that resolves when the current transition ends. If no transition is running, it resolves immediately  This is a great way to ensure transitions have stopped before doing something else, such as adding or removing new elements to the transition group.
+- `updateElementPositions()`: Updates the cached coordinates of all child elements in the transition group. In most cases, you shouldn't have to call this method. However, if you're resizing or animating elements imperatively, you may need to call this immediately before appending or removing elements to ensure a smooth transition.
+
+**Events:**
+
+- `quiet-content-changed`: Emitted when content changes and before the transition animation begins.
+- `quiet-transition-end`: Emitted when transition animations end.
+
+**CSS Custom Properties:**
+
+- `--duration`: The duration of each individual step (not the total transition time). (Default: `0.25s`)
+
+**CSS Custom States:**
+
+- `transitioning`: Applied when a transition is active.
+
+### `<quiet-typewriter>`
+
+**Description:** Simulates a natural typing effect with customizable speed, delay, and looping options.
+
+**Documentation:** https://quietui.org/docs/components/typewriter
+
+**Properties:**
+
+- `text`: The text to type out. Multiple lines can be separated by the delimiter. (Type: `string`, Default: `''`)
+- `delimiter`: The delimiter used to separate multiple lines of text. (Type: `string`, Default: `'\n'`)
+- `speed`: The average speed in milliseconds to wait between typing each character. (Type: `number`, Default: `50`)
+- `delay`: Delay in milliseconds before the animation starts. (Type: `number`, Default: `250`)
+- `startOnView` (attribute: `start-on-view`): Whether to start the animation when the component comes into view. (Type: `boolean`, Default: `false`)
+- `withCursor` (attribute: `with-cursor`): Whether to show a blinking cursor during animation. (Type: `boolean`, Default: `false`)
+- `loop`: Whether to loop the animation with a pause and backspace effect. (Type: `boolean`, Default: `false`)
+- `loopDelay` (attribute: `loop-delay`): Duration in milliseconds to pause before backspacing when looping. (Type: `number`, Default: `2000`)
+- `pause`: Whether to pause the typewriter animation. (Type: `boolean`, Default: `false`)
+- `ignoreReducedMotion` (attribute: `ignore-reduced-motion`): By default, no animation will occur when the user indicates a preference for reduced motion. Use this attribute to override this behavior when necessary. (Type: `boolean`, Default: `false`)
+
+**Methods:**
+
+- `restart()`: Restarts the animation from the beginning.
+
+**Events:**
+
+- `quiet-animation-complete`: Emitted when the typing animation has completed.
+
+**CSS Custom Properties:**
+
+- `--cursor-color`: The color of the cursor during animation when `with-cursor` is enabled. (Default: `currentColor`)
+- `--cursor-width`: The width of the cursor during animation when `with-cursor` is enabled. (Default: `1.5px`)
+
+**CSS Parts:**
+
+- `cursor`: The cursor, a `<span>` element with a styled border.
+
+### `<quiet-veil>`
+
+**Description:** Covers elements visually and disables interaction during important states such as submitting or loading.
+
+**Documentation:** https://quietui.org/docs/components/veil
+
+**Slots:**
+
+- `(default)`: The content to be covered when the veil state is active.
+- `front`: Content to show in front of the veil, such as a custom loading indicator or message.
+
+**Properties:**
+
+- `label`: The label for screen readers when veil is active. (Type: `string`, Default: `''`)
+- `active`: Description of the property. (Type: `boolean`, Default: `false`)
+- `fullscreen`: Set to true to show the veil over the entire viewport instead of the content inside of it. (Type: `boolean`, Default: `false`)
+
+**Events:**
+
+- `quiet-before-activate`: Emitted when the veil will activate. Calling `event.preventDefault()` will prevent the activation from occurring.
+- `quiet-activate`: Emitted immediately after the veil is activated.
+- `quiet-before-deactivate`: Emitted when the veil will deactivate. Calling `event.preventDefault()` will prevent the deactivation from occurring.
+- `quiet-deactivate`: Emitted immediately after the veil is deactivated.
+
+**CSS Custom Properties:**
+
+- `--blur`: The amount of blur to apply to the veil when active. (Default: `3px`)
+- `--show-duration`: The duration of the show/hide animation. (Default: `300`)
+
+**CSS Custom States:**
+
+- `active`: Applied when the veil is active.
+
+### `<quiet-zoomable-frame>`
+
+**Description:** Renders iframe content with zoom and interaction controls.
+
+**Documentation:** https://quietui.org/docs/components/zoomable-frame
+
+**Slots:**
+
+- `zoom-in-icon`: The slot that contains the zoom in icon.
+- `zoom-out-icon`: The slot that contains the zoom out icon.
+
+**Properties:**
+
+- `src`: The URL of the content to display. (Type: `string`)
+- `srcdoc`: Inline HTML to display. (Type: `string`)
+- `allowfullscreen`: Allows fullscreen mode. (Type: `boolean`, Default: `false`)
+- `loading`: Controls iframe loading behavior. (Type: `'eager' | 'lazy'`, Default: `'eager'`)
+- `referrerpolicy`: Controls referrer information. (Type: `string`)
+- `sandbox`: Security restrictions for the iframe. (Type: `string`)
+- `zoom`: The current zoom of the frame, e.g. 0 = 0% and 1 = 100%. (Type: `number`, Default: `1`)
+- `zoomLevels` (attribute: `zoom-levels`): The zoom levels to step through when using zoom controls. This does not restrict programmatic changes to the zoom. (Type: `string`, Default: `'25% 50% 75% 100% 125% 150% 175% 200%'`)
+- `withoutControls` (attribute: `without-controls`): Removes the zoom controls. (Type: `boolean`, Default: `false`)
+- `withoutInteraction` (attribute: `without-interaction`): Disables interaction when present. (Type: `boolean`, Default: `false`)
+- `contentWindow`: Returns the internal iframe's `window` object. (Readonly property) (Type: `Window | null`)
+- `contentDocument`: Returns the internal iframe's `document` object. (Readonly property) (Type: `Document | null`)
+
+**Methods:**
+
+- `zoomIn()`: Zooms in to the next available zoom level.
+- `zoomOut()`: Zooms out to the previous available zoom level.
+
+**Events:**
+
+- `load`: Emitted when the internal iframe when it finishes loading.
+- `error`: Emitted from the internal iframe when it fails to load.
+
+**CSS Custom Properties:**
+
+- `--aspect-ratio`: The aspect ratio of the frame. (Default: `16/9`)
+
+**CSS Parts:**
+
+- `iframe`: The internal `<iframe>` element.
+- `controls`: The container that surrounds zoom control buttons.
+- `zoom-in-button`: The zoom in button.
+- `zoom-out-button`: The zoom out button.
+
+**CSS Custom States:**
+
+- `loading`: Applied when the iframe is loading.
+- `error`: Applied when the iframe failed to load.

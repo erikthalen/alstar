@@ -1,11 +1,11 @@
 import { html } from 'hono/html'
-import { query } from '../queries/index.ts'
 import { config } from '../index.ts'
 import Render from './Render.ts'
 import EntryHeader from './EntryHeader.ts'
+import { getField } from '../helpers/sql/index.ts'
 
 export default (props: { entryId: number | string }) => {
-  const data = query.root({ id: props.entryId?.toString() })
+  const data = getField({ id: props.entryId?.toString() })
 
   if (!data) return html`<p>No entry with id: "${props.entryId}"</p>`
 
@@ -14,11 +14,7 @@ export default (props: { entryId: number | string }) => {
   if (!structure) return html`<p>No structure of type: ${data.name}</p>`
 
   return html`
-    <div
-      id="entry"
-      class="entry"
-      data-signals:entry.id="${props.entryId}"
-      >
+    <div id="entry" class="entry" data-signals:entry.id="${props.entryId}">
       <!-- data-signals:{props.entryId}="{JSON.stringify(data)}" -->
       ${EntryHeader(props.entryId)}
 

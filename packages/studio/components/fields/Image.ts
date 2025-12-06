@@ -1,16 +1,16 @@
 import { html } from 'hono/html'
-import { query } from '../../queries/index.ts'
+import { getEntry, getField } from '../../helpers/sql/index.ts'
 
 export default (props: { id: number }) => {
   if (!props.id) {
     return html`<p>No id provided</p>`
   }
 
-  const data = query.block({ id: props.id })
+  const data = getField({ id: props.id })
 
   if (!data) return html`<p>No block</p>`
 
-  const entry = query.root({ id: props.id })
+  const entry = getEntry({ id: props.id })
 
   const signals = {
     id: data.id,

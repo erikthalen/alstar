@@ -1,13 +1,14 @@
 import { html } from 'hono/html'
 import { query } from '../../queries/index.ts'
+import { getEntry, getField, getFields } from '../../helpers/sql/index.ts'
 
 export default (props: { id: number }) => {
-  const data = query.block({ id: props.id })
+  const data = getField({ id: props.id })
 
   if (!data) return html`<p>No block</p>`
 
-  const entry = query.root({ id: props.id })
-  const entries = query.blocks({ parent_id: null })
+  const entry = getEntry({ id: props.id })
+  const entries = getFields({ parent_id: null })
 
   return html`
     <vscode-single-select
@@ -22,8 +23,8 @@ export default (props: { id: number }) => {
       })"
     >
       ${entries.map((entry) => {
-        const slug = query.block({ name: 'slug', parent_id: entry.id })
-        const title = query.block({ name: 'title', parent_id: entry.id })
+        const slug = getField({ name: 'slug', parent_id: entry.id })
+        const title = getField({ name: 'title', parent_id: entry.id })
 
         return html`<vscode-option
           ${slug.value === data.value ? 'selected' : ''}

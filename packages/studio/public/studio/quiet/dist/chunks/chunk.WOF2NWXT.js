@@ -1,0 +1,157 @@
+/*! Required Notice: Copyright 2025 A Beautiful Site, LLC - https://quietui.org */
+import {
+  i
+} from "./chunk.A5SY4VDT.js";
+
+// src/components/accordion-item/accordion-item.styles.ts
+var accordion_item_styles_default = i`
+  :host {
+    /* Private, inherited from <quiet-accordion> */
+    --duration: inherit;
+    --easing: inherit;
+    --border-color: inherit;
+    --border-style: inherit;
+    --border-width: inherit;
+    --border-radius: inherit;
+
+    display: block;
+  }
+
+  /* Header */
+  #header {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    gap: 1em;
+    background: transparent;
+    font-weight: var(--quiet-font-weight-semibold);
+    font-size: 0.9375em;
+    cursor: pointer;
+    user-select: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: var(--quiet-focus-ring);
+      outline-offset: -2px;
+    }
+  }
+
+  :host(:state(disabled)) #header {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  :host([icon-placement='start']) #header {
+    flex-direction: row-reverse;
+  }
+
+  /* Label */
+  #label {
+    display: flex;
+    flex: 1;
+    align-items: center;
+
+    ::slotted(quiet-icon) {
+      margin-inline-end: 0.5em;
+      font-size: 1.25em;
+    }
+  }
+
+  /* Icon */
+  #icon {
+    display: flex;
+    align-items: center;
+    font-size: 1.25em;
+    transition: rotate var(--duration) var(--easing);
+  }
+
+  :host(:state(expanded):dir(ltr)) #icon {
+    rotate: 180deg;
+  }
+
+  :host(:state(expanded):dir(rtl)) #icon {
+    rotate: -180deg;
+  }
+
+  /* Icon position */
+  #header {
+    .icon-start {
+      flex-direction: row;
+    }
+
+    .icon-end {
+      flex-direction: row;
+    }
+
+    .icon-start #icon {
+      order: -1;
+    }
+  }
+
+  /* Body */
+  #body {
+    will-change: height;
+  }
+
+  :host(:not(:state(expanded))) #body {
+    height: 0;
+    overflow: hidden;
+  }
+
+  :host(:state(expanded)) #body {
+    overflow: visible;
+  }
+
+  /* Content */
+  #content {
+    padding: 0 1em 1em;
+  }
+
+  /* Normal appearance */
+  :host([appearance='normal']) {
+    border-bottom: var(--border-style) var(--border-width) var(--border-color);
+  }
+
+  :host([appearance='normal'][data-accordion-item-first]) {
+    border-top: var(--border-style) var(--border-width) var(--border-color);
+  }
+
+  /* Contained appearance */
+  :host([appearance='contained'][data-accordion-item-first]) #header {
+    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
+  }
+
+  :host([appearance='contained'][data-accordion-item-last]) #header {
+    border-bottom-right-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+  }
+
+  :host([appearance='contained']:not([data-accordion-item-last])) {
+    border-bottom: var(--border-style) var(--border-width) var(--border-color);
+  }
+
+  /* Separated appearance */
+  :host([appearance='separated']) {
+    border: var(--border-style) var(--border-width) var(--quiet-neutral-fill-soft);
+    border-radius: var(--border-radius);
+    background-color: var(--quiet-paper-color);
+    box-shadow: var(--quiet-shadow-softer);
+    color: var(--quiet-neutral-text-on-soft);
+  }
+
+  :host([appearance='separated']:state(expanded)) {
+    border-color: var(--border-color);
+  }
+
+  :host([appearance='separated']) #header {
+    border-radius: inherit;
+  }
+`;
+
+export {
+  accordion_item_styles_default
+};

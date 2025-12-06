@@ -2,22 +2,21 @@ import { html } from 'hono/html'
 import FieldRenderer from './FieldRenderer.ts'
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import BlockRenderer from './BlockRenderer.ts'
+
+import { type HtmlEscapedString } from 'hono/utils/html'
+import type { InstanceType } from '../helpers/structure/types.ts'
 import {
   BlockFieldInstance,
   BlockInstance,
+  CollectionInstance,
   FieldInstance,
-} from '../utils/define.ts'
-import type {
-  BlockDefStructure,
-  BlocksFieldDefStructure,
-  FieldDefStructure,
-} from '../types.ts'
-import { type HtmlEscapedString } from 'hono/utils/html'
+  SingleInstance,
+} from '../helpers/structure/index.ts'
 
 export default (props: {
   entryId: number | string
   parentId: number | string
-  structure: BlockDefStructure | FieldDefStructure | BlocksFieldDefStructure
+  structure: InstanceType
   id?: number
   name: string
   sortOrder?: number
@@ -36,7 +35,9 @@ export default (props: {
         return BlockFieldRenderer({ entryId, parentId, id, structure, name })
       }
 
-      case BlockInstance: {
+      case BlockInstance:
+      case SingleInstance:
+      case CollectionInstance: {
         return BlockRenderer({ entryId, parentId, structure, id })
       }
     }

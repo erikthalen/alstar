@@ -3,6 +3,7 @@ import { matchedRoutes, routePath, baseRoutePath, basePath } from 'hono/route'
 import { query } from '../queries/index.ts'
 import { html } from 'hono/html'
 import * as icons from './icons.ts'
+import { getField } from '../helpers/sql/index.ts'
 
 export default (c: Context) => {
   const breadcrumbs = getBreadcrumbs(c)
@@ -56,7 +57,7 @@ function getBreadcrumbs(c: Context) {
     const nameQuery = c.req.query('name')
 
     if (nameQuery) {
-      const data = query.block({ name: nameQuery })
+      const data = getField({ name: nameQuery })
 
       breadcrumbs.push({
         name: data?.label,
@@ -66,7 +67,7 @@ function getBreadcrumbs(c: Context) {
 
   if (relativeURL === '/studio/entries/:id') {
     const entryId = c.req.param('id')
-    const data = query.block({ id: entryId })
+    const data = getField({ id: entryId })
 
     breadcrumbs.push({
       url: '/studio/entries',

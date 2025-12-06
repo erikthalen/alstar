@@ -1,10 +1,10 @@
 import { html, raw } from 'hono/html'
-import { query } from '../../queries/index.ts'
+import { getField } from '../../helpers/sql/index.ts'
 
 export default (id: string | number) => {
   if (!id) return html`<p>No id provided</p>`
 
-  const data = query.block({ id })
+  const data = getField({ id })
 
   return html`
     <div class="svg-output" id="output_${id}">

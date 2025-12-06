@@ -1,0 +1,105 @@
+/*! Required Notice: Copyright 2025 A Beautiful Site, LLC - https://quietui.org */
+import {
+  i
+} from "./chunk.A5SY4VDT.js";
+
+// src/components/veil/veil.styles.ts
+var veil_styles_default = i`
+  :host {
+    --show-duration: 200ms;
+    --blur: 3px;
+
+    display: block;
+    position: relative;
+    width: 100%;
+    border-radius: var(--quiet-border-radius-md);
+    isolation: isolate;
+  }
+
+  /* Front */
+  #front {
+    display: flex;
+    z-index: 1;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    inset: 0;
+    padding: 2em;
+    border-radius: inherit;
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    background-color: color-mix(in oklab, var(--quiet-background-color), transparent 50%);
+
+    quiet-spinner,
+    ::slotted(quiet-spinner) {
+      font-size: 2rem;
+    }
+
+    /* Show animation */
+    &.show {
+      animation: veil-show var(--show-duration) ease-out;
+    }
+
+    /* Hide animation */
+    &.hide {
+      animation: veil-hide var(--show-duration) ease-out;
+    }
+  }
+
+  dialog#front {
+    position: fixed;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    inset: 0;
+    border: none;
+
+    /* The dialog is acting as the backdrop */
+    &::backdrop {
+      display: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  /* Hidden state */
+  :host(:not(:state(active))) #front {
+    display: none;
+  }
+
+  /* Keyframe animations */
+  @keyframes veil-show {
+    from {
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      opacity: 0;
+    }
+    to {
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      opacity: 1;
+    }
+  }
+
+  @keyframes veil-hide {
+    from {
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      opacity: 1;
+    }
+    to {
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      opacity: 0;
+    }
+  }
+`;
+
+export {
+  veil_styles_default
+};

@@ -1,0 +1,41 @@
+/*! Required Notice: Copyright 2025 A Beautiful Site, LLC - https://quietui.org */
+import {
+  i
+} from "./chunk.A5SY4VDT.js";
+
+// src/components/typewriter/typewriter.styles.ts
+var typewriter_styles_default = i`
+  :host {
+    --cursor-color: currentColor;
+    --cursor-width: 1.5px;
+
+    display: inline-block;
+    position: relative;
+    min-height: 1lh;
+    white-space: pre-wrap;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: var(--cursor-width);
+    height: 0.8lh;
+    margin-inline-start: 0.1em;
+    background-color: var(--cursor-color);
+    vertical-align: -0.175lh;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+`;
+
+export {
+  typewriter_styles_default
+};

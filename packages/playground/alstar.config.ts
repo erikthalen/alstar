@@ -2,16 +2,18 @@ import {
   defineBlock,
   defineBlockField,
   defineField,
+  defineCollection,
   defineStructure,
-} from '@alstar/studio/define'
+} from '@alstar/studio/structure'
 
 export default {
   siteName: 'Playground',
+  previewUrl: 'http://localhost:3000',
   structure: defineStructure({
-    page: defineBlock({
+    page: defineCollection({
       label: 'Pages',
-      type: 'collection',
       icon: 'file',
+      preview: { field: 'slug' },
       fields: {
         title: defineField({
           label: 'Title',
@@ -50,7 +52,7 @@ export default {
                 title: defineField({
                   label: 'Title',
                   type: 'text',
-                  description: 'Hero title'
+                  description: 'Hero title',
                 }),
                 text: defineField({
                   label: 'Text',

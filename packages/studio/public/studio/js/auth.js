@@ -19,7 +19,7 @@ async function login(formData) {
       },
       onSuccess: (ctx) => {
         console.log(ctx)
-        // window.location.replace(window.location.origin + '/studio')
+        window.location.replace(window.location.origin + '/studio')
       },
       onError: (ctx) => {
         // display the error message
@@ -55,8 +55,7 @@ async function register(formData) {
         //show loading
       },
       onSuccess: (ctx) => {
-        console.log(ctx)
-        // window.location.replace(window.location.origin + '/studio')
+        window.location.replace(window.location.origin + '/studio')
       },
       onError: (ctx) => {
         // display the error message
@@ -65,7 +64,7 @@ async function register(formData) {
     },
   )
 
-  console.log('data', data, error)
+  console.log(data, error)
 }
 
 async function getSession() {

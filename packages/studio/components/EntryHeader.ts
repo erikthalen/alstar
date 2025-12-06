@@ -1,8 +1,9 @@
 import { html } from 'hono/html'
 import { query } from '../queries/index.ts'
+import { getEntry } from '../helpers/sql/index.ts'
 
 export default (entryId: string | number) => {
-  const data = query.root({ id: entryId?.toString() })
+  const data = getEntry({ id: entryId?.toString() })
 
   if (!data) return ''
 

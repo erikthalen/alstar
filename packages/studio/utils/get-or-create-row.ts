@@ -1,28 +1,24 @@
 import { db } from '@alstar/db'
-import { query } from '../queries/index.ts'
-import type {
-  BlockDefStructure,
-  BlocksFieldDefStructure,
-  FieldDefStructure,
-} from '../types.ts'
-import { BlockFieldInstance } from './define.ts'
+import { getField } from '../helpers/sql/index.ts'
+import type { InstanceType } from '../helpers/structure/types.ts'
+import { FieldInstance } from '../helpers/structure/index.ts'
 
 export function getOrCreateRow(props: {
   parentId: string | number | null
   name: string
-  field: BlockDefStructure | BlocksFieldDefStructure | FieldDefStructure
+  field: InstanceType
   sortOrder?: number
   id?: number
 }) {
   const { parentId, name, field, sortOrder = 0, id } = props
 
   if (id) {
-    return query.block({
+    return getField({
       id: id?.toString(),
     })
   }
 
-  const data = query.block({
+  const data = getField({
     parent_id: parentId?.toString() || null,
     name: name,
     sort_order: sortOrder.toString(),
@@ -30,16 +26,25 @@ export function getOrCreateRow(props: {
 
   if (data) return data
 
+  let type =
+    field.instanceOf === FieldInstance
+      ? field.type
+      : field.instanceOf.description
+
+  console.log(field.instanceOf.description)
+
+  if (!type) {
+    console.log('field has no type:', field)
+    return
+  }
+
   const change = db.insertInto('block', {
     name: name?.toString(),
     label: field.label?.toString(),
-    type:
-      field.instanceOf === BlockFieldInstance
-        ? 'blocks'
-        : field.type?.toString(),
+    type: type,
     sort_order: sortOrder,
     parent_id: parentId,
   })
 
-  return query.block({ id: change.lastInsertRowid.toString() })
+  return getField({ id: change.lastInsertRowid.toString() })
 }

@@ -1,18 +1,17 @@
 import { Field } from './fields/index.ts'
-import type {
-  BlocksFieldDefStructure,
-  FieldDefStructure,
-  ReferenceFieldStructure,
-} from '../types.ts'
 import BlockFieldRenderer from './BlockFieldRenderer.ts'
-import { BlockFieldInstance } from '../utils/define.ts'
 import { html } from 'hono/html'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
+import { BlockFieldInstance } from '../helpers/structure/index.ts'
+import type {
+  BlockFieldInstanceType,
+  FieldInstanceType,
+} from '../helpers/structure/types.ts'
 
 export default (props: {
   entryId: number | string
   parentId: number | string
-  structure: FieldDefStructure | BlocksFieldDefStructure
+  structure: FieldInstanceType | BlockFieldInstanceType
   id?: number
   name: string
 }) => {

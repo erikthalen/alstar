@@ -1,6 +1,6 @@
 .entries-container {
-  display: grid;
-  grid-template-columns: minmax(200px, auto) 1fr;
+  display: flex;
+  flex-direction: column;
   overflow: auto;
 
   > ul {
@@ -26,12 +26,16 @@
   }
 }
 
+.toolbar {
+  padding: 0.5rem;
+  padding-bottom: 0;
+}
+
 .entries {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  padding: 0.5rem;
-  padding-bottom: 0;
+  padding-inline: 0.5rem;
 
   vscode-table {
     margin-block: var(--unit);

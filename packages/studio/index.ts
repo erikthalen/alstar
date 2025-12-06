@@ -26,6 +26,7 @@ import { except } from 'hono/combine'
 import { type DatabaseSync } from 'node:sqlite'
 import { factory } from './factory.ts'
 import cqrs from './helpers/cqrs/index.ts'
+import { sql } from './utils/sql.ts'
 
 const packageJSON = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
@@ -117,7 +118,11 @@ const createStudio = () => {
   app.use(
     '*',
     except(
-      ['/studio/api/auth/*', '/studio/login', '/studio/register'],
+      [
+        '/studio/api/auth/*',
+        '/studio/login',
+        '/studio/register',
+      ],
       async (c, next) => {
         const session = await auth.api.getSession({
           headers: c.req.raw.headers,
@@ -144,11 +149,14 @@ const createStudio = () => {
   })
 
   // redirect to /register if there's no users
-  app.use('*', async (c, next) => {
-    const users = db.database.prepare('select id from user').all()
-    if (!users.length) return c.redirect('/studio/register')
-    await next()
-  })
+  app.use(
+    '*',
+    except(['/studio/register', '/studio/api/auth/*'], async (c, next) => {
+      const users = db.database.prepare('select id from user').all()
+      if (!users.length) return c.redirect('/studio/register')
+      await next()
+    }),
+  )
 
   /**
    * Studio API routes
