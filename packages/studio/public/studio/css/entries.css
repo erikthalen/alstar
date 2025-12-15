@@ -3,26 +3,12 @@
   flex-direction: column;
   overflow: auto;
 
-  > ul {
-    margin: 0;
-    padding-block: 2rem;
-    display: flex;
-    flex-direction: column;
-
-    border-right: 1px solid var(--border-color);
-
-    li {
-      list-style: none;
-      padding-inline: 2rem;
-    }
-
-    quiet-button {
-      width: 100%;
-    }
-
-    quiet-button::part(button) {
-      justify-content: flex-start;
-    }
+  vscode-table-header-cell:last-of-type {
+    text-align: end;
+  }
+  
+  vscode-table-cell:last-of-type {
+    text-align: end;
   }
 }
 

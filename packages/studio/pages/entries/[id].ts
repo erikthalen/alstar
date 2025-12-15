@@ -11,6 +11,7 @@ import { factory } from '../../factory.ts'
 export default (config: StudioConfig) =>
   factory.createHandlers((c) => {
     const id = c.req.param('id')
+    const user = c.get('user')
 
     if (!id) {
       return c.html(html`<p>Entry page url needs an ID param: "${id}"</p>`)
@@ -24,13 +25,9 @@ export default (config: StudioConfig) =>
           ${SiteHeader(c)} ${Tabs()}
 
           <div class="entry-page">
-            <vscode-split-layout
-              id="split_pane"
-              fixed-pane="start"
-              initial-handle-position="50%"
-            >
+            <vscode-split-layout id="split_pane" fixed-pane="start" initial-handle-position="50%">
               <div slot="start">${Entry({ entryId: id })}</div>
-              <div slot="end">${LivePreview({ entryId: id })}</div>
+              <div slot="end">${LivePreview({ userId: user?.id, entryId: id })}</div>
             </vscode-split-layout>
           </div>
         </section>

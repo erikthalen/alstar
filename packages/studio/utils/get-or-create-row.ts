@@ -26,12 +26,7 @@ export function getOrCreateRow(props: {
 
   if (data) return data
 
-  let type =
-    field.instanceOf === FieldInstance
-      ? field.type
-      : field.instanceOf.description
-
-  console.log(field.instanceOf.description)
+  let type = field.instanceOf === FieldInstance ? field.type : field.instanceOf.description
 
   if (!type) {
     console.log('field has no type:', field)

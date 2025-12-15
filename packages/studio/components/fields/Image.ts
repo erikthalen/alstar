@@ -1,46 +1,52 @@
 import { html } from 'hono/html'
-import { getEntry, getField } from '../../helpers/sql/index.ts'
+import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
+import { defineEventHandler } from '../../event-emitter/event-emitter.ts'
+import EntryHeader from '../EntryHeader.ts'
+import EditedBy from '../utils/EditedBy.ts'
+import MediaLibraryDialogContent from '../MediaLibraryDialogContent.ts'
+import LivePreviewContent from '../LivePreviewContent.ts'
 
-export default (props: { id: number }) => {
-  if (!props.id) {
+const Component = ({ id }: { id: number | string }) => {
+  if (!id) {
     return html`<p>No id provided</p>`
   }
 
-  const data = getField({ id: props.id })
+  const onInput = defineEventHandler(({ signals, patchElements }) => {
+    const entry = signals?.entry as { id: string }
+
+    updateBlockValue(id.toString(), signals?.[id] as string)
+    setUpdatedAt(entry?.id)
+
+    patchElements(Component({ id }))
+
+    return [EntryHeader({ entryId: entry.id }), LivePreviewContent({ entryId: entry.id })]
+  })
+
+  const onFocus = defineEventHandler(({ user }) => EditedBy({ id, userId: user?.id }))
+  const onBlur = defineEventHandler(() => EditedBy({ id }))
+
+  const renderDialog = defineEventHandler(() => MediaLibraryDialogContent())
+
+  const data = getField({ id })
 
   if (!data) return html`<p>No block</p>`
-
-  const entry = getEntry({ id: props.id })
-
-  const signals = {
-    id: data.id,
-    value: data.value || '',
-    patchElements: [
-      { name: 'fields/Image', props: { id: entry?.id } },
-      { name: 'EntryHeader', props: entry?.id },
-      { name: 'LivePreview', props: { entryId: entry?.id } },
-    ],
-  }
 
   return html`
     <vscode-textfield
       placeholder="No image"
-      data-bind:${data.id}.value
-      id="block-${data.id}"
-      name="value"
+      data-bind:${id}
+      id="id_${id}"
       readonly
-      data-signals:${data.id}="${JSON.stringify(signals)}"
-      data-on:input="@patch('/studio/api/block/${data.id}', {
-        filterSignals: { include: '/${data.id}/' }
-      })"
+      data-signals="{ ${id}: '${data.value}' }"
+      data-on:input=${onInput}
+      data-on:focus=${onFocus}
+      data-on:blur=${onBlur}
     >
       <quiet-button
         slot="content-after"
-        data-on:click="$${data.id}.value = ''; @patch('/studio/api/block/${data.id}', {
-          filterSignals: { include: '/${data.id}/' }
-        })"
+        data-on:click="$${id} = ''; ${onInput}"
         appearance="text"
-        id="remove_${data.id}"
+        id="remove_${id}"
         icon-label="Remove"
         size="xs"
       >
@@ -50,9 +56,9 @@ export default (props: { id: number }) => {
       <quiet-button
         slot="content-after"
         data-dialog="open dialog__overview"
-        data-on:click="@get('/studio/api/component?name=MediaLibraryDialogContent')"
+        data-on:click=${renderDialog}
         appearance="text"
-        id="change_${data.id}"
+        id="change_${id}"
         icon-label="Change image"
         size="xs"
       >
@@ -60,32 +66,22 @@ export default (props: { id: number }) => {
       </quiet-button>
     </vscode-textfield>
 
-    <quiet-tooltip
-      distance="0"
-      without-arrow
-      class="ts-label"
-      for="remove_${data.id}"
-    >
+    <quiet-tooltip distance="0" without-arrow class="ts-label" for="remove_${id}">
       Clear
     </quiet-tooltip>
 
-    <quiet-tooltip
-      distance="0"
-      without-arrow
-      class="ts-label"
-      for="change_${data.id}"
-    >
+    <quiet-tooltip distance="0" without-arrow class="ts-label" for="change_${id}">
       Change
     </quiet-tooltip>
 
     <quiet-dialog
       id="dialog__overview"
       light-dismiss
-      data-on:input="$${data.id}.value = evt.detail; @patch('/studio/api/block/${data.id}', {
-        filterSignals: { include: '/${data.id}/' }
-      }); document.getElementById('dialog__overview').open = false"
+      data-on:input="$${id} = evt.detail; ${onInput}; document.getElementById('dialog__overview').open = false"
     >
       <div id="media_library_dialog_content"></div>
     </quiet-dialog>
   `
 }
+
+export default Component

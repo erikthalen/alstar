@@ -1,37 +1,47 @@
 import { html } from 'hono/html'
-import { getField, getFields } from '../helpers/sql/index.ts'
+import { deleteBlock, getField, getFields, setBlockStatus } from '../helpers/sql/index.ts'
+import type { BlockStatus } from '../types.ts'
+import { defineEventHandler } from '@alstar/studio/events'
 
-export default ({ page = 1, name }: { page: number; name: string }) => {
-  const entries = getFields({ parent_id: null, status: 'enabled', name })
+const Component = ({ page = 1, name }: { page?: number; name: string }) => {
+  const entries = getFields({ parent_id: null, name })
 
   const PAGE_SIZE = 30
 
-  const paginatedEntries = entries.slice(
-    (page - 1) * PAGE_SIZE,
-    (page - 1) * PAGE_SIZE + PAGE_SIZE,
-  )
+  const paginatedEntries = entries.slice((page - 1) * PAGE_SIZE, (page - 1) * PAGE_SIZE + PAGE_SIZE)
 
   const pages = Math.ceil(entries.length / PAGE_SIZE)
 
   return html`
     <section id="entries" class="entries">
+      ${Date.now()}
       <vscode-table zebra bordered-rows resizable>
         <vscode-table-header slot="header">
-          <vscode-table-header-cell>Check</vscode-table-header-cell>
+          <vscode-table-header-cell>Bulk</vscode-table-header-cell>
           <vscode-table-header-cell>Title</vscode-table-header-cell>
           <vscode-table-header-cell>Slug</vscode-table-header-cell>
+          <vscode-table-header-cell>Action</vscode-table-header-cell>
         </vscode-table-header>
         <vscode-table-body slot="body">
           ${paginatedEntries?.map((block) => {
-            const title = getField({
-              parent_id: block.id.toString(),
-              name: 'title',
-            })
+            const title = getField({ parent_id: block.id, name: 'title' })
+            const slug = getField({ parent_id: block.id, name: 'slug' })
 
-            const slug = getField({
-              parent_id: block.id.toString(),
-              name: 'slug',
-            })
+            const handleSetStatus = defineEventHandler(
+              ({ signals }) => {
+                const data = signals?.[block.id] as { status: BlockStatus }
+                setBlockStatus(block.id.toString(), data.status)
+              },
+              { dependency: block.id },
+            )
+
+            const handleDeleteBlock = defineEventHandler(
+              () => {
+                deleteBlock(block.id.toString())
+                return Component({ name })
+              },
+              { dependency: block.id },
+            )
 
             return html`
               <vscode-table-row>
@@ -46,9 +56,69 @@ export default ({ page = 1, name }: { page: number; name: string }) => {
                 <vscode-table-cell>
                   ${slug?.value
                     ? `/${slug?.value}`
-                    : html`<span style="color: var(--quiet-text-muted)">
-                        [no slug]
-                      </span>`}
+                    : html`<span style="color: var(--quiet-text-muted)"> [no slug] </span>`}
+                </vscode-table-cell>
+                <vscode-table-cell>
+                  <div
+                    style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;"
+                  >
+                    <quiet-toggle-icon
+                      data-signals:${block.id}="{ status: '${block.status}' }"
+                      class="disable-button"
+                      label="Disable"
+                      effect="scale"
+                      id="tooltip-disable-${block.id}"
+                      size="xs"
+                      data-attr:checked="$${block.id}.status === 'enabled'"
+                      data-on:quiet-change="$${block.id}.status = evt.target.checked ? 'enabled' : 'disabled'; ${handleSetStatus}"
+                    >
+                      <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
+                      <quiet-icon slot="checked" name="circle" family="filled"></quiet-icon>
+                    </quiet-toggle-icon>
+
+                    <quiet-tooltip
+                      distance="3"
+                      without-arrow
+                      class="ts-label"
+                      for="tooltip-disable-${block.id}"
+                      data-text="$${block.id}.status === 'enabled' ? 'Unpublish' : 'Publish'"
+                    >
+                    </quiet-tooltip>
+
+                    <quiet-button
+                      variant="neutral"
+                      icon-label="Remove"
+                      size="xs"
+                      id="tooltip-remove-${block.id}"
+                    >
+                      <quiet-icon name="trash"></quiet-icon>
+                    </quiet-button>
+
+                    <quiet-popover for="tooltip-remove-${block.id}" placement="bottom">
+                      <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                        <quiet-button
+                          size="xs"
+                          class="ts-label"
+                          variant="destructive"
+                          data-popover="close"
+                          data-on:click=${handleDeleteBlock}
+                        >
+                          Delete
+                        </quiet-button>
+
+                        <quiet-button size="xs" data-popover="close"> Cancel </quiet-button>
+                      </div>
+                    </quiet-popover>
+
+                    <quiet-tooltip
+                      distance="0"
+                      without-arrow
+                      for="tooltip-remove-${block.id}"
+                      class="ts-label"
+                    >
+                      Remove
+                    </quiet-tooltip>
+                  </div>
                 </vscode-table-cell>
               </vscode-table-row>
             `
@@ -58,12 +128,10 @@ export default ({ page = 1, name }: { page: number; name: string }) => {
 
       <div class="pagination">
         <!-- data-on:quiet-before-page-change="console.log(evt.detail.requestedPage); @get('/studio/api/component?name=Entries&props={name:{page}, page:evt.detail.requestedPage}')" -->
-        <quiet-pagination
-          total-pages="${pages}"
-          page="${page}"
-          class="ts-xs"
-        ></quiet-pagination>
+        <quiet-pagination total-pages="${pages}" page="${page}" class="ts-xs"></quiet-pagination>
       </div>
     </section>
   `
 }
+
+export default Component

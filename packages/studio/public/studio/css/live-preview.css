@@ -5,8 +5,7 @@
   display: grid;
   grid-template-rows: auto 1fr;
 
-  overflow-x: clip;
-  overflow-y: auto;
+  overflow: auto;
 
   > header {
     display: flex;
@@ -24,6 +23,10 @@
     h1 {
       margin: 0;
     }
+
+    quiet-switch {
+      margin-left: auto;
+    }
   }
 
   quiet-zoomable-frame,
@@ -35,6 +38,6 @@
 
   pre {
     font-size: 12px;
-  
+    overflow: auto;
   }
 }

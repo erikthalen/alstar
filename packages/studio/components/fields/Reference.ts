@@ -1,8 +1,7 @@
 import { html } from 'hono/html'
-import { query } from '../../queries/index.ts'
 import { getEntry, getField, getFields } from '../../helpers/sql/index.ts'
 
-export default (props: { id: number }) => {
+export default (props: { id: number | string }) => {
   const data = getField({ id: props.id })
 
   if (!data) return html`<p>No block</p>`

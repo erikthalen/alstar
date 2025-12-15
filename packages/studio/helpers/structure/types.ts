@@ -138,6 +138,7 @@ export type BlockFieldInstanceType = BlockFieldType & {
 export type BlockType<T extends BlockFields> = {
   label: string
   description?: string
+  type?: string // todo: this should only apply on Block, not Collection & Single
   preview?: { field: keyof T } | { slug: string }
   icon?: string // typeof string of https://tabler.io/icons
   fields: T

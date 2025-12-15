@@ -4,8 +4,7 @@ class MarkdownEditor extends HTMLElement {
   instance = null
 
   async connectedCallback() {
-    const signals = this.dataset[`signals:${this.dataset.id}`]
-    const value = JSON.parse(signals)?.value
+    const value = this.dataset.value
 
     this.instance = ink(this, {
       doc: value,
@@ -34,7 +33,7 @@ class MarkdownEditor extends HTMLElement {
       },
       hooks: {
         afterUpdate: async (value) => {
-          this.dispatchEvent(new CustomEvent('update', { detail: value }))
+          this.dispatchEvent(new CustomEvent('input', { detail: value }))
           window.dispatchEvent(new CustomEvent('markdown-editor:update'))
         },
       },

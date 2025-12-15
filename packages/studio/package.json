@@ -48,6 +48,9 @@
     },
     "./structure": {
       "import": "./helpers/structure/index.ts"
+    },
+    "./events": {
+      "import": "./event-emitter/event-emitter.ts"
     }
   },
   "publishConfig": {

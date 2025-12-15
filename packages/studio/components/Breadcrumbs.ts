@@ -1,9 +1,9 @@
 import { type Context } from 'hono'
 import { matchedRoutes, routePath, baseRoutePath, basePath } from 'hono/route'
-import { query } from '../queries/index.ts'
 import { html } from 'hono/html'
 import * as icons from './icons.ts'
 import { getField } from '../helpers/sql/index.ts'
+import EntryTitle from './EntryTitle.ts'
 
 export default (c: Context) => {
   const breadcrumbs = getBreadcrumbs(c)
@@ -88,8 +88,7 @@ function getBreadcrumbs(c: Context) {
       })
 
       breadcrumbs.push({
-        name: html`<span data-text="$entry?.title?.value || 'Untitled'">
-        </span>`,
+        name: EntryTitle({ entryId }),
         isEntry: true,
       })
     }

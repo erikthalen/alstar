@@ -1,14 +1,35 @@
 import { html } from 'hono/html'
-import { query } from '../queries/index.ts'
-import { getEntry } from '../helpers/sql/index.ts'
+import { deleteBlock, getEntry, setBlockStatus, setUpdatedAt } from '../helpers/sql/index.ts'
+import { defineEventHandler } from '../event-emitter/event-emitter.ts'
+import type { BlockStatus } from '../types.ts'
+import LivePreviewContent from './LivePreviewContent.ts'
 
-export default (entryId: string | number) => {
-  const data = getEntry({ id: entryId?.toString() })
+export default ({ entryId }: { entryId: string | number }) => {
+  const id = entryId.toString()
+  const data = getEntry({ id })
 
-  if (!data) return ''
+  if (!data) return html`<p>No data</p>`
+
+  const handleSetStatus = defineEventHandler(
+    ({ signals }) => {
+      const data = signals?.[id] as { status: BlockStatus }
+      setBlockStatus(id.toString(), data.status)
+      setUpdatedAt(id)
+
+      return [LivePreviewContent({ entryId: id })]
+    },
+    { dependency: id },
+  )
+
+  const handleDeleteEntry = defineEventHandler(
+    () => {
+      deleteBlock(id)
+    },
+    { dependency: id },
+  )
 
   return html`
-    <header id="entry_header_${entryId}" class="entry-header">
+    <header id="entry_header_${id}" class="entry-header">
       <p class="ts-xs">
         <span>
           Modified:
@@ -30,22 +51,16 @@ export default (entryId: string | number) => {
 
       <aside>
         <quiet-toggle-icon
-          data-signals:${entryId}="{ status: '${data.status}' }"
+          data-signals:${id}="{ status: '${data.status}' }"
           class="disable-button"
           label="Disable"
           effect="scale"
-          id="tooltip-disable-${entryId}"
+          id="tooltip-disable-${id}"
           size="xs"
-          data-attr:checked="$${entryId}.status === 'enabled'"
-          data-on:quiet-change="$${entryId}.status = evt.target.checked ? 'enabled' : 'disabled'; @patch('/studio/api/block/${entryId}', {
-            filterSignals: { include: '/${entryId}/' }
-          })"
+          data-attr:checked="$${id}.status === 'enabled'"
+          data-on:quiet-change="$${id}.status = evt.target.checked ? 'enabled' : 'disabled'; ${handleSetStatus}"
         >
-          <quiet-icon
-            slot="unchecked"
-            name="circle"
-            family="filled"
-          ></quiet-icon>
+          <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
 
           <quiet-icon slot="checked" name="circle" family="filled"></quiet-icon>
         </quiet-toggle-icon>
@@ -54,28 +69,23 @@ export default (entryId: string | number) => {
           distance="2"
           without-arrow
           class="ts-label"
-          for="tooltip-disable-${entryId}"
-          data-text="$${entryId}.status === 'enabled' ? 'Unpublish' : 'Publish'"
+          for="tooltip-disable-${id}"
+          data-text="$${id}.status === 'enabled' ? 'Unpublish' : 'Publish'"
         >
         </quiet-tooltip>
 
-        <quiet-button
-          variant="neutral"
-          icon-label="Remove"
-          size="xs"
-          id="tooltip-remove-${entryId}"
-        >
+        <quiet-button variant="neutral" icon-label="Remove" size="xs" id="tooltip-remove-${id}">
           <quiet-icon name="trash"></quiet-icon>
         </quiet-button>
 
-        <quiet-popover for="tooltip-remove-${entryId}" placement="bottom">
+        <quiet-popover for="tooltip-remove-${id}" placement="bottom">
           <div style="display: flex; flex-direction: column; gap: 0.25rem;">
             <quiet-button
               size="xs"
               class="ts-label"
               variant="destructive"
               data-popover="close"
-              data-on:click="@delete('/studio/api/block/${entryId}'); window.history.back()"
+              data-on:click="${handleDeleteEntry}; window.history.back()"
             >
               Delete
             </quiet-button>
@@ -83,12 +93,7 @@ export default (entryId: string | number) => {
           </div>
         </quiet-popover>
 
-        <quiet-tooltip
-          distance="0"
-          without-arrow
-          for="tooltip-remove-${entryId}"
-          class="ts-label"
-        >
+        <quiet-tooltip distance="0" without-arrow for="tooltip-remove-${id}" class="ts-label">
           Remove
         </quiet-tooltip>
       </aside>

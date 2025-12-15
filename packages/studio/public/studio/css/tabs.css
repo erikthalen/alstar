@@ -2,6 +2,7 @@
   --tab-background-color: var(--quiet-neutral-fill-softer);
   display: flex;
   align-items: center;
-  height: calc(var(--unit) * 2);
-  border-bottom: 1px solid var(--border-color);
+  /* height: calc(var(--unit) * 2); */
+  height: 0;
+  /* border-bottom: 1px solid var(--border-color); */
 }

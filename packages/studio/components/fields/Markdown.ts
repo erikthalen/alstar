@@ -1,38 +1,47 @@
-import { getEntry, getField } from '../../helpers/sql/index.ts'
-import { query } from '../../queries/index.ts'
+import { defineEventHandler } from '../../event-emitter/event-emitter.ts'
+import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
 import { html } from 'hono/html'
+import EntryHeader from '../EntryHeader.ts'
+import EditedBy from '../utils/EditedBy.ts'
+import LivePreviewContent from '../LivePreviewContent.ts'
 
-export default (props: { id: number }) => {
-  if (!props.id) {
+const Component = ({ id }: { id: number | string }) => {
+  const onInput = defineEventHandler(({ signals, patchElements }) => {
+    const entry = signals?.entry as { id: string }
+
+    updateBlockValue(id.toString(), signals?.[id] as string)
+    setUpdatedAt(entry?.id)
+
+    patchElements(Component({ id }), false)
+
+    return [EntryHeader({ entryId: entry.id }), LivePreviewContent({ entryId: entry.id })]
+  })
+
+  const onFocus = defineEventHandler(({ user }) => EditedBy({ id, userId: user?.id }))
+  const onBlur = defineEventHandler(() => EditedBy({ id }))
+
+  if (!id) {
     return html`<p>No id provided</p>`
   }
 
-  const data = getField({ id: props.id })
+  const data = getField({ id })
 
   if (!data) {
     return html`<p>No block</p>`
   }
 
-  const entry = getEntry({ id: props.id })
-
-  const signals = {
-    id: data.id,
-    value: data.value,
-    patchElements: [
-      { name: 'fields/Markdown', props: { id: data.id } },
-      { name: 'EntryHeader', props: entry?.id },
-      { name: 'LivePreview', props: { entryId: entry?.id } },
-    ],
-  }
-
   return html`
     <markdown-editor
-      id="id_${data.id}"
+      id="id_${id}"
       class="ts-xs"
-      data-id="${data.id}"
-      data-signals:${data.id}="${JSON.stringify(signals)}"
-      data-on:update="$${data.id}.value = evt.detail; @patch('/studio/api/block/${data.id}', { filterSignals: { include: /${data.id}/ } })"
+      data-value="${data.value}"
+      data-signals="{ ${id}: '${data.value}' }"
+      data-on:input="$${id} = evt.detail; ${onInput}"
+      data-on:focus=${onFocus}
+      data-on:blur=${onBlur}
     >
     </markdown-editor>
   `
 }
+
+export default Component

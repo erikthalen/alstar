@@ -28,6 +28,10 @@ export default {
           label: 'Description',
           type: 'text',
         }),
+        text: defineField({
+          label: 'Text',
+          type: 'text',
+        }),
         image: defineField({
           label: 'Image',
           type: 'image',

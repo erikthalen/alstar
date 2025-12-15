@@ -4,24 +4,22 @@ import Render from './Render.ts'
 import EntryHeader from './EntryHeader.ts'
 import { getField } from '../helpers/sql/index.ts'
 
-export default (props: { entryId: number | string }) => {
-  const data = getField({ id: props.entryId?.toString() })
+export default ({ entryId }: { entryId: number | string }) => {
+  const data = getField({ id: entryId })
 
-  if (!data) return html`<p>No entry with id: "${props.entryId}"</p>`
+  if (!data) return html`<p>No entry with id: "${entryId}"</p>`
 
   const structure = config.structure[data.name]
 
   if (!structure) return html`<p>No structure of type: ${data.name}</p>`
 
   return html`
-    <div id="entry" class="entry" data-signals:entry.id="${props.entryId}">
-      <!-- data-signals:{props.entryId}="{JSON.stringify(data)}" -->
-      ${EntryHeader(props.entryId)}
+    <div id="entry" class="entry" data-signals:entry.id="${entryId}">
+      ${EntryHeader({ entryId })}
 
       <div class="content">
         ${Render({
-          entryId: props.entryId,
-          parentId: props.entryId,
+          parentId: entryId,
           structure: structure,
           name: data.name,
         })}

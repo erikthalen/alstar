@@ -3,23 +3,15 @@ import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import { html } from 'hono/html'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { BlockFieldInstance } from '../helpers/structure/index.ts'
-import type {
-  BlockFieldInstanceType,
-  FieldInstanceType,
-} from '../helpers/structure/types.ts'
+import type { BlockFieldInstanceType, FieldInstanceType } from '../helpers/structure/types.ts'
 
 export default (props: {
-  entryId: number | string
   parentId: number | string
   structure: FieldInstanceType | BlockFieldInstanceType
   id?: number
   name: string
 }) => {
-  const { entryId, parentId, structure, name, id } = props
-
-  if (structure.instanceOf === BlockFieldInstance) {
-    return BlockFieldRenderer({ entryId, parentId, name, structure, id })
-  }
+  const { parentId, structure, name, id } = props
 
   const data = getOrCreateRow({
     parentId,
@@ -27,44 +19,50 @@ export default (props: {
     field: structure,
   })
 
-  const fieldProps = { entryId, parentId, name, id, structure }
+  if (!data) {
+    return html`<p>No data</p>`
+  }
 
   let fieldComponent
 
-  switch (structure.type) {
-    case 'text': {
-      fieldComponent = Field.Text({ id: data.id })
-      break
-    }
+  if (structure.instanceOf === BlockFieldInstance) {
+    fieldComponent = Field.BlockField({ id: data.id })
+  } else {
+    switch (structure.type) {
+      case 'text': {
+        fieldComponent = Field.Text({ id: data.id })
+        break
+      }
 
-    case 'title': {
-      fieldComponent = Field.Title({ id: data.id })
-      break
-    }
+      case 'title': {
+        fieldComponent = Field.Title({ id: data.id })
+        break
+      }
 
-    case 'slug': {
-      fieldComponent = Field.Slug({ id: data.id })
-      break
-    }
+      case 'slug': {
+        fieldComponent = Field.Slug({ id: data.id })
+        break
+      }
 
-    case 'markdown': {
-      fieldComponent = Field.Markdown({ id: data.id })
-      break
-    }
+      case 'markdown': {
+        fieldComponent = Field.Markdown({ id: data.id })
+        break
+      }
 
-    case 'image': {
-      fieldComponent = Field.Image({ id: data.id })
-      break
-    }
+      case 'image': {
+        fieldComponent = Field.Image({ id: data.id })
+        break
+      }
 
-    case 'reference': {
-      fieldComponent = Field.Reference({ id: data.id })
-      break
-    }
+      case 'reference': {
+        fieldComponent = Field.Reference({ id: data.id })
+        break
+      }
 
-    case 'svg': {
-      fieldComponent = Field.SVG({ id: data.id })
-      break
+      case 'svg': {
+        fieldComponent = Field.SVG({ id: data.id })
+        break
+      }
     }
   }
 

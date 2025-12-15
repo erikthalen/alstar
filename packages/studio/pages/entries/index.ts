@@ -6,6 +6,8 @@ import Explorer from '../../components/Explorer.ts'
 import Tabs from '../../components/Tabs.ts'
 import { type StudioConfig } from '../../types.ts'
 import { factory } from '../../factory.ts'
+import { defineEventHandler } from '../../event-emitter/event-emitter.ts'
+import { createBlock } from '../../helpers/sql/index.ts'
 
 export default (config: StudioConfig) =>
   factory.createHandlers((c) => {
@@ -13,27 +15,40 @@ export default (config: StudioConfig) =>
 
     const structure = config.structure[name || '']
 
-    const signals = {
-      type: structure?.instanceOf.description,
-      name: name,
-      label: structure?.label,
-      patchElements: [{ name: 'Entries', props: { name } }],
-    }
+    const onNewEntryClick = defineEventHandler(() => {
+      createBlock({
+        type: structure.instanceOf.description as string,
+        name: name as string,
+        label: structure?.label,
+        parent_id: null,
+      })
+
+      return [Entries({ page: 1, name: name as string })]
+    })
 
     return c.html(
       SiteLayout(html`
+        <!--  -->
+
         ${Explorer(c)}
+
+        <!--  -->
+
         <section class="page">
-          ${SiteHeader(c)} ${Tabs()}
+          ${SiteHeader(c)}
+
+          <!--  -->
+
+          ${Tabs()}
+
+          <!--  -->
+
           ${name
             ? html`<div class="entries-container">
                 <quiet-toolbar class="toolbar">
                   <quiet-button-group>
                     <vscode-textfield placeholder="Search entries">
-                      <quiet-icon
-                        slot="content-before"
-                        name="search"
-                      ></quiet-icon>
+                      <quiet-icon slot="content-before" name="search"></quiet-icon>
                     </vscode-textfield>
                   </quiet-button-group>
 
@@ -42,8 +57,7 @@ export default (config: StudioConfig) =>
                       id="new_entry_button"
                       size="xs"
                       icon-label="New entry"
-                      data-signals:new-entry="${JSON.stringify(signals)}"
-                      data-on:click="@post('/studio/api/block', { filterSignals: { include: 'newEntry' } })"
+                      data-on:click=${onNewEntryClick}
                     >
                       <quiet-icon name="file-plus"></quiet-icon>
                     </quiet-button>

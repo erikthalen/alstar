@@ -4,7 +4,7 @@ import { createMiddleware } from 'hono/factory'
 import type { SSEStreamingApi } from 'hono/streaming'
 
 // Simple Jsonifiable type definition to replace npm:type-fest dependency
-type Jsonifiable =
+export type Jsonifiable =
   | string
   | number
   | boolean

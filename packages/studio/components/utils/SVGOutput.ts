@@ -1,7 +1,9 @@
 import { html, raw } from 'hono/html'
 import { getField } from '../../helpers/sql/index.ts'
 
-export default (id: string | number) => {
+export default (props: { id: string | number }) => {
+  const id = props.id
+
   if (!id) return html`<p>No id provided</p>`
 
   const data = getField({ id })

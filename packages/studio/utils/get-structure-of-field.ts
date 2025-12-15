@@ -1,21 +1,17 @@
+import {
+  BlockFieldInstance,
+  BlockInstance,
+  CollectionInstance,
+  FieldInstance,
+  SingleInstance,
+} from '../helpers/structure/index.ts'
 import { config } from '../index.ts'
 import { getParentsNames } from '../queries/get-structure-path.ts'
-import type {
-  BlockDefStructure,
-  BlocksFieldDefStructure,
-  FieldDefStructure,
-} from '../types.ts'
-import { BlockFieldInstance, BlockInstance, FieldInstance } from './define.ts'
-
-type StructureItem =
-  | BlockDefStructure
-  | BlocksFieldDefStructure
-  | FieldDefStructure
 
 export function getStructureOfField(id: string | number) {
   const [entryType, ...path] = getParentsNames(id)
 
-  const fieldStructure = path.reduce((acc: StructureItem, cur: string) => {
+  const fieldStructure = path.reduce((acc: any, cur: string) => {
     switch (acc.instanceOf) {
       case FieldInstance: {
         return acc
@@ -25,7 +21,9 @@ export function getStructureOfField(id: string | number) {
         return acc.blocks[cur]
       }
 
-      case BlockInstance: {
+      case BlockInstance:
+      case SingleInstance:
+      case CollectionInstance: {
         return acc.fields[cur]
       }
     }

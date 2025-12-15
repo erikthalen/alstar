@@ -2,58 +2,34 @@ import { html } from 'hono/html'
 import { config } from '../index.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { type Context } from 'hono'
-import { db } from '@alstar/db'
-import { sql } from '../utils/sql.ts'
-import {
-  CollectionInstance,
-  SingleInstance,
-} from '../helpers/structure/index.ts'
-
-function getSettings(c: Context) {
-  const user = c.get('user')
-
-  const settingRows = user
-    ? db.database
-        .prepare(sql`select type, value from setting where user_id = ?`)
-        .all(user.id)
-    : []
-
-  const settings = settingRows.reduce<Record<string, string | undefined>>(
-    (acc, row) => ({ ...acc, [row.type as string]: row.value?.toString() }),
-    {},
-  )
-
-  return settings
-}
+import { CollectionInstance, SingleInstance } from '../helpers/structure/index.ts'
+import { defineEventHandler } from '../event-emitter/event-emitter.ts'
+import { getUserSettings, updateUserSetting } from '../helpers/sql/index.ts'
 
 export default (c: Context) => {
-  const settings = getSettings(c)
+  const settings = getUserSettings(c.get('user')?.id)
 
   const entries = Object.entries(config.structure)
 
-  const singles = entries.filter(
-    ([_, block]) => block.instanceOf === SingleInstance,
-  )
-  const collections = entries.filter(
-    ([_, block]) => block.instanceOf === CollectionInstance,
-  )
+  const singles = entries.filter(([_, block]) => block.instanceOf === SingleInstance)
+  const collections = entries.filter(([_, block]) => block.instanceOf === CollectionInstance)
 
-  const signals = {
-    explorerLocked: settings.explorer_locked === 'true',
-  }
+  const setExplorerLocked = defineEventHandler(({ user, signals }) => {
+    updateUserSetting(user, ['explorer_locked', signals.userSettings.explorer_locked])
+  })
 
   return html`
     <nav
       id="explorer"
-      data-signals:usersettings="${JSON.stringify(signals)}"
-      data-class:locked="$usersettings.explorerLocked"
+      data-signals:user-settings="{ explorer_locked: ${settings.explorer_locked || 'false'} }"
+      data-class:locked="$userSettings.explorer_locked"
       class="${settings.explorer_locked === 'true' ? 'locked' : ''}"
-      data-init="@get('/studio/cqrs')"
+      data-init="@get('/studio/updates')"
     >
       <header class="ts-label">
         <quiet-toggle-icon
-          data-attr:checked="$usersettings.explorerLocked"
-          data-on:quiet-change="$usersettings.explorerLocked = evt.target.checked; @post('/studio/api/user-settings', { filterSignals: 'usersettings.' })"
+          data-attr:checked="$userSettings.explorer_locked"
+          data-on:quiet-change="$userSettings.explorer_locked = evt.target.checked; ${setExplorerLocked}"
           id="lock_explorer_button"
           label="Open explorer settings"
           effect="scale"
@@ -105,17 +81,11 @@ export default (c: Context) => {
                   })
 
                   return html`<vscode-tree-item>
-                    <a
-                      href="/studio/entries/${data.id}"
-                      aria-title="Go to ${block.label}"
-                    ></a>
+                    <a href="/studio/entries/${data.id}" aria-title="Go to ${block.label}"></a>
 
                     ${block.icon
                       ? html`<div slot="icon-leaf" class="icon">
-                          <quiet-icon
-                            name="${block.icon}"
-                            variant="outline"
-                          ></quiet-icon>
+                          <quiet-icon name="${block.icon}" variant="outline"></quiet-icon>
                         </div> `
                       : ''}
                     ${block.label}
@@ -135,17 +105,11 @@ export default (c: Context) => {
                 Collections
                 ${collections.map(([name, block]) => {
                   return html`<vscode-tree-item>
-                    <a
-                      href="/studio/entries?name=${name}"
-                      aria-title="See all ${block.label}"
-                    ></a>
+                    <a href="/studio/entries?name=${name}" aria-title="See all ${block.label}"></a>
 
                     ${block.icon
                       ? html`<div slot="icon-leaf" class="icon">
-                          <quiet-icon
-                            name="${block.icon}"
-                            variant="outline"
-                          ></quiet-icon>
+                          <quiet-icon name="${block.icon}" variant="outline"></quiet-icon>
                         </div>`
                       : ''}
                     ${block.label}
@@ -155,10 +119,7 @@ export default (c: Context) => {
             : ''}
         </vscode-tree-item>
         <vscode-tree-item>
-          <a
-            href="/studio/media-library"
-            aria-title="Go to the Media Library"
-          ></a>
+          <a href="/studio/media-library" aria-title="Go to the Media Library"></a>
 
           <div slot="icon-leaf" class="icon">
             <quiet-icon name="photo" variant="outline"></quiet-icon>

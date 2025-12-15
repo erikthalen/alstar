@@ -55,6 +55,7 @@
   --quiet-font-family: var(--alstar-font-family);
   --quiet-border-radius-sm: 0;
   --quiet-border-radius-md: 0;
+  --quiet-border-radius-pill: 0;
 
   --vscode-font-family: var(--alstar-font-family);
   --vscode-font-size: 12px;

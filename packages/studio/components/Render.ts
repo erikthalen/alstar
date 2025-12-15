@@ -14,31 +14,30 @@ import {
 } from '../helpers/structure/index.ts'
 
 export default (props: {
-  entryId: number | string
   parentId: number | string
   structure: InstanceType
   id?: number
   name: string
   sortOrder?: number
 }): HtmlEscapedString | Promise<HtmlEscapedString> => {
-  const { entryId, parentId, structure, name, id } = props
+  const { parentId, structure, name, id } = props
 
   if (!structure) return html`<p>No block</p>`
 
   try {
     switch (structure.instanceOf) {
       case FieldInstance: {
-        return FieldRenderer({ entryId, parentId, id, structure, name })
+        return FieldRenderer({ parentId, id, structure, name })
       }
 
       case BlockFieldInstance: {
-        return BlockFieldRenderer({ entryId, parentId, id, structure, name })
+        return BlockFieldRenderer({ parentId, id, structure, name })
       }
 
       case BlockInstance:
       case SingleInstance:
       case CollectionInstance: {
-        return BlockRenderer({ entryId, parentId, structure, id })
+        return BlockRenderer({ parentId, structure, id })
       }
     }
   } catch (error) {

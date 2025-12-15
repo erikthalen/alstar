@@ -15,8 +15,8 @@ import { createStudioTables } from './utils/create-studio-tables.ts'
 import { getConfig } from './utils/get-config.ts'
 import startupLog from './utils/startup-log.ts'
 import { createAuthServer } from './utils/auth.ts'
-import { apiRoutes } from './api/index.ts'
-import { mcpRoutes } from './api/mcp.ts'
+// import { apiRoutes } from './api/index.ts'
+// import { mcpRoutes } from './api/mcp.ts'
 
 import ErrorPage from './pages/error.ts'
 
@@ -25,8 +25,7 @@ import { cors } from 'hono/cors'
 import { except } from 'hono/combine'
 import { type DatabaseSync } from 'node:sqlite'
 import { factory } from './factory.ts'
-import cqrs from './helpers/cqrs/index.ts'
-import { sql } from './utils/sql.ts'
+import { eventEmitterApp } from './event-emitter/event-emitter.ts'
 
 const packageJSON = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
@@ -117,28 +116,21 @@ const createStudio = () => {
   // redirect to /login if not logged in
   app.use(
     '*',
-    except(
-      [
-        '/studio/api/auth/*',
-        '/studio/login',
-        '/studio/register',
-      ],
-      async (c, next) => {
-        const session = await auth.api.getSession({
-          headers: c.req.raw.headers,
-        })
+    except(['/studio/api/auth/*', '/studio/login', '/studio/register'], async (c, next) => {
+      const session = await auth.api.getSession({
+        headers: c.req.raw.headers,
+      })
 
-        if (!session) {
-          c.set('user', null)
-          c.set('session', null)
-          return c.redirect('/studio/login')
-        }
+      if (!session) {
+        c.set('user', null)
+        c.set('session', null)
+        return c.redirect('/studio/login')
+      }
 
-        c.set('user', session.user)
-        c.set('session', session.session)
-        await next()
-      },
-    ),
+      c.set('user', session.user)
+      c.set('session', session.session)
+      await next()
+    }),
   )
 
   // redirect from /login to /studio if logged in
@@ -161,8 +153,8 @@ const createStudio = () => {
   /**
    * Studio API routes
    */
-  app.route('/api', apiRoutes)
-  app.route('/mcp', mcpRoutes)
+  // app.route('/api', apiRoutes)
+  // app.route('/mcp', mcpRoutes)
 
   /**
    * Media route
@@ -172,12 +164,11 @@ const createStudio = () => {
   /**
    * CQRS route
    */
-  app.route('/cqrs', cqrs())
+  app.route('/updates', eventEmitterApp)
 
   /**
    * Studio pages
    */
-
   for (const route of routes) {
     app.get(route.name, route.handler(config)[0])
   }
@@ -220,7 +211,6 @@ const createStudio = () => {
   return app
 }
 
-export { type RequestContext } from './types.ts'
 export { createStudio }
 export { query } from './queries/index.ts'
 export const version = packageJSON.version
