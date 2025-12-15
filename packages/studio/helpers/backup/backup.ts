@@ -3,10 +3,8 @@ import { backup } from 'node:sqlite'
 
 import { Hono } from 'hono'
 import { type HttpBindings } from '@hono/node-server'
-import { streamSSE } from 'hono/streaming'
-import { db } from '@alstar/db'
 import path from 'node:path'
-// import { renderSSE } from '../utils/renderSSE.ts'
+import { database } from '../../index.ts'
 
 const app = new Hono<{ Bindings: HttpBindings }>()
 
@@ -17,7 +15,7 @@ app.post('/backup', async (c) => {
   try {
     fsp.mkdir('./backups', { recursive: true })
 
-    await backup(db.database, name)
+    await backup(database, name)
   } catch (error) {
     console.log(error)
     return c.json({ status: 500, message: 'Something went wrong' })

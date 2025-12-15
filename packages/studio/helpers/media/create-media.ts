@@ -1,8 +1,7 @@
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 import sharp from 'sharp'
-import { config } from '@alstar/studio'
-import { db } from '@alstar/db'
+import { config, database } from '../../index.ts'
 import { sql } from '../../utils/sql.ts'
 import fsp from 'node:fs/promises'
 import { mediaCachePath } from './router.ts'
@@ -50,15 +49,13 @@ export const saveMedia = async (
   }
 
   // Create a new media row in db
-  db.database
+  database
     .prepare(
       sql`insert into media (name, filename, mime_type, width, height) values (?, ?, ?, ?, ?)`,
     )
     .run(...Object.values(row))
 
-  return db.database
-    .prepare(sql`select * from media where filename = ?`)
-    .get(filename) as MediaSchema
+  return database.prepare(sql`select * from media where filename = ?`).get(filename) as MediaSchema
 }
 
 export const saveCachedMedia = async (
@@ -73,10 +70,10 @@ export const saveCachedMedia = async (
   } catch (error) {}
 
   console.log('Creating:', path.join(mediaCachePath, filename))
-  
+
   // Upload the original image to folder
   await fsp.writeFile(path.join(mediaCachePath, filename), buffer)
-  
+
   console.log('Created:', path.join(mediaCachePath, filename))
 
   // Extract image metadata using sharp
@@ -91,7 +88,7 @@ export const saveCachedMedia = async (
   }
 
   // Create a new media_cache row in db
-  db.database
+  database
     .prepare(
       sql`insert into media_cache (original_filename, filename, mime_type, width, height) values (?, ?, ?, ?, ?)`,
     )
@@ -99,7 +96,7 @@ export const saveCachedMedia = async (
 
   console.log('Created row in media_cached:', filename)
 
-  return db.database
+  return database
     .prepare(sql`select * from media_cache where filename = ?`)
     .get(filename) as MediaCacheSchema
 }

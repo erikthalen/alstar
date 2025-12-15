@@ -1,12 +1,12 @@
-import { db } from '@alstar/db'
 import { html } from 'hono/html'
 import { sql } from '../../utils/sql.ts'
 import { getEnv } from '@alstar/studio/env'
+import { database } from '../../index.ts'
 
 export default async () => {
   const env = await getEnv()
 
-  const users = db.database
+  const users = database
     .prepare(
       sql`
       select
@@ -46,19 +46,13 @@ export default async () => {
 
       <hr />
 
-      <form
-        data-on:submit="@post('/studio/api/auth/register', { contentType: 'form' })"
-      >
+      <form data-on:submit="@post('/studio/api/auth/register', { contentType: 'form' })">
         <quiet-card style="max-width: 340px;">
           <h3>Register user</h3>
 
           <br />
 
-          <quiet-text-field
-            name="email"
-            label="Email"
-            with-clear
-          ></quiet-text-field>
+          <quiet-text-field name="email" label="Email" with-clear></quiet-text-field>
 
           <br />
 

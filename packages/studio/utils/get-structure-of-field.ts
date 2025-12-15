@@ -1,3 +1,4 @@
+import { getParentsNames } from '../helpers/sql/queries/block.ts'
 import {
   BlockFieldInstance,
   BlockInstance,
@@ -6,7 +7,6 @@ import {
   SingleInstance,
 } from '../helpers/structure/index.ts'
 import { config } from '../index.ts'
-import { getParentsNames } from '../queries/get-structure-path.ts'
 
 export function getStructureOfField(id: string | number) {
   const [entryType, ...path] = getParentsNames(id)

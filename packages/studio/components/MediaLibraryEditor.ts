@@ -1,12 +1,12 @@
 import { html } from 'hono/html'
 import { sql } from '../utils/sql.ts'
-import { db } from '@alstar/db'
 import type { MediaRow } from '../types.ts'
+import { database } from '../index.ts'
 
 export default (props: { filename: string | null }) => {
   if (!props?.filename) return html`<div id="media_library_editor"></div>`
 
-  const media = db.database
+  const media = database
     .prepare(sql`select * from media where filename = ?`)
     .get(props.filename) as MediaRow
 

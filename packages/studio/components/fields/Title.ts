@@ -1,7 +1,7 @@
 import { html } from 'hono/html'
 import EditedBy from '../utils/EditedBy.ts'
 import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
-import { defineEventHandler } from '../../event-emitter/event-emitter.ts'
+import { defineEventHandler } from '../../event-emitter.ts'
 import EntryHeader from '../EntryHeader.ts'
 import LivePreview from '../LivePreview.ts'
 import EntryTitle from '../EntryTitle.ts'

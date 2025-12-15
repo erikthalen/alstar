@@ -64,3 +64,7 @@ export type MediaRow = {
   width: number
   height: number
 }
+
+export type Signals = {
+  
+}

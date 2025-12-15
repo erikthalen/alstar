@@ -1,6 +1,5 @@
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { html } from 'hono/html'
-import { getFields } from '../helpers/sql/index.ts'
 import type { BlockFieldInstanceType } from '../helpers/structure/types.ts'
 import { Field } from './fields/index.ts'
 
@@ -22,10 +21,6 @@ export default (props: {
   })
 
   if (!data) return html`<p>No block</p>`
-
-  const entries = Object.entries(structure.blocks)
-
-  const rows = getFields({ parent_id: data.id })
 
   return html` ${Field.BlockField({ id: data.id })} `
 }

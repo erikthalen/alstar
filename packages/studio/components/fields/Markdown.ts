@@ -1,4 +1,4 @@
-import { defineEventHandler } from '../../event-emitter/event-emitter.ts'
+import { defineEventHandler } from '../../event-emitter.ts'
 import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
 import { html } from 'hono/html'
 import EntryHeader from '../EntryHeader.ts'

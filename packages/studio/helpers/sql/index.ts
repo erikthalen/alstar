@@ -1,9 +1,8 @@
-import { db } from '@alstar/db'
 import type { BlockStatus, DBBlockResult } from '../../types.ts'
 import { sql } from '../../utils/sql.ts'
 import { sqlQueryRoot } from './queries/root.ts'
 import type { DBRow, TODO } from './types.ts'
-import { type AuthType } from '../../index.ts'
+import { database, type AuthType } from '../../index.ts'
 
 function buildFilterSql(params: Record<string, any>) {
   const entries = Object.entries(params)
@@ -29,7 +28,7 @@ export function getEntry(
   const { filterSql, sqlParams } = buildFilterSql(params)
 
   const query = sqlQueryRoot(filterSql, options?.depth)
-  const rows = db.database.prepare(query).all(sqlParams) as unknown as DBRow[]
+  const rows = database.prepare(query).all(sqlParams) as unknown as DBRow[]
 
   if (!rows.length) return null
 
@@ -50,7 +49,7 @@ export function getField(params: Record<string, any>) {
       ${filterSql}
   `
 
-  return db.database.prepare(query).get(sqlParams) as unknown as DBBlockResult
+  return database.prepare(query).get(sqlParams) as unknown as DBBlockResult
 }
 
 export function getFields(params: Record<string, any>) {
@@ -67,11 +66,11 @@ export function getFields(params: Record<string, any>) {
      sort_order
   `
 
-  return db.database.prepare(query).all(sqlParams) as unknown as DBBlockResult[]
+  return database.prepare(query).all(sqlParams) as unknown as DBBlockResult[]
 }
 
 export const setUpdatedAt = (id: string | number) => {
-  return db.database
+  return database
     .prepare(
       sql`
         update block
@@ -85,7 +84,7 @@ export const setUpdatedAt = (id: string | number) => {
 }
 
 export const setBlockStatus = (id: string | number, status: BlockStatus) => {
-  return db.database
+  return database
     .prepare(
       sql`
         update block
@@ -100,7 +99,7 @@ export const setBlockStatus = (id: string | number, status: BlockStatus) => {
 }
 
 export const setBlockOption = (id: string | number, options: Record<string, any>) => {
-  return db.database
+  return database
     .prepare(
       sql`
         update block
@@ -115,7 +114,7 @@ export const setBlockOption = (id: string | number, options: Record<string, any>
 }
 
 export const updateBlockValue = (id: string | number, value: string) => {
-  db.database
+  database
     .prepare(
       sql`
         update block
@@ -146,11 +145,17 @@ export const createBlock = (values: {
     }),
   )
 
-  db.insertInto('block', data)
+  const columns = Object.keys(values)
+
+  database
+    .prepare(
+      sql`insert into block (${columns.join(', ')}) values (${Array(columns.length).fill('? ')});`,
+    )
+    .run(...Object.values(values))
 }
 
 export const deleteBlock = (id: string | number) => {
-  const deletedBlocks = db.database
+  const deletedBlocks = database
     .prepare(
       sql`
   with recursive
@@ -278,7 +283,7 @@ export const getUserSettings = (userId: string | undefined): UserSettings => {
   if (!userId) return
 
   const settingRows = userId
-    ? db.database.prepare(sql`select type, value from setting where user_id = ?`).all(userId)
+    ? database.prepare(sql`select type, value from setting where user_id = ?`).all(userId)
     : []
 
   const settings = settingRows.reduce<Record<string, string | undefined>>(
@@ -294,7 +299,7 @@ export const updateUserSetting = (user: AuthType['user'], setting: TODO) => {
 
   const [key, value] = setting
 
-  db.database
+  database
     .prepare(
       sql`
         INSERT INTO setting (user_id, type, value, updated_at)

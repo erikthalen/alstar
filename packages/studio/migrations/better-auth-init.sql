@@ -1,5 +1,5 @@
 create table
-  "user" (
+  if not exists "user" (
     "id" text not null primary key,
     "name" text not null,
     "email" text not null unique,
@@ -10,7 +10,7 @@ create table
   );
 
 create table
-  "session" (
+  if not exists "session" (
     "id" text not null primary key,
     "expiresAt" date not null,
     "token" text not null unique,
@@ -22,7 +22,7 @@ create table
   );
 
 create table
-  "account" (
+  if not exists "account" (
     "id" text not null primary key,
     "accountId" text not null,
     "providerId" text not null,
@@ -39,7 +39,7 @@ create table
   );
 
 create table
-  "verification" (
+  if not exists "verification" (
     "id" text not null primary key,
     "identifier" text not null,
     "value" text not null,

@@ -3,7 +3,7 @@ import { config } from '../index.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { type Context } from 'hono'
 import { CollectionInstance, SingleInstance } from '../helpers/structure/index.ts'
-import { defineEventHandler } from '../event-emitter/event-emitter.ts'
+import { defineEventHandler } from '../event-emitter.ts'
 import { getUserSettings, updateUserSetting } from '../helpers/sql/index.ts'
 
 export default (c: Context) => {

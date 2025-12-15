@@ -1,22 +1,17 @@
 import { html } from 'hono/html'
-import { db } from '@alstar/db'
 import { sql } from '../../utils/sql.ts'
-import { type AuthType } from '../../index.ts'
+import { database, type AuthType } from '../../index.ts'
 
 export default (props: { id: number | string; userId?: string }) => {
   let user
 
   if (props.userId) {
-    user = db.database
-      .prepare(sql`select * from user where id = ?`)
-      .get(props.userId) as AuthType['user'] | undefined
+    user = database.prepare(sql`select * from user where id = ?`).get(props.userId) as
+      | AuthType['user']
+      | undefined
   }
 
-  return html`<div
-    id="edited_by_${props.id}"
-    slot="content-after"
-    style="display: contents;"
-  >
+  return html`<div id="edited_by_${props.id}" slot="content-after" style="display: contents;">
     ${props.userId
       ? html`<quiet-avatar
             id="edited_by_avatar_${props.id}"

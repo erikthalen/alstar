@@ -1,10 +1,10 @@
 import { html } from 'hono/html'
 import * as icons from '../icons.ts'
-import { db } from '@alstar/db'
 import { sql } from '../../utils/sql.ts'
+import { database } from '../../index.ts'
 
 export default () => {
-  const apiKeys = db.database
+  const apiKeys = database
     .prepare(
       sql`
       select
@@ -30,10 +30,7 @@ export default () => {
             return html` <tr>
               <th scope="row">${apiKey.name}</th>
               <td>
-                <quiet-text-field
-                  disabled
-                  value="${apiKey.hint}"
-                ></quiet-text-field>
+                <quiet-text-field disabled value="${apiKey.hint}"></quiet-text-field>
               </td>
               <td>
                 <form
@@ -53,9 +50,7 @@ export default () => {
                     <quiet-icon name="trash"></quiet-icon>
                   </quiet-button>
 
-                  <quiet-tooltip for="api_key_delete_${idx}">
-                    Delete API key
-                  </quiet-tooltip>
+                  <quiet-tooltip for="api_key_delete_${idx}"> Delete API key </quiet-tooltip>
 
                   <input type="hidden" name="value" value="${apiKey.value}" />
                 </form>
@@ -79,11 +74,7 @@ export default () => {
           })"
         >
           <!-- data-bind="name" -->
-          <quiet-text-field
-            name="name"
-            label="Generate API Key"
-            placeholder="Name"
-          >
+          <quiet-text-field name="name" label="Generate API Key" placeholder="Name">
             <span slot="description"> Enter a name for the API key. </span>
           </quiet-text-field>
 
@@ -96,18 +87,14 @@ export default () => {
       </quiet-card>
 
       <quiet-dialog id="dialog__overview">
-        <h3 slot="header" style="font-size: 1.25rem; margin-block: 0;">
-          Dialog
-        </h3>
+        <h3 slot="header" style="font-size: 1.25rem; margin-block: 0;">Dialog</h3>
 
         <p>
-          Curious cats explore every corner of their domain, gracefully leaping
-          from windowsills to countertops, always seeking new adventures.
+          Curious cats explore every corner of their domain, gracefully leaping from windowsills to
+          countertops, always seeking new adventures.
         </p>
 
-        <quiet-button slot="footer" data-dialog="close" variant="primary">
-          Close
-        </quiet-button>
+        <quiet-button slot="footer" data-dialog="close" variant="primary"> Close </quiet-button>
       </quiet-dialog>
 
       <dialog data-attr="{ open: $apiKey !== '' }">

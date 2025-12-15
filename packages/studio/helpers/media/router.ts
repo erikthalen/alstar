@@ -1,11 +1,6 @@
-import { db } from '@alstar/db'
 import { factory } from '../../factory.ts'
 import { serveStatic } from './serve-static.ts'
-import {
-  type MediaCacheSchema,
-  saveCachedMedia,
-  type MediaSchema,
-} from './create-media.ts'
+import { type MediaCacheSchema, saveCachedMedia, type MediaSchema } from './create-media.ts'
 import fsp from 'node:fs/promises'
 import { streamSSE } from 'hono/streaming'
 import { getElementsToPatch } from '../../utils/get-elements-to-patch.ts'
@@ -14,6 +9,7 @@ import { getMimeType } from 'hono/utils/mime'
 import path from 'node:path'
 import { transformMedia } from './transform-media.ts'
 import { sql } from '../../utils/sql.ts'
+import { database } from '../../index.ts'
 
 export const mediaPath = path.resolve(path.join('./public', 'media'))
 export const mediaCachePath = path.resolve(path.join(mediaPath, 'cache'))
@@ -32,7 +28,7 @@ export const mediaRouter = () => {
 
     // return cached image if request is for transformed image that exists in cache
     if (requestHasQuery) {
-      const cachedImage = db.database
+      const cachedImage = database
         .prepare('select * from media_cache where filename = ?')
         .get(fullname) as MediaSchema | undefined
 
@@ -41,7 +37,7 @@ export const mediaRouter = () => {
       }
     }
 
-    const originalImage = db.database
+    const originalImage = database
       .prepare('select * from media where filename = ?')
       .get(filename) as MediaSchema | undefined
 
@@ -53,18 +49,11 @@ export const mediaRouter = () => {
       return serveStatic(c, originalImage)
     }
 
-    const originalMediaBuffer = await fsp.readFile(
-      path.join(mediaPath, originalImage.filename),
-    )
+    const originalMediaBuffer = await fsp.readFile(path.join(mediaPath, originalImage.filename))
 
-    const transformedMediaBuffer = await transformMedia(
-      originalMediaBuffer,
-      query,
-    )
+    const transformedMediaBuffer = await transformMedia(originalMediaBuffer, query)
 
-    const outputFormat = query?.format
-      ? `.${query.format}`
-      : path.extname(filename)
+    const outputFormat = query?.format ? `.${query.format}` : path.extname(filename)
     const mime = getMimeType(outputFormat)
 
     if (!mime) {
@@ -106,13 +95,8 @@ export const mediaRouter = () => {
         }
       }
 
-      if (
-        datastar?.signals?.medialibrary &&
-        'medialibrary' in datastar?.signals
-      ) {
-        const patches = await getElementsToPatch(
-          datastar.signals.medialibrary.patchElements || [],
-        )
+      if (datastar?.signals?.medialibrary && 'medialibrary' in datastar?.signals) {
+        const patches = await getElementsToPatch(datastar.signals.medialibrary.patchElements || [])
 
         for (const patch of patches) {
           await datastar.patchElements(stream, patch)
@@ -127,7 +111,7 @@ export const mediaRouter = () => {
       const datastar = c.get('datastar')
 
       // delete any cached/transformed media rows
-      const cachedMedia = db.database
+      const cachedMedia = database
         .prepare(sql`select * from media_cache where original_filename = ?`)
         .all(filename) as MediaCacheSchema[]
 
@@ -139,25 +123,16 @@ export const mediaRouter = () => {
       )
 
       // delete any cached/transformed media rows
-      db.database
-        .prepare(sql`delete from media_cache where original_filename = ?`)
-        .run(filename)
+      database.prepare(sql`delete from media_cache where original_filename = ?`).run(filename)
 
       // delete original media in db
-      db.database
-        .prepare(sql`delete from media where filename = ?`)
-        .run(filename)
+      database.prepare(sql`delete from media where filename = ?`).run(filename)
 
       // delete original media
       await fsp.rm(path.join(mediaPath, filename))
 
-      if (
-        datastar?.signals?.medialibrary &&
-        'medialibrary' in datastar?.signals
-      ) {
-        const patches = await getElementsToPatch(
-          datastar.signals.medialibrary.patchElements || [],
-        )
+      if (datastar?.signals?.medialibrary && 'medialibrary' in datastar?.signals) {
+        const patches = await getElementsToPatch(datastar.signals.medialibrary.patchElements || [])
 
         for (const patch of patches) {
           await datastar.patchElements(stream, patch)

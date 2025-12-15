@@ -1,11 +1,11 @@
 import { html } from 'hono/html'
-import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
 import fsp from 'node:fs/promises'
 import { mediaCachePath, mediaPath } from '@alstar/studio/media'
 import path from 'node:path'
 import type { MediaRow } from '../types.ts'
 import MediaLibraryEditor from './MediaLibraryEditor.ts'
+import { database } from '../index.ts'
 
 const fileStats = async (filepath: string) => {
   const stats = await fsp.stat(filepath)
@@ -23,7 +23,7 @@ const dirSize = async (directory: string) => {
 }
 
 export default async () => {
-  const medias = db.database
+  const medias = database
     .prepare(sql`select * from media`)
     .all() as MediaRow[]
 

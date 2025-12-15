@@ -1,9 +1,9 @@
 import { html } from 'hono/html'
-import { db } from '@alstar/db'
 import { sql } from '../utils/sql.ts'
+import { database } from '../index.ts'
 
 export default async () => {
-  const medias = db.database.prepare(sql`select * from media`).all()
+  const medias = database.prepare(sql`select * from media`).all()
 
   const getThumbnailUrl = (filename?: string) => {
     if (!filename) return ''
@@ -39,9 +39,7 @@ export default async () => {
                     data-on:click="evt.target.dispatchEvent(new CustomEvent('input', { detail: '${media.filename}', bubbles: true }))"
                   >
                     <figure>
-                      <img
-                        src="${getThumbnailUrl(media.filename?.toString())}"
-                      />
+                      <img src="${getThumbnailUrl(media.filename?.toString())}" />
                       <figcaption class="ts-xs">
                         <span>${media.name}</span>
                       </figcaption>

@@ -8,7 +8,7 @@ import {
   setUpdatedAt,
 } from '../../helpers/sql/index.ts'
 import { getStructureOfField } from '../../utils/get-structure-of-field.ts'
-import { defineEventHandler } from '../../event-emitter/event-emitter.ts'
+import { defineEventHandler } from '../../event-emitter.ts'
 import Render from '../Render.ts'
 import type { BlockFieldInstanceType } from '../../helpers/structure/types.ts'
 import EntryHeader from '../EntryHeader.ts'

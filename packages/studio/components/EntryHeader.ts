@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
 import { deleteBlock, getEntry, setBlockStatus, setUpdatedAt } from '../helpers/sql/index.ts'
-import { defineEventHandler } from '../event-emitter/event-emitter.ts'
+import { defineEventHandler } from '../event-emitter.ts'
 import type { BlockStatus } from '../types.ts'
 import LivePreviewContent from './LivePreviewContent.ts'
 

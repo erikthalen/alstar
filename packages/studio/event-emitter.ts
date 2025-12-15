@@ -1,9 +1,9 @@
 import crypto from 'node:crypto'
 import EventEmitter from 'node:events'
 import { SSEStreamingApi, streamSSE } from 'hono/streaming'
-import { factory } from '../factory.ts'
-import { type AuthType } from '../index.ts'
-import { patchElements, type Jsonifiable } from '../helpers/hono-datastar/index.ts'
+import { factory } from './factory.ts'
+import { type AuthType } from './index.ts'
+import { patchElements, type Jsonifiable } from './helpers/hono-datastar/index.ts'
 import { type HtmlEscapedString } from 'hono/utils/html'
 
 type Component = HtmlEscapedString | Promise<HtmlEscapedString>

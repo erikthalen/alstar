@@ -1,7 +1,8 @@
-import { db } from '@alstar/db'
 import { getField } from '../helpers/sql/index.ts'
 import type { InstanceType } from '../helpers/structure/types.ts'
 import { FieldInstance } from '../helpers/structure/index.ts'
+import { database } from '../index.ts'
+import { sql } from './sql.ts'
 
 export function getOrCreateRow(props: {
   parentId: string | number | null
@@ -33,13 +34,9 @@ export function getOrCreateRow(props: {
     return
   }
 
-  const change = db.insertInto('block', {
-    name: name?.toString(),
-    label: field.label?.toString(),
-    type: type,
-    sort_order: sortOrder,
-    parent_id: parentId,
-  })
+  const change = database
+    .prepare(sql`insert into block (name, label, type, sort_order, parent_id) values (?, ?, ?, ?, ?);`)
+    .run(name?.toString(), field.label?.toString(), type, sortOrder, parentId)
 
   return getField({ id: change.lastInsertRowid.toString() })
 }

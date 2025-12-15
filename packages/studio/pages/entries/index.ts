@@ -6,7 +6,7 @@ import Explorer from '../../components/Explorer.ts'
 import Tabs from '../../components/Tabs.ts'
 import { type StudioConfig } from '../../types.ts'
 import { factory } from '../../factory.ts'
-import { defineEventHandler } from '../../event-emitter/event-emitter.ts'
+import { defineEventHandler } from '../../event-emitter.ts'
 import { createBlock } from '../../helpers/sql/index.ts'
 
 export default (config: StudioConfig) =>
