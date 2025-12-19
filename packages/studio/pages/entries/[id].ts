@@ -10,7 +10,7 @@ import { factory } from '../../factory.ts'
 
 export default (config: StudioConfig) =>
   factory.createHandlers((c) => {
-    const id = c.req.param('id')
+    const id = c.req.param('id') as `${number}`
     const user = c.get('user')
 
     if (!id) {

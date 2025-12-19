@@ -6,7 +6,14 @@ import hljs from 'highlight.js'
 export default ({ entryId }: { entryId: number | string }) => {
   const data = getEntry({ id: entryId })
 
-  if (!data) return html`<p>No entry with id: "${entryId}"</p>`
+  if (!data) {
+    return html`<div id="entry" style="padding: var(--unit)">
+      <quiet-callout variant="destructive" class="ts-xs">
+        <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
+        No entry with id: <code>${entryId}</code>
+      </quiet-callout>
+    </div>`
+  }
 
   const jsonString = JSON.stringify(data, null, 2)
   const highlightedJSON = hljs.highlight(jsonString, { language: 'json' }).value

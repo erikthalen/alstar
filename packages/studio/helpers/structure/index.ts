@@ -8,6 +8,7 @@ import type {
   BlockInstanceType,
   CollectionInstanceType,
   StructureInstanceType,
+  SingleInstanceType,
 } from './types.ts'
 
 export const FieldInstance = Symbol('field')
@@ -38,6 +39,15 @@ export function defineBlock<const O extends BlockFields>(
   return {
     ...block,
     instanceOf: BlockInstance,
+  }
+}
+
+export function defineSingle<const O extends BlockFields>(
+  block: BlockType<O>,
+): SingleInstanceType<O> {
+  return {
+    ...block,
+    instanceOf: SingleInstance,
   }
 }
 

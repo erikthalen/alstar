@@ -3,8 +3,9 @@ import EventEmitter from 'node:events'
 import { SSEStreamingApi, streamSSE } from 'hono/streaming'
 import { factory } from './factory.ts'
 import { type AuthType } from './index.ts'
-import { patchElements, type Jsonifiable } from './helpers/hono-datastar/index.ts'
+import { patchElements } from './helpers/hono-datastar/index.ts'
 import { type HtmlEscapedString } from 'hono/utils/html'
+import type { Signals } from './types.ts'
 
 type Component = HtmlEscapedString | Promise<HtmlEscapedString>
 
@@ -29,11 +30,16 @@ const generateEventName = (id?: string | number) => {
 export const eventEmitter = new EventEmitter()
 export const connections = new Map<string, Connection>()
 
+type PatchOptions = {
+  me?: boolean
+  them?: boolean
+}
+
 type EventHandler = (arg: {
   user: AuthType['user']
-  signals: Record<string, Jsonifiable> | null
-  patchElements: (patches: Component | Component[], patchCurrentUser?: boolean) => void
-}) => Component | Component[] | void
+  signals: Signals
+  patchElements: (patches: Component | Component[], options?: PatchOptions) => void
+}) => Component | Component[] | void | Promise<Component | Component[] | void>
 
 const registeredEventNames = new Set<string>()
 const dependencies = new Map<string | number, { name: string; handler: EventHandler }[]>()
@@ -55,14 +61,18 @@ export const defineEventHandler = (
 
   // console.log('defining event:', eventName)
 
-  const handler: EventHandler = (args) => {
-    const patch = (patches: Component | Component[], patchCurrentUser = true) => {
+  const handler: EventHandler = async (args) => {
+    const patch = (
+      patches: Component | Component[],
+      options: PatchOptions = { me: true, them: true },
+    ) => {
       const patchesArray = Array.isArray(patches) ? patches : [patches]
 
       for (const patch of patchesArray) {
         try {
           connections.forEach(async (connection) => {
-            if (!patchCurrentUser && args.user && connection.user?.id === args.user?.id) return
+            if (options.me === false && args.user && connection.user?.id === args.user?.id) return
+            if (options.them === false && args.user && connection.user?.id !== args.user?.id) return
 
             await patchElements(connection.stream, await patch)
           })
@@ -73,7 +83,7 @@ export const defineEventHandler = (
       }
     }
 
-    const patches = fn({ ...args, patchElements: patch })
+    const patches = await fn({ ...args, patchElements: patch })
 
     if (patches) {
       patch(patches)

@@ -1,5 +1,6 @@
-import { type HtmlEscapedString } from 'hono/utils/html'
+import type { HtmlEscapedString } from 'hono/utils/html'
 import type { FieldType, StructureInstanceType } from './helpers/structure/types.ts'
+import type { DatastarFileUpload } from './helpers/media/create-media.ts'
 
 export type BlockStatus = 'enabled' | 'disabled'
 
@@ -30,10 +31,7 @@ export type DBBlockResult = BaseDBResult & {
   fields: Record<string, DBResult>
 }
 
-export type DBResult =
-  | DBPrimitiveFieldResult
-  | DBBlockFieldResult
-  | DBBlockResult
+export type DBResult = DBPrimitiveFieldResult | DBBlockFieldResult | DBBlockResult
 
 export type StudioConfig = {
   siteName: string
@@ -65,6 +63,34 @@ export type MediaRow = {
   height: number
 }
 
-export type Signals = {
-  
+export type UserSettings = {
+  explorer_locked?: 'true' | 'false'
+  preview_enabled?: 'true' | 'false'
+}
+
+export type EntrySignalsValue = {
+  type: 'entry'
+  status: BlockStatus
+}
+
+export type BlockSignalsValue = {
+  type: 'block'
+  options: {
+    collapsed: 'true' | 'false' | ''
+  }
+  status: BlockStatus
+}
+
+export type FieldSignalsValue = string
+
+export type Signals = Record<
+  `${number}` | number,
+  EntrySignalsValue | BlockSignalsValue | FieldSignalsValue
+> & {
+  userSettings: UserSettings
+  files?: DatastarFileUpload[]
+  entry: {
+    id: number
+    status: BlockStatus
+  }
 }

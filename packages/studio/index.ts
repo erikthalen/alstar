@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fsp from 'node:fs/promises'
 import { serveStatic } from '@hono/node-server/serve-static'
-import { getEnv } from '@alstar/studio/env'
+// import { getEnv } from '@alstar/studio/env'
 import { hotReload, hotReloadClient } from '@alstar/studio/hot-reload'
 import { datastar } from '@alstar/studio/hono-datastar'
 import { mediaRouter } from '@alstar/studio/media'
@@ -26,7 +26,7 @@ const { version } = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 const consumerRoot = path.resolve('.')
 const studioRoot = import.meta.dirname
 
-export let defaultConfig: types.StudioConfig = {
+const defaultConfig: types.StudioConfig = {
   siteName: '',
   database: './studio.db',
   uploadBase: './public/media',

@@ -4,15 +4,25 @@ import {
   defineField,
   defineCollection,
   defineStructure,
+  defineSingle,
 } from '@alstar/studio/structure'
 
 export default {
   siteName: 'Playground',
   previewUrl: 'http://localhost:3000',
   structure: defineStructure({
+    frontpage: defineSingle({
+      label: 'Frontpage',
+      fields: {
+        title: defineField({
+          type: 'text',
+          label: 'Title',
+        }),
+      },
+    }),
     page: defineCollection({
       label: 'Pages',
-      icon: 'file',
+
       preview: { field: 'slug' },
       fields: {
         title: defineField({

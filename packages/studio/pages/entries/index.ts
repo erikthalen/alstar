@@ -8,6 +8,7 @@ import { type StudioConfig } from '../../types.ts'
 import { factory } from '../../factory.ts'
 import { defineEventHandler } from '../../event-emitter.ts'
 import { createBlock } from '../../helpers/sql/index.ts'
+import EntriesTypes from '../../components/EntriesTypes.ts'
 
 export default (config: StudioConfig) =>
   factory.createHandlers((c) => {
@@ -81,7 +82,7 @@ export default (config: StudioConfig) =>
 
                 ${Entries({ page: 1, name: name })}
               </div>`
-            : html`<p>No name parameter</p>`}
+            : EntriesTypes(config.structure)}
         </section>
       `),
     )

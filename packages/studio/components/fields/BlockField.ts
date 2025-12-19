@@ -31,7 +31,7 @@ const Component = ({ id }: { id: number | string }) => {
         ${entries.map(([name, block]) => {
           const createNewBlock = defineEventHandler(
             ({ signals }) => {
-              const entry = signals?.entry as { id: string }
+              const entryId = signals.entry.id
 
               createBlock({
                 name: name,
@@ -41,13 +41,9 @@ const Component = ({ id }: { id: number | string }) => {
                 sort_order: rows.length,
               })
 
-              setUpdatedAt(entry.id)
+              setUpdatedAt(entryId)
 
-              return [
-                Component({ id }),
-                EntryHeader({ entryId: entry.id }),
-                LivePreviewContent({ entryId: entry.id }),
-              ]
+              return [Component({ id }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
             },
             { id: name + rows.length, once: true },
           )
@@ -74,16 +70,12 @@ const Component = ({ id }: { id: number | string }) => {
           ({ signals }) => {
             if (!signals) return
 
-            const entry = signals?.entry as { id: string }
+            const entryId = signals.entry.id
 
             deleteBlock(row.id)
-            setUpdatedAt(entry?.id)
+            setUpdatedAt(entryId)
 
-            return [
-              Component({ id }),
-              EntryHeader({ entryId: entry.id }),
-              LivePreviewContent({ entryId: entry.id }),
-            ]
+            return [Component({ id }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
           },
           { id: row.id },
         )
@@ -92,10 +84,14 @@ const Component = ({ id }: { id: number | string }) => {
           ({ signals }) => {
             if (!signals) return
 
-            const entry = signals?.entry as { id: string }
+            const { entry } = signals
+            const signal = signals[row.id]
 
             setUpdatedAt(entry?.id)
-            setBlockStatus(row.id, signals[row.id].status)
+
+            if (typeof signal !== 'string' && signal.type === 'block') {
+              setBlockStatus(row.id, signal.status)
+            }
 
             return [EntryHeader({ entryId: entry.id })]
           },
@@ -106,10 +102,13 @@ const Component = ({ id }: { id: number | string }) => {
           ({ signals }) => {
             if (!signals) return
 
-            const entry = signals?.entry as { id: string }
+            const { entry } = signals
+            const signal = signals[row.id]
 
             setUpdatedAt(entry?.id)
-            setBlockOption(row.id, signals[row.id].options)
+            if (typeof signal !== 'string' && signal.type === 'block') {
+              setBlockOption(row.id, signal.options)
+            }
 
             return [EntryHeader({ entryId: entry.id }), Component({ id })]
           },
@@ -120,6 +119,7 @@ const Component = ({ id }: { id: number | string }) => {
           <article
             data-id="${row.id}"
             data-signals:${row.id}="${JSON.stringify({
+              type: 'block',
               options: JSON.parse(row.options || '{}'),
               status: row.status,
             })}"

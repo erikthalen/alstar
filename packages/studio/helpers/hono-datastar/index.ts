@@ -102,12 +102,12 @@ export const readSignals = async (
   }
 }
 
-export const patchElements = (stream: SSEStreamingApi, template: string) => {
+export const patchElements = (stream: SSEStreamingApi, elements: string) => {
   return stream.writeSSE({
     event: 'datastar-patch-elements',
     data:
       'mode replace\n' +
-      template
+      elements
         .split('\n')
         .map((line) => `elements ${line}`)
         .join('\n'),

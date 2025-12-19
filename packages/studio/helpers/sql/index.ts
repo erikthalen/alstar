@@ -1,4 +1,4 @@
-import type { BlockStatus, DBBlockResult } from '../../types.ts'
+import type { BlockStatus, DBBlockResult, UserSettings } from '../../types.ts'
 import { sql } from '../../utils/sql.ts'
 import { sqlQueryRoot } from './queries/root.ts'
 import type { DBRow, TODO } from './types.ts'
@@ -135,7 +135,7 @@ export const createBlock = (values: {
   parent_id: number | string | null
   sort_order?: number
 }) => {
-  const data = JSON.parse(
+  const data: Record<string, string> = JSON.parse(
     JSON.stringify({
       type: values.type,
       name: values.name,
@@ -145,13 +145,13 @@ export const createBlock = (values: {
     }),
   )
 
-  const columns = Object.keys(values)
+  const columns = Object.keys(data)
 
   database
     .prepare(
       sql`insert into block (${columns.join(', ')}) values (${Array(columns.length).fill('? ')});`,
     )
-    .run(...Object.values(values))
+    .run(...Object.values(data))
 }
 
 export const deleteBlock = (id: string | number) => {
@@ -272,14 +272,7 @@ function buildTree(items: DBRow[]): TODO | null {
   return root
 }
 
-type UserSettings =
-  | {
-      explorer_locked: 'true' | 'false' | undefined
-      preview_enabled: 'true' | 'false' | undefined
-    }
-  | undefined
-
-export const getUserSettings = (userId: string | undefined): UserSettings => {
+export const getUserSettings = (userId: string | undefined): UserSettings | undefined => {
   if (!userId) return
 
   const settingRows = userId

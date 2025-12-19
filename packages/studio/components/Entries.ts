@@ -1,6 +1,5 @@
 import { html } from 'hono/html'
 import { deleteBlock, getField, getFields, setBlockStatus } from '../helpers/sql/index.ts'
-import type { BlockStatus } from '../types.ts'
 import { defineEventHandler } from '@alstar/studio/events'
 
 const Component = ({ page = 1, name }: { page?: number; name: string }) => {
@@ -14,13 +13,14 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
 
   return html`
     <section id="entries" class="entries">
-      ${Date.now()}
       <vscode-table zebra bordered-rows resizable>
         <vscode-table-header slot="header">
           <vscode-table-header-cell>Bulk</vscode-table-header-cell>
           <vscode-table-header-cell>Title</vscode-table-header-cell>
           <vscode-table-header-cell>Slug</vscode-table-header-cell>
-          <vscode-table-header-cell>Action</vscode-table-header-cell>
+          <vscode-table-header-cell>
+            <span style="padding-right: 10px;">Action</span>
+          </vscode-table-header-cell>
         </vscode-table-header>
         <vscode-table-body slot="body">
           ${paginatedEntries?.map((block) => {
@@ -29,7 +29,8 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
 
             const handleSetStatus = defineEventHandler(
               ({ signals }) => {
-                const data = signals?.[block.id] as { status: BlockStatus }
+                const data = signals[block.id]
+                if (typeof data === 'string') return
                 setBlockStatus(block.id.toString(), data.status)
               },
               { dependency: block.id },
@@ -63,7 +64,12 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                     style="display: flex; align-items: center; justify-content: flex-end; gap: 0.25rem;"
                   >
                     <quiet-toggle-icon
-                      data-signals:${block.id}="{ status: '${block.status}' }"
+                      data-signals="{
+                        ${block.id}: {
+                          type: 'entry',
+                          status: '${block.status}',
+                        }
+                      }"
                       class="disable-button"
                       label="Disable"
                       effect="scale"

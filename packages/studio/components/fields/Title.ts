@@ -3,24 +3,23 @@ import EditedBy from '../utils/EditedBy.ts'
 import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
 import { defineEventHandler } from '../../event-emitter.ts'
 import EntryHeader from '../EntryHeader.ts'
-import LivePreview from '../LivePreview.ts'
 import EntryTitle from '../EntryTitle.ts'
 import LivePreviewContent from '../LivePreviewContent.ts'
 
-const Component = ({ id }: { id: number | string }) => {
-  const onUpdate = defineEventHandler(({ signals, patchElements }) => {
-    const entry = signals?.entry as { id: string }
+const Component = ({ id }: { id: number | `${number}` }) => {
+  const onInput = defineEventHandler(({ signals, patchElements }) => {
+    const entryId = signals.entry.id
+    const signal = signals[id]
 
-    updateBlockValue(id.toString(), signals?.[id] as string)
-    setUpdatedAt(entry?.id)
+    if (typeof signal === 'string') {
+      updateBlockValue(id.toString(), signal)
+    }
 
-    patchElements(Component({ id }), false)
+    setUpdatedAt(entryId)
 
-    return [
-      EntryTitle({ entryId: entry.id }),
-      EntryHeader({ entryId: entry.id }),
-      LivePreviewContent({ entryId: entry.id }),
-    ]
+    patchElements(Component({ id }), { me: false })
+
+    return [EntryTitle({ entryId }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
   })
 
   const onFocus = defineEventHandler(({ user }) => EditedBy({ id, userId: user?.id }))
@@ -35,7 +34,7 @@ const Component = ({ id }: { id: number | string }) => {
       id="field_${id}"
       data-signals:${id}="'${data.value}'"
       data-bind:${id}
-      data-on:input=${onUpdate}
+      data-on:input=${onInput}
       data-on:focus=${onFocus}
       data-on:blur=${onBlur}
     >

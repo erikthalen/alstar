@@ -21,9 +21,9 @@ export default (c: Context) => {
   return html`
     <nav
       id="explorer"
-      data-signals:user-settings="{ explorer_locked: ${settings.explorer_locked || 'false'} }"
+      data-signals:user-settings="{ explorer_locked: ${settings?.explorer_locked || 'false'} }"
       data-class:locked="$userSettings.explorer_locked"
-      class="${settings.explorer_locked === 'true' ? 'locked' : ''}"
+      class="${settings?.explorer_locked === 'true' ? 'locked' : ''}"
       data-init="@get('/studio/updates')"
     >
       <header class="ts-label">
@@ -81,13 +81,12 @@ export default (c: Context) => {
                   })
 
                   return html`<vscode-tree-item>
-                    <a href="/studio/entries/${data.id}" aria-title="Go to ${block.label}"></a>
+                    <a href="/studio/entries/${data?.id}" aria-title="Go to ${block.label}"></a>
 
-                    ${block.icon
-                      ? html`<div slot="icon-leaf" class="icon">
-                          <quiet-icon name="${block.icon}" variant="outline"></quiet-icon>
-                        </div> `
-                      : ''}
+                    <div slot="icon-leaf" class="icon">
+                      <quiet-icon name="${block.icon || 'file'}" variant="outline"></quiet-icon>
+                    </div>
+
                     ${block.label}
                   </vscode-tree-item>`
                 })}
@@ -107,11 +106,10 @@ export default (c: Context) => {
                   return html`<vscode-tree-item>
                     <a href="/studio/entries?name=${name}" aria-title="See all ${block.label}"></a>
 
-                    ${block.icon
-                      ? html`<div slot="icon-leaf" class="icon">
-                          <quiet-icon name="${block.icon}" variant="outline"></quiet-icon>
-                        </div>`
-                      : ''}
+                    <div slot="icon-leaf" class="icon">
+                      <quiet-icon name="${block.icon || 'files'}" variant="outline"></quiet-icon>
+                    </div>
+
                     ${block.label}
                   </vscode-tree-item>`
                 })}

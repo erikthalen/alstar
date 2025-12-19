@@ -3,20 +3,23 @@ import EditedBy from '../utils/EditedBy.ts'
 import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
 import { defineEventHandler } from '@alstar/studio/events'
 import EntryHeader from '../EntryHeader.ts'
-import LivePreview from '../LivePreview.ts'
 import LivePreviewContent from '../LivePreviewContent.ts'
 
-const Component = ({ id }: { id: number | string }) => {
+const Component = ({ id }: { id: number | `${number}` }) => {
   const onInput = defineEventHandler(
     ({ signals, patchElements }) => {
-      const entry = signals?.entry as { id: string }
+      const entryId = signals.entry.id
+      const signal = signals[id]
 
-      updateBlockValue(id.toString(), signals?.[id] as string)
-      setUpdatedAt(entry?.id)
+      if (typeof signal === 'string') {
+        updateBlockValue(id.toString(), signal)
+      }
 
-      patchElements(Component({ id }), false)
+      setUpdatedAt(entryId)
 
-      return [EntryHeader({ entryId: entry.id }), LivePreviewContent({ entryId: entry.id })]
+      patchElements(Component({ id }), { me: false })
+
+      return [EntryHeader({ entryId }), LivePreviewContent({ entryId })]
     },
     { dependency: id },
   )

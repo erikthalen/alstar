@@ -4,7 +4,7 @@ import sharp from 'sharp'
 import { config, database } from '../../index.ts'
 import { sql } from '../../utils/sql.ts'
 import fsp from 'node:fs/promises'
-import { mediaCachePath } from './router.ts'
+import { mediaCachePath, mediaPath } from './router.ts'
 
 export type DatastarFileUpload = {
   name: string
@@ -107,18 +107,24 @@ export const saveCachedMedia = async (
  * @returns The saved media document.
  * @throws Error if file is missing or any error occurs.
  */
-export const createMedia = async (file: DatastarFileUpload) => {
-  if (!file) {
+export const createMedia = async (files: DatastarFileUpload[]) => {
+  if (!files) {
     throw new Error('No file uploaded.')
   }
 
-  const { name: filename, mime, contents } = file
-  const { name, ext } = path.parse(filename)
+  try {
+    await fsp.mkdir(mediaPath, { recursive: true })
+  } catch (error) {}
 
-  const buffer = Buffer.from(contents, 'base64')
+  for (const file of files) {
+    const { name: filename, mime, contents } = file
+    const { name, ext } = path.parse(filename)
 
-  const uniqueId = randomUUID()
-  const uniqueFilename = `${name}-${uniqueId}${ext}`
+    const buffer = Buffer.from(contents, 'base64')
 
-  await saveMedia(filename, uniqueFilename, mime, buffer)
+    const uniqueId = randomUUID()
+    const uniqueFilename = `${name}-${uniqueId}${ext}`
+
+    await saveMedia(filename, uniqueFilename, mime, buffer)
+  }
 }

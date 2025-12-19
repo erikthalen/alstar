@@ -11,7 +11,7 @@ export default (userId: string | undefined) => {
 
   return html` <header>
     <quiet-toggle-icon
-      data-signals:user-settings="{ preview_enabled: ${settings.preview_enabled || 'true'} }"
+      data-signals:user-settings="{ preview_enabled: ${settings?.preview_enabled || 'true'} }"
       data-on:quiet-change="$userSettings.preview_enabled = evt.target.checked; ${setPreviewVisible}"
       data-attr:checked="$userSettings.preview_enabled"
       label="Toggle live preview visibility"

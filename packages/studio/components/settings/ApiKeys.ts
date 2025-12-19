@@ -1,5 +1,4 @@
 import { html } from 'hono/html'
-import * as icons from '../icons.ts'
 import { sql } from '../../utils/sql.ts'
 import { database } from '../../index.ts'
 
@@ -116,7 +115,7 @@ export default () => {
               class="ghost"
               aria-label="Copy key to clipboard"
             >
-              ${icons.clipboard}
+              {icons.clipboard}
               <span
                 style="display: none; margin-left: 0.5rem; color: green;"
                 data-style="{ display: $copied && 'block' }"

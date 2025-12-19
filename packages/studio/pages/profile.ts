@@ -10,9 +10,19 @@ export default (config: StudioConfig) =>
   factory.createHandlers((c) =>
     c.html(
       SiteLayout(
-        html` ${Explorer(c)}
+        html` <!--  -->
+          ${Explorer(c)}
+
+          <!--  -->
+
           <section class="page">
-            ${SiteHeader(c)} ${Tabs()}
+            ${SiteHeader(c)}
+
+            <!--  -->
+
+            ${Tabs()}
+
+            <!--  -->
 
             <div class="profile">
               <h1 class="sr-only">Profile</h1>
