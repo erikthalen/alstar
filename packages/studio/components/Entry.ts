@@ -1,8 +1,8 @@
 import { html } from 'hono/html'
-import { config } from '../index.ts'
-import Render from './Render.ts'
-import EntryHeader from './EntryHeader.ts'
-import { getField } from '../helpers/sql/index.ts'
+import { config } from '#index.ts'
+import Render from '#components/field-renderers/Render.ts'
+import EntryHeader from '#components/EntryHeader.ts'
+import { getField } from '#helpers/sql/index.ts'
 
 export default ({ entryId }: { entryId: `${number}` | number }) => {
   const data = getField({ id: entryId })

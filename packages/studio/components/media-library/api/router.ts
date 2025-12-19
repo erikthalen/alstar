@@ -1,11 +1,11 @@
-import { factory } from '../../factory.ts'
+import { factory } from '#factory.ts'
 import { serveStatic } from './serve-static.ts'
 import { saveCachedMedia, type MediaSchema } from './create-media.ts'
 import fsp from 'node:fs/promises'
 import { getMimeType } from 'hono/utils/mime'
 import path from 'node:path'
 import { transformMedia } from './transform-media.ts'
-import { database } from '../../index.ts'
+import { database } from '#index.ts'
 
 export const mediaPath = path.resolve(path.join('./public', 'media'))
 export const mediaCachePath = path.resolve(path.join(mediaPath, 'transforms'))

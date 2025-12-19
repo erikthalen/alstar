@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
-import { defineEventHandler } from '../event-emitter.ts'
-import { getUserSettings, updateUserSetting } from '../helpers/sql/index.ts'
+import { defineEventHandler } from '../../event-emitter.ts'
+import { getUserSettings, updateUserSetting } from '../../helpers/sql/index.ts'
 
 export default (userId: string | undefined) => {
   const settings = getUserSettings(userId)

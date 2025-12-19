@@ -6,13 +6,13 @@ import {
   setBlockOption,
   setBlockStatus,
   setUpdatedAt,
-} from '../../helpers/sql/index.ts'
-import { getStructureOfField } from '../../utils/get-structure-of-field.ts'
-import { defineEventHandler } from '../../event-emitter.ts'
-import Render from '../Render.ts'
-import type { BlockFieldInstanceType } from '../../helpers/structure/types.ts'
-import EntryHeader from '../EntryHeader.ts'
-import LivePreviewContent from '../LivePreviewContent.ts'
+} from '#helpers/sql/index.ts'
+import { getStructureOfField } from '#utils/get-structure-of-field.ts'
+import { defineEventHandler } from '#event-emitter.ts'
+import Render from '#components/field-renderers/Render.ts'
+import type { BlockFieldInstanceType } from '#helpers/structure/types.ts'
+import EntryHeader from '#components/EntryHeader.ts'
+import LivePreviewContent from '#components/live-preview/LivePreviewContent.ts'
 
 const Component = ({ id }: { id: number | string }) => {
   const structure = getStructureOfField(id) as BlockFieldInstanceType

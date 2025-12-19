@@ -4,7 +4,7 @@ import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/inde
 import { defineEventHandler } from '../../event-emitter.ts'
 import EntryHeader from '../EntryHeader.ts'
 import EntryTitle from '../EntryTitle.ts'
-import LivePreviewContent from '../LivePreviewContent.ts'
+import LivePreviewContent from '../live-preview/LivePreviewContent.ts'
 
 const Component = ({ id }: { id: number | `${number}` }) => {
   const onInput = defineEventHandler(({ signals, patchElements }) => {
@@ -33,10 +33,10 @@ const Component = ({ id }: { id: number | `${number}` }) => {
     <vscode-textfield
       id="field_${id}"
       data-signals:${id}="'${data.value}'"
-      data-bind:${id}
       data-on:input=${onInput}
       data-on:focus=${onFocus}
       data-on:blur=${onBlur}
+      data-bind:${id}
     >
       ${EditedBy({ id })}
     </vscode-textfield>

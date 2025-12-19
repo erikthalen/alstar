@@ -1,17 +1,8 @@
 #!/usr/bin/env node
 
-import {
-  intro,
-  text,
-  spinner,
-  outro,
-  log,
-  isCancel,
-  cancel,
-} from '@clack/prompts'
+import { intro, text, spinner, outro, log, isCancel, cancel } from '@clack/prompts'
 import path from 'node:path'
 import fs from 'node:fs/promises'
-import crypto from 'node:crypto'
 
 console.log(`
  █████╗ ██╗     ███████╗████████╗ █████╗ ██████╗ 
@@ -52,10 +43,6 @@ if (isCancel(dir)) {
 const projectName = name || defaultName
 const projectDir = dir || defaultDir
 
-const s = spinner()
-
-s.start(`Creating project in ${projectDir}${projectName}`)
-
 const templatePath = path.join(import.meta.dirname, 'template')
 const fullpath = path.join(path.resolve('.'), projectDir, projectName)
 
@@ -64,18 +51,12 @@ if (await directoryExists(fullpath)) {
   process.exit(0)
 }
 
+const s = spinner()
+
+s.start(`Creating project in ${projectDir}${projectName}`)
+
 await fs.cp(templatePath, fullpath, { recursive: true })
-await fs.rename(
-  path.join(fullpath, '_gitignore'),
-  path.join(fullpath, '.gitignore'),
-)
-
-const RANDOM_TOKEN = crypto.randomBytes(64).toString('hex')
-
-await fs.writeFile(
-  path.join(fullpath, '.env'),
-  `ALSTAR_JWT_ACCESS_TOKEN_SECRET=${RANDOM_TOKEN}`,
-)
+await fs.rename(path.join(fullpath, '_gitignore'), path.join(fullpath, '.gitignore'))
 
 s.stop(`Created project in ${path.join(projectDir, projectName)}`)
 

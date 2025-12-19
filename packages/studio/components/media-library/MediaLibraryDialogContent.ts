@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
-import { sql } from '../../utils/sql.ts'
-import { database } from '../../index.ts'
+import { sql } from '#utils/sql.ts'
+import { database } from '#index.ts'
 
 export default async () => {
   const medias = database.prepare(sql`select * from media`).all()

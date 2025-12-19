@@ -4,14 +4,14 @@ import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import BlockRenderer from './BlockRenderer.ts'
 
 import { type HtmlEscapedString } from 'hono/utils/html'
-import type { InstanceType } from '../helpers/structure/types.ts'
+import type { InstanceType } from '#helpers/structure/types.ts'
 import {
   BlockFieldInstance,
   BlockInstance,
   CollectionInstance,
   FieldInstance,
   SingleInstance,
-} from '../helpers/structure/index.ts'
+} from '#helpers/structure/index.ts'
 
 export default (props: {
   parentId: number | string

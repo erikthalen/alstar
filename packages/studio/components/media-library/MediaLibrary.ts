@@ -7,7 +7,7 @@ import {
   deleteMedia,
   mediaCachePath,
   mediaPath,
-} from '@alstar/studio/media'
+} from './index.ts'
 import path from 'node:path'
 import type { MediaRow } from '#types.ts'
 import MediaLibraryEditor from './MediaLibraryEditor.ts'
@@ -18,7 +18,7 @@ const fileStats = async (filepath: string) => {
   try {
     const stats = await fsp.stat(filepath)
     return stats.size
-  } catch(error) {
+  } catch (error) {
     return null
   }
 }

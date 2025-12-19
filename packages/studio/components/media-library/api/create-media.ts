@@ -1,8 +1,8 @@
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 import sharp from 'sharp'
-import { config, database } from '../../index.ts'
-import { sql } from '../../utils/sql.ts'
+import { config, database } from '#index.ts'
+import { sql } from '#utils/sql.ts'
 import fsp from 'node:fs/promises'
 import { mediaCachePath, mediaPath } from './router.ts'
 

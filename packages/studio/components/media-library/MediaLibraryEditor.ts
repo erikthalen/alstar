@@ -1,7 +1,7 @@
 import { html } from 'hono/html'
-import { sql } from '../../utils/sql.ts'
-import type { MediaRow } from '../../types.ts'
-import { database } from '../../index.ts'
+import { sql } from '#utils/sql.ts'
+import type { MediaRow } from '#types.ts'
+import { database } from '#index.ts'
 
 export default (props: { filename: string | null }) => {
   if (!props?.filename)

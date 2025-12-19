@@ -1,9 +1,8 @@
-import { Field } from './fields/index.ts'
-import BlockFieldRenderer from './BlockFieldRenderer.ts'
+import { Field } from '#components/fields/index.ts'
 import { html } from 'hono/html'
-import { getOrCreateRow } from '../utils/get-or-create-row.ts'
-import { BlockFieldInstance } from '../helpers/structure/index.ts'
-import type { BlockFieldInstanceType, FieldInstanceType } from '../helpers/structure/types.ts'
+import { getOrCreateRow } from '#utils/get-or-create-row.ts'
+import { BlockFieldInstance } from '#helpers/structure/index.ts'
+import type { BlockFieldInstanceType, FieldInstanceType } from '#helpers/structure/types.ts'
 
 export default (props: {
   parentId: number | string

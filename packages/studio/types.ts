@@ -1,6 +1,6 @@
 import type { HtmlEscapedString } from 'hono/utils/html'
 import type { FieldType, StructureInstanceType } from './helpers/structure/types.ts'
-import type { DatastarFileUpload } from './helpers/media/create-media.ts'
+import type { DatastarFileUpload } from '#media-library'
 
 export type BlockStatus = 'enabled' | 'disabled'
 

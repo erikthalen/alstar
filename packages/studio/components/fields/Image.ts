@@ -4,7 +4,7 @@ import { defineEventHandler } from '../../event-emitter.ts'
 import EntryHeader from '../EntryHeader.ts'
 import EditedBy from '../utils/EditedBy.ts'
 import MediaLibraryDialogContent from '../media-library/MediaLibraryDialogContent.ts'
-import LivePreviewContent from '../LivePreviewContent.ts'
+import LivePreviewContent from '../live-preview/LivePreviewContent.ts'
 
 const Component = ({ id }: { id: number | `${number}` }) => {
   if (!id) {
@@ -38,13 +38,13 @@ const Component = ({ id }: { id: number | `${number}` }) => {
   return html`
     <vscode-textfield
       placeholder="No image"
-      data-bind:${id}
       id="id_${id}"
       readonly
       data-signals="{ ${id}: '${data.value}' }"
       data-on:input=${onInput}
       data-on:focus=${onFocus}
       data-on:blur=${onBlur}
+      data-bind:${id}
     >
       <quiet-button
         slot="content-after"

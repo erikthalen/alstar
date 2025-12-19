@@ -4,7 +4,7 @@ import EditedBy from '../utils/EditedBy.ts'
 import { defineEventHandler } from '../../event-emitter.ts'
 import { slugify } from '../../utils/slugify.ts'
 import EntryHeader from '../EntryHeader.ts'
-import LivePreviewContent from '../LivePreviewContent.ts'
+import LivePreviewContent from '../live-preview/LivePreviewContent.ts'
 
 const Component = ({ id }: { id: number | `${number}` }) => {
   const onInput = defineEventHandler(({ signals, patchElements }) => {
@@ -51,11 +51,11 @@ const Component = ({ id }: { id: number | `${number}` }) => {
   return html`
     <vscode-textfield
       id="id_${id}"
-      data-bind:${id}
-      data-signals="{ ${id}: '${data.value}' }"
+      data-signals="{ '${id}': '${data?.value || 'no value'}' }"
       data-on:input=${onInput}
       data-on:focus=${onFocus}
       data-on:blur=${onBlur}
+      data-bind:${id}
     >
       ${EditedBy({ id })}
 

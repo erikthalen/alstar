@@ -4,7 +4,7 @@ import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/inde
 import { defineEventHandler } from '../../event-emitter.ts'
 import EditedBy from '../utils/EditedBy.ts'
 import EntryHeader from '../EntryHeader.ts'
-import LivePreviewContent from '../LivePreviewContent.ts'
+import LivePreviewContent from '../live-preview/LivePreviewContent.ts'
 
 const Component = ({ id }: { id: number | `${number}` }) => {
   const onInput = defineEventHandler(({ signals, patchElements }) => {

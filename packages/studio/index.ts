@@ -4,7 +4,7 @@ import { serveStatic } from '@hono/node-server/serve-static'
 // import { getEnv } from '@alstar/studio/env'
 import { hotReload, hotReloadClient } from '@alstar/studio/hot-reload'
 import { datastar } from '@alstar/studio/hono-datastar'
-import { mediaRouter } from '@alstar/studio/media'
+import { mediaRouter } from '#media-library'
 
 import routes from './routes.ts'
 import { getConfig } from './utils/get-config.ts'

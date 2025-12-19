@@ -1,6 +1,6 @@
 import fsp from 'node:fs/promises'
-import { database } from '../../index.ts'
-import { sql } from '../../utils/sql.ts'
+import { database } from '#index.ts'
+import { sql } from '#utils/sql.ts'
 import { type MediaCacheSchema } from './create-media.ts'
 import path from 'node:path'
 import { mediaCachePath, mediaPath } from './router.ts'

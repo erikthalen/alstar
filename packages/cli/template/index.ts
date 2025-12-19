@@ -1,21 +1,16 @@
-import {
-  createStudio,
-  defineStructure,
-  defineBlock,
-  defineField,
-} from '@alstar/studio'
+import { Hono } from 'hono'
+import { serve } from '@hono/node-server'
+import { serveStatic } from '@hono/node-server/serve-static'
+import { createStudio } from '@alstar/studio'
 
-await createStudio({
-  structure: defineStructure({
-    entry: defineBlock({
-      label: 'Entry',
-      type: 'entry',
-      fields: {
-        title: defineField({
-          label: 'Title',
-          type: 'text',
-        }),
-      },
-    }),
-  }),
-})
+import Index from './pages/index.ts'
+
+const app = new Hono()
+
+app.route('/studio', createStudio())
+
+app.use('*', serveStatic({ root: './public' }))
+
+app.get('/', (c) => c.html(Index()))
+
+serve(app, () => console.log('http://localhost:3000'))

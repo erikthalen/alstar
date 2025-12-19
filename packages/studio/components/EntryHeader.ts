@@ -1,7 +1,7 @@
 import { html } from 'hono/html'
 import { deleteBlock, getEntry, setBlockStatus, setUpdatedAt } from '../helpers/sql/index.ts'
 import { defineEventHandler } from '../event-emitter.ts'
-import LivePreviewContent from './LivePreviewContent.ts'
+import LivePreviewContent from './live-preview/LivePreviewContent.ts'
 
 export default ({ entryId }: { entryId: `${number}` | number }) => {
   const data = getEntry({ id: entryId })

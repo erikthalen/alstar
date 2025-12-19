@@ -6,6 +6,8 @@
     "start": "pnpx tsx index.ts"
   },
   "dependencies": {
-    "@alstar/studio": "latest"
+    "@alstar/studio": "latest",
+    "@hono/node-server": "^1.19.6",
+    "hono": "^4.10.6"
   }
 }

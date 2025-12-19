@@ -24,7 +24,9 @@
     "@types/node": "^24.1.0"
   },
   "imports": {
-    "#*": "./*"
+    "#*": "./*",
+    "#media-library": "./components/media-library/index.ts",
+    "#components/*": "./components/*"
   },
   "exports": {
     ".": {
@@ -42,17 +44,11 @@
     "./define": {
       "import": "./utils/define.ts"
     },
-    "./media": {
-      "import": "./helpers/media/index.ts"
-    },
     "./sql": {
       "import": "./helpers/sql/index.ts"
     },
     "./structure": {
       "import": "./helpers/structure/index.ts"
-    },
-    "./events": {
-      "import": "./event-emitter.ts"
     }
   },
   "publishConfig": {

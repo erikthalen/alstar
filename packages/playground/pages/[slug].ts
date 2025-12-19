@@ -1,29 +1,15 @@
-import { query } from '@alstar/studio'
-import { defineEntry } from '@alstar/studio/define'
 import { html } from 'hono/html'
-import SiteLayout from '../components/SiteLayout.ts'
-// import structure from '../structure.ts'
-// import { db } from '../../db/index.ts'
-// import { getBlockTrees } from "./getBlockTrees";
+import { getEntry } from '@alstar/studio/sql'
 
-export default defineEntry((c) => {
+export default (c: any) => {
   const slug = c.req.param('slug')
-  // const entry = query.root({ type: 'slug', value: slug })
 
-  // Now TypeScript knows the return type is derived from `structure`.
+  const data = getEntry({ name: 'slug', value: slug })
 
-  const result = query.root({
-    name: 'slug',
-    value: slug,
-  })
-
-  // result: Array of the "page" node type (with typed fields)
-  // const first = result[0].fields.blocks.children[]
-
-  return SiteLayout(html`
+  return html`
     <h1>Hello!</h1>
     <p>${slug}</p>
 
-    <pre><code>${JSON.stringify(result, null, 2)}</code></pre>
-  `)
-})
+    <pre><code>${JSON.stringify(data, null, 2)}</code></pre>
+  `
+}

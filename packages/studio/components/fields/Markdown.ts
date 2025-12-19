@@ -3,7 +3,7 @@ import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/inde
 import { html } from 'hono/html'
 import EntryHeader from '../EntryHeader.ts'
 import EditedBy from '../utils/EditedBy.ts'
-import LivePreviewContent from '../LivePreviewContent.ts'
+import LivePreviewContent from '../live-preview/LivePreviewContent.ts'
 
 const Component = ({ id }: { id: number | `${number}` }) => {
   const onInput = defineEventHandler(({ signals, patchElements }) => {
@@ -38,8 +38,8 @@ const Component = ({ id }: { id: number | `${number}` }) => {
     <markdown-editor
       id="id_${id}"
       class="ts-xs"
-      data-value="${data.value}"
       data-signals="{ ${id}: '${data.value}' }"
+      data-value="${data.value}"
       data-on:input="$${id} = evt.detail; ${onInput}"
       data-on:focus=${onFocus}
       data-on:blur=${onBlur}

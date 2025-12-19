@@ -1,7 +1,7 @@
 import { html } from 'hono/html'
 import SiteLayout from '../../components/SiteLayout.ts'
 import Entry from '../../components/Entry.ts'
-import LivePreview from '../../components/LivePreview.ts'
+import LivePreview from '../../components/live-preview/LivePreview.ts'
 import SiteHeader from '../../components/SiteHeader.ts'
 import Explorer from '../../components/Explorer.ts'
 import Tabs from '../../components/Tabs.ts'
