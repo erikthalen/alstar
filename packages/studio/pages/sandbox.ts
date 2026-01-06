@@ -21,10 +21,10 @@ export default (config: StudioConfig) =>
               />
 
               <alstar-split-pane fixed="start" id="pane">
-                <div style="padding: 2rem" slot="start">
+                <div style="padding: 2rem; background: grey" slot="start">
                   <p>Start</p>
                 </div>
-                <div style="padding: 2rem" slot="end">
+                <div style="padding: 2rem; background: lightgrey; color: black" slot="end">
                   <p>End</p>
                 </div>
               </alstar-split-pane>

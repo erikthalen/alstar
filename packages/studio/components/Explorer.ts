@@ -4,7 +4,7 @@ import { getOrCreateRow } from '../utils/get-or-create-row.ts'
 import { type Context } from 'hono'
 import { CollectionInstance, SingleInstance } from '../helpers/structure/index.ts'
 import { defineEventHandler } from '../event-emitter.ts'
-import { getUserSettings, updateUserSetting } from '../helpers/sql/index.ts'
+import { getUserSettings, updateUserSetting } from '#helpers/db/sql/index.ts'
 
 export default (c: Context) => {
   const settings = getUserSettings(c.get('user')?.id)

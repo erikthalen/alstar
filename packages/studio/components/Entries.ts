@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
-import { deleteBlock, getField, getFields, setBlockStatus } from '../helpers/sql/index.ts'
-import { defineEventHandler } from '@alstar/studio/events'
+import { deleteBlock, getField, getFields, setBlockStatus } from '../helpers/db/sql/index.ts'
+import { defineEventHandler } from '#event-emitter.ts'
 
 const Component = ({ page = 1, name }: { page?: number; name: string }) => {
   const entries = getFields({ parent_id: null, name })
@@ -15,7 +15,7 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
     <section id="entries" class="entries">
       <vscode-table zebra bordered-rows resizable>
         <vscode-table-header slot="header">
-          <vscode-table-header-cell>Bulk</vscode-table-header-cell>
+          <!-- <vscode-table-header-cell>Bulk</vscode-table-header-cell> -->
           <vscode-table-header-cell>Title</vscode-table-header-cell>
           <vscode-table-header-cell>Slug</vscode-table-header-cell>
           <vscode-table-header-cell>
@@ -46,9 +46,9 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
 
             return html`
               <vscode-table-row>
-                <vscode-table-cell>
+                <!-- <vscode-table-cell>
                   <quiet-checkbox size="sm"></quiet-checkbox>
-                </vscode-table-cell>
+                </vscode-table-cell> -->
                 <vscode-table-cell>
                   <a href="/studio/entries/${block.id}">
                     <h4 class="ts-xs name">${title?.value || 'Untitled'}</h4>
@@ -132,10 +132,10 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
         </vscode-table-body>
       </vscode-table>
 
-      <div class="pagination">
+      <!-- <div class="pagination"> -->
         <!-- data-on:quiet-before-page-change="console.log(evt.detail.requestedPage); @get('/studio/api/component?name=Entries&props={name:{page}, page:evt.detail.requestedPage}')" -->
-        <quiet-pagination total-pages="${pages}" page="${page}" class="ts-xs"></quiet-pagination>
-      </div>
+        <!-- <quiet-pagination total-pages="${pages}" page="${page}" class="ts-xs"></quiet-pagination> -->
+      <!-- </div> -->
     </section>
   `
 }

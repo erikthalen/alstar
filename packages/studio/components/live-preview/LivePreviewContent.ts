@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
 import { raw } from 'hono/html'
-import { getEntry } from '../../helpers/sql/index.ts'
+import { getEntry } from '../../helpers/db/sql/index.ts'
 import hljs from 'highlight.js'
 
 export default ({ entryId }: { entryId: number | string }) => {

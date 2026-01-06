@@ -42,6 +42,16 @@ main:has(#explorer.locked) {
   }
 }
 
+#explorer:after {
+  content: '';
+  width: calc(var(--unit) * 2);
+  height: 100%;
+  position: absolute;
+  right: 0;
+  background-color: var(--quiet-background-color);
+  top: calc(var(--unit) * 2);
+}
+
 vscode-tree {
   padding: 0.25rem;
 }

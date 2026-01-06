@@ -1,4 +1,4 @@
-import { getField } from '../helpers/sql/index.ts'
+import { getField } from '../helpers/db/sql/index.ts'
 import type { InstanceType } from '../helpers/structure/types.ts'
 import { FieldInstance } from '../helpers/structure/index.ts'
 import { database } from '../index.ts'

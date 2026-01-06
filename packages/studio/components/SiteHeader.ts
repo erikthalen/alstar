@@ -20,17 +20,17 @@ export default (c: Context) => {
                 ></quiet-avatar>
               </quiet-button>
 
-              <quiet-dropdown-item href="/studio/profile">
+              <!-- <quiet-dropdown-item href="/studio/profile">
                 <quiet-icon slot="icon" name="user-circle"></quiet-icon>
                 Profile
-              </quiet-dropdown-item>
+              </quiet-dropdown-item> -->
 
-              <quiet-dropdown-item href="/studio/settings">
+              <!-- <quiet-dropdown-item href="/studio/settings">
                 <quiet-icon slot="icon" name="settings"></quiet-icon>
                 Settings
-              </quiet-dropdown-item>
+              </quiet-dropdown-item> -->
 
-              <quiet-divider></quiet-divider>
+              <!-- <quiet-divider></quiet-divider> -->
 
               <quiet-dropdown-item
                 variant="destructive"

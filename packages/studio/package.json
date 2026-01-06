@@ -1,6 +1,6 @@
 {
   "name": "@alstar/studio",
-  "version": "0.0.0-beta.19",
+  "version": "0.0.0-beta.20",
   "type": "module",
   "main": "index.ts",
   "module": "index.js",
@@ -45,7 +45,7 @@
       "import": "./utils/define.ts"
     },
     "./sql": {
-      "import": "./helpers/sql/index.ts"
+      "import": "./helpers/db/sql/index.ts"
     },
     "./structure": {
       "import": "./helpers/structure/index.ts"

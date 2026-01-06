@@ -6,7 +6,7 @@ import {
   setBlockOption,
   setBlockStatus,
   setUpdatedAt,
-} from '#helpers/sql/index.ts'
+} from '#helpers/db/sql/index.ts'
 import { getStructureOfField } from '#utils/get-structure-of-field.ts'
 import { defineEventHandler } from '#event-emitter.ts'
 import Render from '#components/field-renderers/Render.ts'

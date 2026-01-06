@@ -1,5 +1,5 @@
-import { database } from '../../../index.ts'
-import { sql } from '../../../utils/sql.ts'
+import { database } from '../../../../index.ts'
+import { sql } from '../../../../utils/sql.ts'
 
 export const sqlQueryBlockWithChildren = sql`
   with recursive

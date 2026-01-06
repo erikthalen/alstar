@@ -1,5 +1,5 @@
 import { html } from 'hono/html'
-import { getEntry, getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
+import { getEntry, getField, setUpdatedAt, updateBlockValue } from '../../helpers/db/sql/index.ts'
 import EditedBy from '../utils/EditedBy.ts'
 import { defineEventHandler } from '../../event-emitter.ts'
 import { slugify } from '../../utils/slugify.ts'
@@ -52,10 +52,10 @@ const Component = ({ id }: { id: number | `${number}` }) => {
     <vscode-textfield
       id="id_${id}"
       data-signals="{ '${id}': '${data?.value || 'no value'}' }"
+      data-bind:${id}
       data-on:input=${onInput}
       data-on:focus=${onFocus}
       data-on:blur=${onBlur}
-      data-bind:${id}
     >
       ${EditedBy({ id })}
 

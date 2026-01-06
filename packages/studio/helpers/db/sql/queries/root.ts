@@ -1,4 +1,4 @@
-import { sql } from '../../../utils/sql.ts'
+import { sql } from '../../../../utils/sql.ts'
 
 export function sqlQueryRoot(filterSql: string, depthLimit?: number) {
   const depthLimitClause =

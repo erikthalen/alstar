@@ -1,7 +1,7 @@
 import { type Context } from 'hono'
 import { matchedRoutes, routePath, baseRoutePath, basePath } from 'hono/route'
 import { html } from 'hono/html'
-import { getField } from '../helpers/sql/index.ts'
+import { getField } from '../helpers/db/sql/index.ts'
 import EntryTitle from './EntryTitle.ts'
 
 export default (c: Context) => {

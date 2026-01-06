@@ -1,5 +1,5 @@
 import { html } from 'hono/html'
-import { deleteBlock, getEntry, setBlockStatus, setUpdatedAt } from '../helpers/sql/index.ts'
+import { deleteBlock, getEntry, setBlockStatus, setUpdatedAt } from '../helpers/db/sql/index.ts'
 import { defineEventHandler } from '../event-emitter.ts'
 import LivePreviewContent from './live-preview/LivePreviewContent.ts'
 

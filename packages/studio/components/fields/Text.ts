@@ -1,7 +1,7 @@
 import { html } from 'hono/html'
 import EditedBy from '../utils/EditedBy.ts'
-import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
-import { defineEventHandler } from '@alstar/studio/events'
+import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/db/sql/index.ts'
+import { defineEventHandler } from '#event-emitter.ts'
 import EntryHeader from '../EntryHeader.ts'
 import LivePreviewContent from '../live-preview/LivePreviewContent.ts'
 
@@ -37,10 +37,10 @@ const Component = ({ id }: { id: number | `${number}` }) => {
     <vscode-textfield
       id="field_${id}"
       data-signals="{ ${id}: '${data.value}' }"
+      data-bind:${id}
       data-on:input=${onInput}
       data-on:focus=${onFocus}
       data-on:blur=${onBlur}
-      data-bind:${id}
     >
       ${EditedBy({ id })}
     </vscode-textfield>

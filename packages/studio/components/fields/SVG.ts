@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
 import SVGOutput from '../utils/SVGOutput.ts'
-import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
+import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/db/sql/index.ts'
 import { defineEventHandler } from '../../event-emitter.ts'
 import EditedBy from '../utils/EditedBy.ts'
 import EntryHeader from '../EntryHeader.ts'
@@ -37,10 +37,10 @@ const Component = ({ id }: { id: number | `${number}` }) => {
         id="id_${id}"
         placeholder="<svg> ..."
         data-signals:${id}="'${data.value}'"
+        data-bind:${id}
         data-on:input=${onInput}
         data-on:focus=${onFocus}
         data-on:blur=${onBlur}
-        data-bind:${id}
       >
       </vscode-textfield>
     </div>

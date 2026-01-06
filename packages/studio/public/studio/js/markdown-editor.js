@@ -6,8 +6,10 @@ class MarkdownEditor extends HTMLElement {
   async connectedCallback() {
     const value = this.dataset.value
 
+    console.log(atob(value))
+
     this.instance = ink(this, {
-      doc: value,
+      doc: atob(value),
       interface: {
         appearance: 'dark',
         attribution: false,

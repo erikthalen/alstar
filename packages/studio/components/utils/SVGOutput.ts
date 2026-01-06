@@ -1,5 +1,5 @@
 import { html, raw } from 'hono/html'
-import { getField } from '../../helpers/sql/index.ts'
+import { getField } from '../../helpers/db/sql/index.ts'
 
 export default (props: { id: string | number }) => {
   const id = props.id

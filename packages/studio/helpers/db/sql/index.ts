@@ -1,8 +1,8 @@
-import type { BlockStatus, DBBlockResult, UserSettings } from '../../types.ts'
-import { sql } from '../../utils/sql.ts'
+import type { BlockStatus, DBBlockResult, UserSettings } from '../../../types.ts'
+import { sql } from '../../../utils/sql.ts'
 import { sqlQueryRoot } from './queries/root.ts'
 import type { DBRow, TODO } from './types.ts'
-import { database, type AuthType } from '../../index.ts'
+import { database, type AuthType } from '../../../index.ts'
 
 function buildFilterSql(params: Record<string, any>) {
   const entries = Object.entries(params)

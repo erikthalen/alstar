@@ -1,5 +1,5 @@
 import { html } from 'hono/html'
-import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/sql/index.ts'
+import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/db/sql/index.ts'
 import { defineEventHandler } from '../../event-emitter.ts'
 import EntryHeader from '../EntryHeader.ts'
 import EditedBy from '../utils/EditedBy.ts'
@@ -41,10 +41,10 @@ const Component = ({ id }: { id: number | `${number}` }) => {
       id="id_${id}"
       readonly
       data-signals="{ ${id}: '${data.value}' }"
+      data-bind:${id}
       data-on:input=${onInput}
       data-on:focus=${onFocus}
       data-on:blur=${onBlur}
-      data-bind:${id}
     >
       <quiet-button
         slot="content-after"

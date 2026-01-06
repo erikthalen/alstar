@@ -1,4 +1,4 @@
-import { getParentsNames } from '../helpers/sql/queries/block.ts'
+import { getParentsNames } from '../helpers/db/sql/queries/block.ts'
 import {
   BlockFieldInstance,
   BlockInstance,

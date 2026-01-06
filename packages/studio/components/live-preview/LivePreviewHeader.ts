@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
 import { defineEventHandler } from '../../event-emitter.ts'
-import { getUserSettings, updateUserSetting } from '../../helpers/sql/index.ts'
+import { getUserSettings, updateUserSetting } from '../../helpers/db/sql/index.ts'
 
 export default (userId: string | undefined) => {
   const settings = getUserSettings(userId)
@@ -10,9 +10,9 @@ export default (userId: string | undefined) => {
   })
 
   return html` <header>
-    <quiet-toggle-icon
-      data-signals:user-settings="{ preview_enabled: ${settings?.preview_enabled || 'true'} }"
-      data-on:quiet-change="$userSettings.preview_enabled = evt.target.checked; ${setPreviewVisible}"
+    <!-- <quiet-toggle-icon
+      data-signals:user-settings="{ preview_enabled: {settings?.preview_enabled || 'true'} }"
+      data-on:quiet-change="$userSettings.preview_enabled = evt.target.checked; {setPreviewVisible}"
       data-attr:checked="$userSettings.preview_enabled"
       label="Toggle live preview visibility"
       effect="scale"
@@ -22,9 +22,9 @@ export default (userId: string | undefined) => {
     >
       <quiet-icon slot="checked" name="eye"></quiet-icon>
       <quiet-icon slot="unchecked" name="eye-off"></quiet-icon>
-    </quiet-toggle-icon>
+    </quiet-toggle-icon> -->
 
-    <quiet-tooltip
+    <!-- <quiet-tooltip
       open-delay="0"
       close-delay="0"
       distance="0"
@@ -33,13 +33,13 @@ export default (userId: string | undefined) => {
       class="ts-label"
       data-text="$userSettings.preview_enabled ? 'Disable live preview' : 'Enable live preview'"
     >
-    </quiet-tooltip>
+    </quiet-tooltip> -->
 
-    <h1 class="truncate ts-label">Live preview</h1>
+    <h1 class="truncate ts-label" style="margin-left: 10px">Live preview</h1>
 
-    <quiet-switch size="xs" checked>
+    <!-- <quiet-switch size="xs" checked>
       <quiet-icon slot="on-label" name="code-dots"></quiet-icon>
       <quiet-icon slot="off-label" name="browser"></quiet-icon>
-    </quiet-switch>
+    </quiet-switch> -->
   </header>`
 }

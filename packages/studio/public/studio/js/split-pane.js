@@ -3,7 +3,11 @@ import { LitElement, html, css } from 'lit'
 export class SplitPane extends LitElement {
   static properties = {
     fixed: {},
-    locked: { reflect: true },
+    locked: {
+      type: Boolean,
+      attribute: true,
+      reflect: true,
+    },
 
     abortController: { attribute: false },
     activeAbortController: { attribute: false },
@@ -12,14 +16,10 @@ export class SplitPane extends LitElement {
   constructor() {
     super()
 
-    this.fixedClass =
-      this.fixed === 'start'
-        ? 'fixed-start'
-        : this.fixed === 'end'
-          ? 'fixed-end'
-          : ''
-
     this.locked = false
+
+    this.fixedClass =
+      this.fixed === 'start' ? 'fixed-start' : this.fixed === 'end' ? 'fixed-end' : ''
 
     this.abortController = new AbortController()
     this.activeAbortController = new AbortController()
@@ -28,11 +28,9 @@ export class SplitPane extends LitElement {
   connectedCallback() {
     super.connectedCallback()
 
-    window.addEventListener(
-      'pointerup',
-      () => this.activeAbortController.abort(),
-      { signal: this.abortController.signal },
-    )
+    window.addEventListener('pointerup', () => this.activeAbortController.abort(), {
+      signal: this.abortController.signal,
+    })
 
     setTimeout(() => {
       const { width } = this.getBoundingClientRect()
@@ -96,11 +94,15 @@ export class SplitPane extends LitElement {
       width: 100%;
     }
 
-    .root.fixed-start {
+    .root.locked {
+      grid-template-columns: 1fr 1px var(--locked-size, 24px);
     }
 
     :host[locked] {
       background: red;
+      .root {
+        background: red;
+      }
     }
 
     .handle {
