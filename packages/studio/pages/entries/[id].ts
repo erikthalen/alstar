@@ -5,10 +5,10 @@ import LivePreview from '../../components/live-preview/LivePreview.ts'
 import SiteHeader from '../../components/SiteHeader.ts'
 import Explorer from '../../components/Explorer.ts'
 import Tabs from '../../components/Tabs.ts'
-import { type StudioConfig } from '../../types.ts'
+import { type StudioDefaultConfig } from '../../types.ts'
 import { factory } from '../../factory.ts'
 
-export default (config: StudioConfig) =>
+export default (config: StudioDefaultConfig) =>
   factory.createHandlers((c) => {
     const id = c.req.param('id') as `${number}`
     const user = c.get('user')
@@ -18,7 +18,7 @@ export default (config: StudioConfig) =>
     }
 
     return c.html(
-      SiteLayout(html`
+      SiteLayout(c, html`
         <!--  -->
         ${Explorer(c)}
 

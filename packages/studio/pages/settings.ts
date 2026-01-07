@@ -7,15 +7,16 @@ import Backups from '../components/settings/Backups.ts'
 import Users from '../components/settings/Users.ts'
 // import ApiKeys from '../components/settings/ApiKeys.ts'
 import Tabs from '../components/Tabs.ts'
-import { type StudioConfig } from '../types.ts'
+import { type StudioDefaultConfig } from '../types.ts'
 import { factory } from '../factory.ts'
 
-export default (config: StudioConfig) =>
+export default (config: StudioDefaultConfig) =>
   factory.createHandlers((c) => {
     const tab = c.req.query('tab')
 
     return c.html(
       SiteLayout(
+        c,
         html` ${Explorer(c)}
           <section class="page">
             ${SiteHeader(c)} ${Tabs()}

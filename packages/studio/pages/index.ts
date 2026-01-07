@@ -5,12 +5,13 @@ import SiteHeader from '../components/SiteHeader.ts'
 import Explorer from '../components/Explorer.ts'
 import Tabs from '../components/Tabs.ts'
 import { factory } from '../factory.ts'
-import { type StudioConfig } from '../types.ts'
+import { type StudioDefaultConfig } from '../types.ts'
 
-export default (config: StudioConfig) =>
+export default (config: StudioDefaultConfig) =>
   factory.createHandlers((c) => {
     return c.html(
       SiteLayout(
+        c,
         html` <!--  -->
 
           ${Explorer(c)}

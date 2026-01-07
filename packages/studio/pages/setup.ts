@@ -2,10 +2,10 @@ import crypto from 'node:crypto'
 import { html } from 'hono/html'
 import SiteLayout from '../components/SiteLayout.ts'
 import { getEnv } from '@alstar/studio/env'
-import { type StudioConfig } from '../types.ts'
+import { type StudioDefaultConfig } from '../types.ts'
 import { factory } from '../factory.ts'
 
-export default (config: StudioConfig) =>
+export default (config: StudioDefaultConfig) =>
   factory.createHandlers(async (c) => {
     const env = await getEnv()
 
@@ -13,13 +13,14 @@ export default (config: StudioConfig) =>
 
     return c.html(
       SiteLayout(
+        c,
         html` <div class="setup">
           <quiet-card style="width: 100%; max-width: 480px;">
             <h3>Create admin user</h3>
 
             <p>
-              The Studio requires an admin user. The credentials for the admin
-              user is stored in the <code>.env</code> file.
+              The Studio requires an admin user. The credentials for the admin user is stored in the
+              <code>.env</code> file.
             </p>
 
             <form
@@ -48,18 +49,13 @@ export default (config: StudioConfig) =>
                 ${env.ALSTAR_ADMIN_PASSWORD ? 'disabled' : ''}
               >
                 <span slot="description">
-                  <code>ALSTAR_ADMIN_PASSWORD</code> in the
-                  <code>.env</code> file.
+                  <code>ALSTAR_ADMIN_PASSWORD</code> in the <code>.env</code> file.
                 </span>
               </quiet-text-field>
 
               <br />
 
-              <quiet-button
-                style="margin-left: auto"
-                type="submit"
-                variant="primary"
-              >
+              <quiet-button style="margin-left: auto" type="submit" variant="primary">
                 Create admin user
               </quiet-button>
             </form>
