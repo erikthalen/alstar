@@ -9,9 +9,9 @@ import Explorer from '#components/Explorer.ts'
 import Tabs from '#components/Tabs.ts'
 import EntriesTypes from '#components/EntriesTypes.ts'
 import type { BlockFieldInstanceType, FieldInstanceType } from '#helpers/structure/types.ts'
-import { type StudioConfig } from '#types.ts'
+import { type StudioDefaultConfig } from '#types.ts'
 
-export default (config: StudioConfig) =>
+export default (config: StudioDefaultConfig) =>
   factory.createHandlers((c) => {
     const name = c.req.query('name')
 
@@ -42,7 +42,7 @@ export default (config: StudioConfig) =>
     const tableColumns = {}
 
     return c.html(
-      SiteLayout(html`
+      SiteLayout(c, html`
         <!--  -->
 
         ${Explorer(c)}

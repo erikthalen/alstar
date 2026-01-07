@@ -2,12 +2,13 @@ import { html } from 'hono/html'
 import { factory } from '../factory.ts'
 import SiteLayout from '../components/SiteLayout.ts'
 import SiteHeader from '../components/SiteHeader.ts'
-import { type StudioConfig } from '../types.ts'
+import { type StudioDefaultConfig } from '../types.ts'
 
-export default (config: StudioConfig) => {
+export default (config: StudioDefaultConfig) => {
   return factory.createHandlers((c) => {
     return c.html(
       SiteLayout(
+        c,
         html` ${SiteHeader(c)}
 
           <div class="setup background-pattern">

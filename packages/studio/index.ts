@@ -2,7 +2,7 @@ import path from 'node:path'
 import fsp from 'node:fs/promises'
 import { serveStatic } from '@hono/node-server/serve-static'
 // import { getEnv } from '@alstar/studio/env'
-import { hotReload, hotReloadClient } from '@alstar/studio/hot-reload'
+import { hotReload, hotReloadMiddleware } from '@alstar/studio/hot-reload'
 import { datastar } from '@alstar/studio/hono-datastar'
 import { mediaRouter } from '#media-library'
 
@@ -26,7 +26,7 @@ const { version } = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 const consumerRoot = path.resolve('.')
 const studioRoot = import.meta.dirname
 
-const defaultConfig: types.StudioConfig = {
+const defaultConfig: types.StudioDefaultConfig = {
   siteName: '',
   database: './studio.db',
   uploadBase: './public/media',
@@ -34,7 +34,7 @@ const defaultConfig: types.StudioConfig = {
   structure: {},
 }
 
-const consumerConfig = await getConfig<types.StudioConfigInput>()
+const consumerConfig = await getConfig<types.StudioUserConfig>()
 
 // const env = await getEnv()
 
@@ -55,7 +55,19 @@ declare module 'hono' {
   interface ContextVariableMap extends AuthType {}
 }
 
-const createStudio = () => {
+type StudioRuntimeConfig = {
+  enableHotReload?: boolean
+}
+
+const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
+  const {
+    /**
+     * hotReload
+     * Enables automatic browser refresh when studio code is saved during development
+     */
+    enableHotReload = false,
+  } = runtimeConfig
+
   const app = factory.createApp()
 
   // app.use(
@@ -70,8 +82,10 @@ const createStudio = () => {
   //   })
   // )
 
-  if (process.env.HOT_RELOAD === 'true') {
-    app.get('/hot-reload', hotReload({ root: '.', exclude: '.db' }))
+  if (enableHotReload) {
+    app.get('/hot-reload', hotReload({ root: studioRoot, exclude: '.db' }))
+
+    app.use('*', hotReloadMiddleware(true))
   }
 
   /**

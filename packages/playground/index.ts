@@ -9,7 +9,7 @@ import Slug from './pages/[slug].ts'
 
 const app = new Hono()
 
-app.route('/studio', createStudio())
+app.route('/studio', createStudio({ enableHotReload: true }))
 
 app.use('*', serveStatic({ root: './public' }))
 

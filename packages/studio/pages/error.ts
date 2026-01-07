@@ -1,12 +1,12 @@
 import { html } from 'hono/html'
 import SiteLayout from '../components/SiteLayout.ts'
-import { type StudioConfig } from '../types.ts'
+import { type StudioDefaultConfig } from '../types.ts'
 import { factory } from '../factory.ts'
 
-export default (config: StudioConfig) =>
+export default (config: StudioDefaultConfig) =>
   factory.createHandlers((c) => {
     return c.html(
-      SiteLayout(html`
+      SiteLayout(c, html`
         <div
           class="background-pattern"
           style="padding-bottom: 10vh; height: 100%; display: flex; flex-direction: column; place-content: center;"

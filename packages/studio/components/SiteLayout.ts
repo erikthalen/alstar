@@ -1,14 +1,11 @@
 import { raw, html } from 'hono/html'
 import { config } from '../index.ts'
-import { hotReloadClient } from '@alstar/studio/hot-reload'
 import { type HtmlEscapedString } from 'hono/utils/html'
+import { type Context } from 'hono'
 
 export default (
-  content:
-    | string
-    | Promise<string>
-    | HtmlEscapedString
-    | Promise<HtmlEscapedString>,
+  c: Context,
+  content: string | Promise<string> | HtmlEscapedString | Promise<HtmlEscapedString>,
 ) => {
   const title = config.siteName ? config.siteName + ' | ' : ''
 
@@ -79,7 +76,7 @@ export default (
         <script src="/studio/main.js" type="module"></script>
         <link href="/studio/main.css" rel="stylesheet" />
 
-        ${raw(hotReloadClient(8787))}
+        ${raw(c.get('hot-reload'))}
       </head>
 
       <body data-signals:cursor="[0, 0]">

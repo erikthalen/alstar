@@ -33,7 +33,7 @@ export type DBBlockResult = BaseDBResult & {
 
 export type DBResult = DBPrimitiveFieldResult | DBBlockFieldResult | DBBlockResult
 
-export type StudioConfig = {
+export type StudioDefaultConfig = {
   siteName: string
   admin?: {
     logo?: HtmlEscapedString | Promise<HtmlEscapedString>
@@ -44,7 +44,7 @@ export type StudioConfig = {
   structure: StructureInstanceType
 }
 
-export type StudioConfigInput = {
+export type StudioUserConfig = {
   siteName?: string
   admin?: {
     logo?: HtmlEscapedString | Promise<HtmlEscapedString>
