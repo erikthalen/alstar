@@ -22,12 +22,28 @@ function buildFilterSql(params: Record<string, any>) {
 }
 
 export function getEntry(
-  params: Record<string, any>,
+  params: string | Record<string, any>,
   options?: { depth?: number },
 ): DBBlockResult | null {
-  const { filterSql, sqlParams } = buildFilterSql(params)
+  let input: Record<string, any> = {}
+
+  if (typeof params === 'string') {
+    input['name'] = params
+  } else {
+    for (const key in params) {
+      if (key === 'id') {
+        input['id'] = params[key]
+      } else {
+        input['name'] = key
+        input['value'] = params[key]
+      }
+    }
+  }
+
+  const { filterSql, sqlParams } = buildFilterSql(input)
 
   const query = sqlQueryRoot(filterSql, options?.depth)
+
   const rows = database.prepare(query).all(sqlParams) as unknown as DBRow[]
 
   if (!rows.length) return null
