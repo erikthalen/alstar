@@ -4,7 +4,7 @@ import { getEntry } from '@alstar/studio/sql'
 export default (c: any) => {
   const slug = c.req.param('slug')
 
-  const data = getEntry({ name: 'slug', value: slug })
+  const data = getEntry({ slug: slug })
 
   return html`
     <h1>Hello!</h1>
