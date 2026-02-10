@@ -22,4 +22,9 @@ WORKDIR /app/packages/docs
 ENV NODE_ENV=production
 EXPOSE 3000
 
+# Create SQLite directory
+RUN mkdir /data && chown -R node:node /data
+
+USER node
+
 CMD ["pnpm", "run", "start"]
