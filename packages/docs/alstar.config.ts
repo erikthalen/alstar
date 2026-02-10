@@ -8,6 +8,7 @@ import {
 } from '@alstar/studio/structure'
 
 export default {
+  database: process.env.HOT_RELOAD === 'true' ? './studio.db' : '/data/app.db',
   siteName: 'Docs',
   previewUrl: 'http://localhost:3000',
   structure: defineStructure({
