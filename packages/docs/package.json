@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "HOT_RELOAD=true pnpx tsx --watch index.ts",
     "docs:dev": "HOT_RELOAD=true pnpx tsx --watch index.ts",
-    "docs:build": "alstar"
+    "docs:build": "alstar",
+    "start": "pnpx tsx index.ts"
   },
   "devDependencies": {
     "@types/node": "^24.1.0"
