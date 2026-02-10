@@ -1,11 +1,10 @@
 {
-  "name": "docs",
+  "name": "@alstar/docs",
   "version": "0.0.0-beta.1",
   "type": "module",
   "private": true,
   "scripts": {
     "dev": "HOT_RELOAD=true pnpx tsx --watch index.ts",
-    "docs:dev": "HOT_RELOAD=true pnpx tsx --watch index.ts",
     "docs:build": "alstar",
     "start": "pnpx tsx index.ts"
   },

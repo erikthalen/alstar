@@ -14,7 +14,7 @@ COPY package.json ./
 COPY packages ./packages
 
 # Install only docs + its deps
-RUN pnpm install --frozen-lockfile --filter @repo/docs...
+RUN pnpm install --frozen-lockfile --filter @alstar/docs...
 
 # Move into docs package
 WORKDIR /app/packages/docs
