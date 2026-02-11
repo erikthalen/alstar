@@ -55,12 +55,12 @@ export default (props: { entryId: number | string }) => {
         distance="0"
         without-arrow
         for="hide_live_preview_button"
-        class="ts-label"
+        class="text-label"
         data-text="$livePreviewEnabled ? 'Disable live preview' : 'Enable live preview'"
       >
       </quiet-tooltip>
 
-      <h1 class="ts-label">Live preview</h1>
+      <h1 class="text-label">Live preview</h1>
     </header>
 
     <quiet-zoomable-frame

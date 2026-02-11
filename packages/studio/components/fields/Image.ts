@@ -70,11 +70,11 @@ const Component = ({ id }: { id: number | `${number}` }) => {
       </quiet-button>
     </vscode-textfield>
 
-    <quiet-tooltip distance="0" without-arrow class="ts-label" for="remove_${id}">
+    <quiet-tooltip distance="0" without-arrow class="text-label" for="remove_${id}">
       Clear
     </quiet-tooltip>
 
-    <quiet-tooltip distance="0" without-arrow class="ts-label" for="change_${id}">
+    <quiet-tooltip distance="0" without-arrow class="text-label" for="change_${id}">
       Change
     </quiet-tooltip>
 

@@ -26,7 +26,7 @@ export default (c: Context) => {
       class="${settings?.explorer_locked === 'true' ? 'locked' : ''}"
       data-init="@get('/studio/updates')"
     >
-      <header class="ts-label">
+      <header class="text-label">
         <quiet-toggle-icon
           data-attr:checked="$userSettings.explorer_locked"
           data-on:quiet-change="$userSettings.explorer_locked = evt.target.checked; ${setExplorerLocked}"
@@ -50,7 +50,7 @@ export default (c: Context) => {
           Keep explorer open
         </quiet-tooltip>
 
-        <h1 class="ts-label ts-bold">${config.siteName}</h1>
+        <h1 class="text-label ts-bold">${config.siteName}</h1>
       </header>
 
       <vscode-tree hide-arrows>

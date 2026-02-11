@@ -30,12 +30,12 @@ export default (userId: string | undefined) => {
       distance="0"
       without-arrow
       for="hide_live_preview_button"
-      class="ts-label"
+      class="text-label"
       data-text="$userSettings.preview_enabled ? 'Disable live preview' : 'Enable live preview'"
     >
     </quiet-tooltip> -->
 
-    <h1 class="truncate ts-label" style="margin-left: 10px">Live preview</h1>
+    <h1 class="truncate text-label" style="margin-left: 10px">Live preview</h1>
 
     <!-- <quiet-switch size="xs" checked>
       <quiet-icon slot="on-label" name="code-dots"></quiet-icon>

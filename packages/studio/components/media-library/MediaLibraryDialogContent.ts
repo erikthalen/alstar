@@ -40,14 +40,14 @@ export default async () => {
                   >
                     <figure>
                       <img src="${getThumbnailUrl(media.filename?.toString())}" />
-                      <figcaption class="ts-xs">
+                      <figcaption>
                         <span>${media.name}</span>
                       </figcaption>
                     </figure>
                   </button>
                 </li>`,
             )
-          : html`<li class="ts-xs">No media</li>`}
+          : html`<li>No media</li>`}
       </ul>
 
       <br />

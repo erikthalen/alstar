@@ -92,7 +92,6 @@ export default (config: StudioDefaultConfig) =>
                       distance="0"
                       without-arrow
                       for="new_entry_button"
-                      class="ts-xs"
                     >
                       New entry
                     </quiet-tooltip>
@@ -111,7 +110,6 @@ export default (config: StudioDefaultConfig) =>
 
                       ${fields?.map(([name, field]) => {
                         return html`<quiet-dropdown-item
-                          class="ts-xs"
                           type="checkbox"
                           value="${name}"
                           checked

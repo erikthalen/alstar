@@ -27,7 +27,7 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
 
   return html`
     <header id="entry_header_${entryId}" class="entry-header">
-      <p class="ts-xs">
+      <p>
         <span>
           Modified:
           <quiet-relative-time date="${data.updated_at}"></quiet-relative-time>
@@ -65,7 +65,7 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
         <quiet-tooltip
           distance="2"
           without-arrow
-          class="ts-label"
+          class="text-label"
           for="tooltip-disable-${entryId}"
           data-text="$entry.status === 'enabled' ? 'Unpublish' : 'Publish'"
         >
@@ -84,7 +84,7 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
           <div style="display: flex; flex-direction: column; gap: 0.25rem;">
             <quiet-button
               size="xs"
-              class="ts-label"
+              class="text-label"
               variant="destructive"
               data-popover="close"
               data-on:click="${handleDeleteEntry}; window.history.back()"
@@ -95,7 +95,7 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
           </div>
         </quiet-popover>
 
-        <quiet-tooltip distance="0" without-arrow for="tooltip-remove-${entryId}" class="ts-label">
+        <quiet-tooltip distance="0" without-arrow for="tooltip-remove-${entryId}" class="text-label">
           Remove
         </quiet-tooltip>
       </aside>

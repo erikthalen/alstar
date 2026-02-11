@@ -12,9 +12,9 @@ export default (config: StudioDefaultConfig) =>
           style="padding-bottom: 10vh; height: 100%; display: flex; flex-direction: column; place-content: center;"
         >
           <quiet-empty-state style="min-height: 400px;">
-            <h3 class="ts-xs">Something went wrong</h3>
+            <h3>Something went wrong</h3>
 
-            <p class="ts-xs">404 - Page not found</p>
+            <p>404 - Page not found</p>
 
             <quiet-button
               data-barba-prevent

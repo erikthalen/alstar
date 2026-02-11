@@ -21,7 +21,7 @@ const Component = ({ id }: { id: number | string }) => {
 
   return html` <div id="field_${id}" class="blocks-field">
     <header>
-      <p class="truncate ts-xs">${structure.label}</p>
+      <p class="truncate">${structure.label}</p>
 
       <quiet-dropdown placement="bottom-end">
         <quiet-button size="xs" slot="trigger" with-caret>Add</quiet-button>
@@ -49,7 +49,7 @@ const Component = ({ id }: { id: number | string }) => {
           )
 
           return html`
-            <quiet-dropdown-item class="ts-xs" data-on:click=${createNewBlock}>
+            <quiet-dropdown-item data-on:click=${createNewBlock}>
               ${'icon' in block && block.icon
                 ? html` <quiet-icon slot="icon" name=${block.icon}></quiet-icon>`
                 : ''}
@@ -129,7 +129,7 @@ const Component = ({ id }: { id: number | string }) => {
                 ${'icon' in blockStructure && blockStructure.icon
                   ? html` <quiet-icon name=${blockStructure.icon}></quiet-icon>`
                   : ''}
-                <p class="truncate ts-xs">${blockStructure.label}</p>
+                <p class="truncate">${blockStructure.label}</p>
               </div>
 
               <aside>
@@ -149,7 +149,7 @@ const Component = ({ id }: { id: number | string }) => {
                 <quiet-tooltip
                   distance="0"
                   without-arrow
-                  class="ts-label"
+                  class="text-label"
                   for="tooltip-disable-${row.id}"
                 >
                   Disable
@@ -171,7 +171,7 @@ const Component = ({ id }: { id: number | string }) => {
                 <quiet-tooltip
                   distance="0"
                   without-arrow
-                  class="ts-label"
+                  class="text-label"
                   for="tooltip-collapse-${row.id}"
                   data-text="$${row.id}.options.collapsed ? 'Expand' : 'Collapse'"
                 >
@@ -192,7 +192,7 @@ const Component = ({ id }: { id: number | string }) => {
                   distance="0"
                   without-arrow
                   for="tooltip-reorder-${row.id}"
-                  class="ts-label"
+                  class="text-label"
                 >
                   Reorder
                 </quiet-tooltip>
@@ -212,7 +212,7 @@ const Component = ({ id }: { id: number | string }) => {
                   distance="0"
                   without-arrow
                   for="tooltip-remove-${row.id}"
-                  class="ts-label"
+                  class="text-label"
                 >
                   Remove
                 </quiet-tooltip>

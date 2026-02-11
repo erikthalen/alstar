@@ -11,7 +11,7 @@ export default (c: Context) => {
 
       ${user?.id
         ? html`<section class="secondary">
-            <quiet-dropdown class="ts-label">
+            <quiet-dropdown class="text-label">
               <quiet-button appearance="none" size="sm" pill slot="trigger">
                 <quiet-avatar
                   id="profile_link"

@@ -10,7 +10,7 @@ export default (props: { id: string | number }) => {
 
   return html`
     <div class="svg-output" id="output_${id}">
-      <!-- <p class="ts-xs">Output:</p> -->
+      <!-- <p>Output:</p> -->
       <output>${raw(data.value || '')}</output>
     </div>
   `

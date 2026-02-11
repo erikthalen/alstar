@@ -73,7 +73,7 @@ export default (props: {
         ${fieldComponent}
 
         <vscode-form-helper style="width: 100%;">
-          <p class="description ts-xs">${structure.description}</p>
+          <p class="description">${structure.description}</p>
         </vscode-form-helper>
       </vscode-form-group>
     </vscode-form-container>

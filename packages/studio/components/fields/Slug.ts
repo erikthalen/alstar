@@ -70,7 +70,7 @@ const Component = ({ id }: { id: number | `${number}` }) => {
         <quiet-icon name="refresh"></quiet-icon>
       </quiet-button>
 
-      <quiet-tooltip distance="0" without-arrow class="ts-label" for="generate_slug_field">
+      <quiet-tooltip distance="0" without-arrow class="text-label" for="generate_slug_field">
         Generate slug
       </quiet-tooltip>
     </vscode-textfield>

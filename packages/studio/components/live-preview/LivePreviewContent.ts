@@ -8,7 +8,7 @@ export default ({ entryId }: { entryId: number | string }) => {
 
   if (!data) {
     return html`<div id="entry" style="padding: var(--unit)">
-      <quiet-callout variant="destructive" class="ts-xs">
+      <quiet-callout variant="destructive">
         <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
         No entry with id: <code>${entryId}</code>
       </quiet-callout>

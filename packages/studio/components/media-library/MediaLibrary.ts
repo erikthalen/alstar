@@ -84,7 +84,7 @@ const Component = async () => {
                 <button data-dialog="open dialog_editor" data-on:click=${handleOpenMediaEditor}>
                   <figure>
                     <img src="${getThumbnailUrl(media.filename?.toString())}" />
-                    <figcaption class="ts-xs">
+                    <figcaption>
                       <span class="content">
                         <span>${media.name}</span>
 
@@ -111,7 +111,7 @@ const Component = async () => {
                         distance="0"
                         without-arrow
                         for="tooltip-remove-${media.filename}"
-                        class="ts-label"
+                        class="text-label"
                       >
                         Remove
                       </quiet-tooltip>
@@ -120,7 +120,7 @@ const Component = async () => {
                 </button>
               </li>`
             })
-          : html`<li class="ts-xs">No media</li>`}
+          : html`<li>No media</li>`}
       </ul>
 
       <quiet-button
@@ -144,7 +144,7 @@ const Component = async () => {
 
       <quiet-divider></quiet-divider>
 
-      <p class="ts-xs">
+      <p>
         Total size of cached folder:
         <quiet-bytes value="${cacheFolderStats}"></quiet-bytes>
       </p>

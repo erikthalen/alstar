@@ -1,13 +1,17 @@
 import { raw, html } from 'hono/html'
-import { config } from '../index.ts'
+import { config, studioRoot } from '../index.ts'
 import { type HtmlEscapedString } from 'hono/utils/html'
 import { type Context } from 'hono'
+import { inlineStyles } from '#utils/inline-styles.ts'
+import path from 'node:path'
 
-export default (
+export default async (
   c: Context,
   content: string | Promise<string> | HtmlEscapedString | Promise<HtmlEscapedString>,
 ) => {
   const title = config.siteName ? config.siteName + ' | ' : ''
+
+  const styles = await inlineStyles({ root: studioRoot })
 
   return html`
     <!DOCTYPE html>
@@ -46,9 +50,6 @@ export default (
         <link rel="stylesheet" href="/studio/quiet/dist/themes/quiet.css" />
         <script type="module" src="/studio/quiet/dist/quiet.loader.js"></script>
 
-        <!-- Optional CSS reset -->
-        <link rel="stylesheet" href="/studio/quiet/dist/themes/restyle.css" />
-
         <script
           src="https://esm.sh/@vscode-elements/elements/dist/bundled.js"
           type="module"
@@ -77,6 +78,7 @@ export default (
         <link href="/studio/main.css" rel="stylesheet" />
 
         ${raw(c.get('hot-reload'))}
+        <style>${raw(styles)}</style>
       </head>
 
       <body data-signals:cursor="[0, 0]">

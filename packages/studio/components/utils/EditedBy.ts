@@ -24,7 +24,7 @@ export default (props: { id: number | string; userId?: string }) => {
           <!-- <quiet-tooltip
             distance="0"
             without-arrow
-            class="ts-label"
+            class="text-label"
             for="edited_by_avatar_${props.id}"
           >
             ${user?.email} is editing

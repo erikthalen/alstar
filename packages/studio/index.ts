@@ -109,7 +109,16 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
       if (!session) {
         c.set('user', null)
         c.set('session', null)
-        return c.redirect('/studio/login')
+
+        const users = database.prepare('select id from user').all()
+
+        console.log('users', users)
+
+        if (!users.length) {
+          return c.redirect('/studio/register')
+        } else {
+          return c.redirect('/studio/login')
+        }
       }
 
       c.set('user', session.user)
@@ -126,14 +135,14 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
   })
 
   // redirect to /register if there's no users
-  app.use(
-    '*',
-    except(['/studio/register', '/studio/api/auth/*'], async (c, next) => {
-      const users = database.prepare('select id from user').all()
-      if (!users.length) return c.redirect('/studio/register')
-      await next()
-    }),
-  )
+  // app.use(
+  //   '*',
+  //   except(['/studio/register', '/studio/api/auth/*'], async (c, next) => {
+  //     const users = database.prepare('select id from user').all()
+  //     if (!users.length) return c.redirect('/studio/register')
+  //     await next()
+  //   }),
+  // )
 
   /**
    * Media route

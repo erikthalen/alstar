@@ -28,7 +28,7 @@ export default (config: StudioDefaultConfig) =>
             <div class="profile">
               <h1 class="sr-only">Profile</h1>
 
-              <p class="ts-xs">Welcome to the Studio.</p>
+              <p>Welcome to the Studio.</p>
 
               <quiet-switch
                 data-on:change="document.documentElement.classList.toggle('quiet-dark')"

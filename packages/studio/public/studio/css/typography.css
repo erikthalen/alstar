@@ -1,13 +1,9 @@
-.ts-xs {
-  font-size: 12px;
-}
-
-.ts-label {
+.text-label {
   font-size: 12px;
   text-transform: uppercase;
   font-weight: 400;
 }
 
-.ts-bold {
+.text-bold {
   font-weight: 600;
 }

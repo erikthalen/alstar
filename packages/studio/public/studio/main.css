@@ -1,3 +1,4 @@
+@import './css/spacing.css';
 @import './css/typography.css';
 
 @import './css/blocks-field.css';
@@ -50,15 +51,22 @@
 
 :root {
   --alstar-font-family: 'Inter';
+  --alstar-font-size: 12px;
   --alstar-split-pane-border: var(--border-color);
+  --alstar-foreground: #cccccc;
 
   --quiet-font-family: var(--alstar-font-family);
+  --quiet-font-size: var(--alstar-font-size);
+  
   --quiet-border-radius-sm: 0;
   --quiet-border-radius-md: 0;
   --quiet-border-radius-pill: 0;
 
+  --quiet-form-control-height-md: 2.25rem;
+
   --vscode-font-family: var(--alstar-font-family);
-  --vscode-font-size: 12px;
+  --vscode-font-size: var(--alstar-font-size);
+  --vscode-foreground: var(--alstar-foreground);
 
   --vscode-settings-textInputBackground: #313131;
   --vscode-settings-textInputBorder: #3c3c3c;
@@ -77,9 +85,24 @@ html.is-animating .transition-fade {
   opacity: 0;
 }
 
+html {
+  font-size: var(--alstar-font-size);
+  font-family: var(--alstar-font-family);
+  font-variant-numeric: tabular-nums slashed-zero;
+  color: var(--alstar-foreground);
+
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+}
+
 body {
   height: 100vh;
   overflow: clip;
+  margin: 0;
 
   > main {
     width: 100%;
@@ -92,9 +115,9 @@ body {
   }
 }
 
-alstar-split-pane {
-  display: block;
-  height: 100%;
+* {
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .contents {
@@ -127,20 +150,6 @@ alstar-split-pane {
 
 quiet-tooltip {
   pointer-events: none;
-}
-
-#cursors {
-  .cursor {
-    pointer-events: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000;
-    font-size: 12px;
-    color: #111;
-    padding: 0.1em 0.5em;
-    border-radius: 4px;
-  }
 }
 
 .background-pattern {

@@ -40,7 +40,6 @@ const Component = ({ id }: { id: number | `${number}` }) => {
   return html`
     <markdown-editor
       id="id_${id}"
-      class="ts-xs"
       data-signals="{ ${id}: '${base64String}' }"
       data-value="${base64String}"
       data-on:input="$${id} = evt.detail; ${onInput}"

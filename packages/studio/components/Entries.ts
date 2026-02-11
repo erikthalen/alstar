@@ -51,7 +51,7 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                 </vscode-table-cell> -->
                 <vscode-table-cell>
                   <a href="/studio/entries/${block.id}">
-                    <h4 class="ts-xs name">${title?.value || 'Untitled'}</h4>
+                    <h4 class="name">${title?.value || 'Untitled'}</h4>
                   </a>
                 </vscode-table-cell>
                 <vscode-table-cell>
@@ -85,7 +85,7 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                     <quiet-tooltip
                       distance="3"
                       without-arrow
-                      class="ts-label"
+                      class="text-label"
                       for="tooltip-disable-${block.id}"
                       data-text="$${block.id}.status === 'enabled' ? 'Unpublish' : 'Publish'"
                     >
@@ -104,7 +104,7 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                       <div style="display: flex; flex-direction: column; gap: 0.25rem;">
                         <quiet-button
                           size="xs"
-                          class="ts-label"
+                          class="text-label"
                           variant="destructive"
                           data-popover="close"
                           data-on:click=${handleDeleteBlock}
@@ -120,7 +120,7 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                       distance="0"
                       without-arrow
                       for="tooltip-remove-${block.id}"
-                      class="ts-label"
+                      class="text-label"
                     >
                       Remove
                     </quiet-tooltip>
@@ -134,7 +134,7 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
 
       <!-- <div class="pagination"> -->
         <!-- data-on:quiet-before-page-change="console.log(evt.detail.requestedPage); @get('/studio/api/component?name=Entries&props={name:{page}, page:evt.detail.requestedPage}')" -->
-        <!-- <quiet-pagination total-pages="${pages}" page="${page}" class="ts-xs"></quiet-pagination> -->
+        <!-- <quiet-pagination total-pages="${pages}" page="${page}"></quiet-pagination> -->
       <!-- </div> -->
     </section>
   `

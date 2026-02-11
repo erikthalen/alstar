@@ -25,9 +25,9 @@ export default (config: StudioDefaultConfig) =>
               <h1 class="sr-only">Settings</h1>
 
               <quiet-tab-list label="Settings" tab="${tab}">
-                <!-- <quiet-tab panel="api_keys" class="ts-xs">API Keys</quiet-tab> -->
-                <quiet-tab panel="backup" class="ts-xs">Backup</quiet-tab>
-                <quiet-tab panel="users" class="ts-xs">Users</quiet-tab>
+                <!-- <quiet-tab panel="api_keys">API Keys</quiet-tab> -->
+                <quiet-tab panel="backup">Backup</quiet-tab>
+                <quiet-tab panel="users">Users</quiet-tab>
 
                 <!-- <quiet-tab-panel name="api_keys">
                   {ApiKeys()}
