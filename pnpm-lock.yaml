@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@changesets/cli':
         specifier: ^2.29.5
-        version: 2.29.8(@types/node@24.10.4)
+        version: 2.29.8(@types/node@25.2.3)
       prettier:
         specifier: ^3.6.2
         version: 3.7.4
@@ -28,10 +28,10 @@ importers:
         version: link:../studio
       '@hono/node-server':
         specifier: ^1.18.1
-        version: 1.19.7(hono@4.11.1)
+        version: 1.19.7(hono@4.11.9)
       hono:
-        specifier: ^4.8.12
-        version: 4.11.1
+        specifier: 4.11.9
+        version: 4.11.9
       marked:
         specifier: ^16.2.0
         version: 16.4.2
@@ -39,6 +39,19 @@ importers:
       '@types/node':
         specifier: ^24.1.0
         version: 24.10.4
+
+  packages/framework:
+    dependencies:
+      '@alstar/types':
+        specifier: workspace:*
+        version: link:../types
+      hono:
+        specifier: 4.11.9
+        version: 4.11.9
+    devDependencies:
+      '@types/node':
+        specifier: ^25.2.3
+        version: 25.2.3
 
   packages/playground:
     dependencies:
@@ -56,11 +69,111 @@ importers:
         specifier: ^24.1.0
         version: 24.10.4
 
+  packages/plugins/clock-widget:
+    dependencies:
+      '@alstar/framework':
+        specifier: workspace:*
+        version: link:../../framework
+      hono:
+        specifier: 4.11.9
+        version: 4.11.9
+
+  packages/plugins/markdown-field:
+    dependencies:
+      '@alstar/framework':
+        specifier: workspace:*
+        version: link:../../framework
+      '@alstar/types':
+        specifier: workspace:*
+        version: link:../../types
+      hono:
+        specifier: 4.11.9
+        version: 4.11.9
+    devDependencies:
+      '@types/node':
+        specifier: ^24.10.4
+        version: 24.10.4
+
+  packages/plugins/media-library:
+    dependencies:
+      '@alstar/framework':
+        specifier: workspace:*
+        version: link:../../framework
+      '@alstar/types':
+        specifier: workspace:*
+        version: link:../../types
+      hono:
+        specifier: 4.11.9
+        version: 4.11.9
+      sharp:
+        specifier: ^0.34.5
+        version: 0.34.5
+      sql-template-tag:
+        specifier: ^5.2.1
+        version: 5.2.1
+    devDependencies:
+      '@types/node':
+        specifier: ^24.10.4
+        version: 24.10.4
+
+  packages/plugins/svg-field:
+    dependencies:
+      '@alstar/framework':
+        specifier: workspace:*
+        version: link:../../framework
+      '@alstar/types':
+        specifier: workspace:*
+        version: link:../../types
+      hono:
+        specifier: 4.11.9
+        version: 4.11.9
+    devDependencies:
+      '@types/node':
+        specifier: ^24.10.4
+        version: 24.10.4
+
+  packages/plugins/text-field:
+    dependencies:
+      '@alstar/framework':
+        specifier: workspace:*
+        version: link:../../framework
+      '@alstar/types':
+        specifier: workspace:*
+        version: link:../../types
+      hono:
+        specifier: 4.11.9
+        version: 4.11.9
+    devDependencies:
+      '@types/node':
+        specifier: ^24.10.4
+        version: 24.10.4
+
   packages/studio:
     dependencies:
+      '@alstar/clock-widget':
+        specifier: workspace:*
+        version: link:../plugins/clock-widget
+      '@alstar/framework':
+        specifier: workspace:*
+        version: link:../framework
+      '@alstar/markdown-field':
+        specifier: workspace:*
+        version: link:../plugins/markdown-field
+      '@alstar/media-library':
+        specifier: workspace:*
+        version: link:../plugins/media-library
+      '@alstar/svg-field':
+        specifier: workspace:*
+        version: link:../plugins/svg-field
+      '@alstar/text-field':
+        specifier: workspace:*
+        version: link:../plugins/text-field
+      '@alstar/types':
+        specifier: workspace:*
+        version: link:../types
       '@hono/node-server':
         specifier: 1.18.1
-        version: 1.18.1(hono@4.11.1)
+        version: 1.18.1(hono@4.11.9)
       better-auth:
         specifier: 1.3.34
         version: 1.3.34
@@ -68,15 +181,25 @@ importers:
         specifier: ^11.11.1
         version: 11.11.1
       hono:
-        specifier: ^4.10.6
-        version: 4.11.1
-      sharp:
-        specifier: ^0.34.5
-        version: 0.34.5
+        specifier: 4.11.9
+        version: 4.11.9
     devDependencies:
       '@types/node':
         specifier: ^24.1.0
         version: 24.10.4
+
+  packages/types:
+    dependencies:
+      hono:
+        specifier: 4.11.9
+        version: 4.11.9
+      sql-template-tag:
+        specifier: ^5.2.1
+        version: 5.2.1
+    devDependencies:
+      '@types/node':
+        specifier: ^25.2.3
+        version: 25.2.3
 
 packages:
 
@@ -407,6 +530,9 @@ packages:
   '@types/node@24.10.4':
     resolution: {integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==}
 
+  '@types/node@25.2.3':
+    resolution: {integrity: sha512-m0jEgYlYz+mDJZ2+F4v8D1AyQb+QzsNqRuI7xg1VQX/KlKS0qT9r1Mo16yo5F/MtifXFgaofIFsdFMox2SxIbQ==}
+
   ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
     engines: {node: '>=6'}
@@ -547,6 +673,10 @@ packages:
 
   hono@4.11.1:
     resolution: {integrity: sha512-KsFcH0xxHes0J4zaQgWbYwmz3UPOOskdqZmItstUG93+Wk1ePBLkLGwbP9zlmh1BFUiL8Qp+Xfu9P7feJWpGNg==}
+    engines: {node: '>=16.9.0'}
+
+  hono@4.11.9:
+    resolution: {integrity: sha512-Eaw2YTGM6WOxA6CXbckaEvslr2Ne4NFsKrvc0v97JD5awbmeBLO5w9Ho9L9kmKonrwF9RJlW6BxT1PVv/agBHQ==}
     engines: {node: '>=16.9.0'}
 
   human-id@4.1.3:
@@ -763,6 +893,10 @@ packages:
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
+  sql-template-tag@5.2.1:
+    resolution: {integrity: sha512-lFdvXCOqWhV40A7w4oQVDyuaNFb5yO+dhsHStZzOdtDJWCBWYv4+hhATK5nPpY5v/T1OMVcLMPeN4519qIyb9Q==}
+    engines: {node: '>=14'}
+
   strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
     engines: {node: '>=8'}
@@ -865,7 +999,7 @@ snapshots:
     dependencies:
       '@changesets/types': 6.1.0
 
-  '@changesets/cli@2.29.8(@types/node@24.10.4)':
+  '@changesets/cli@2.29.8(@types/node@25.2.3)':
     dependencies:
       '@changesets/apply-release-plan': 7.0.14
       '@changesets/assemble-release-plan': 6.0.9
@@ -881,7 +1015,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@changesets/write': 0.4.0
-      '@inquirer/external-editor': 1.0.3(@types/node@24.10.4)
+      '@inquirer/external-editor': 1.0.3(@types/node@25.2.3)
       '@manypkg/get-packages': 1.1.3
       ansi-colors: 4.1.3
       ci-info: 3.9.0
@@ -998,13 +1132,17 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hono/node-server@1.18.1(hono@4.11.1)':
+  '@hono/node-server@1.18.1(hono@4.11.9)':
     dependencies:
-      hono: 4.11.1
+      hono: 4.11.9
 
   '@hono/node-server@1.19.7(hono@4.11.1)':
     dependencies:
       hono: 4.11.1
+
+  '@hono/node-server@1.19.7(hono@4.11.9)':
+    dependencies:
+      hono: 4.11.9
 
   '@img/colour@1.0.0': {}
 
@@ -1102,12 +1240,12 @@ snapshots:
   '@img/sharp-win32-x64@0.34.5':
     optional: true
 
-  '@inquirer/external-editor@1.0.3(@types/node@24.10.4)':
+  '@inquirer/external-editor@1.0.3(@types/node@25.2.3)':
     dependencies:
       chardet: 2.1.1
       iconv-lite: 0.7.1
     optionalDependencies:
-      '@types/node': 24.10.4
+      '@types/node': 25.2.3
 
   '@levischuck/tiny-cbor@0.2.11': {}
 
@@ -1258,6 +1396,10 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
+  '@types/node@25.2.3':
+    dependencies:
+      undici-types: 7.16.0
+
   ansi-colors@4.1.3: {}
 
   ansi-regex@5.0.1: {}
@@ -1389,6 +1531,8 @@ snapshots:
   highlight.js@11.11.1: {}
 
   hono@4.11.1: {}
+
+  hono@4.11.9: {}
 
   human-id@4.1.3: {}
 
@@ -1572,6 +1716,8 @@ snapshots:
       signal-exit: 4.1.0
 
   sprintf-js@1.0.3: {}
+
+  sql-template-tag@5.2.1: {}
 
   strip-ansi@6.0.1:
     dependencies:

@@ -12,14 +12,17 @@ export async function inlineStyles(options: { root: string }) {
     recursive: true,
     withFileTypes: true,
   })
+  const widgetFiles = await fsp.readdir(path.join(options.root, 'plugins'), {
+    recursive: true,
+    withFileTypes: true,
+  })
 
-  const files = [...pageFiles, ...componentFiles]
+  const files = [...pageFiles, ...componentFiles, ...widgetFiles]
 
   const tsFiles = files.filter((file) => path.extname(file.name) === '.ts')
 
   let styles = []
 
-  
   for (const file of tsFiles) {
     try {
       const content = await import(path.join(file.parentPath, file.name))

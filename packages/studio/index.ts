@@ -1,12 +1,11 @@
 import path from 'node:path'
 import fsp from 'node:fs/promises'
 import { serveStatic } from '@hono/node-server/serve-static'
-// import { getEnv } from '@alstar/studio/env'
 import { hotReload, hotReloadMiddleware } from '@alstar/studio/hot-reload'
 import { datastar } from '@alstar/studio/hono-datastar'
-import { mediaRouter } from '#media-library'
 
 import routes from './routes.ts'
+import { api } from './api/index.ts'
 import { getConfig } from './utils/get-config.ts'
 import startupLog from './utils/startup-log.ts'
 import { createAuthServer } from './utils/auth.ts'
@@ -16,29 +15,41 @@ import ErrorPage from './pages/error.ts'
 import * as types from './types.ts'
 import { cors } from 'hono/cors'
 import { except } from 'hono/combine'
-import { factory } from './factory.ts'
-import { eventEmitterApp } from './event-emitter.ts'
 import { applyMigrations } from './utils/apply-migrations.ts'
 import { getDatabase } from './helpers/db/index.ts'
+import SiteLayout from '#components/SiteLayout.ts'
+import mediaLibrary from '@alstar/media-library'
+import type { FieldHandler, StudioConfig } from '@alstar/types'
+import { getField } from '#helpers/db/sql/index.ts'
+import { factory } from '@alstar/framework'
+import Clock from '@alstar/clock-widget'
+import Explorer from '#plugins/Explorer.ts'
+import markdownField from '@alstar/markdown-field'
+import svgField from '@alstar/svg-field'
+import textField from '@alstar/text-field'
+import { streamSSE } from 'hono/streaming'
+import { connections, eventEmitter } from '#event-emitter.ts'
 
 const { version } = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
 const consumerRoot = path.resolve('.')
 const studioRoot = import.meta.dirname
 
-const defaultConfig: types.StudioDefaultConfig = {
+const defaultConfig: StudioConfig = {
   siteName: '',
   database: './studio.db',
   uploadBase: './public/media',
-  fileBasedRouter: true,
   structure: {},
+  plugins: [Clock, Explorer, textField, svgField, markdownField, mediaLibrary()],
 }
 
 const consumerConfig = await getConfig<types.StudioUserConfig>()
 
-// const env = await getEnv()
-
-const config = { ...defaultConfig, ...consumerConfig }
+const config = {
+  ...defaultConfig,
+  ...consumerConfig,
+  plugins: [...defaultConfig.plugins, ...(consumerConfig.plugins || [])],
+}
 
 const database = getDatabase(config.database)
 
@@ -59,6 +70,8 @@ type StudioRuntimeConfig = {
   enableHotReload?: boolean
 }
 
+export let fields = new Map<string, FieldHandler>()
+
 const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
   const {
     /**
@@ -69,18 +82,6 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
   } = runtimeConfig
 
   const app = factory.createApp()
-
-  // app.use(
-  //   '*',
-  //   cors({
-  //     origin: `http://localhost:${config.port}`, // replace with your origin
-  //     allowHeaders: ['Content-Type', 'Authorization'],
-  //     allowMethods: ['POST', 'GET', 'OPTIONS'],
-  //     exposeHeaders: ['Content-Length'],
-  //     maxAge: 600,
-  //     credentials: true,
-  //   })
-  // )
 
   if (enableHotReload) {
     app.get('/hot-reload', hotReload({ root: studioRoot, exclude: '.db' }))
@@ -112,8 +113,6 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
 
         const users = database.prepare('select id from user').all()
 
-        console.log('users', users)
-
         if (!users.length) {
           return c.redirect('/studio/register')
         } else {
@@ -134,32 +133,103 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
     await next()
   })
 
-  // redirect to /register if there's no users
-  // app.use(
-  //   '*',
-  //   except(['/studio/register', '/studio/api/auth/*'], async (c, next) => {
-  //     const users = database.prepare('select id from user').all()
-  //     if (!users.length) return c.redirect('/studio/register')
-  //     await next()
-  //   }),
-  // )
-
-  /**
-   * Media route
-   */
-  app.route('/media', mediaRouter())
-
   /**
    * CQRS route
    */
-  app.route('/updates', eventEmitterApp)
+  app.get('/updates', (c) => {
+    return streamSSE(c, async (stream) => {
+      const user = c.get('user')
+
+      if (!user) return
+
+      let { promise, resolve } = Promise.withResolvers()
+
+      connections.set(user.id, { stream, user })
+
+      stream.onAbort(() => {
+        resolve(true)
+        connections.delete(user.id)
+      })
+
+      await promise
+    })
+  })
+
+  let plugins = []
+  let widgets = []
+  let publicFiles = ''
+
+  /**
+   * Initialise plugins
+   */
+  for (const pluginFactory of config.plugins) {
+    const plugin = pluginFactory({
+      database,
+      config: config,
+      eventEmitter: eventEmitter,
+      query: {
+        getField,
+      },
+    })
+
+    plugins.push(plugin)
+
+    if (typeof plugin.widget === 'function') {
+      widgets.push(plugin.widget)
+    }
+
+    if (plugin.migrations?.length) {
+      for (const migration of plugin.migrations) {
+        database.exec(migration.sql)
+      }
+    }
+
+    if (plugin.fields?.length) {
+      for (const field of plugin.fields) {
+        fields.set(field.name, field.component)
+      }
+    }
+
+    if (plugin.app) {
+      app.route('/', plugin.app)
+    }
+
+    if (plugin.public) {
+      for (const publicFile of plugin.public) {
+        app.use(
+          publicFile.filename,
+          serveStatic({ path: path.join(publicFile.root, publicFile.filename) }),
+        )
+
+        const { ext } = path.parse(publicFile.filename)
+
+        if (ext === '.js') {
+          publicFiles += `<script type="module" src="/studio/${publicFile.filename}"></script>`
+        }
+
+        if (ext === '.css') {
+          publicFiles += `<link rel="stylesheet" href="/studio/${publicFile.filename}" />`
+        }
+      }
+    }
+  }
+
+  for (const plugin of plugins) {
+    if (plugin.views?.length) {
+      for (const route of plugin.views) {
+        app.get(route.path, (c) => c.html(SiteLayout(c, publicFiles, widgets, route.handler(c))))
+      }
+    }
+  }
 
   /**
    * Studio pages
    */
   for (const route of routes) {
-    app.get(route.name, route.handler(config)[0])
+    app.get(route.name, (c) => c.html(SiteLayout(c, publicFiles, widgets, route.handler(c))))
   }
+
+  app.route('/', api)
 
   app.on(['POST', 'GET'], '/api/auth/*', (c) => {
     return auth.handler(c.req.raw)
@@ -175,7 +245,7 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
 
   startupLog()
 
-  app.get('*', ErrorPage(config)[0])
+  app.get('*', (c) => c.html(SiteLayout(c, publicFiles, widgets, ErrorPage())))
 
   return app
 }

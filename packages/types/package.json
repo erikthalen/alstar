@@ -1,0 +1,13 @@
+{
+  "name": "@alstar/types",
+  "version": "0.0.0",
+  "types": "./types.ts",
+  "type": "module",
+  "dependencies": {
+    "hono": "4.11.9",
+    "sql-template-tag": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3"
+  }
+}

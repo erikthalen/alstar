@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
-import { deleteBlock, getField, getFields, setBlockStatus } from '../helpers/db/sql/index.ts'
-import { defineEventHandler } from '#event-emitter.ts'
+import { getField, getFields } from '../helpers/db/sql/index.ts'
+// import { defineEventHandler } from '#event-emitter.ts'
 
 const Component = ({ page = 1, name }: { page?: number; name: string }) => {
   const entries = getFields({ parent_id: null, name })
@@ -26,23 +26,6 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
           ${paginatedEntries?.map((block) => {
             const title = getField({ parent_id: block.id, name: 'title' })
             const slug = getField({ parent_id: block.id, name: 'slug' })
-
-            const handleSetStatus = defineEventHandler(
-              ({ signals }) => {
-                const data = signals[block.id]
-                if (typeof data === 'string') return
-                setBlockStatus(block.id.toString(), data.status)
-              },
-              { dependency: block.id },
-            )
-
-            const handleDeleteBlock = defineEventHandler(
-              () => {
-                deleteBlock(block.id.toString())
-                return Component({ name })
-              },
-              { dependency: block.id },
-            )
 
             return html`
               <vscode-table-row>
@@ -76,7 +59,7 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                       id="tooltip-disable-${block.id}"
                       size="xs"
                       data-attr:checked="$${block.id}.status === 'enabled'"
-                      data-on:quiet-change="$${block.id}.status = evt.target.checked ? 'enabled' : 'disabled'; ${handleSetStatus}"
+                      data-on:quiet-change="$${block.id}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${block.id}')"
                     >
                       <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
                       <quiet-icon slot="checked" name="circle" family="filled"></quiet-icon>
@@ -107,7 +90,7 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                           class="text-label"
                           variant="destructive"
                           data-popover="close"
-                          data-on:click=${handleDeleteBlock}
+                          data-on:click="@delete('/studio/block/${block.id}')"
                         >
                           Delete
                         </quiet-button>
@@ -133,8 +116,8 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
       </vscode-table>
 
       <!-- <div class="pagination"> -->
-        <!-- data-on:quiet-before-page-change="console.log(evt.detail.requestedPage); @get('/studio/api/component?name=Entries&props={name:{page}, page:evt.detail.requestedPage}')" -->
-        <!-- <quiet-pagination total-pages="${pages}" page="${page}"></quiet-pagination> -->
+      <!-- data-on:quiet-before-page-change="console.log(evt.detail.requestedPage); @get('/studio/api/component?name=Entries&props={name:{page}, page:evt.detail.requestedPage}')" -->
+      <!-- <quiet-pagination total-pages="${pages}" page="${page}"></quiet-pagination> -->
       <!-- </div> -->
     </section>
   `

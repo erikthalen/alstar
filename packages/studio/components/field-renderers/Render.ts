@@ -4,14 +4,7 @@ import BlockFieldRenderer from './BlockFieldRenderer.ts'
 import BlockRenderer from './BlockRenderer.ts'
 
 import { type HtmlEscapedString } from 'hono/utils/html'
-import type { InstanceType } from '#helpers/structure/types.ts'
-import {
-  BlockFieldInstance,
-  BlockInstance,
-  CollectionInstance,
-  FieldInstance,
-  SingleInstance,
-} from '#helpers/structure/index.ts'
+import { BlockFieldInstance, BlockInstance, CollectionInstance, FieldInstance, InstanceType, SingleInstance } from '@alstar/types'
 
 export default (props: {
   parentId: number | string
@@ -27,7 +20,7 @@ export default (props: {
   try {
     switch (structure.instanceOf) {
       case FieldInstance: {
-        return FieldRenderer({ parentId, id, structure, name })
+        return FieldRenderer({ parentId, structure, name })
       }
 
       case BlockFieldInstance: {

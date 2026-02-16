@@ -1,150 +1,53 @@
-import crypto from 'node:crypto'
+import EntryHeader from '#components/EntryHeader.ts'
+import FieldPatch from '#components/field-renderers/FieldPatch.ts'
+import LivePreviewContent from '#components/live-preview/LivePreviewContent.ts'
+import { getEntry, setUpdatedAt, updateBlockValue } from '#helpers/db/sql/index.ts'
+import { patchElements } from '#helpers/hono-datastar/index.ts'
+import { AuthType } from '#index.ts'
+import { PluginEvents } from '@alstar/types'
+import { type SSEStreamingApi } from 'hono/streaming'
 import EventEmitter from 'node:events'
-import { SSEStreamingApi, streamSSE } from 'hono/streaming'
-import { factory } from './factory.ts'
-import { type AuthType } from './index.ts'
-import { patchElements } from './helpers/hono-datastar/index.ts'
-import { type HtmlEscapedString } from 'hono/utils/html'
-import type { Signals } from './types.ts'
-
-type Component = HtmlEscapedString | Promise<HtmlEscapedString>
 
 type Connection = {
   stream: SSEStreamingApi
   user: AuthType['user']
 }
 
-/**
- * generate a random, seeded, name based on what function called this function
- */
-const generateEventName = (id?: string | number) => {
-  const { stack } = new Error()
-  const caller = stack?.split('\n')[3]
-
-  return crypto
-    .createHash('sha1')
-    .update(id + (caller as string))
-    .digest('hex')
-}
-
-export const eventEmitter = new EventEmitter()
 export const connections = new Map<string, Connection>()
+export const eventEmitter = new EventEmitter<PluginEvents>()
 
-type PatchOptions = {
-  me?: boolean
-  them?: boolean
-}
+eventEmitter.on('update-block', ({ userId, id, payload, patchSelf }) => {
+  updateBlockValue(id, payload.value)
 
-type EventHandler = (arg: {
-  user: AuthType['user']
-  signals: Signals
-  patchElements: (patches: Component | Component[], options?: PatchOptions) => void
-}) => Component | Component[] | void | Promise<Component | Component[] | void>
+  const entry = getEntry({ id })
 
-const registeredEventNames = new Set<string>()
-const dependencies = new Map<string | number, { name: string; handler: EventHandler }[]>()
-
-export const defineEventHandler = (
-  fn: EventHandler,
-  options?: {
-    id?: string | number | (string | number)[]
-    dependency?: string | number
-    once?: boolean
-  },
-): string => {
-  const eventName = generateEventName(JSON.stringify(options || '{}'))
-  const endpoint = `@post('/studio/updates/${eventName}')`
-
-  if (registeredEventNames.has(eventName)) return endpoint
-
-  registeredEventNames.add(eventName)
-
-  // console.log('defining event:', eventName)
-
-  const handler: EventHandler = async (args) => {
-    const patch = (
-      patches: Component | Component[],
-      options: PatchOptions = { me: true, them: true },
-    ) => {
-      const patchesArray = Array.isArray(patches) ? patches : [patches]
-
-      for (const patch of patchesArray) {
-        try {
-          connections.forEach(async (connection) => {
-            if (options.me === false && args.user && connection.user?.id === args.user?.id) return
-            if (options.them === false && args.user && connection.user?.id !== args.user?.id) return
-
-            await patchElements(connection.stream, await patch)
-          })
-        } catch (error) {
-          console.log(error)
-          return
-        }
-      }
-    }
-
-    const patches = await fn({ ...args, patchElements: patch })
-
-    if (patches) {
-      patch(patches)
-    }
+  if (entry) {
+    setUpdatedAt(entry?.id)
   }
 
-  eventEmitter[options?.once ? 'once' : 'on'](eventName, handler)
+  connections.forEach(async (connection) => {
+    if (entry?.id) {
+      await patchElements(connection.stream, await LivePreviewContent({ entryId: entry?.id }))
+      await patchElements(connection.stream, await EntryHeader({ entryId: entry?.id }))
+    }
 
-  if (options?.dependency) {
-    dependencies.set(options?.dependency, [
-      ...(dependencies.get(options?.dependency) || []),
-      { name: eventName, handler },
-    ])
-  }
-
-  return endpoint
-}
-
-export function unregisterEventHandler(id: string | number) {
-  const events = dependencies.get(id)
-
-  if (!events) return
-
-  events.forEach((event) => {
-    console.log(`[emitter] - Unregistering: ${event.name}`)
-    eventEmitter.off(event.name, event.handler)
-  })
-}
-
-const eventEmitterApp = factory.createApp()
-
-eventEmitterApp.get('/', (c) => {
-  return streamSSE(c, async (stream) => {
-    const user = c.get('user')
-
-    if (!user) return
-
-    let { promise, resolve } = Promise.withResolvers()
-
-    connections.set(user.id, { stream, user })
-
-    stream.onAbort(() => {
-      resolve(true)
-      connections.delete(user.id)
-    })
-
-    await promise
+    if (patchSelf || connection.user?.id !== userId) {
+      await patchElements(connection.stream, await FieldPatch({ id }))
+    }
   })
 })
 
-eventEmitterApp.post('/:event', (c) => {
-  return streamSSE(c, async () => {
-    const user = c.get('user')
+eventEmitter.on('entry-updated', ({ id }) => {
+  const entry = getEntry({ id })
 
-    if (!user) return
+  if (entry) {
+    setUpdatedAt(entry?.id)
+  }
 
-    const event = c.req.param('event')
-    const { signals } = c.get('datastar')
-
-    eventEmitter.emit(event, { user, signals })
+  connections.forEach(async (connection) => {
+    if (entry?.id) {
+      await patchElements(connection.stream, await LivePreviewContent({ entryId: entry?.id }))
+      await patchElements(connection.stream, await EntryHeader({ entryId: entry?.id }))
+    }
   })
 })
-
-export { eventEmitterApp }

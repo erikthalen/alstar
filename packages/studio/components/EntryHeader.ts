@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
 import { deleteBlock, getEntry, setBlockStatus, setUpdatedAt } from '../helpers/db/sql/index.ts'
-import { defineEventHandler } from '../event-emitter.ts'
+
 import LivePreviewContent from './live-preview/LivePreviewContent.ts'
 
 export default ({ entryId }: { entryId: `${number}` | number }) => {
@@ -8,22 +8,22 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
 
   if (!data) return html`<p>No data</p>`
 
-  const handleSetStatus = defineEventHandler(
-    ({ signals }) => {
-      setBlockStatus(entryId, signals.entry.status)
-      setUpdatedAt(entryId)
+  // const handleSetStatus = defineEventHandler(
+  //   ({ signals }) => {
+  //     setBlockStatus(entryId, signals.entry.status)
+  //     setUpdatedAt(entryId)
 
-      return [LivePreviewContent({ entryId })]
-    },
-    { dependency: entryId },
-  )
+  //     return [LivePreviewContent({ entryId })]
+  //   },
+  //   { dependency: entryId },
+  // )
 
-  const handleDeleteEntry = defineEventHandler(
-    () => {
-      deleteBlock(entryId)
-    },
-    { dependency: entryId },
-  )
+  // const handleDeleteEntry = defineEventHandler(
+  //   () => {
+  //     deleteBlock(entryId)
+  //   },
+  //   { dependency: entryId },
+  // )
 
   return html`
     <header id="entry_header_${entryId}" class="entry-header">
@@ -48,14 +48,14 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
 
       <aside>
         <quiet-toggle-icon
-          data-signals:entry="{ status: '${data.status}' }"
+          data-signals:${entryId}="{ status: '${data.status}' }"
           class="disable-button"
           label="Disable"
           effect="scale"
           id="tooltip-disable-${entryId}"
           size="xs"
-          data-attr:checked="$entry.status === 'enabled'"
-          data-on:quiet-change="$entry.status = evt.target.checked ? 'enabled' : 'disabled'; ${handleSetStatus}"
+          data-attr:checked="$${entryId}.status === 'enabled'"
+          data-on:quiet-change="$${entryId}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${entryId}')"
         >
           <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
 
@@ -87,7 +87,7 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
               class="text-label"
               variant="destructive"
               data-popover="close"
-              data-on:click="${handleDeleteEntry}; window.history.back()"
+              data-on:click="@delete('/studio/block/${entryId}'); window.history.back()"
             >
               Delete
             </quiet-button>
@@ -95,7 +95,12 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
           </div>
         </quiet-popover>
 
-        <quiet-tooltip distance="0" without-arrow for="tooltip-remove-${entryId}" class="text-label">
+        <quiet-tooltip
+          distance="0"
+          without-arrow
+          for="tooltip-remove-${entryId}"
+          class="text-label"
+        >
           Remove
         </quiet-tooltip>
       </aside>

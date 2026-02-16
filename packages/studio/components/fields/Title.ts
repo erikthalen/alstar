@@ -1,29 +1,29 @@
 import { html } from 'hono/html'
 import EditedBy from '../utils/EditedBy.ts'
 import { getField, setUpdatedAt, updateBlockValue } from '../../helpers/db/sql/index.ts'
-import { defineEventHandler } from '../../event-emitter.ts'
+// import { defineEventHandler } from '../../event-emitter.ts'
 import EntryHeader from '../EntryHeader.ts'
 import EntryTitle from '../EntryTitle.ts'
 import LivePreviewContent from '../live-preview/LivePreviewContent.ts'
 
 const Component = ({ id }: { id: number | `${number}` }) => {
-  const onInput = defineEventHandler(({ signals, patchElements }) => {
-    const entryId = signals.entry.id
-    const signal = signals[id]
+  // const onInput = defineEventHandler(({ signals, patchElements }) => {
+  //   const entryId = signals.entry.id
+  //   const signal = signals[id]
 
-    if (typeof signal === 'string') {
-      updateBlockValue(id.toString(), signal)
-    }
+  //   if (typeof signal === 'string') {
+  //     updateBlockValue(id.toString(), signal)
+  //   }
 
-    setUpdatedAt(entryId)
+  //   setUpdatedAt(entryId)
 
-    patchElements(Component({ id }), { me: false })
+  //   patchElements(Component({ id }), { me: false })
 
-    return [EntryTitle({ entryId }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
-  })
+  //   return [EntryTitle({ entryId }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
+  // })
 
-  const onFocus = defineEventHandler(({ user }) => EditedBy({ id, userId: user?.id }))
-  const onBlur = defineEventHandler(() => EditedBy({ id }))
+  // const onFocus = defineEventHandler(({ user }) => EditedBy({ id, userId: user?.id }))
+  // const onBlur = defineEventHandler(() => EditedBy({ id }))
 
   const data = getField({ id })
 
@@ -34,9 +34,9 @@ const Component = ({ id }: { id: number | `${number}` }) => {
       id="field_${id}"
       data-signals:${id}="'${data.value}'"
       data-bind:${id}
-      data-on:input=${onInput}
-      data-on:focus=${onFocus}
-      data-on:blur=${onBlur}
+      data-on:input="{onInput}"
+      data-on:focus="{onFocus}"
+      data-on:blur="{onBlur}"
     >
       ${EditedBy({ id })}
     </vscode-textfield>

@@ -3,15 +3,22 @@ import { config, studioRoot } from '../index.ts'
 import { type HtmlEscapedString } from 'hono/utils/html'
 import { type Context } from 'hono'
 import { inlineStyles } from '#utils/inline-styles.ts'
-import path from 'node:path'
+import SiteHeader from './SiteHeader.ts'
+import Widgets from './Widgets.ts'
+import { css } from '@alstar/framework'
+import { Widget } from '@alstar/types'
 
 export default async (
   c: Context,
-  content: string | Promise<string> | HtmlEscapedString | Promise<HtmlEscapedString>,
+  publicFiles: string,
+  widgets: Widget[],
+  content: HtmlEscapedString | Promise<HtmlEscapedString>,
 ) => {
   const title = config.siteName ? config.siteName + ' | ' : ''
 
   const styles = await inlineStyles({ root: studioRoot })
+
+  const session = c.get('session')
 
   return html`
     <!DOCTYPE html>
@@ -43,7 +50,7 @@ export default async (
 
         <script
           type="module"
-          src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.6/bundles/datastar.js"
+          src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-RC.7/bundles/datastar.js"
         ></script>
 
         <!-- Quiet theme + autoloader -->
@@ -66,7 +73,6 @@ export default async (
             "imports": {
               "swup": "https://esm.sh/swup@4",
               "sortablejs": "https://esm.sh/sortablejs@1.15.6/modular/sortable.core.esm.js",
-              "ink-mde": "https://esm.sh/ink-mde@0.34.0",
               "@quietui/quiet": "/studio/quiet/dist/quiet.js",
               "better-auth/client": "https://esm.sh/better-auth@1.3.34/client",
               "lit": "https://esm.sh/lit"
@@ -78,15 +84,38 @@ export default async (
         <link href="/studio/main.css" rel="stylesheet" />
 
         ${raw(c.get('hot-reload'))}
-        <style>${raw(styles)}</style>
+
+        <!--  -->
+
+        ${raw(publicFiles)}
+
+        <style>
+          ${raw(styles)}
+        </style>
       </head>
 
-      <body data-signals:cursor="[0, 0]">
-        <!-- data-on:pointermove__throttle.50ms="$cursor = [evt.clientX, evt.clientY]; @post('/studio/cqrs/cursor')" -->
-        <div id="cursors"></div>
+      <body data-init="@get('/studio/updates')">
+        <div class="sidebar">
+          ${SiteHeader(c)}
+          <!--  -->
+          ${session && Widgets(c, widgets)}
+        </div>
 
         <main id="swup">${content}</main>
       </body>
     </html>
   `
 }
+
+export const styles = css`
+  body {
+    height: 100%;
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      height: 100%;
+      width: var(--alstar-sidebar-width, 200px);
+    }
+  }
+`

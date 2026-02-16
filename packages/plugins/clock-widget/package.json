@@ -1,0 +1,8 @@
+{
+  "name": "@alstar/clock-widget",
+  "type": "module",
+  "dependencies": {
+    "@alstar/framework": "workspace:*",
+    "hono": "4.11.9"
+  }
+}

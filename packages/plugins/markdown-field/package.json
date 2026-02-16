@@ -1,0 +1,12 @@
+{
+  "name": "@alstar/markdown-field",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^24.10.4"
+  },
+  "dependencies": {
+    "@alstar/framework": "workspace:*",
+    "@alstar/types": "workspace:*",
+    "hono": "4.11.9"
+  }
+}

@@ -1,0 +1,89 @@
+#clock_widget {
+  border-radius: 16px;
+  background: #110a0f;
+  padding: 8px;
+
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  align-items: center;
+  gap: 16px;
+
+  .watch {
+    position: relative;
+    border: 1px solid #6a6a6a;
+    background-color: #131111;
+    aspect-ratio: 1;
+    width: 100%;
+    border-radius: 10000px;
+    overflow: clip;
+
+    .ticks {
+      position: absolute;
+      inset: 0;
+      background: repeating-conic-gradient(from 0deg, white 0deg 1deg, transparent 1deg 6deg);
+      mask-image: radial-gradient(transparent 64%, black 64% calc(64% + 1px), transparent calc(64% + 1px));;
+    }
+
+    span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: right;
+      translate: -100% -50%;
+      background: var(--background-color);
+      border-radius: 10px;
+    }
+
+    .hour {
+      --background-color: #ccc;
+      width: 30%;
+      height: 2px;
+      rotate: var(--hour-degrees);
+    }
+
+    .minute {
+      --background-color: #ccc;
+      width: 45%;
+      height: 1.5px;
+      rotate: var(--minutes-degrees);
+    }
+
+    .second {
+      --background-color: crimson;
+      width: 48%;
+      height: 1px;
+      rotate: var(--seconds-degrees);
+
+      z-index: 1;
+
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        display: inline-block;
+        background-color: var(--background-color);
+      }
+
+      &:before {
+        left: 100%;
+        top: -1px;
+        width: 8px;
+        height: 2px;
+        border-radius: 10px;
+      }
+
+      &:after {
+        right: -2px;
+        top: -2px;
+        width: 5px;
+        aspect-ratio: 1;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 30px;
+  }
+}
