@@ -4,6 +4,21 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@hono/node-server':
+      specifier: 1.19.9
+      version: 1.19.9
+    '@types/node':
+      specifier: 24.10.4
+      version: 24.10.4
+    hono:
+      specifier: 4.11.9
+      version: 4.11.9
+    sql-template-tag:
+      specifier: 5.2.1
+      version: 5.2.1
+
 importers:
 
   .:
@@ -27,17 +42,17 @@ importers:
         specifier: workspace:*
         version: link:../studio
       '@hono/node-server':
-        specifier: ^1.18.1
-        version: 1.19.7(hono@4.11.9)
+        specifier: 'catalog:'
+        version: 1.19.9(hono@4.11.9)
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
       marked:
         specifier: ^16.2.0
         version: 16.4.2
     devDependencies:
       '@types/node':
-        specifier: ^24.1.0
+        specifier: 'catalog:'
         version: 24.10.4
 
   packages/framework:
@@ -46,12 +61,12 @@ importers:
         specifier: workspace:*
         version: link:../types
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
     devDependencies:
       '@types/node':
-        specifier: ^25.2.3
-        version: 25.2.3
+        specifier: 'catalog:'
+        version: 24.10.4
 
   packages/playground:
     dependencies:
@@ -59,14 +74,14 @@ importers:
         specifier: workspace:*
         version: link:../studio
       '@hono/node-server':
-        specifier: ^1.19.6
-        version: 1.19.7(hono@4.11.1)
+        specifier: 'catalog:'
+        version: 1.19.9(hono@4.11.9)
       hono:
-        specifier: ^4.10.6
-        version: 4.11.1
+        specifier: 'catalog:'
+        version: 4.11.9
     devDependencies:
       '@types/node':
-        specifier: ^24.1.0
+        specifier: 'catalog:'
         version: 24.10.4
 
   packages/plugins/clock-widget:
@@ -75,7 +90,7 @@ importers:
         specifier: workspace:*
         version: link:../../framework
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
 
   packages/plugins/markdown-field:
@@ -87,11 +102,11 @@ importers:
         specifier: workspace:*
         version: link:../../types
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
     devDependencies:
       '@types/node':
-        specifier: ^24.10.4
+        specifier: 'catalog:'
         version: 24.10.4
 
   packages/plugins/media-library:
@@ -103,17 +118,17 @@ importers:
         specifier: workspace:*
         version: link:../../types
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
       sharp:
         specifier: ^0.34.5
         version: 0.34.5
       sql-template-tag:
-        specifier: ^5.2.1
+        specifier: 'catalog:'
         version: 5.2.1
     devDependencies:
       '@types/node':
-        specifier: ^24.10.4
+        specifier: 'catalog:'
         version: 24.10.4
 
   packages/plugins/svg-field:
@@ -125,11 +140,11 @@ importers:
         specifier: workspace:*
         version: link:../../types
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
     devDependencies:
       '@types/node':
-        specifier: ^24.10.4
+        specifier: 'catalog:'
         version: 24.10.4
 
   packages/plugins/text-field:
@@ -141,11 +156,11 @@ importers:
         specifier: workspace:*
         version: link:../../types
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
     devDependencies:
       '@types/node':
-        specifier: ^24.10.4
+        specifier: 'catalog:'
         version: 24.10.4
 
   packages/studio:
@@ -172,8 +187,8 @@ importers:
         specifier: workspace:*
         version: link:../types
       '@hono/node-server':
-        specifier: 1.18.1
-        version: 1.18.1(hono@4.11.9)
+        specifier: 'catalog:'
+        version: 1.19.9(hono@4.11.9)
       better-auth:
         specifier: 1.3.34
         version: 1.3.34
@@ -181,25 +196,25 @@ importers:
         specifier: ^11.11.1
         version: 11.11.1
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
     devDependencies:
       '@types/node':
-        specifier: ^24.1.0
+        specifier: 'catalog:'
         version: 24.10.4
 
   packages/types:
     dependencies:
       hono:
-        specifier: 4.11.9
+        specifier: 'catalog:'
         version: 4.11.9
       sql-template-tag:
-        specifier: ^5.2.1
+        specifier: 'catalog:'
         version: 5.2.1
     devDependencies:
       '@types/node':
-        specifier: ^25.2.3
-        version: 25.2.3
+        specifier: 'catalog:'
+        version: 24.10.4
 
 packages:
 
@@ -293,14 +308,8 @@ packages:
   '@hexagon/base64@1.1.28':
     resolution: {integrity: sha512-lhqDEAvWixy3bZ+UOYbPwUbBkwBq5C1LAJ/xPC8Oi+lL54oyakv/npbA0aU2hgCsx/1NUd4IBvV03+aUBWxerw==}
 
-  '@hono/node-server@1.18.1':
-    resolution: {integrity: sha512-O3puG/b7owYYmoQ2XPBf3SxBz6Dhk5VmWFhbaBU8/5wcUaXUPS0goxaI2Zfyg+Cu14ILJHEU7IFRw7miFxuXxg==}
-    engines: {node: '>=18.14.1'}
-    peerDependencies:
-      hono: ^4
-
-  '@hono/node-server@1.19.7':
-    resolution: {integrity: sha512-vUcD0uauS7EU2caukW8z5lJKtoGMokxNbJtBiwHgpqxEXokaHCBkQUmCHhjFB1VUTWdqj25QoMkMKzgjq+uhrw==}
+  '@hono/node-server@1.19.9':
+    resolution: {integrity: sha512-vHL6w3ecZsky+8P5MD+eFfaGTyCeOHUIFYMGpQGbrBTSmNNoxv0if69rEZ5giu36weC5saFuznL411gRX7bJDw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
@@ -670,10 +679,6 @@ packages:
   highlight.js@11.11.1:
     resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
     engines: {node: '>=12.0.0'}
-
-  hono@4.11.1:
-    resolution: {integrity: sha512-KsFcH0xxHes0J4zaQgWbYwmz3UPOOskdqZmItstUG93+Wk1ePBLkLGwbP9zlmh1BFUiL8Qp+Xfu9P7feJWpGNg==}
-    engines: {node: '>=16.9.0'}
 
   hono@4.11.9:
     resolution: {integrity: sha512-Eaw2YTGM6WOxA6CXbckaEvslr2Ne4NFsKrvc0v97JD5awbmeBLO5w9Ho9L9kmKonrwF9RJlW6BxT1PVv/agBHQ==}
@@ -1132,15 +1137,7 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hono/node-server@1.18.1(hono@4.11.9)':
-    dependencies:
-      hono: 4.11.9
-
-  '@hono/node-server@1.19.7(hono@4.11.1)':
-    dependencies:
-      hono: 4.11.1
-
-  '@hono/node-server@1.19.7(hono@4.11.9)':
+  '@hono/node-server@1.19.9(hono@4.11.9)':
     dependencies:
       hono: 4.11.9
 
@@ -1399,6 +1396,7 @@ snapshots:
   '@types/node@25.2.3':
     dependencies:
       undici-types: 7.16.0
+    optional: true
 
   ansi-colors@4.1.3: {}
 
@@ -1529,8 +1527,6 @@ snapshots:
   graceful-fs@4.2.11: {}
 
   highlight.js@11.11.1: {}
-
-  hono@4.11.1: {}
 
   hono@4.11.9: {}
 

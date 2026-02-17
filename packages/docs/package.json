@@ -5,16 +5,16 @@
   "private": true,
   "scripts": {
     "dev": "HOT_RELOAD=true pnpx tsx --watch index.ts",
-    "docs:build": "alstar",
+    "build": "alstar",
     "start": "pnpx tsx index.ts"
   },
   "devDependencies": {
-    "@types/node": "^24.1.0"
+    "@types/node": "catalog:"
   },
   "dependencies": {
     "@alstar/studio": "workspace:*",
-    "@hono/node-server": "^1.18.1",
-    "hono": "4.11.9",
+    "@hono/node-server": "catalog:",
+    "hono": "catalog:",
     "marked": "^16.2.0"
   }
 }

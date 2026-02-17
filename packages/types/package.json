@@ -4,10 +4,10 @@
   "types": "./types.ts",
   "type": "module",
   "dependencies": {
-    "hono": "4.11.9",
-    "sql-template-tag": "^5.2.1"
+    "hono": "catalog:",
+    "sql-template-tag": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^25.2.3"
+    "@types/node": "catalog:"
   }
 }

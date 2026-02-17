@@ -2,13 +2,13 @@
   "name": "@alstar/media-library",
   "type": "module",
   "devDependencies": {
-    "@types/node": "^24.10.4"
+    "@types/node": "catalog:"
   },
   "dependencies": {
     "@alstar/framework": "workspace:*",
     "@alstar/types": "workspace:*",
-    "hono": "4.11.9",
+    "hono": "catalog:",
     "sharp": "^0.34.5",
-    "sql-template-tag": "^5.2.1"
+    "sql-template-tag": "catalog:"
   }
 }
