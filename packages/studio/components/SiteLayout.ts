@@ -99,9 +99,10 @@ export default async (
           fixed-pane="start"
           initial-handle-position="200px"
           min-start="60px"
-          style="border: none;"
+          style="border: none; --separator-border: transparent;"
+          reset-on-dbl-click="true"
         >
-          <div slot="start">
+          <div slot="start" class="sidebar">
             ${SiteHeader(c)}
             <!--  -->
             ${session && Widgets(c, widgets)}
@@ -115,9 +116,3 @@ export default async (
     </html>
   `
 }
-
-export const styles = css`
-  body {
-    height: 100%;
-  }
-`

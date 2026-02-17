@@ -96,15 +96,9 @@ body {
   overflow: clip;
   margin: 0;
 
-  > main {
-    width: 100%;
+  .sidebar,
+  main#swup {
     height: 100vh;
-    display: flow-root;
-  }
-
-  > main:has(.site-header) {
-    display: grid;
-    grid-template-rows: auto 1fr;
   }
 }
 
@@ -123,20 +117,6 @@ a {
 
 .page {
   height: 100vh;
-}
-
-.profile {
-  padding: 0.5rem;
-}
-
-.page:has(.site-header) {
-  display: grid;
-  grid-auto-rows: auto 1fr;
-}
-
-.page:has(.site-header):has(.tabs) {
-  display: grid;
-  grid-auto-rows: auto auto 1fr;
 }
 
 .sr-only {

@@ -33,16 +33,18 @@ const widget = () => {
         $clockWidget.secondsDegrees = $clockWidget.secondsDegrees + (360 / 60);
       "
     >
-      <div class="watch">
-        <div class="ticks"></div>
-        <span class="hour" data-style="{rotate: $clockWidget.hourDegrees + 'deg'}"></span>
-        <span class="minute" data-style="{rotate: $clockWidget.minutesDegrees + 'deg'}"></span>
-        <span class="second" data-style="{rotate: $clockWidget.secondsDegrees + 'deg'}"></span>
-      </div>
+      <main>
+        <div class="watch">
+          <div class="ticks"></div>
+          <span class="hour" data-style="{rotate: $clockWidget.hourDegrees + 'deg'}"></span>
+          <span class="minute" data-style="{rotate: $clockWidget.minutesDegrees + 'deg'}"></span>
+          <span class="second" data-style="{rotate: $clockWidget.secondsDegrees + 'deg'}"></span>
+        </div>
 
-      <span>
-        <p>${date}/${month}</p>
-      </span>
+        <span class="date">
+          <p>${date}/${month}</p>
+        </span>
+      </main>
     </div>
   `
 }

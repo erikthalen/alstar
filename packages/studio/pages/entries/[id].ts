@@ -14,7 +14,7 @@ export default (c: Context) => {
 
   return html`
     <div class="entry-page">
-      <vscode-split-layout id="split_pane" fixed-pane="start" initial-handle-position="50%">
+      <vscode-split-layout id="split_pane" fixed-pane="start" initial-handle-position="400px">
         <div slot="start">${Entry({ entryId: id })}</div>
         <div slot="end">${LivePreview({ userId: user?.id, entryId: id })}</div>
       </vscode-split-layout>

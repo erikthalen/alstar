@@ -1,5 +1,5 @@
 .entry-page {
-  height: calc(100vh - var(--unit) * 4);
+  height: 100%;
 
   vscode-split-layout {
     height: 100%;
@@ -8,26 +8,5 @@
     > div {
       height: 100%;
     }
-
-    /* &:has(.live-preview.hidden) {
-      grid-template-columns: minmax(0, 100%) var(--divider-width, 0.125rem) minmax(
-          0,
-          calc(var(--unit) * 2)
-        ) !important;
-    } */
   }
-
-  /* quiet-splitter:state(dragging) {
-    quiet-zoomable-frame,
-    iframe {
-      touch-action: none;
-      pointer-events: none;
-    }
-  }
-
-  quiet-splitter:not(:has(.live-preview)) {
-    grid-template-columns:
-      100% var(--divider-width, 0.125rem)
-      0 !important;
-  } */
 }
