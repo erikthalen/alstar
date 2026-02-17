@@ -174,8 +174,6 @@ export default async ({ database }: PluginArgs) => {
 
 const styles = css`
   .media-library {
-    padding-left: var(--alstar-sidebar-width);
-
     ul,
     li {
       list-style: none;

@@ -84,7 +84,7 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
   const app = factory.createApp()
 
   if (enableHotReload) {
-    app.get('/hot-reload', hotReload({ root: studioRoot, exclude: '.db' }))
+    app.get('/hot-reload', hotReload({ root: path.join(studioRoot, '..'), exclude: '.db' }))
 
     app.use('*', hotReloadMiddleware(true))
   }

@@ -95,13 +95,22 @@ export default async (
       </head>
 
       <body data-init="@get('/studio/updates')">
-        <div class="sidebar">
-          ${SiteHeader(c)}
-          <!--  -->
-          ${session && Widgets(c, widgets)}
-        </div>
+        <vscode-split-layout
+          fixed-pane="start"
+          initial-handle-position="200px"
+          min-start="60px"
+          style="border: none;"
+        >
+          <div slot="start">
+            ${SiteHeader(c)}
+            <!--  -->
+            ${session && Widgets(c, widgets)}
+          </div>
 
-        <main id="swup">${content}</main>
+          <div slot="end">
+            <main id="swup">${content}</main>
+          </div>
+        </vscode-split-layout>
       </body>
     </html>
   `
@@ -110,12 +119,5 @@ export default async (
 export const styles = css`
   body {
     height: 100%;
-
-    .sidebar {
-      position: fixed;
-      left: 0;
-      height: 100%;
-      width: var(--alstar-sidebar-width, 200px);
-    }
   }
 `

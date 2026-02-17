@@ -76,6 +76,5 @@ export default (c: Context) => {
 
 export const styles = css`
   .entries-page {
-    padding-left: var(--alstar-sidebar-width);
   }
 `

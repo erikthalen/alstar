@@ -24,6 +24,5 @@ export default (c: Context) => {
 
 export const styles = css`
   .entry-page {
-    padding-left: var(--alstar-sidebar-width);
   }
 `
