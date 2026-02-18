@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "name": "@alstar/framework",
+  "devDependencies": {
+    "@types/node": "catalog:"
+  },
+  "dependencies": {
+    "@alstar/types": "workspace:*",
+    "hono": "catalog:"
+  }
+}

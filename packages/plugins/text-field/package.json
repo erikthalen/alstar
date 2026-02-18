@@ -1,0 +1,12 @@
+{
+  "name": "@alstar/text-field",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "catalog:"
+  },
+  "dependencies": {
+    "@alstar/framework": "workspace:*",
+    "@alstar/types": "workspace:*",
+    "hono": "catalog:"
+  }
+}

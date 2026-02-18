@@ -1,4 +1,5 @@
-import type { BlockStatus, DBBlockResult, UserSettings } from '../../../types.ts'
+import type { UserSettings } from '../../../types.ts'
+import type { BlockStatus, DBBlockResult } from '@alstar/types'
 import { sql } from '../../../utils/sql.ts'
 import { sqlQueryRoot } from './queries/root.ts'
 import type { DBRow, TODO } from './types.ts'

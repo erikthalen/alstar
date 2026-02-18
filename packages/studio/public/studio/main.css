@@ -8,15 +8,7 @@
 @import './css/entry.css';
 @import './css/field.css';
 @import './css/setup.css';
-@import './css/markdown.css';
 @import './css/entries.css';
-@import './css/explorer.css';
-@import './css/tabs.css';
-@import './css/media-library.css';
-
-@import './css/svg-output.css';
-
-@import './css/site-header.css';
 
 @font-face {
   font-family: 'Inter';
@@ -57,10 +49,11 @@
 
   --quiet-font-family: var(--alstar-font-family);
   --quiet-font-size: var(--alstar-font-size);
-  
-  --quiet-border-radius-sm: 0;
-  --quiet-border-radius-md: 0;
-  --quiet-border-radius-pill: 0;
+
+  --quiet-primary-text-on-mid: var(--alstar-foreground);
+
+  --quiet-border-radius-sm: 2px;
+  --quiet-border-radius-md: 4px;
 
   --quiet-form-control-height-md: 2.25rem;
 
@@ -88,7 +81,7 @@ html.is-animating .transition-fade {
 html {
   font-size: var(--alstar-font-size);
   font-family: var(--alstar-font-family);
-  font-variant-numeric: tabular-nums slashed-zero;
+  /* font-variant-numeric: tabular-nums slashed-zero; */
   color: var(--alstar-foreground);
 
   user-select: none;
@@ -96,7 +89,6 @@ html {
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
 
 body {
@@ -104,20 +96,19 @@ body {
   overflow: clip;
   margin: 0;
 
-  > main {
-    width: 100%;
+  .sidebar,
+  main#swup {
     height: 100vh;
-  }
-
-  > main:has(.site-header) {
-    display: grid;
-    grid-template-rows: auto 1fr;
   }
 }
 
-* {
-  font-size: 1rem;
+:where(*) {
+  font-size: 1em;
   box-sizing: border-box;
+}
+
+a {
+  color: inherit;
 }
 
 .contents {
@@ -126,20 +117,6 @@ body {
 
 .page {
   height: 100vh;
-}
-
-.profile {
-  padding: 0.5rem;
-}
-
-.page:has(.site-header) {
-  display: grid;
-  grid-auto-rows: auto 1fr;
-}
-
-.page:has(.site-header):has(.tabs) {
-  display: grid;
-  grid-auto-rows: auto auto 1fr;
 }
 
 .sr-only {

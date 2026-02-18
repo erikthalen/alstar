@@ -41,32 +41,6 @@ async function logout() {
   })
 }
 
-/** @param {FormData} formData */
-async function register(formData) {
-  const { data, error } = await authClient.signUp.email(
-    {
-      email: formData.get('email').toString(),
-      name: formData.get('email').toString(),
-      password: formData.get('password').toString(), // user password -> min 8 characters by default
-      callbackURL: '/studio', // A URL to redirect to after the user verifies their email (optional)
-    },
-    {
-      onRequest: (ctx) => {
-        //show loading
-      },
-      onSuccess: (ctx) => {
-        window.location.replace(window.location.origin + '/studio')
-      },
-      onError: (ctx) => {
-        // display the error message
-        alert(ctx.error.message)
-      },
-    },
-  )
-
-  console.log(data, error)
-}
-
 async function getSession() {
   const session = await authClient.getSession()
 
@@ -76,6 +50,5 @@ async function getSession() {
 window.auth = {
   login,
   logout,
-  register,
   getSession,
 }

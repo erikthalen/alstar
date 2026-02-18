@@ -5,7 +5,7 @@ import {
   CollectionInstance,
   FieldInstance,
   SingleInstance,
-} from '../helpers/structure/index.ts'
+} from '@alstar/types'
 import { config } from '../index.ts'
 
 export function getStructureOfField(id: string | number) {

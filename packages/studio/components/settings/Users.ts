@@ -1,11 +1,8 @@
 import { html } from 'hono/html'
 import { sql } from '../../utils/sql.ts'
-import { getEnv } from '@alstar/studio/env'
 import { database } from '../../index.ts'
 
 export default async () => {
-  const env = await getEnv()
-
   const users = database
     .prepare(
       sql`
@@ -27,13 +24,6 @@ export default async () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">${env.ALSTAR_ADMIN_USER}</th>
-            <th scope="row">
-              <quiet-badge variant="neutral">Admin</quiet-badge>
-            </th>
-          </tr>
-
           ${users.map(
             (user) => html`
               <tr>

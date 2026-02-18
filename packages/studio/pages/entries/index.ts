@@ -1,130 +1,65 @@
 import { html } from 'hono/html'
-import { factory } from '#factory.ts'
-import { defineEventHandler } from '#event-emitter.ts'
-import { createBlock, getUserSettings } from '#helpers/db/sql/index.ts'
-import SiteLayout from '#components/SiteLayout.ts'
-import SiteHeader from '#components/SiteHeader.ts'
 import Entries from '#components/Entries.ts'
-import Explorer from '#components/Explorer.ts'
-import Tabs from '#components/Tabs.ts'
 import EntriesTypes from '#components/EntriesTypes.ts'
-import type { BlockFieldInstanceType, FieldInstanceType } from '#helpers/structure/types.ts'
-import { type StudioDefaultConfig } from '#types.ts'
+import { Context } from 'hono'
+import { config } from '#index.ts'
+import { css } from '@alstar/framework'
 
-export default (config: StudioDefaultConfig) =>
-  factory.createHandlers((c) => {
-    const name = c.req.query('name')
+export default (c: Context) => {
+  const name = c.req.query('name')
 
-    const structure = config.structure[name || '']
+  const structure = config.structure[name || '']
 
-    const onNewEntryClick = defineEventHandler(() => {
-      if (!name || !structure.instanceOf.description) return
+  const newBlockPayload = JSON.stringify({
+    type: structure.instanceOf.description,
+    name: name,
+    label: structure?.label,
+    parent_id: null,
+  })
 
-      createBlock({
-        type: structure.instanceOf.description,
-        name: name,
-        label: structure?.label,
-        parent_id: null,
-      })
-
-      return [Entries({ page: 1, name })]
-    })
-
-    const fields = Object.entries(structure?.fields || {}) as [
-      string,
-      FieldInstanceType | BlockFieldInstanceType,
-    ][]
-
-    const settings = getUserSettings(c.get('user')?.id)
-
-    console.log(settings)
-
-    const tableColumns = {}
-
-    return c.html(
-      SiteLayout(c, html`
-        <!--  -->
-
-        ${Explorer(c)}
-
-        <!--  -->
-
-        <section class="page">
-          ${SiteHeader(c)}
-
-          <!--  -->
-
-          ${Tabs()}
-
-          <!--  -->
-
-          ${name
-            ? html`<div
-                class="entries-container"
-                data-signals="{
+  return html`
+    <section class="entries-page">
+      ${name
+        ? html`<div
+            class="entries-container"
+            data-signals="{
                   userSettings: {
                     entriesTableColumns: {
                       '${name}': ''
                     }
                   }
                 }"
-              >
-                <quiet-toolbar class="toolbar">
-                  <!-- <quiet-button-group>
-                    <vscode-textfield placeholder="Search entries">
-                      <quiet-icon slot="content-before" name="search"></quiet-icon>
-                    </vscode-textfield>
-                  </quiet-button-group> -->
+          >
+            <quiet-toolbar class="toolbar">
+              <quiet-button-group>
+                <quiet-button
+                  id="new_entry_button"
+                  icon-label="New entry"
+                  data-on:click="@post('/studio/block', { payload: ${newBlockPayload} })"
+                >
+                  <quiet-icon name="file-plus"></quiet-icon>
+                </quiet-button>
 
-                  <quiet-button-group>
-                    <quiet-button
-                      id="new_entry_button"
-                      size="xs"
-                      icon-label="New entry"
-                      data-on:click=${onNewEntryClick}
-                    >
-                      <quiet-icon name="file-plus"></quiet-icon>
-                    </quiet-button>
+                <quiet-tooltip
+                  open-delay="0"
+                  close-delay="0"
+                  distance="0"
+                  without-arrow
+                  for="new_entry_button"
+                >
+                  New entry
+                </quiet-tooltip>
+              </quiet-button-group>
+            </quiet-toolbar>
 
-                    <quiet-tooltip
-                      open-delay="0"
-                      close-delay="0"
-                      distance="0"
-                      without-arrow
-                      for="new_entry_button"
-                    >
-                      New entry
-                    </quiet-tooltip>
+            ${Entries({ page: 1, name: name })}
+          </div>`
+        : EntriesTypes(config.structure)}
+    </section>
+  `
+}
 
-                    <!-- <quiet-button size="xs" icon-label="Redo">
-                  <quiet-icon name="arrow-forward-up"></quiet-icon>
-                </quiet-button> -->
-                  </quiet-button-group>
-
-                  <!-- <quiet-button-group>
-                    <quiet-dropdown
-                      id="dropdown__checkboxes"
-                      data-on:quiet-select="evt.preventDefault(); console.log(evt.detail.item.value, evt.detail.item.checked)"
-                    >
-                      <quiet-button size="xs" slot="trigger" with-caret>View</quiet-button>
-
-                      ${fields?.map(([name, field]) => {
-                        return html`<quiet-dropdown-item
-                          type="checkbox"
-                          value="${name}"
-                          checked
-                        >
-                          ${field.label}
-                        </quiet-dropdown-item>`
-                      })}
-                    </quiet-dropdown>
-                  </quiet-button-group> -->
-                </quiet-toolbar>
-
-                ${Entries({ page: 1, name: name })}
-              </div>`
-            : EntriesTypes(config.structure)}
-        </section>
-      `),
-    )
-  })
+export const styles = css`
+  .entries-page {
+  }
+`

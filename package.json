@@ -3,7 +3,7 @@
   "name": "@alstar/shared",
   "type": "module",
   "scripts": {
-    "dev": "pnpm -r --parallel run dev",
+    "docs:dev": "pnpm pnpm --filter @alstar/docs run dev",
     "ci:publish": "pnpm publish -r"
   },
   "devDependencies": {

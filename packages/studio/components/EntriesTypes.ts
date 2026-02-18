@@ -1,7 +1,6 @@
 import { html } from 'hono/html'
-import type { StructureInstanceType } from '../helpers/structure/types.ts'
-import { CollectionInstance, SingleInstance } from '../helpers/structure/index.ts'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
+import { CollectionInstance, SingleInstance, StructureInstanceType } from '@alstar/types/structure.ts'
 
 export default (structure: StructureInstanceType) => {
   const entries = Object.entries(structure)

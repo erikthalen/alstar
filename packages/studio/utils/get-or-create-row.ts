@@ -1,6 +1,5 @@
 import { getField } from '../helpers/db/sql/index.ts'
-import type { InstanceType } from '../helpers/structure/types.ts'
-import { FieldInstance } from '../helpers/structure/index.ts'
+import { FieldInstance, type InstanceType } from '@alstar/types'
 import { database } from '../index.ts'
 import { sql } from './sql.ts'
 
@@ -35,7 +34,9 @@ export function getOrCreateRow(props: {
   }
 
   const change = database
-    .prepare(sql`insert into block (name, label, type, sort_order, parent_id) values (?, ?, ?, ?, ?);`)
+    .prepare(
+      sql`insert into block (name, label, type, sort_order, parent_id) values (?, ?, ?, ?, ?);`,
+    )
     .run(name?.toString(), field.label?.toString(), type, sortOrder, parentId)
 
   return getField({ id: change.lastInsertRowid.toString() })

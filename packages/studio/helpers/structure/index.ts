@@ -1,21 +1,20 @@
-import type {
-  FieldType,
-  FieldInstanceType,
-  BlockFieldType,
-  BlockFieldInstanceType,
-  BlockType,
-  BlockFields,
-  BlockInstanceType,
-  CollectionInstanceType,
-  StructureInstanceType,
-  SingleInstanceType,
-} from './types.ts'
-
-export const FieldInstance = Symbol('field')
-export const BlockFieldInstance = Symbol('blockfield')
-export const BlockInstance = Symbol('block')
-export const CollectionInstance = Symbol('collection')
-export const SingleInstance = Symbol('single')
+import {
+  type FieldType,
+  type FieldInstanceType,
+  type BlockFieldType,
+  type BlockFieldInstanceType,
+  type BlockType,
+  type BlockFields,
+  type BlockInstanceType,
+  type CollectionInstanceType,
+  type StructureInstanceType,
+  type SingleInstanceType,
+  FieldInstance,
+  BlockFieldInstance,
+  BlockInstance,
+  SingleInstance,
+  CollectionInstance,
+} from '@alstar/types'
 
 export function defineField(field: FieldType): FieldInstanceType {
   return {
@@ -24,9 +23,7 @@ export function defineField(field: FieldType): FieldInstanceType {
   }
 }
 
-export function defineBlockField(
-  field: BlockFieldType,
-): BlockFieldInstanceType {
+export function defineBlockField(field: BlockFieldType): BlockFieldInstanceType {
   return {
     ...field,
     instanceOf: BlockFieldInstance,
@@ -60,8 +57,6 @@ export function defineCollection<const O extends BlockFields>(
   }
 }
 
-export function defineStructure(
-  structure: StructureInstanceType,
-): StructureInstanceType {
+export function defineStructure(structure: StructureInstanceType): StructureInstanceType {
   return structure
 }

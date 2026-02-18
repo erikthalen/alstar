@@ -8,11 +8,11 @@ import {
   setUpdatedAt,
 } from '#helpers/db/sql/index.ts'
 import { getStructureOfField } from '#utils/get-structure-of-field.ts'
-import { defineEventHandler } from '#event-emitter.ts'
+// import { defineEventHandler } from '#event-emitter.ts'
 import Render from '#components/field-renderers/Render.ts'
-import type { BlockFieldInstanceType } from '#helpers/structure/types.ts'
 import EntryHeader from '#components/EntryHeader.ts'
 import LivePreviewContent from '#components/live-preview/LivePreviewContent.ts'
+import { BlockFieldInstanceType } from '@alstar/types'
 
 const Component = ({ id }: { id: number | string }) => {
   const structure = getStructureOfField(id) as BlockFieldInstanceType
@@ -24,32 +24,32 @@ const Component = ({ id }: { id: number | string }) => {
       <p class="truncate">${structure.label}</p>
 
       <quiet-dropdown placement="bottom-end">
-        <quiet-button size="xs" slot="trigger" with-caret>Add</quiet-button>
+        <quiet-button slot="trigger" with-caret>Add</quiet-button>
 
         <h3>Type</h3>
 
         ${entries.map(([name, block]) => {
-          const createNewBlock = defineEventHandler(
-            ({ signals }) => {
-              const entryId = signals.entry.id
+          // const createNewBlock = defineEventHandler(
+          //   ({ signals }) => {
+          //     const entryId = signals.entry.id
 
-              createBlock({
-                name: name,
-                label: block.label,
-                type: block.instanceOf.description as string,
-                parent_id: id,
-                sort_order: rows.length,
-              })
+          //     createBlock({
+          //       name: name,
+          //       label: block.label,
+          //       type: block.instanceOf.description as string,
+          //       parent_id: id,
+          //       sort_order: rows.length,
+          //     })
 
-              setUpdatedAt(entryId)
+          //     setUpdatedAt(entryId)
 
-              return [Component({ id }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
-            },
-            { id: name + rows.length, once: true },
-          )
+          //     return [Component({ id }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
+          //   },
+          //   { id: name + rows.length, once: true },
+          // )
 
           return html`
-            <quiet-dropdown-item data-on:click=${createNewBlock}>
+            <quiet-dropdown-item data-on:click="{createNewBlock}">
               ${'icon' in block && block.icon
                 ? html` <quiet-icon slot="icon" name=${block.icon}></quiet-icon>`
                 : ''}
@@ -66,54 +66,54 @@ const Component = ({ id }: { id: number | string }) => {
 
         if (!name || !blockStructure) return html`<p>No name</p>`
 
-        const deleteItem = defineEventHandler(
-          ({ signals }) => {
-            if (!signals) return
+        // const deleteItem = defineEventHandler(
+        //   ({ signals }) => {
+        //     if (!signals) return
 
-            const entryId = signals.entry.id
+        //     const entryId = signals.entry.id
 
-            deleteBlock(row.id)
-            setUpdatedAt(entryId)
+        //     deleteBlock(row.id)
+        //     setUpdatedAt(entryId)
 
-            return [Component({ id }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
-          },
-          { id: row.id },
-        )
+        //     return [Component({ id }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
+        //   },
+        //   { id: row.id },
+        // )
 
-        const setStatus = defineEventHandler(
-          ({ signals }) => {
-            if (!signals) return
+        // const setStatus = defineEventHandler(
+        //   ({ signals }) => {
+        //     if (!signals) return
 
-            const { entry } = signals
-            const signal = signals[row.id]
+        //     const { entry } = signals
+        //     const signal = signals[row.id]
 
-            setUpdatedAt(entry?.id)
+        //     setUpdatedAt(entry?.id)
 
-            if (typeof signal !== 'string' && signal.type === 'block') {
-              setBlockStatus(row.id, signal.status)
-            }
+        //     if (typeof signal !== 'string' && signal.type === 'block') {
+        //       setBlockStatus(row.id, signal.status)
+        //     }
 
-            return [EntryHeader({ entryId: entry.id })]
-          },
-          { id: row.id },
-        )
+        //     return [EntryHeader({ entryId: entry.id })]
+        //   },
+        //   { id: row.id },
+        // )
 
-        const setCollapsed = defineEventHandler(
-          ({ signals }) => {
-            if (!signals) return
+        // const setCollapsed = defineEventHandler(
+        //   ({ signals }) => {
+        //     if (!signals) return
 
-            const { entry } = signals
-            const signal = signals[row.id]
+        //     const { entry } = signals
+        //     const signal = signals[row.id]
 
-            setUpdatedAt(entry?.id)
-            if (typeof signal !== 'string' && signal.type === 'block') {
-              setBlockOption(row.id, signal.options)
-            }
+        //     setUpdatedAt(entry?.id)
+        //     if (typeof signal !== 'string' && signal.type === 'block') {
+        //       setBlockOption(row.id, signal.options)
+        //     }
 
-            return [EntryHeader({ entryId: entry.id }), Component({ id })]
-          },
-          { id: row.id },
-        )
+        //     return [EntryHeader({ entryId: entry.id }), Component({ id })]
+        //   },
+        //   { id: row.id },
+        // )
 
         return html`
           <article
@@ -138,9 +138,8 @@ const Component = ({ id }: { id: number | string }) => {
                   label="Disable"
                   effect="scale"
                   id="tooltip-disable-${row.id}"
-                  size="xs"
                   data-attr:checked="$${row.id}.status === 'enabled'"
-                  data-on:quiet-change="$${row.id}.status = evt.target.checked ? 'enabled' : 'disabled'; ${setStatus}"
+                  data-on:quiet-change="$${row.id}.status = evt.target.checked ? 'enabled' : 'disabled'; {setStatus}"
                 >
                   <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
                   <quiet-icon slot="checked" name="circle" family="filled"></quiet-icon>
@@ -160,9 +159,8 @@ const Component = ({ id }: { id: number | string }) => {
                   label="Collapse"
                   effect="scale"
                   id="tooltip-collapse-${row.id}"
-                  size="xs"
                   data-attr:checked="$${row.id}.options?.collapsed === true"
-                  data-on:quiet-change="$${row.id}.options.collapsed = !!evt.target.checked; ${setCollapsed}"
+                  data-on:quiet-change="$${row.id}.options.collapsed = !!evt.target.checked; {setCollapsed}"
                 >
                   <quiet-icon slot="unchecked" name="eye"></quiet-icon>
                   <quiet-icon slot="checked" name="eye-off"></quiet-icon>
@@ -182,7 +180,6 @@ const Component = ({ id }: { id: number | string }) => {
                   style="cursor: grab"
                   variant="neutral"
                   icon-label="Reorder"
-                  size="xs"
                   id="tooltip-reorder-${row.id}"
                 >
                   <quiet-icon name="menu"></quiet-icon>
@@ -201,9 +198,8 @@ const Component = ({ id }: { id: number | string }) => {
                   type="submit"
                   variant="neutral"
                   icon-label="Remove"
-                  size="xs"
                   id="tooltip-remove-${row.id}"
-                  data-on:click=${deleteItem}
+                  data-on:click={deleteItem}
                 >
                   <quiet-icon name="x"></quiet-icon>
                 </quiet-button>

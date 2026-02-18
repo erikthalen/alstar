@@ -1,0 +1,13 @@
+{
+  "name": "@alstar/types",
+  "version": "0.0.0",
+  "types": "./types.ts",
+  "type": "module",
+  "dependencies": {
+    "hono": "catalog:",
+    "sql-template-tag": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  }
+}

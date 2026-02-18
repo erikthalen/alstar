@@ -4,36 +4,32 @@
   "type": "module",
   "main": "index.ts",
   "module": "index.js",
-  "bin": {
-    "alstar": "./bin/build-ssg.ts"
-  },
   "engines": {
     "node": ">=23.8"
   },
-  "scripts": {
-    "dev": "node --watch index.ts"
-  },
   "dependencies": {
-    "@hono/node-server": "1.18.1",
+    "@alstar/clock-widget": "workspace:*",
+    "@alstar/framework": "workspace:*",
+    "@alstar/markdown-field": "workspace:*",
+    "@alstar/media-library": "workspace:*",
+    "@alstar/svg-field": "workspace:*",
+    "@alstar/text-field": "workspace:*",
+    "@alstar/types": "workspace:*",
+    "@hono/node-server": "catalog:",
     "better-auth": "1.3.34",
     "highlight.js": "^11.11.1",
-    "hono": "^4.10.6",
-    "sharp": "^0.34.5"
+    "hono": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^24.1.0"
+    "@types/node": "catalog:"
   },
   "imports": {
     "#*": "./*",
-    "#media-library": "./components/media-library/index.ts",
     "#components/*": "./components/*"
   },
   "exports": {
     ".": {
       "import": "./index.ts"
-    },
-    "./env": {
-      "import": "./helpers/env/index.ts"
     },
     "./hot-reload": {
       "import": "./helpers/hot-reload/hot-reload.ts"
@@ -49,6 +45,9 @@
     },
     "./structure": {
       "import": "./helpers/structure/index.ts"
+    },
+    "./factory": {
+      "import": "./factory.ts"
     }
   },
   "publishConfig": {

@@ -1,2 +1,9 @@
 packages:
-  - 'packages/*'
+  - "packages/*"
+  - "packages/plugins/*"
+
+catalog:
+  "@types/node": 24.10.4
+  hono: 4.11.9
+  "@hono/node-server": 1.19.9
+  sql-template-tag: 5.2.1

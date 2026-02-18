@@ -1,11 +1,11 @@
 // components
 import './js/auth.js'
-import './js/markdown-editor.js'
 import './js/sortable-list.js'
 import './js/live-preview.js'
 import './js/settings-tabs.js'
 import './js/split-pane.js'
-import './js/tabs.js'
+
+import './js/RegisterForm.js'
 
 // global
 import Swup from 'swup'

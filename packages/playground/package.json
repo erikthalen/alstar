@@ -6,11 +6,11 @@
     "dev": "node --watch index.ts"
   },
   "devDependencies": {
-    "@types/node": "^24.1.0"
+    "@types/node": "catalog:"
   },
   "dependencies": {
     "@alstar/studio": "workspace:*",
-    "@hono/node-server": "^1.19.6",
-    "hono": "^4.10.6"
+    "@hono/node-server": "catalog:",
+    "hono": "catalog:"
   }
 }
