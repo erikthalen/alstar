@@ -1,20 +1,21 @@
 import fsp from 'node:fs/promises'
-import { database } from '#index.ts'
-import { sql } from '#utils/sql.ts'
-import { type MediaCacheSchema } from './create-media.ts'
 import path from 'node:path'
-import { mediaCachePath, mediaPath } from './router.ts'
+import sql from 'sql-template-tag'
+import type { MediaCacheSchema } from '../types.ts'
+import { mediaCachePath, mediaPath } from './create-media.ts'
+import type { DatabaseSync, SQLInputValue } from 'node:sqlite'
 
-export const deleteMedia = async (filename: string) => {
-  // delete any cached/transformed media rows
+export const deleteMedia = async (database: DatabaseSync, filename: string) => {
+  const getCachedMediaQuery = sql`select * from media_transforms where original_filename = ${filename}`
+
   const cachedMedia = database
-    .prepare(sql`select * from media_cache where original_filename = ?`)
-    .all(filename) as MediaCacheSchema[]
+    .prepare(getCachedMediaQuery.sql)
+    .all(...(getCachedMediaQuery.values as SQLInputValue[])) as MediaCacheSchema[]
 
   await Promise.all(
     cachedMedia.map(async (media) => {
       try {
-        // delete cached media
+        // delete cached media file
         await fsp.rm(path.join(mediaCachePath, media.filename))
       } catch (error) {
         console.log(error)
@@ -22,14 +23,18 @@ export const deleteMedia = async (filename: string) => {
     }),
   )
 
-  // delete any cached/transformed media rows
-  database.prepare(sql`delete from media_cache where original_filename = ?`).run(filename)
+  const deleteCachedMediaQuery = sql`delete from media_transforms where original_filename = ${filename}`
+  database
+    .prepare(deleteCachedMediaQuery.sql)
+    .run(...(deleteCachedMediaQuery.values as SQLInputValue[]))
 
-  // delete original media in db
-  database.prepare(sql`delete from media where filename = ?`).run(filename)
+  const deleteOriginalMediaQuery = sql`delete from media where filename = ${filename}`
+  database
+    .prepare(deleteOriginalMediaQuery.sql)
+    .run(...(deleteOriginalMediaQuery.values as SQLInputValue[]))
 
   try {
-    // delete original media
+    // delete original media file
     await fsp.rm(path.join(mediaPath, filename))
   } catch (error) {
     console.log(error)

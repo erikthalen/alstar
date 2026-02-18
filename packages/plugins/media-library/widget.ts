@@ -19,7 +19,6 @@ const styles = css`
     padding: 8px;
     border: 1px solid #1b1c31;
     background-color: rgb(10, 18, 25);
-    border-radius: 8px;
     color: #ccc;
 
     header {

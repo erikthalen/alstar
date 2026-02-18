@@ -15,7 +15,6 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
     <section id="entries" class="entries">
       <vscode-table zebra bordered-rows resizable>
         <vscode-table-header slot="header">
-          <!-- <vscode-table-header-cell>Bulk</vscode-table-header-cell> -->
           <vscode-table-header-cell>Title</vscode-table-header-cell>
           <vscode-table-header-cell>Slug</vscode-table-header-cell>
           <vscode-table-header-cell>
@@ -29,9 +28,6 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
 
             return html`
               <vscode-table-row>
-                <!-- <vscode-table-cell>
-                  <quiet-checkbox size="sm"></quiet-checkbox>
-                </vscode-table-cell> -->
                 <vscode-table-cell>
                   <a href="/studio/entries/${block.id}">
                     <h4 class="name">${title?.value || 'Untitled'}</h4>
@@ -83,6 +79,15 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                       <quiet-icon name="trash"></quiet-icon>
                     </quiet-button>
 
+                    <quiet-tooltip
+                      distance="0"
+                      without-arrow
+                      for="tooltip-remove-${block.id}"
+                      class="text-label"
+                    >
+                      Remove
+                    </quiet-tooltip>
+
                     <quiet-popover for="tooltip-remove-${block.id}" placement="bottom">
                       <div style="display: flex; flex-direction: column; gap: 0.25rem;">
                         <quiet-button
@@ -98,15 +103,6 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                         <quiet-button size="xs" data-popover="close"> Cancel </quiet-button>
                       </div>
                     </quiet-popover>
-
-                    <quiet-tooltip
-                      distance="0"
-                      without-arrow
-                      for="tooltip-remove-${block.id}"
-                      class="text-label"
-                    >
-                      Remove
-                    </quiet-tooltip>
                   </div>
                 </vscode-table-cell>
               </vscode-table-row>

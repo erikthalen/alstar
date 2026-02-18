@@ -6,6 +6,7 @@ import { patchElements } from '#helpers/hono-datastar/index.ts'
 import { AuthType } from '#index.ts'
 import { PluginEvents } from '@alstar/types'
 import { type SSEStreamingApi } from 'hono/streaming'
+import { HtmlEscapedString } from 'hono/utils/html'
 import EventEmitter from 'node:events'
 
 type Connection = {
@@ -46,8 +47,23 @@ eventEmitter.on('entry-updated', ({ id }) => {
 
   connections.forEach(async (connection) => {
     if (entry?.id) {
-      await patchElements(connection.stream, await LivePreviewContent({ entryId: entry?.id }))
-      await patchElements(connection.stream, await EntryHeader({ entryId: entry?.id }))
+      patchElements(connection.stream, await LivePreviewContent({ entryId: entry?.id }))
+      patchElements(connection.stream, await EntryHeader({ entryId: entry?.id }))
     }
   })
 })
+
+export function broadcastPatchElement(
+  patches:
+    | HtmlEscapedString
+    | Promise<HtmlEscapedString>
+    | (HtmlEscapedString | Promise<HtmlEscapedString>)[],
+) {
+  const ps = Array.isArray(patches) ? patches : [patches]
+
+  connections.forEach(async (connection) => {
+    for (const patch of ps) {
+      patchElements(connection.stream, await patch)
+    }
+  })
+}

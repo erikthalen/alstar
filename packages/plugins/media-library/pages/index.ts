@@ -86,6 +86,7 @@ export default async ({ database }: PluginArgs) => {
 
                   <span class="content">
                     ${media.name}
+
                     <code>${media.width} x ${media.height}</code>
                     <code>
                       <quiet-bytes value="${await fileStats(path.join(mediaPath, media.filename))}">
@@ -93,44 +94,44 @@ export default async ({ database }: PluginArgs) => {
                     </code>
                   </span>
 
-                  <quiet-button
-                    data-dialog="open dialog_editor"
-                    slot="actions"
-                    type="submit"
-                    icon-label="Select"
-                    id="tooltip-edit-${media.filename}"
-                    data-on:click="evt.target.dispatchEvent(new CustomEvent('input', { detail: '${media.filename}', bubbles: true }))"
-                  >
-                    <quiet-icon name="edit"></quiet-icon>
-                  </quiet-button>
+                  <quiet-button-group slot="actions">
+                    <quiet-button
+                      data-dialog="open dialog_editor"
+                      type="submit"
+                      icon-label="Select"
+                      id="tooltip-edit-${media.filename}"
+                      data-on:click="evt.target.dispatchEvent(new CustomEvent('input', { detail: '${media.filename}', bubbles: true }))"
+                    >
+                      <quiet-icon name="edit"></quiet-icon>
+                    </quiet-button>
 
-                  <quiet-tooltip
-                    distance="0"
-                    without-arrow
-                    for="tooltip-edit-${media.filename}"
-                    class="text-label"
-                  >
-                    Edit
-                  </quiet-tooltip>
+                    <quiet-tooltip
+                      distance="0"
+                      without-arrow
+                      for="tooltip-edit-${media.filename}"
+                      class="text-label"
+                    >
+                      Edit
+                    </quiet-tooltip>
 
-                  <quiet-button
-                    variant="neutral"
-                    slot="actions"
-                    icon-label="Remove"
-                    id="tooltip-remove-${media.filename}"
-                    data-on:click="evt.stopPropagation();"
-                  >
-                    <quiet-icon name="trash"></quiet-icon>
-                  </quiet-button>
+                    <quiet-button
+                      variant="destructive"
+                      icon-label="Remove"
+                      id="tooltip-remove-${media.filename}"
+                      data-on:click="@delete('/studio/media/${media.filename}')"
+                    >
+                      <quiet-icon name="trash"></quiet-icon>
+                    </quiet-button>
 
-                  <quiet-tooltip
-                    distance="0"
-                    without-arrow
-                    for="tooltip-remove-${media.filename}"
-                    class="text-label"
-                  >
-                    Remove
-                  </quiet-tooltip>
+                    <quiet-tooltip
+                      distance="0"
+                      without-arrow
+                      for="tooltip-remove-${media.filename}"
+                      class="text-label"
+                    >
+                      Remove
+                    </quiet-tooltip>
+                  </quiet-button-group>
                 </quiet-card>
               </li>`
             })}

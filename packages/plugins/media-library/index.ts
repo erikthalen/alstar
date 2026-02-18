@@ -13,6 +13,7 @@ import { type SQLInputValue } from 'node:sqlite'
 import fsp from 'node:fs/promises'
 import path from 'node:path'
 import { transformMedia } from './api/transform-media.ts'
+import { deleteMedia } from './api/delete-media.ts'
 
 declare module '@alstar/types' {
   interface FieldTypeMap {
@@ -138,6 +139,17 @@ export default () =>
       })
 
       return c.json({ status: 200, message: 'Success' })
+    })
+
+    app.delete('/media/:filename', (c) => {
+      try {
+        const filename = c.req.param('filename')
+
+        deleteMedia(api.database, filename)
+        return c.json({ status: 200 })
+      } catch (error) {
+        return c.json({ status: 500 })
+      }
     })
 
     return {

@@ -85,8 +85,6 @@ export const styles = css`
     border: 1px solid #270f0f;
     background-color: #140b0b;
 
-    border-radius: 8px;
-
     vscode-tree {
       padding: 0.25rem;
     }

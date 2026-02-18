@@ -1,20 +1,9 @@
 #clock_widget {
-  --brm: 1;
-
-  container-name: widget;
-  container-type: inline-size;
-
-  corner-shape: squircle;
-  border-radius: calc(12px * var(--brm));
   background: #0b0b0b;
-
-  @supports (corner-shape: squircle) {
-    --brm: 2;
-  }
+  border: 1px solid #1f1f1f;
 
   main {
     display: grid;
-    /* align-items: center; */
     gap: min(4cqi, 16px);
     padding: min(8cqi, 11px);
 
@@ -279,7 +268,7 @@
   }
 
   .today {
-    background: #ff1f05;
+    background: #ff3b25;
     color: white;
     border-radius: 50%;
   }

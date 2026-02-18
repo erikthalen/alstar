@@ -1,4 +1,5 @@
-import { eventEmitter } from '#event-emitter.ts'
+import { Entries } from '#components/index.ts'
+import { broadcastPatchElement, eventEmitter } from '#event-emitter.ts'
 import { createBlock, deleteBlock, setBlockStatus } from '#helpers/db/sql/index.ts'
 import { factory } from '@alstar/framework'
 import { BlockID, BlockStatus } from '@alstar/types'
@@ -8,6 +9,10 @@ export const api = factory.createApp()
 api.post('/block', (c) => {
   const datastar = c.get('datastar')
 
+  const name = datastar.signals?.name
+
+  if (!name) return c.json({ status: 500 })
+
   createBlock(
     datastar.signals as {
       type: string
@@ -16,6 +21,8 @@ api.post('/block', (c) => {
       parent_id: BlockID | null
     },
   )
+
+  broadcastPatchElement(Entries({ page: 1, name: name.toString() }))
 
   return c.json({ status: 200 })
 })

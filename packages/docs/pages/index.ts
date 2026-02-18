@@ -8,7 +8,8 @@ export default () => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Alstar Docs</title>
-        <link href="/main.css" rel="stylesheet">
+        <meta name="color-scheme" content="light dark" />
+        <link href="/main.css" rel="stylesheet" />
       </head>
       <body>
         <svg height="12" viewBox="0 0 1332 342" fill="none">
@@ -18,7 +19,7 @@ export default () => {
           />
         </svg>
 
-        <p class="text-xs">Coming soon</p>
+        <p>Coming soon</p>
       </body>
     </html>
   `

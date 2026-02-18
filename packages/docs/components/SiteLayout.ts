@@ -1,5 +1,5 @@
-import { html, raw, type HtmlEscapedString } from 'hono/html'
-import { hotReloadClient } from '../index.ts'
+import { html, raw } from 'hono/html'
+import { HtmlEscapedString } from 'hono/utils/html'
 
 export default (
   content: string | HtmlEscapedString | Promise<HtmlEscapedString>,
@@ -47,8 +47,6 @@ export default (
         <script defer>
           hljs.highlightAll()
         </script>
-
-        ${raw(hotReloadClient)}
       </head>
       <body>
         ${content}

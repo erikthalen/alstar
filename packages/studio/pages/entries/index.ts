@@ -1,6 +1,4 @@
 import { html } from 'hono/html'
-// import { defineEventHandler } from '#event-emitter.ts'
-import { createBlock } from '#helpers/db/sql/index.ts'
 import Entries from '#components/Entries.ts'
 import EntriesTypes from '#components/EntriesTypes.ts'
 import { Context } from 'hono'
@@ -11,19 +9,6 @@ export default (c: Context) => {
   const name = c.req.query('name')
 
   const structure = config.structure[name || '']
-
-  // const onNewEntryClick = defineEventHandler(() => {
-  //   if (!name || !structure.instanceOf.description) return
-
-  //   createBlock({
-  //     type: structure.instanceOf.description,
-  //     name: name,
-  //     label: structure?.label,
-  //     parent_id: null,
-  //   })
-
-  //   return [Entries({ page: 1, name })]
-  // })
 
   const newBlockPayload = JSON.stringify({
     type: structure.instanceOf.description,

@@ -63,12 +63,12 @@ export default () => {
         <div>S</div>
       </div>
       <div class="grid">
-        ${grid
-          .flat()
-          .map(
-            (cell) =>
-              html`<div class="cell ${cell.isToday ? 'today' : ''}">${cell.day ?? ''}</div>`,
-          )}
+        ${grid.flat().map((cell, idx) => {
+          if (idx > 19 && !cell.day) {
+            return ''
+          }
+          return html`<div class="cell ${cell.isToday ? 'today' : ''}">${cell.day ?? ''}</div>`
+        })}
       </div>
     </div>
   `
