@@ -1,6 +1,7 @@
 import { definePlugin } from '@alstar/framework'
 import { html } from 'hono/html'
 import clock from './clock.ts'
+import calendar from './calendar.ts'
 
 const widget = () => {
   const now = new Date()
@@ -37,6 +38,8 @@ const widget = () => {
         ${clock()}
 
         <span class="date">
+          ${calendar()}
+
           <p>${date}/${month}</p>
         </span>
       </main>
