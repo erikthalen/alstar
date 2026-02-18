@@ -97,7 +97,7 @@ export default async (
       <body data-init="@get('/studio/updates')">
         <vscode-split-layout
           fixed-pane="start"
-          initial-handle-position="200px"
+          initial-handle-position="74px"
           min-start="60px"
           style="border: none; --separator-border: transparent;"
           reset-on-dbl-click="true"

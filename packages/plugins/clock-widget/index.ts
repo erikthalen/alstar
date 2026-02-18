@@ -1,23 +1,23 @@
 import { definePlugin } from '@alstar/framework'
 import { html } from 'hono/html'
+import clock from './clock.ts'
 
 const widget = () => {
   const now = new Date()
 
   const seconds = now.getSeconds()
-  const secondsDegrees = (seconds / 60) * 360 + 90
+  const secondsDegrees = (seconds / 60) * 360
 
   const mins = now.getMinutes()
-  const minutesDegrees = (mins / 60) * 360 + (seconds / 60) * 6 + 90
+  const minutesDegrees = (mins / 60) * 360 + (seconds / 60) * 6
 
   const hour = now.getHours()
-  const hourDegrees = (hour / 12) * 360 + (mins / 60) * 30 + 90
+  const hourDegrees = (hour / 12) * 360 + (mins / 60) * 30
 
   const date = now.getDate()
   const month = now.getMonth()
 
   return html`
-    <!-- data-on-interval="$clockWidget.secondsDegrees += (360 / 60)" -->
     <div
       id="clock_widget"
       data-signals="{
@@ -34,12 +34,7 @@ const widget = () => {
       "
     >
       <main>
-        <div class="watch">
-          <div class="ticks"></div>
-          <span class="hour" data-style="{rotate: $clockWidget.hourDegrees + 'deg'}"></span>
-          <span class="minute" data-style="{rotate: $clockWidget.minutesDegrees + 'deg'}"></span>
-          <span class="second" data-style="{rotate: $clockWidget.secondsDegrees + 'deg'}"></span>
-        </div>
+        ${clock()}
 
         <span class="date">
           <p>${date}/${month}</p>

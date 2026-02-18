@@ -81,7 +81,7 @@ html.is-animating .transition-fade {
 html {
   font-size: var(--alstar-font-size);
   font-family: var(--alstar-font-family);
-  font-variant-numeric: tabular-nums slashed-zero;
+  /* font-variant-numeric: tabular-nums slashed-zero; */
   color: var(--alstar-foreground);
 
   user-select: none;
@@ -102,8 +102,8 @@ body {
   }
 }
 
-* {
-  font-size: 1rem;
+:where(*) {
+  font-size: 1em;
   box-sizing: border-box;
 }
 
