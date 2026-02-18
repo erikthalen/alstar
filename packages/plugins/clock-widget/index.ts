@@ -36,12 +36,8 @@ const widget = () => {
     >
       <main>
         ${clock()}
-
-        <span class="date">
-          ${calendar()}
-
-          <p>${date}/${month}</p>
-        </span>
+        <!--  -->
+        ${calendar()}
       </main>
     </div>
   `

@@ -1,27 +1,28 @@
 #clock_widget {
   --brm: 1;
 
+  container-name: widget;
   container-type: inline-size;
 
   corner-shape: squircle;
   border-radius: calc(12px * var(--brm));
-  background: #393939;
+  background: #0b0b0b;
 
   @supports (corner-shape: squircle) {
     --brm: 2;
   }
 
-  @container (width > 75px) {
-    padding: min(3%, 8px);
-  }
-
   main {
     display: grid;
-    align-items: center;
-    gap: min(8cqi, 16px);
+    /* align-items: center; */
+    gap: min(4cqi, 16px);
+    padding: min(8cqi, 11px);
 
-    @container (width > 200px) {
-      grid-template-columns: min(50%, 50px) 1fr;
+    @container widget (width > 75px) {
+    }
+
+    @container widget (width > 140px) {
+      grid-template-columns: max(33%, 50px) 1fr;
     }
   }
 
@@ -30,6 +31,7 @@
     --_r: calc((var(--_w) - var(--_sz)) / 2);
     --_sz: 20cqi;
 
+    container-name: clock;
     container-type: inline-size;
 
     display: grid;
@@ -42,20 +44,18 @@
   }
 
   .clock-face {
-    corner-shape: squircle;
-
     aspect-ratio: 1;
     background: var(--_bgc, #fff);
-    border-radius: calc(12px * var(--brm));
+    border-radius: 50%;
     block-size: var(--_w);
-    font-size: 20cqi;
+    font-size: 12cqi;
     font-weight: 700;
     list-style-type: none;
     inline-size: var(--_w);
     padding: unset;
     position: relative;
 
-    @container (width > 75px) {
+    @container widget (width > 75px) {
       corner-shape: round;
       border-radius: 50%;
       font-size: 12cqi;
@@ -81,7 +81,7 @@
 
     opacity: 0;
 
-    @container (width > 75px) {
+    @container widget (width > 75px) {
       opacity: 1;
     }
   }
@@ -103,84 +103,36 @@
   }
   .clock-face time:nth-child(2) {
     --_d: 300deg;
-
-    opacity: 0;
-
-    @container (width > 75px) {
-      opacity: 1;
-    }
   }
   .clock-face time:nth-child(3) {
     --_d: 330deg;
-
-    opacity: 0;
-
-    @container (width > 75px) {
-      opacity: 1;
-    }
   }
   .clock-face time:nth-child(4) {
     --_d: 0deg;
   }
   .clock-face time:nth-child(5) {
     --_d: 30deg;
-
-    opacity: 0;
-
-    @container (width > 75px) {
-      opacity: 1;
-    }
   }
   .clock-face time:nth-child(6) {
     --_d: 60deg;
-
-    opacity: 0;
-
-    @container (width > 75px) {
-      opacity: 1;
-    }
   }
   .clock-face time:nth-child(7) {
     --_d: 90deg;
   }
   .clock-face time:nth-child(8) {
     --_d: 120deg;
-
-    opacity: 0;
-
-    @container (width > 75px) {
-      opacity: 1;
-    }
   }
   .clock-face time:nth-child(9) {
     --_d: 150deg;
-
-    opacity: 0;
-
-    @container (width > 75px) {
-      opacity: 1;
-    }
   }
   .clock-face time:nth-child(10) {
     --_d: 180deg;
   }
   .clock-face time:nth-child(11) {
     --_d: 210deg;
-
-    opacity: 0;
-
-    @container (width > 75px) {
-      opacity: 1;
-    }
   }
   .clock-face time:nth-child(12) {
     --_d: 240deg;
-
-    opacity: 0;
-
-    @container (width > 75px) {
-      opacity: 1;
-    }
   }
 
   .arm {
@@ -292,15 +244,43 @@
       display: block;
     }
   }
+}
 
-  .date {
-    @container (width < 100px) {
-      display: none;
-    }
+.calendar {
+  display: inline-block;
+  font-size: 5cqi;
+  letter-spacing: 0.1em;
 
-    p {
-      margin: 0;
-      font-size: min(16cqi, 26px);
-    }
+  @container widget (width < 141px) {
+    display: none;
+  }
+
+  .weekdays,
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .weekdays {
+    display: none;
+  }
+
+  .weekdays div {
+    display: grid;
+    aspect-ratio: 1;
+    place-content: center;
+  }
+
+  .cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+  }
+
+  .today {
+    background: #ff1f05;
+    color: white;
+    border-radius: 50%;
   }
 }

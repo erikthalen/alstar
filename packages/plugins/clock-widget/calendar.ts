@@ -52,25 +52,24 @@ export default () => {
   const grid = generateCalendarGrid()
 
   return html`
-    <div class="weekdays">
-      <div>M</div>
-      <div>T</div>
-      <div>W</div>
-      <div>T</div>
-      <div>F</div>
-      <div>S</div>
-      <div>S</div>
-    </div>
-    <div class="grid">
-      ${grid
-        .flat()
-        .map(
-          (cell) =>
-            `<div class="cell ${cell.isToday ? 'today' : ''}">
-          ${cell.day ?? ''}
-        </div>`,
-        )
-        .join('')}
+    <div class="calendar">
+      <div class="weekdays">
+        <div>M</div>
+        <div>T</div>
+        <div>W</div>
+        <div>T</div>
+        <div>F</div>
+        <div>S</div>
+        <div>S</div>
+      </div>
+      <div class="grid">
+        ${grid
+          .flat()
+          .map(
+            (cell) =>
+              html`<div class="cell ${cell.isToday ? 'today' : ''}">${cell.day ?? ''}</div>`,
+          )}
+      </div>
     </div>
   `
 }

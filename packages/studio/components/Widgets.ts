@@ -5,10 +5,10 @@ import { Widget } from '@alstar/types'
 
 export default (c: Context, widgets: Widget[]) => {
   if (!Array.isArray(widgets)) {
-    return html`<div class="widgets px-2">No widgets</div>`
+    return html`<div class="widgets pl-1">No widgets</div>`
   }
 
-  return html`<div class="widgets px-2">${widgets.map((widget) => widget(c))}</div>`
+  return html`<div class="widgets pl-1">${widgets.map((widget) => widget(c))}</div>`
 }
 
 export const styles = css`

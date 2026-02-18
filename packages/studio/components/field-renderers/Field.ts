@@ -1,7 +1,8 @@
 import { fields } from '#index.ts'
+import { css } from '@alstar/framework'
 import { html } from 'hono/html'
 
-export default ({ structure, id }: { structure: any, id: number | `${number}` }) => {
+export default ({ structure, id }: { structure: any; id: number | `${number}` }) => {
   const field = fields.get(structure.type)
 
   if (!field || typeof field !== 'function') {
@@ -15,7 +16,9 @@ export default ({ structure, id }: { structure: any, id: number | `${number}` })
     return html` <div class="field" id="field_${id}">
       <vscode-form-container responsive>
         <vscode-form-group>
-          <vscode-label> ${structure.label} </vscode-label>
+          <vscode-label>
+            <span>${structure.label}</span>
+          </vscode-label>
 
           ${field(id)}
 
@@ -27,3 +30,17 @@ export default ({ structure, id }: { structure: any, id: number | `${number}` })
     </div>`
   }
 }
+
+export const styles = css`
+  .field {
+    vscode-label {
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+        display: inline-block;
+      }
+    }
+  }
+`
