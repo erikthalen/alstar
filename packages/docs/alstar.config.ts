@@ -38,6 +38,7 @@ export default {
         description: defineField({
           label: 'Description',
           type: 'text',
+          description: 'This is a description'
         }),
         text: defineField({
           label: 'Text',

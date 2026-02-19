@@ -37,7 +37,8 @@ export default (c: Context) => {
                   icon-label="New entry"
                   data-on:click="@post('/studio/block', { payload: ${newBlockPayload} })"
                 >
-                  <quiet-icon name="file-plus"></quiet-icon>
+                  <quiet-icon slot="start" name="file-plus"></quiet-icon>
+                  New entry
                 </quiet-button>
 
                 <quiet-tooltip

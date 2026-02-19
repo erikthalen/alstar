@@ -11,6 +11,7 @@ import { css } from '@alstar/framework'
 import { SQLInputValue } from 'node:sqlite'
 import { mediaCachePath, mediaPath } from '../api/create-media.ts'
 import MediaLibraryEditor from '../components/MediaLibraryEditor.ts'
+import EmptyState from '../components/EmptyState.ts'
 
 const fileStats = async (filepath: string) => {
   try {
@@ -49,6 +50,7 @@ export default async ({ database }: PluginArgs) => {
     <style>
       ${styles}
     </style>
+
     <div id="media_library" class="media-library">
       <!-- <quiet-file-input
         data-on:quiet-change="$files = evt.target.files;"
@@ -60,116 +62,100 @@ export default async ({ database }: PluginArgs) => {
 
       ${medias?.length
         ? html`<ul>
-            ${medias.map(async (media) => {
-              // const handleOpenMediaEditor = defineEventHandler(
-              //   ({ patchElements }) => {
-              //     patchElements(MediaLibraryEditor({ filename: media.filename }), { them: false })
-              //   },
-              //   { id: media.filename },
-              // )
+              ${medias.map(async (media) => {
+                return html`<li>
+                  <quiet-card orientation="horizontal">
+                    <img
+                      slot="media"
+                      src="${getThumbnailUrl(media.filename?.toString())}"
+                      alt="The image"
+                    />
 
-              // const handleRemoveMedia = defineEventHandler(
-              //   async () => {
-              //     await deleteMedia(media.filename)
-              //     return [Component()]
-              //   },
-              //   { id: media.filename },
-              // )
+                    <span class="content">
+                      ${media.name}
 
-              return html`<li>
-                <quiet-card orientation="horizontal">
-                  <img
-                    slot="media"
-                    src="${getThumbnailUrl(media.filename?.toString())}"
-                    alt="The image"
-                  />
+                      <code>${media.width} x ${media.height}</code>
+                      <code>
+                        <quiet-bytes
+                          value="${await fileStats(path.join(mediaPath, media.filename))}"
+                        >
+                        </quiet-bytes>
+                      </code>
+                    </span>
 
-                  <span class="content">
-                    ${media.name}
+                    <quiet-button-group slot="actions">
+                      <quiet-button
+                        data-dialog="open dialog_editor"
+                        type="submit"
+                        icon-label="Select"
+                        id="tooltip-edit-${media.filename}"
+                        data-on:click="evt.target.dispatchEvent(new CustomEvent('input', { detail: '${media.filename}', bubbles: true }))"
+                      >
+                        <quiet-icon name="edit"></quiet-icon>
+                      </quiet-button>
 
-                    <code>${media.width} x ${media.height}</code>
-                    <code>
-                      <quiet-bytes value="${await fileStats(path.join(mediaPath, media.filename))}">
-                      </quiet-bytes>
-                    </code>
-                  </span>
+                      <quiet-tooltip
+                        distance="0"
+                        without-arrow
+                        for="tooltip-edit-${media.filename}"
+                        class="text-label"
+                      >
+                        Edit
+                      </quiet-tooltip>
 
-                  <quiet-button-group slot="actions">
-                    <quiet-button
-                      data-dialog="open dialog_editor"
-                      type="submit"
-                      icon-label="Select"
-                      id="tooltip-edit-${media.filename}"
-                      data-on:click="evt.target.dispatchEvent(new CustomEvent('input', { detail: '${media.filename}', bubbles: true }))"
-                    >
-                      <quiet-icon name="edit"></quiet-icon>
-                    </quiet-button>
+                      <quiet-button
+                        variant="destructive"
+                        icon-label="Remove"
+                        id="tooltip-remove-${media.filename}"
+                        data-on:click="@delete('/studio/media/${media.filename}')"
+                      >
+                        <quiet-icon name="trash"></quiet-icon>
+                      </quiet-button>
 
-                    <quiet-tooltip
-                      distance="0"
-                      without-arrow
-                      for="tooltip-edit-${media.filename}"
-                      class="text-label"
-                    >
-                      Edit
-                    </quiet-tooltip>
+                      <quiet-tooltip
+                        distance="0"
+                        without-arrow
+                        for="tooltip-remove-${media.filename}"
+                        class="text-label"
+                      >
+                        Remove
+                      </quiet-tooltip>
+                    </quiet-button-group>
+                  </quiet-card>
+                </li>`
+              })}
+            </ul>
 
-                    <quiet-button
-                      variant="destructive"
-                      icon-label="Remove"
-                      id="tooltip-remove-${media.filename}"
-                      data-on:click="@delete('/studio/media/${media.filename}')"
-                    >
-                      <quiet-icon name="trash"></quiet-icon>
-                    </quiet-button>
+            <quiet-button
+              variant="neutral"
+              icon-label="Upload"
+              data-on:click="document.getElementById('media_library_file_input').click()"
+            >
+              <quiet-icon slot="start" name="cloud-upload"></quiet-icon>
+              Upload
+            </quiet-button>
 
-                    <quiet-tooltip
-                      distance="0"
-                      without-arrow
-                      for="tooltip-remove-${media.filename}"
-                      class="text-label"
-                    >
-                      Remove
-                    </quiet-tooltip>
-                  </quiet-button-group>
-                </quiet-card>
-              </li>`
-            })}
-          </ul>`
-        : html`<quiet-callout style="margin-block: 1rem;" variant="neutral">
-            <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
-            No media uploaded
-          </quiet-callout>`}
+            <input
+              data-bind:files
+              data-on:input="setTimeout(() => { @post('/studio/media/upload', { filterSignals: '/files/' }); $files = null }, 100)"
+              multiple
+              type="file"
+              id="media_library_file_input"
+              style="display: none;"
+            />
 
-      <quiet-button
-        variant="neutral"
-        icon-label="Upload"
-        data-on:click="document.getElementById('media_library_file_input').click()"
-      >
-        <quiet-icon slot="start" name="cloud-upload"></quiet-icon>
-        Upload
-      </quiet-button>
+            <quiet-divider></quiet-divider>
 
-      <input
-        data-bind:files
-        data-on:input="setTimeout(() => { @post('/studio/media/upload', { filterSignals: '/files/' }); $files = null }, 100)"
-        multiple
-        type="file"
-        id="media_library_file_input"
-        style="display: none;"
-      />
+            <quiet-callout variant="neutral">
+              Total size of cached folder:
+              <quiet-bytes value="${cacheFolderStats}"></quiet-bytes>
+            </quiet-callout> `
+        : EmptyState()}
 
-      <quiet-divider></quiet-divider>
-
-      <p>
-        Total size of cached folder:
-        <quiet-bytes value="${cacheFolderStats}"></quiet-bytes>
-      </p>
+      <quiet-dialog class="media-library-editor-dialog" id="dialog_editor" light-dismiss>
+        ${MediaLibraryEditor({ filename: null })}
+      </quiet-dialog>
     </div>
-
-    <quiet-dialog class="media-library-editor-dialog" id="dialog_editor" light-dismiss>
-      ${MediaLibraryEditor({ filename: null })}
-    </quiet-dialog>
   `
 }
 

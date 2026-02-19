@@ -49,14 +49,27 @@ export default definePlugin((api) => {
           if (!data) return html`<p>No block</p>`
 
           return html`
-            <vscode-textfield
+            <quiet-text-field
+              class="quiet-side-label"
+              style="--label-width: 8ch;"
+              label="Description"
+              name="name"
               id="field_${id}"
               data-signals="{ ${id}: '${data.value}' }"
               data-bind:${id}
               data-on:input="@post('/studio/text-field/${id}')"
             >
-            </vscode-textfield>
+            </quiet-text-field>
           `
+          // return html`
+          //   <vscode-textfield
+          //     id="field_${id}"
+          //     data-signals="{ ${id}: '${data.value}' }"
+          //     data-bind:${id}
+          //     data-on:input="@post('/studio/text-field/${id}')"
+          //   >
+          //   </vscode-textfield>
+          // `
         },
       },
     ],
