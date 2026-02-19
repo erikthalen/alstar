@@ -63,11 +63,6 @@ export default async (
           crossorigin="anonymous"
         ></script>
 
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/vs2015.min.css"
-        />
-
         <script type="importmap">
           {
             "imports": {
