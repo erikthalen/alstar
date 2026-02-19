@@ -5,7 +5,7 @@ import {
   defineCollection,
   defineStructure,
   defineSingle,
-} from '@alstar/studio/structure'
+} from '@alstar/studio/define'
 
 export default {
   database: process.env.HOT_RELOAD === 'true' ? './studio.db' : '/data/app.db',

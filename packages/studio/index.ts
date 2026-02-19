@@ -1,8 +1,8 @@
 import path from 'node:path'
 import fsp from 'node:fs/promises'
 import { serveStatic } from '@hono/node-server/serve-static'
-import { hotReload, hotReloadMiddleware } from '@alstar/studio/hot-reload'
-import { datastar } from '@alstar/studio/hono-datastar'
+import { hotReload, hotReloadMiddleware } from './helpers/hot-reload/hot-reload.ts'
+import { datastar } from './helpers/hono-datastar/index.ts'
 
 import routes from './routes.ts'
 import { api } from './api/index.ts'
@@ -253,3 +253,5 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
 export { createStudio, version, config, database, studioRoot }
 
 export type { AuthType }
+
+export * from './utils/define.ts'
