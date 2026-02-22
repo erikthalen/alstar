@@ -2,9 +2,9 @@ import type { Context, Hono } from 'hono'
 import type { HtmlEscapedString } from 'hono/utils/html'
 import type { DatabaseSync } from 'node:sqlite'
 import type { Sql } from 'sql-template-tag'
-import type { DBBlockResult, DBPrimitiveFieldResult } from './database.ts'
+import type { DBBlockResult } from './database.ts'
 import type EventEmitter from 'node:events'
-import { StudioConfig } from './index.ts'
+import { DBRow, StudioConfig } from './index.ts'
 import { FieldTypeMap } from './structure.ts'
 
 export type Component = HtmlEscapedString | Promise<HtmlEscapedString>
@@ -18,9 +18,7 @@ export type FieldComponent<T extends keyof FieldTypeMap> = (
   props: FieldStructure<T>,
 ) => Component
 
-export type FieldHandler<T extends keyof FieldTypeMap> = (
-  row: DBPrimitiveFieldResult,
-) => FieldTypeMap[T]['returns']
+export type FieldHandler<T extends keyof FieldTypeMap> = (row: DBRow) => FieldTypeMap[T]['returns']
 
 export type Field<T extends keyof FieldTypeMap> = {
   type: T

@@ -47,7 +47,14 @@ export default () =>
 
       // return cached image if request is for transformed image that exists in cache
       if (requestHasQuery) {
-        const query = sql`select * from media_transforms where filename = ${fullname}`
+        const query = sql`
+          select
+            *
+          from
+            media_transforms
+          where
+            filename = ${fullname}
+        `
 
         const cachedImage = api.database
           .prepare(query.sql)
@@ -58,7 +65,14 @@ export default () =>
         }
       }
 
-      const getMediaQuery = sql`select * from media where filename = ${filename}`
+      const getMediaQuery = sql`
+        select
+          *
+        from
+          media
+        where
+          filename = ${filename}
+      `
 
       const originalImage = api.database
         .prepare(getMediaQuery.sql)
@@ -174,9 +188,16 @@ export default () =>
           type: 'image',
           component: ImageField(api),
           handler: (row) => {
-            if(!row.value) return null
-            
-            const getMediaQuery = sql`select * from media where filename = ${row.value}`
+            if (!row.value) return null
+
+            const getMediaQuery = sql`
+              select
+                *
+              from
+                media
+              where
+                filename = ${row.value}
+            `
 
             const originalImage = api.database
               .prepare(getMediaQuery.sql)

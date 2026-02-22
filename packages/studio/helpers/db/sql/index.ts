@@ -1,8 +1,8 @@
 import type { UserSettings } from '../../../types.ts'
-import type { BlockStatus, DBBlockResult, FieldTypeMap } from '@alstar/types'
+import type { BlockStatus, DBBlockResult, DBRow, FieldTypeMap } from '@alstar/types'
 import { sql } from '../../../utils/sql.ts'
 import { sqlQueryRoot } from './queries/root.ts'
-import type { DBRow, TODO } from './types.ts'
+import type { TODO } from './types.ts'
 import { database, fields, type AuthType } from '../../../index.ts'
 
 function buildFilterSql(params: Record<string, any>) {
