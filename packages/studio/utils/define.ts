@@ -14,9 +14,10 @@ import {
   BlockInstance,
   SingleInstance,
   CollectionInstance,
+  FieldTypeMap,
 } from '@alstar/types'
 
-export function defineField(field: FieldType): FieldInstanceType {
+export function defineField<T extends keyof FieldTypeMap>(field: FieldType<T>): FieldInstanceType {
   return {
     ...field,
     instanceOf: FieldInstance,

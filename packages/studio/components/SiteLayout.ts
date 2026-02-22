@@ -20,8 +20,7 @@ export default async (
 
   const session = c.get('session')
 
-  return html`
-    <!DOCTYPE html>
+  return html`<!DOCTYPE html>
     <html lang="en" class="quiet-cloak quiet-dark quiet-zinc">
       <head>
         <!-- <script>
@@ -42,6 +41,7 @@ export default async (
 
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
         <title>${title}Alstar Studio</title>
 
         <link rel="icon" type="image/svg" href="/studio/favicon.svg" />
@@ -69,8 +69,7 @@ export default async (
               "swup": "https://esm.sh/swup@4",
               "sortablejs": "https://esm.sh/sortablejs@1.15.6/modular/sortable.core.esm.js",
               "@quietui/quiet": "/studio/quiet/dist/quiet.js",
-              "better-auth/client": "https://esm.sh/better-auth@1.3.34/client",
-              "lit": "https://esm.sh/lit"
+              "better-auth/client": "https://esm.sh/better-auth@1.3.34/client"
             }
           }
         </script>
@@ -108,6 +107,5 @@ export default async (
           </div>
         </vscode-split-layout>
       </body>
-    </html>
-  `
+    </html> `
 }

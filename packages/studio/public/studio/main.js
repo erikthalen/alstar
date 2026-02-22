@@ -3,7 +3,6 @@ import './js/auth.js'
 import './js/sortable-list.js'
 import './js/live-preview.js'
 import './js/settings-tabs.js'
-import './js/split-pane.js'
 
 import './js/RegisterForm.js'
 
@@ -25,7 +24,6 @@ function hydrateLinks() {
   abortController = new AbortController()
 
   document.querySelectorAll('*[href]').forEach((link) => {
-    // console.log(link)
     link.addEventListener(
       'click',
       (e) => {
@@ -45,7 +43,5 @@ swup.hooks.on('page:view', () => {
 })
 
 swup.hooks.on('visit:end', (visit) => {
-  window.dispatchEvent(
-    new CustomEvent('tabs:update', { name: visit.to.url, href: visit.to.url }),
-  )
+  window.dispatchEvent(new CustomEvent('tabs:update', { name: visit.to.url, href: visit.to.url }))
 })

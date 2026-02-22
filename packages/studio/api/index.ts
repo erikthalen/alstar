@@ -1,6 +1,14 @@
+import BlockField from '#components/field-renderers/BlockField.ts'
+import FieldPatch from '#components/field-renderers/FieldPatch.ts'
 import { Entries } from '#components/index.ts'
 import { broadcastPatchElement, eventEmitter } from '#event-emitter.ts'
-import { createBlock, deleteBlock, setBlockStatus } from '#helpers/db/sql/index.ts'
+import {
+  createBlock,
+  deleteBlock,
+  getEntry,
+  getField,
+  setBlockStatus,
+} from '#helpers/db/sql/index.ts'
 import { factory } from '@alstar/framework'
 import { BlockID, BlockStatus } from '@alstar/types'
 
@@ -13,16 +21,29 @@ api.post('/block', (c) => {
 
   if (!name) return c.json({ status: 500 })
 
-  createBlock(
-    datastar.signals as {
-      type: string
-      name: string
-      label: string
-      parent_id: BlockID | null
-    },
-  )
+  const payload = datastar.signals as {
+    id: BlockID | undefined
+    type: string
+    name: string
+    label: string
+    parent_id: BlockID | null
+  }
 
-  broadcastPatchElement(Entries({ page: 1, name: name.toString() }))
+  createBlock(payload)
+
+  if (payload.parent_id !== null) {
+    const entry = getEntry({ id: payload.parent_id })
+
+    if (entry) {
+      eventEmitter.emit('entry-updated', { id: entry.id })
+    }
+  } else {
+    broadcastPatchElement(Entries({ page: 1, name: name.toString() }))
+  }
+
+  if (payload.id !== undefined) {
+    broadcastPatchElement(BlockField({ id: payload.id }))
+  }
 
   return c.json({ status: 200 })
 })
@@ -45,15 +66,22 @@ api.post('/block/status/:id/:name', (c) => {
   return c.json({ status: 200 })
 })
 
-api.delete('/block/:id/:name', (c) => {
+api.delete('/block/:id/:name?', (c) => {
   const id = c.req.param('id') as BlockID
   const name = c.req.param('name')
+  const block = getField({ id })
 
   deleteBlock(id)
 
   eventEmitter.emit('entry-updated', { id })
 
-  broadcastPatchElement(Entries({ page: 1, name: name.toString() }))
+  if (name) {
+    broadcastPatchElement(Entries({ page: 1, name: name.toString() }))
+  } else {
+    if (block?.parent_id) {
+      broadcastPatchElement(BlockField({ id: block.parent_id }))
+    }
+  }
 
   return c.json({ status: 200 })
 })

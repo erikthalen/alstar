@@ -4,19 +4,27 @@
   --ink-editor-line-height: 1.6;
 
   --ink-block-background-color-on-hover: var(--border-color);
-  --ink-block-background-color: #3c3c3c;
+
+  --ink-block-background-color: var(--quiet-neutral-stroke-soft);
   --ink-toolbar-group-spacing: var(--unit);
+}
+
+.markdown-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.25em;
+  line-height: 1.25;
 }
 
 markdown-editor {
   display: flex;
-  width: 320px;
   max-width: 100%;
 }
 
 .ink.ink-mde {
   border-width: 1px;
-  background-color: #313131;
+  background-color: var(--quiet-paper-color);
   max-width: inherit;
 
   .ink-mde-toolbar {
@@ -38,12 +46,16 @@ markdown-editor {
 
   .ink-mde-editor {
     padding: 3px 4px;
-    min-height: 4lh;
+    min-height: 10lh;
 
     .cm-editor,
     .cm-scroller,
     .cm-content {
       min-height: inherit;
+    }
+
+    .cm-editor.cm-focused {
+      outline: none;
     }
   }
 }

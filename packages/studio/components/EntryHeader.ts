@@ -54,7 +54,7 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
           effect="scale"
           id="tooltip-disable-${entryId}"
           data-attr:checked="$${entryId}.status === 'enabled'"
-          data-on:quiet-change="$${entryId}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${entryId}')"
+          data-on:quiet-change="$${entryId}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${entryId}/${data.name}')"
         >
           <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
 

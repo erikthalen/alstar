@@ -1,7 +1,7 @@
 import { getOrCreateRow } from '#utils/get-or-create-row.ts'
 import { html } from 'hono/html'
-import { Field } from '../fields/index.ts'
 import { BlockFieldInstanceType } from '@alstar/types'
+import BlockField from './BlockField.ts'
 
 export default (props: {
   parentId: number | string
@@ -22,5 +22,5 @@ export default (props: {
 
   if (!data) return html`<p>No block</p>`
 
-  return html` ${Field.BlockField({ id: data.id })} `
+  return html` ${BlockField({ id: data.id })} `
 }

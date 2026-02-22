@@ -13,5 +13,3 @@ export { default as EditedBy } from './utils/EditedBy.ts'
 export { default as ApiKeys } from './settings/ApiKeys.ts'
 export { default as Backups } from './settings/Backups.ts'
 export { default as Users } from './settings/Users.ts'
-
-export * from './fields/index.ts'

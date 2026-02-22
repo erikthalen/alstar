@@ -15,6 +15,9 @@ catalogs:
     hono:
       specifier: 4.11.9
       version: 4.11.9
+    sql-template-tag:
+      specifier: 5.2.1
+      version: 5.2.1
 
 importers:
 
@@ -195,6 +198,9 @@ importers:
       shiki:
         specifier: ^3.22.0
         version: 3.22.0
+      sql-template-tag:
+        specifier: 'catalog:'
+        version: 5.2.1
     devDependencies:
       '@types/node':
         specifier: 'catalog:'

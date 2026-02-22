@@ -1,22 +1,12 @@
 import { html } from 'hono/html'
-import {
-  createBlock,
-  deleteBlock,
-  getFields,
-  setBlockOption,
-  setBlockStatus,
-  setUpdatedAt,
-} from '#helpers/db/sql/index.ts'
+import { getFields } from '#helpers/db/sql/index.ts'
 import { getStructureOfField } from '#utils/get-structure-of-field.ts'
-// import { defineEventHandler } from '#event-emitter.ts'
 import Render from '#components/field-renderers/Render.ts'
-import EntryHeader from '#components/EntryHeader.ts'
-import LivePreviewContent from '#components/live-preview/LivePreviewContent.ts'
 import { BlockFieldInstanceType } from '@alstar/types'
 
-const Component = ({ id }: { id: number | string }) => {
+export default ({ id }: { id: number | string }) => {
   const structure = getStructureOfField(id) as BlockFieldInstanceType
-  const entries = Object.entries(structure.blocks)
+  const children = Object.entries(structure.blocks)
   const rows = getFields({ parent_id: id })
 
   return html` <div id="field_${id}" class="blocks-field">
@@ -28,28 +18,18 @@ const Component = ({ id }: { id: number | string }) => {
 
         <h3>Type</h3>
 
-        ${entries.map(([name, block]) => {
-          // const createNewBlock = defineEventHandler(
-          //   ({ signals }) => {
-          //     const entryId = signals.entry.id
-
-          //     createBlock({
-          //       name: name,
-          //       label: block.label,
-          //       type: block.instanceOf.description as string,
-          //       parent_id: id,
-          //       sort_order: rows.length,
-          //     })
-
-          //     setUpdatedAt(entryId)
-
-          //     return [Component({ id }), EntryHeader({ entryId }), LivePreviewContent({ entryId })]
-          //   },
-          //   { id: name + rows.length, once: true },
-          // )
+        ${children.map(([name, block]) => {
+          const payload = JSON.stringify({
+            id: id,
+            name: name,
+            label: block.label,
+            type: block.instanceOf.description as string,
+            parent_id: id,
+            sort_order: rows.length,
+          })
 
           return html`
-            <quiet-dropdown-item data-on:click="{createNewBlock}">
+            <quiet-dropdown-item data-on:click="@post('/studio/block', { payload: ${payload} })">
               ${'icon' in block && block.icon
                 ? html` <quiet-icon slot="icon" name=${block.icon}></quiet-icon>`
                 : ''}
@@ -62,9 +42,11 @@ const Component = ({ id }: { id: number | string }) => {
 
     <sortable-list data-id="${id}">
       ${rows.map((row) => {
-        const [name, blockStructure] = entries.find(([name]) => name === row.name) || []
+        const [name, blockStructure] = children.find(([name]) => name === row.name) || []
 
         if (!name || !blockStructure) return html`<p>No name</p>`
+
+        // console.log(blockStructure)
 
         // const deleteItem = defineEventHandler(
         //   ({ signals }) => {
@@ -199,7 +181,7 @@ const Component = ({ id }: { id: number | string }) => {
                   variant="neutral"
                   icon-label="Remove"
                   id="tooltip-remove-${row.id}"
-                  data-on:click={deleteItem}
+                  data-on:click="@delete('/studio/block/${row.id}')"
                 >
                   <quiet-icon name="x"></quiet-icon>
                 </quiet-button>
@@ -229,5 +211,3 @@ const Component = ({ id }: { id: number | string }) => {
     </sortable-list>
   </div>`
 }
-
-export default Component

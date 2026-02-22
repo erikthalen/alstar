@@ -1,7 +1,8 @@
 import { getField } from '../helpers/db/sql/index.ts'
 import { FieldInstance, type InstanceType } from '@alstar/types'
 import { database } from '../index.ts'
-import { sql } from './sql.ts'
+import sql from 'sql-template-tag'
+import { SQLInputValue } from 'node:sqlite'
 
 export function getOrCreateRow(props: {
   parentId: string | number | null
@@ -33,11 +34,9 @@ export function getOrCreateRow(props: {
     return
   }
 
-  const change = database
-    .prepare(
-      sql`insert into block (name, label, type, sort_order, parent_id) values (?, ?, ?, ?, ?);`,
-    )
-    .run(name?.toString(), field.label?.toString(), type, sortOrder, parentId)
+  const query = sql`insert into block (name, label, type, sort_order, parent_id) values (${name?.toString()}, ${field.label?.toString()}, ${type}, ${sortOrder}, ${parentId});`
+
+  const change = database.prepare(query.sql).run(...(query.values as SQLInputValue[]))
 
   return getField({ id: change.lastInsertRowid.toString() })
 }

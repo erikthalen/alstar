@@ -5,8 +5,11 @@ declare module '@alstar/types' {
   interface FieldTypeMap {
     svg: {
       type: 'svg'
-      label: string
-      description?: string
+      props: {
+        label: string
+        description?: string
+      }
+      returns: string
     }
   }
 }
@@ -42,7 +45,7 @@ export default definePlugin((api) => {
     app,
     fields: [
       {
-        name: 'svg',
+        type: 'svg',
         component: (id: number | `${number}`) => {
           const data = api.query.getField({ id })
 

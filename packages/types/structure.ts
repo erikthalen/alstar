@@ -8,14 +8,18 @@ export const SingleInstance = Symbol.for('single')
  * Fields
  */
 export interface FieldTypeMap {
-  title: TitleField
-  slug: SlugField
-  reference: ReferenceField
+  title: { type: 'title'; props: TitleField; returns: string }
+  slug: { type: 'slug'; props: SlugField; returns: string }
+  reference: { type: 'reference'; props: ReferenceField; returns: string }
 }
 
-export type FieldType = FieldTypeMap[keyof FieldTypeMap]
+export type FieldType<T extends keyof FieldTypeMap = keyof FieldTypeMap> = {
+  type: T
+} & FieldTypeMap[T]['props']
 
-export type FieldInstanceType = FieldType & { instanceOf: typeof FieldInstance }
+export type FieldInstanceType = FieldType & {
+  instanceOf: typeof FieldInstance
+}
 
 /**
  * Title
@@ -31,7 +35,6 @@ export type TitleField = {
  */
 export type SlugField = {
   label: string
-  description?: string
   type: 'slug'
 }
 
@@ -52,7 +55,7 @@ export type BlockFields = Record<string, FieldInstanceType | BlockFieldInstanceT
 export type BlockFieldType = {
   label: string
   description?: string
-  blocks: Record<string, BlockInstanceType | FieldInstanceType>
+  blocks: Record<string, BlockInstanceType>
 }
 
 export type BlockFieldInstanceType = BlockFieldType & {

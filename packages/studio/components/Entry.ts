@@ -3,6 +3,7 @@ import { config } from '#index.ts'
 import Render from '#components/field-renderers/Render.ts'
 import EntryHeader from '#components/EntryHeader.ts'
 import { getField } from '#helpers/db/sql/index.ts'
+import { css } from '@alstar/framework'
 
 export default ({ entryId }: { entryId: `${number}` | number }) => {
   const data = getField({ id: entryId })

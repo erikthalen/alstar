@@ -19,7 +19,7 @@ import { applyMigrations } from './utils/apply-migrations.ts'
 import { getDatabase } from './helpers/db/index.ts'
 import SiteLayout from '#components/SiteLayout.ts'
 import mediaLibrary from '@alstar/media-library'
-import type { FieldHandler, StudioConfig } from '@alstar/types'
+import type { Field, FieldComponent, FieldHandler, FieldTypeMap, StudioConfig } from '@alstar/types'
 import { getField } from '#helpers/db/sql/index.ts'
 import { factory } from '@alstar/framework'
 import Clock from '@alstar/clock-widget'
@@ -70,7 +70,9 @@ type StudioRuntimeConfig = {
   enableHotReload?: boolean
 }
 
-export let fields = new Map<string, FieldHandler>()
+export let fields: Partial<
+  Record<keyof FieldTypeMap, { component: FieldComponent<any>; handler?: FieldHandler<any> }>
+> = {}
 
 const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
   const {
@@ -184,9 +186,16 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
       }
     }
 
+    function registerField<K extends keyof FieldTypeMap>(field: Field<K>) {
+      fields[field.type] = {
+        component: field.component,
+        handler: field.handler
+      }
+    }
+
     if (plugin.fields?.length) {
       for (const field of plugin.fields) {
-        fields.set(field.name, field.component)
+        registerField(field as Field<keyof FieldTypeMap>)
       }
     }
 

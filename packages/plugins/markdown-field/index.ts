@@ -6,8 +6,11 @@ declare module '@alstar/types' {
   interface FieldTypeMap {
     markdown: {
       type: 'markdown'
-      label: string
-      description?: string
+      props: {
+        label: string
+        description?: string
+      }
+      returns: string
     }
   }
 }
@@ -57,8 +60,8 @@ export default definePlugin((api) => {
     ],
     fields: [
       {
-        name: 'markdown',
-        component: async (id: number | `${number}`) => {
+        type: 'markdown',
+        component: async (id: number | `${number}`, structure) => {
           if (!id) {
             return html`<p>No id provided</p>`
           }
@@ -71,7 +74,10 @@ export default definePlugin((api) => {
           }
 
           return html`
-            <div id="markdown_${id}">
+            <div id="markdown_${id}" class="markdown-field">
+              <span class="field-label">${structure.label}</span>
+              <span class="field-description">${structure.description}</span>
+              
               <markdown-editor
                 data-signals="{ ${id}: '${base64String}' }"
                 data-value="${base64String}"
