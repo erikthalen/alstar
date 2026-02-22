@@ -20,7 +20,7 @@ export default async ({ api, id }: { api: PluginArgs; id: number | `${number}` }
   }
 
   return html`
-    <div id="media_library_dialog_content" class="media-library-dialog">
+    <div id="media_library_dialog_content_${id}" class="media-library-dialog">
       <style>
         ${styles}
       </style>

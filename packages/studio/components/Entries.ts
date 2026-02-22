@@ -53,9 +53,8 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                       label="Disable"
                       effect="scale"
                       id="tooltip-disable-${block.id}"
-                      size="xs"
                       data-attr:checked="$${block.id}.status === 'enabled'"
-                      data-on:quiet-change="$${block.id}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${block.id}')"
+                      data-on:quiet-change="$${block.id}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${block.id}/${name}')"
                     >
                       <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
                       <quiet-icon slot="checked" name="circle" family="filled"></quiet-icon>
@@ -73,7 +72,6 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                     <quiet-button
                       variant="neutral"
                       icon-label="Remove"
-                      size="xs"
                       id="tooltip-remove-${block.id}"
                     >
                       <quiet-icon name="trash"></quiet-icon>
@@ -91,16 +89,15 @@ const Component = ({ page = 1, name }: { page?: number; name: string }) => {
                     <quiet-popover for="tooltip-remove-${block.id}" placement="bottom">
                       <div style="display: flex; flex-direction: column; gap: 0.25rem;">
                         <quiet-button
-                          size="xs"
                           class="text-label"
                           variant="destructive"
                           data-popover="close"
-                          data-on:click="@delete('/studio/block/${block.id}')"
+                          data-on:click="@delete('/studio/block/${block.id}/${name}')"
                         >
                           Delete
                         </quiet-button>
 
-                        <quiet-button size="xs" data-popover="close"> Cancel </quiet-button>
+                        <quiet-button data-popover="close"> Cancel </quiet-button>
                       </div>
                     </quiet-popover>
                   </div>

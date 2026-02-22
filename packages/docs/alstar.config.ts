@@ -38,6 +38,7 @@ export default {
         description: defineField({
           label: 'Description',
           type: 'text',
+          description: 'This is a description',
         }),
         text: defineField({
           label: 'Text',
@@ -82,9 +83,14 @@ export default {
                 images: defineBlockField({
                   label: 'Images',
                   blocks: {
-                    image: defineField({
+                    image: defineBlock({
                       label: 'Image',
-                      type: 'image',
+                      fields: {
+                        image: defineField({
+                          label: 'Image',
+                          type: 'image',
+                        }),
+                      },
                     }),
                   },
                 }),

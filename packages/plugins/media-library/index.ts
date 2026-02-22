@@ -19,8 +19,15 @@ declare module '@alstar/types' {
   interface FieldTypeMap {
     image: {
       type: 'image'
-      label: string
-      description?: string
+      props: {
+        label: string
+        description?: string
+      }
+      returns: {
+        src: string | null
+        width: number | null
+        height: number | null
+      } | null
     }
   }
 }
@@ -164,9 +171,23 @@ export default () =>
       migrations: migrations,
       fields: [
         {
-          name: 'image',
+          type: 'image',
           component: ImageField(api),
-          // handler: ImageFieldHandler,
+          handler: (row) => {
+            if(!row.value) return null
+            
+            const getMediaQuery = sql`select * from media where filename = ${row.value}`
+
+            const originalImage = api.database
+              .prepare(getMediaQuery.sql)
+              .get(...(getMediaQuery.values as SQLInputValue[])) as MediaSchema | undefined
+
+            return {
+              src: row.value,
+              width: originalImage?.width || null,
+              height: originalImage?.height || null,
+            }
+          },
         },
       ],
     } satisfies Plugin

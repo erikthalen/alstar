@@ -53,9 +53,8 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
           label="Disable"
           effect="scale"
           id="tooltip-disable-${entryId}"
-          size="xs"
           data-attr:checked="$${entryId}.status === 'enabled'"
-          data-on:quiet-change="$${entryId}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${entryId}')"
+          data-on:quiet-change="$${entryId}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${entryId}/${data.name}')"
         >
           <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
 
@@ -71,27 +70,22 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
         >
         </quiet-tooltip>
 
-        <quiet-button
-          variant="neutral"
-          icon-label="Remove"
-          size="xs"
-          id="tooltip-remove-${entryId}"
-        >
+        <quiet-button variant="neutral" icon-label="Remove" id="tooltip-remove-${entryId}">
           <quiet-icon name="trash"></quiet-icon>
         </quiet-button>
 
         <quiet-popover for="tooltip-remove-${entryId}" placement="bottom">
           <div style="display: flex; flex-direction: column; gap: 0.25rem;">
             <quiet-button
-              size="xs"
               class="text-label"
               variant="destructive"
               data-popover="close"
-              data-on:click="@delete('/studio/block/${entryId}'); window.history.back()"
+              data-on:click="@delete('/studio/block/${entryId}/${data.name}'); window.history.back()"
             >
               Delete
             </quiet-button>
-            <quiet-button size="xs" data-popover="close">Cancel</quiet-button>
+
+            <quiet-button data-popover="close">Cancel</quiet-button>
           </div>
         </quiet-popover>
 

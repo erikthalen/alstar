@@ -1,9 +1,9 @@
 import type { UserSettings } from '../../../types.ts'
-import type { BlockStatus, DBBlockResult } from '@alstar/types'
+import type { BlockStatus, DBBlockResult, FieldTypeMap } from '@alstar/types'
 import { sql } from '../../../utils/sql.ts'
 import { sqlQueryRoot } from './queries/root.ts'
 import type { DBRow, TODO } from './types.ts'
-import { database, type AuthType } from '../../../index.ts'
+import { database, fields, type AuthType } from '../../../index.ts'
 
 function buildFilterSql(params: Record<string, any>) {
   const entries = Object.entries(params)
@@ -51,7 +51,7 @@ export function getEntry(
 
   const tree = buildTree(rows)
 
-  return tree
+  return tree as DBBlockResult | null
 }
 
 export function getField(params: Record<string, any>) {
@@ -209,80 +209,90 @@ export const deleteBlock = (id: string | number) => {
   return deletedBlocks
 }
 
-function parse(item: any) {
-  switch (item.type) {
-    case 'text':
-    case 'title':
-    case 'slug':
-    case 'svg':
-    case 'markdown': {
-      return item.value
-    }
+function parseItem<T extends keyof FieldTypeMap>(item: DBRow): FieldTypeMap[T]['returns'] | string {
+  const type = item.type as T
+  const handler = fields[type]?.handler
 
-    case 'image': {
-      return {
-        src: item.value,
-      }
-    }
+  if (!handler) {
+    return item.value
+  }
 
-    case 'collection':
-    case 'single': {
-      delete item.parent_id
-      delete item.sort_order
-      delete item.value
-      delete item.depth
-      return item
-    }
+  return handler(item)
+}
 
-    case 'block':
-    case 'blockfield': {
-      delete item.id
-      delete item.created_at
-      delete item.updated_at
-      delete item.parent_id
-      delete item.sort_order
-      delete item.value
-      // delete item.type
-      delete item.depth
-      delete item.status
-
-      return item
-    }
-
-    default: {
-      return item
-    }
+function parseRoot(row: DBRow) {
+  return {
+    id: row.id,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+    name: row.name,
+    label: row.label,
+    type: row.type,
+    options: row.options,
+    status: row.status,
+    data: {},
   }
 }
 
-function buildTree(items: DBRow[]): TODO | null {
-  const map = new Map<number, TODO>()
+function parseBlock(row: DBRow) {
+  return {
+    name: row.name,
+    label: row.label,
+    options: row.options,
+  }
+}
 
-  // First pass: clone items into map
+function parseBlockField(row: DBRow) {
+  return {
+    label: row.label,
+    options: row.options,
+    blocks: [],
+  }
+}
+
+function parse(row: DBRow) {
+  if (row.type === 'collection') {
+    return parseRoot(row)
+  } else if (row.type === 'blockfield') {
+    return parseBlockField(row)
+  } else if (row.type === 'block') {
+    return parseBlock(row)
+  } else {
+    return parseItem(row)
+  }
+}
+
+type Node = ReturnType<typeof parse>
+
+function buildTree(items: DBRow[]): Node | null {
+  const nodeMap = new Map<number, Node>()
+  let root: Node | null = null
+
+  // First pass: parse everything (no parent wiring yet)
   for (const item of items) {
-    map.set(item.id, item)
+    nodeMap.set(item.id, parse(item))
   }
 
-  let root: TODO | null = null
+  // Second pass: wire parent/children
+  for (const item of items) {
+    const node = nodeMap.get(item.id)!
 
-  // Second pass: assign blocks to parents
-  for (const item of map.values()) {
     if (item.parent_id === null) {
-      root = parse(item)
+      root = node
+      continue
+    }
+
+    const originalParent = items.find((i) => i.id === item.parent_id)
+    const parent = nodeMap.get(item.parent_id)
+
+    if (!originalParent || !parent) continue
+
+    if (originalParent.type === 'blockfield') {
+      // @ts-expect-error
+      parent.blocks = [...(parent.blocks ?? []), node]
     } else {
-      const parent = map.get(item.parent_id)
-
-      if (parent) {
-        if (parent.type === 'blockfield') {
-          if (!parent.blocks) parent.blocks = []
-
-          parent.blocks.push(parse(item))
-        } else {
-          if (!parent.data) parent.data = {}
-
-          parent.data[item.name] = parse(item)
-        }
-      }
+      // @ts-expect-error
+      parent.data = { ...(parent.data ?? {}), [item.name]: node }
     }
   }
 

@@ -34,7 +34,7 @@
 
   .clock-face {
     aspect-ratio: 1;
-    background: var(--_bgc, #fff);
+    background: var(--_bgc, #e6e6e6);
     border-radius: 50%;
     block-size: var(--_w);
     font-size: 12cqi;

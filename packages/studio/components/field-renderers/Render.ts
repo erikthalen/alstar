@@ -32,6 +32,10 @@ export default (props: {
       case CollectionInstance: {
         return BlockRenderer({ parentId, structure, id })
       }
+
+      default: {
+        return html`<p>Received nonexisting InstanceType: "${structure.instanceOf}"</p>`
+      }
     }
   } catch (error) {
     console.log(error)

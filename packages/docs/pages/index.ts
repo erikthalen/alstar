@@ -10,6 +10,7 @@ export default () => {
         <title>Alstar Docs</title>
         <meta name="color-scheme" content="light dark" />
         <link href="/main.css" rel="stylesheet" />
+        <link rel="icon" type="image/svg" href="/favicon.svg" />
       </head>
       <body>
         <svg height="12" viewBox="0 0 1332 342" fill="none">

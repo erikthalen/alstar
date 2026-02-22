@@ -10,25 +10,32 @@ export default () => {
 
       <register-form>
         <form>
-          <vscode-form-container>
-            <vscode-form-group variant="vertical">
-              <vscode-label> Email </vscode-label>
-              <vscode-textfield name="email" type="email" placeholder="email@alstar.com">
-              </vscode-textfield>
-            </vscode-form-group>
+          <quiet-text-field
+            required
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="email@alstar.com"
+          >
+          </quiet-text-field>
 
-            <vscode-form-group variant="vertical">
-              <vscode-label> Password </vscode-label>
-              <vscode-textfield name="password" type="password" placeholder="Password">
-              </vscode-textfield>
-            </vscode-form-group>
+          <quiet-text-field
+            required
+            label="Password"
+            name="password"
+            type="password"
+            placeholder="Password"
+          >
+          </quiet-text-field>
 
-            <vscode-form-group variant="vertical">
-              <vscode-label> Confirm password </vscode-label>
-              <vscode-textfield name="password_2" type="password" placeholder="Password">
-              </vscode-textfield>
-            </vscode-form-group>
-          </vscode-form-container>
+          <quiet-text-field
+            required
+            label="Confirm password"
+            name="password_2"
+            type="password"
+            placeholder="Password"
+          >
+          </quiet-text-field>
 
           <quiet-button type="submit" style="width: 100%; margin-top: 1rem;" variant="primary">
             Register
@@ -47,13 +54,21 @@ export const styles = css`
     align-items: center;
     justify-content: center;
 
+    .intro {
+      width: 100%;
+      max-width: 320px;
+    }
+
     h1,
     p {
       margin-block: 0.5em;
     }
 
     form {
-      max-width: 320px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
   }
 `

@@ -2,7 +2,6 @@
 @import './css/typography.css';
 
 @import './css/blocks-field.css';
-@import './css/settings.css';
 @import './css/live-preview.css';
 @import './css/entry-page.css';
 @import './css/entry.css';
@@ -52,10 +51,12 @@
 
   --quiet-primary-text-on-mid: var(--alstar-foreground);
 
+  --quiet-paper-color: #313131;
+  --quiet-neutral-stroke-soft: #3c3c3c;
+  --quiet-form-control-height-md: 2rem;
+
   --quiet-border-radius-sm: 2px;
   --quiet-border-radius-md: 4px;
-
-  --quiet-form-control-height-md: 2.25rem;
 
   --vscode-font-family: var(--alstar-font-family);
   --vscode-font-size: var(--alstar-font-size);
@@ -66,7 +67,7 @@
 
   --border-color: var(--quiet-neutral-stroke-softer);
 
-  --unit: 0.75rem;
+  --unit: 1rem;
 }
 
 html.is-changing .transition-fade {
@@ -105,9 +106,6 @@ body {
 :where(*) {
   font-size: 1em;
   box-sizing: border-box;
-}
-
-a {
   color: inherit;
 }
 
@@ -127,6 +125,31 @@ a {
 
 quiet-tooltip {
   pointer-events: none;
+}
+
+quiet-callout::part(body) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+quiet-text-field {
+  &::part(label),
+  &::part(description) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: inline-block;
+  }
+
+  &::part(visual-box) {
+    padding: 0 4px;
+  }
+
+  &:state(focused)::part(visual-box) {
+    outline: 1px solid rgb(51, 118, 206);
+  }
 }
 
 .background-pattern {

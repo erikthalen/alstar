@@ -198,6 +198,9 @@ importers:
       shiki:
         specifier: ^3.22.0
         version: 3.22.0
+      sql-template-tag:
+        specifier: 'catalog:'
+        version: 5.2.1
     devDependencies:
       '@types/node':
         specifier: 'catalog:'

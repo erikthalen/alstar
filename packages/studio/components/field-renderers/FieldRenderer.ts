@@ -1,8 +1,8 @@
-import { Field } from '#components/fields/index.ts'
 import FieldRoot from '#components/field-renderers/Field.ts'
 import { html } from 'hono/html'
 import { getOrCreateRow } from '#utils/get-or-create-row.ts'
 import { BlockFieldInstance, BlockFieldInstanceType, FieldInstanceType } from '@alstar/types'
+import BlockField from './BlockField.ts'
 
 export default (props: {
   parentId: number | string
@@ -22,7 +22,7 @@ export default (props: {
   }
 
   if (structure.instanceOf === BlockFieldInstance) {
-    return Field.BlockField({ id: data.id })
+    return BlockField({ id: data.id })
   } else {
     return FieldRoot({ structure, id: data.id })
   }
