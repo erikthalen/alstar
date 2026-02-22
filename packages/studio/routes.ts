@@ -9,7 +9,7 @@ export default [
   { name: '/', handler: index },
   { name: '/entries/:id', handler: entriesId },
   { name: '/entries', handler: entries },
-  // { name: '/login', handler: login },
+  { name: '/login', handler: login },
   { name: '/register', handler: register },
   // { name: '/settings', handler: settings },
   // { name: '/setup', handler: setup },

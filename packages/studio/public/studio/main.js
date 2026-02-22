@@ -2,9 +2,9 @@
 import './js/auth.js'
 import './js/sortable-list.js'
 import './js/live-preview.js'
-import './js/settings-tabs.js'
 
 import './js/RegisterForm.js'
+import './js/LoginForm.js'
 
 // global
 import Swup from 'swup'

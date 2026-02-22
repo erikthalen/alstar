@@ -143,8 +143,8 @@
 
     z-index: 1;
 
-    @container (width > 75px) {
-      --_aw: 2cqi;
+    @container widget (width > 75px) {
+      --_aw: 3cqi;
     }
 
     &:before {
@@ -179,8 +179,8 @@
     --_ah: 45cqi;
     --_aw: 4cqi;
 
-    @container (width > 75px) {
-      --_aw: 2cqi;
+    @container widget (width > 75px) {
+      --_aw: 3cqi;
     }
 
     &:before {
@@ -238,7 +238,7 @@
 .calendar {
   display: inline-block;
   font-size: 5cqi;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
 
   @container widget (width < 141px) {
     display: none;

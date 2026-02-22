@@ -101,40 +101,6 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
    */
   app.use('*', serveStatic({ root: path.join(studioRoot, 'public') }))
 
-  // redirect to /login if not logged in
-  app.use(
-    '*',
-    except(['/studio/api/auth/*', '/studio/login', '/studio/register'], async (c, next) => {
-      const session = await auth.api.getSession({
-        headers: c.req.raw.headers,
-      })
-
-      if (!session) {
-        c.set('user', null)
-        c.set('session', null)
-
-        const users = database.prepare('select id from user').all()
-
-        if (!users.length) {
-          return c.redirect('/studio/register')
-        } else {
-          return c.redirect('/studio/login')
-        }
-      }
-
-      c.set('user', session.user)
-      c.set('session', session.session)
-      await next()
-    }),
-  )
-
-  // redirect from /login to /studio if logged in
-  app.use('/login', async (c, next) => {
-    const session = await auth.api.getSession({ headers: c.req.raw.headers })
-    if (session?.user) return c.redirect('/studio')
-    await next()
-  })
-
   /**
    * CQRS route
    */
@@ -223,6 +189,40 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
     }
   }
 
+  // redirect to /login if not logged in
+  app.use(
+    '*',
+    except(['/studio/api/auth/*', '/studio/login', '/studio/register'], async (c, next) => {
+      const session = await auth.api.getSession({
+        headers: c.req.raw.headers,
+      })
+
+      if (!session) {
+        c.set('user', null)
+        c.set('session', null)
+
+        const users = database.prepare('select id from user').all()
+
+        if (!users.length) {
+          return c.redirect('/studio/register')
+        } else {
+          return c.redirect('/studio/login')
+        }
+      }
+
+      c.set('user', session.user)
+      c.set('session', session.session)
+      await next()
+    }),
+  )
+
+  // redirect from /login to /studio if logged in
+  app.use('/login', async (c, next) => {
+    const session = await auth.api.getSession({ headers: c.req.raw.headers })
+    if (session?.user) return c.redirect('/studio')
+    await next()
+  })
+
   for (const plugin of plugins) {
     if (plugin.views?.length) {
       for (const route of plugin.views) {
@@ -262,5 +262,3 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
 export { createStudio, version, config, database, studioRoot }
 
 export type { AuthType }
-
-export * from './utils/define.ts'

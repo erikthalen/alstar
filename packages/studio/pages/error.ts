@@ -1,11 +1,9 @@
+import { css } from '@alstar/framework'
 import { html } from 'hono/html'
 
 export default () => {
   return html`
-    <div
-      class="background-pattern"
-      style="padding-bottom: 10vh; height: 100%; display: flex; flex-direction: column; place-content: center;"
-    >
+    <div class="error-page">
       <quiet-empty-state style="min-height: 400px;">
         <h3>Something went wrong</h3>
 
@@ -18,3 +16,13 @@ export default () => {
     </div>
   `
 }
+
+export const styles = css`
+  .error-page {
+    padding-bottom: 10vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+  }
+`

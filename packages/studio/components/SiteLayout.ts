@@ -18,6 +18,7 @@ export default async (
 
   const styles = await inlineStyles({ root: studioRoot })
 
+  const user = c.get('user')
   const session = c.get('session')
 
   return html`<!DOCTYPE html>
@@ -91,15 +92,15 @@ export default async (
       <body data-init="@get('/studio/updates')">
         <vscode-split-layout
           fixed-pane="start"
-          initial-handle-position="174px"
-          min-start="58px"
+          initial-handle-position="${user ? '174px' : '0px'}"
+          min-start="${user ? '58px' : '0px'}"
           style="border: none; --separator-border: transparent;"
           reset-on-dbl-click="true"
         >
           <div slot="start" class="sidebar">
             ${SiteHeader(c)}
             <!--  -->
-            ${session && Widgets(c, widgets)}
+            ${user && Widgets(c, widgets)}
           </div>
 
           <div slot="end">
