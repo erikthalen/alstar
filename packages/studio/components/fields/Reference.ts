@@ -26,11 +26,11 @@ export default (props: { id: number | string }) => {
         const title = getField({ name: 'title', parent_id: entry.id })
 
         return html`<vscode-option
-          ${slug.value === data.value ? 'selected' : ''}
-          description="/${slug.value}"
-        >
-          ${title.value}
-        </vscode-option>`
+            ${slug.value === data.value ? 'selected' : ''}
+            description="/${slug.value}"
+          >
+            ${title.value}
+          </vscode-option>`
       })}
     </vscode-single-select>
   `

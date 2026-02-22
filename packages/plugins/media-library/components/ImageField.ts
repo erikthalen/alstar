@@ -16,7 +16,14 @@ export default (api: PluginArgs) =>
 
     // console.log('data', data)
 
-    const query = sql`select * from media where filename = ${data.value}`
+    const query = sql`
+      select
+        *
+      from
+        media
+      where
+        filename = ${data.value}
+    `
     const media = api.database.prepare(query.sql).get(...(query.values as SQLInputValue[]))
 
     const getThumbnailUrl = (filename?: string) => {
@@ -47,15 +54,15 @@ export default (api: PluginArgs) =>
         >
           ${media
             ? html`<img
-                slot="media"
-                src="${getThumbnailUrl(media?.filename?.toString())}"
-                alt="Two white kittens laying in a cozy basket"
-              />`
+                  slot="media"
+                  src="${getThumbnailUrl(media?.filename?.toString())}"
+                  alt="Two white kittens laying in a cozy basket"
+                />`
             : html`<div slot="media" class="placeholder">
-                <div>
-                  <quiet-icon name="photo-off" style="font-size: 2.5em;"></quiet-icon>
-                </div>
-              </div>`}
+                  <div>
+                    <quiet-icon name="photo-off" style="font-size: 2.5em;"></quiet-icon>
+                  </div>
+                </div>`}
 
           <div>
             <span class="filename">${data.value || 'No image'}</span>

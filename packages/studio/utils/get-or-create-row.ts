@@ -34,7 +34,18 @@ export function getOrCreateRow(props: {
     return
   }
 
-  const query = sql`insert into block (name, label, type, sort_order, parent_id) values (${name?.toString()}, ${field.label?.toString()}, ${type}, ${sortOrder}, ${parentId});`
+  const query = sql`
+    insert into
+      block (name, label, type, sort_order, parent_id)
+    values
+      (
+        ${name?.toString()},
+        ${field.label?.toString()},
+        ${type},
+        ${sortOrder},
+        ${parentId}
+      );
+  `
 
   const change = database.prepare(query.sql).run(...(query.values as SQLInputValue[]))
 

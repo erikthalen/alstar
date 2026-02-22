@@ -26,15 +26,15 @@ export default <T extends keyof FieldTypeMap>(props: {
     `
   } else {
     return html` <div class="field" id="field_${props.id}">
-      ${field(props.id, props.structure as any)}
-    </div>`
+        ${field(props.id, props.structure as any)}
+      </div>`
   }
 }
 
 export const styles = css`
   .field {
     margin-block: 1rem;
-    
+
     .field-label {
       font-weight: 600;
       white-space: nowrap;

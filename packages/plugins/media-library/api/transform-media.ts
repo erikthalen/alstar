@@ -7,8 +7,7 @@ export type TransformOptions = {
   format?: keyof FormatEnum | AvailableFormatInfo
 }
 
-const removeUndefined = (obj: Record<string, unknown>) =>
-  JSON.parse(JSON.stringify(obj))
+const removeUndefined = (obj: Record<string, unknown>) => JSON.parse(JSON.stringify(obj))
 
 export const transformMedia = async (
   buffer: Buffer,

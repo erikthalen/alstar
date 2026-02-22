@@ -4,14 +4,12 @@ import { database } from '../../index.ts'
 
 export default () => {
   const apiKeys = database
-    .prepare(
-      sql`
+    .prepare(sql`
       select
         *
       from
         api_keys
-    `,
-    )
+    `)
     .all()
 
   return html`
@@ -27,34 +25,34 @@ export default () => {
         <tbody>
           ${apiKeys.map((apiKey, idx) => {
             return html` <tr>
-              <th scope="row">${apiKey.name}</th>
-              <td>
-                <quiet-text-field disabled value="${apiKey.hint}"></quiet-text-field>
-              </td>
-              <td>
-                <form
-                  data-on:submit="@delete('/studio/api/api-key', {
+                <th scope="row">${apiKey.name}</th>
+                <td>
+                  <quiet-text-field disabled value="${apiKey.hint}"></quiet-text-field>
+                </td>
+                <td>
+                  <form
+                    data-on:submit="@delete('/studio/api/api-key', {
                     contentType: 'form',
                     headers: {
                       render: 'Settings'
                     }
                   })"
-                >
-                  <quiet-button
-                    id="api_key_delete_${idx}"
-                    type="submit"
-                    icon-label="Delete"
-                    variant="destructive"
                   >
-                    <quiet-icon name="trash"></quiet-icon>
-                  </quiet-button>
+                    <quiet-button
+                      id="api_key_delete_${idx}"
+                      type="submit"
+                      icon-label="Delete"
+                      variant="destructive"
+                    >
+                      <quiet-icon name="trash"></quiet-icon>
+                    </quiet-button>
 
-                  <quiet-tooltip for="api_key_delete_${idx}"> Delete API key </quiet-tooltip>
+                    <quiet-tooltip for="api_key_delete_${idx}"> Delete API key </quiet-tooltip>
 
-                  <input type="hidden" name="value" value="${apiKey.value}" />
-                </form>
-              </td>
-            </tr>`
+                    <input type="hidden" name="value" value="${apiKey.value}" />
+                  </form>
+                </td>
+              </tr>`
           })}
         </tbody>
       </table>

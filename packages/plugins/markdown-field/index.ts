@@ -77,7 +77,7 @@ export default definePlugin((api) => {
             <div id="markdown_${id}" class="markdown-field">
               <span class="field-label">${structure.label}</span>
               <span class="field-description">${structure.description}</span>
-              
+
               <markdown-editor
                 data-signals="{ ${id}: '${base64String}' }"
                 data-value="${base64String}"

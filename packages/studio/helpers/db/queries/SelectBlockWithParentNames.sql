@@ -1,29 +1,29 @@
-WITH RECURSIVE
-  ancestors AS (
+with recursive
+  ancestors as (
     -- Start with the given block
-    SELECT
+    select
       id,
       name,
       parent_id,
-      0 AS depth
-    FROM
+      0 as depth
+    from
       block
-    WHERE
+    where
       id = ?
-    UNION ALL
+    union all
     -- Recursively walk up to parents
-    SELECT
+    select
       b.id,
       b.name,
       b.parent_id,
       a.depth + 1
-    FROM
+    from
       block b
-      JOIN ancestors a ON b.id = a.parent_id
+      join ancestors a on b.id = a.parent_id
   )
-SELECT
+select
   name
-FROM
+from
   ancestors
-ORDER BY
-  depth DESC;
+order by
+  depth desc;

@@ -21,40 +21,40 @@ export default (c: Context) => {
     <section class="entries-page">
       ${name
         ? html`<div
-            class="entries-container"
-            data-signals="{
+              class="entries-container"
+              data-signals="{
                   userSettings: {
                     entriesTableColumns: {
                       '${name}': ''
                     }
                   }
                 }"
-          >
-            <quiet-toolbar class="toolbar">
-              <quiet-button-group>
-                <quiet-button
-                  id="new_entry_button"
-                  icon-label="New entry"
-                  data-on:click="@post('/studio/block', { payload: ${newBlockPayload} })"
-                >
-                  <quiet-icon slot="start" name="file-plus"></quiet-icon>
-                  New entry
-                </quiet-button>
+            >
+              <quiet-toolbar class="toolbar">
+                <quiet-button-group>
+                  <quiet-button
+                    id="new_entry_button"
+                    icon-label="New entry"
+                    data-on:click="@post('/studio/block', { payload: ${newBlockPayload} })"
+                  >
+                    <quiet-icon slot="start" name="file-plus"></quiet-icon>
+                    New entry
+                  </quiet-button>
 
-                <quiet-tooltip
-                  open-delay="0"
-                  close-delay="0"
-                  distance="0"
-                  without-arrow
-                  for="new_entry_button"
-                >
-                  New entry
-                </quiet-tooltip>
-              </quiet-button-group>
-            </quiet-toolbar>
+                  <quiet-tooltip
+                    open-delay="0"
+                    close-delay="0"
+                    distance="0"
+                    without-arrow
+                    for="new_entry_button"
+                  >
+                    New entry
+                  </quiet-tooltip>
+                </quiet-button-group>
+              </quiet-toolbar>
 
-            ${Entries({ page: 1, name: name })}
-          </div>`
+              ${Entries({ page: 1, name: name })}
+            </div>`
         : EntriesTypes(config.structure)}
     </section>
   `

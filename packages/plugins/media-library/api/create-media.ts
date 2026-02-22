@@ -33,12 +33,30 @@ export const saveMedia = async (
     height: metadata.height,
   }
 
-  const query = sql`insert into media (name, filename, mime_type, width, height) values (${row.name}, ${row.filename}, ${row.mime_type}, ${row.width}, ${row.height})`
+  const query = sql`
+    insert into
+      media (name, filename, mime_type, width, height)
+    values
+      (
+        ${row.name},
+        ${row.filename},
+        ${row.mime_type},
+        ${row.width},
+        ${row.height}
+      )
+  `
 
   // Create a new media row in db
   database.prepare(query.sql).run(...(query.values as SQLInputValue[]))
 
-  const query2 = sql`select * from media where filename = ${filename}`
+  const query2 = sql`
+    select
+      *
+    from
+      media
+    where
+      filename = ${filename}
+  `
 
   return database.prepare(query2.sql).get(...(query.values as SQLInputValue[])) as MediaSchema
 }
@@ -74,7 +92,24 @@ export const saveCachedMedia = async (
   }
 
   // Create a new media_transforms row in db
-  const insertCachedMediaQuery = sql`insert into media_transforms (original_filename, filename, mime_type, width, height) values (${row.original_filename}, ${row.filename}, ${row.mime_type}, ${row.width}, ${row.height})`
+  const insertCachedMediaQuery = sql`
+    insert into
+      media_transforms (
+        original_filename,
+        filename,
+        mime_type,
+        width,
+        height
+      )
+    values
+      (
+        ${row.original_filename},
+        ${row.filename},
+        ${row.mime_type},
+        ${row.width},
+        ${row.height}
+      )
+  `
 
   database
     .prepare(insertCachedMediaQuery.sql)
@@ -82,7 +117,14 @@ export const saveCachedMedia = async (
 
   console.log('Created row in media_transforms:', filename)
 
-  const getCachedMediaQuery = sql`select * from media_transforms where filename = ${filename}`
+  const getCachedMediaQuery = sql`
+    select
+      *
+    from
+      media_transforms
+    where
+      filename = ${filename}
+  `
 
   return database
     .prepare(getCachedMediaQuery.sql)

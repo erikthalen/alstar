@@ -74,30 +74,37 @@ export const sqlQueryDeleteBlockWithChildren = sql`
     );
 `
 
-const query = sql`WITH RECURSIVE ancestors AS (
-  -- Start with the given block
-  SELECT
-    id,
-    name,
-    parent_id,
-    0 AS depth
-  FROM block
-  WHERE id = ?
-
-  UNION ALL
-
-  -- Recursively walk up to parents
-  SELECT
-    b.id,
-    b.name,
-    b.parent_id,
-    a.depth + 1
-  FROM block b
-  JOIN ancestors a ON b.id = a.parent_id
-)
-SELECT name
-FROM ancestors
-ORDER BY depth DESC;`
+const query = sql`
+  with recursive
+    ancestors as (
+      -- Start with the given block
+      select
+        id,
+        name,
+        parent_id,
+        0 as depth
+      from
+        block
+      where
+        id = ?
+      union all
+      -- Recursively walk up to parents
+      select
+        b.id,
+        b.name,
+        b.parent_id,
+        a.depth + 1
+      from
+        block b
+        join ancestors a on b.id = a.parent_id
+    )
+  select
+    name
+  from
+    ancestors
+  order by
+    depth desc;
+`
 
 /**
  * Given an id, returns the path of keys to the block in the structure

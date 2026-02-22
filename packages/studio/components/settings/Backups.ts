@@ -33,15 +33,11 @@ export default async () => {
           ${backups.map(
             async (filename) => html`
               <vscode-table-row>
-                <vscode-table-cell scope="row"
-                  ><code>${filename}</code></vscode-table-cell
-                >
+                <vscode-table-cell scope="row"><code>${filename}</code></vscode-table-cell>
 
                 <vscode-table-cell scope="row">
                   <code>
-                    <quiet-bytes
-                      value="${await getFilesize(filename)}"
-                    ></quiet-bytes>
+                    <quiet-bytes value="${await getFilesize(filename)}"></quiet-bytes>
                   </code>
                 </vscode-table-cell>
 
@@ -68,12 +64,7 @@ export default async () => {
                   >
                     <input type="hidden" name="filename" value="${filename}" />
 
-                    <quiet-button
-                      type="submit"
-                      icon-label="Delete"
-                      variant="destructive"
-                      size="xs"
-                    >
+                    <quiet-button type="submit" icon-label="Delete" variant="destructive" size="xs">
                       <quiet-icon name="trash"></quiet-icon>
                     </quiet-button>
                   </form>
@@ -106,9 +97,7 @@ export default async () => {
           WIP
         </span>
 
-        <form
-          data-on:submit="@post('/studio/api/backup', { contentType: 'form' })"
-        >
+        <form data-on:submit="@post('/studio/api/backup', { contentType: 'form' })">
           <quiet-file-input
             name="file"
             label="Select a file"

@@ -4,7 +4,12 @@ import { html } from 'hono/html'
 import sql from 'sql-template-tag'
 
 export default async ({ api, id }: { api: PluginArgs; id: number | `${number}` }) => {
-  const query = sql`select * from media`
+  const query = sql`
+    select
+      *
+    from
+      media
+  `
   const medias = api.database.prepare(query.sql).all()
 
   const getThumbnailUrl = (filename?: string) => {
@@ -27,9 +32,8 @@ export default async ({ api, id }: { api: PluginArgs; id: number | `${number}` }
 
       ${medias?.length
         ? html`<ul>
-            ${medias.map(
-              (media) =>
-                html`<li>
+              ${medias.map(
+              (media) => html`<li>
                   <quiet-card orientation="horizontal">
                     <img
                       slot="media"
@@ -50,11 +54,11 @@ export default async ({ api, id }: { api: PluginArgs; id: number | `${number}` }
                   </quiet-card>
                 </li>`,
             )}
-          </ul>`
+            </ul>`
         : html` <quiet-callout variant="neutral">
-            <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
-            No media uploaded
-          </quiet-callout>`}
+              <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
+              No media uploaded
+            </quiet-callout>`}
 
       <br />
 

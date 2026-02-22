@@ -1,6 +1,10 @@
 import { html } from 'hono/html'
 import { getOrCreateRow } from '../utils/get-or-create-row.ts'
-import { CollectionInstance, SingleInstance, StructureInstanceType } from '@alstar/types/structure.ts'
+import {
+  CollectionInstance,
+  SingleInstance,
+  StructureInstanceType,
+} from '@alstar/types/structure.ts'
 
 export default (structure: StructureInstanceType) => {
   const entries = Object.entries(structure)
@@ -26,7 +30,7 @@ export default (structure: StructureInstanceType) => {
               <vscode-table-row>
                 <vscode-table-cell>
                   <quiet-icon name="${block.icon || 'file'}" variant="outline"></quiet-icon>
-                  
+
                   ${block.label}
                 </vscode-table-cell>
                 <vscode-table-cell>

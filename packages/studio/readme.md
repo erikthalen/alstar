@@ -51,12 +51,7 @@ Pass a `Structure` object to `createStudio(structure)` to define the schema.
 Use the helpers:
 
 ```ts
-import {
-  defineBlock,
-  defineField,
-  defineStructure,
-  defineBlockField,
-} from '@alstar/studio'
+import { defineBlock, defineField, defineStructure, defineBlockField } from '@alstar/studio'
 ```
 
 ### Example: Schema Definition
@@ -142,12 +137,7 @@ This example shows how to define a simple **page schema** and render it on the f
 ### 1. Define the CMS Schema (`./index.ts`)
 
 ```ts
-import {
-  createStudio,
-  defineBlock,
-  defineField,
-  defineStructure,
-} from '@alstar/studio'
+import { createStudio, defineBlock, defineField, defineStructure } from '@alstar/studio'
 
 const page = defineBlock({
   label: 'Page',

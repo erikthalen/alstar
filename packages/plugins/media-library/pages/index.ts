@@ -42,7 +42,12 @@ const getThumbnailUrl = (filename?: string) => {
 }
 
 export default async ({ database }: PluginArgs) => {
-  const query = sql`select * from media`
+  const query = sql`
+    select
+      *
+    from
+      media
+  `
   const medias = database.prepare(query.sql).all(...(query.values as SQLInputValue[])) as MediaRow[]
   const cacheFolderStats = await dirSize(mediaCachePath).catch(() => null)
 
@@ -64,65 +69,65 @@ export default async ({ database }: PluginArgs) => {
         ? html`<ul>
               ${medias.map(async (media) => {
                 return html`<li>
-                  <quiet-card orientation="horizontal">
-                    <img
-                      slot="media"
-                      src="${getThumbnailUrl(media.filename?.toString())}"
-                      alt="The image"
-                    />
+                    <quiet-card orientation="horizontal">
+                      <img
+                        slot="media"
+                        src="${getThumbnailUrl(media.filename?.toString())}"
+                        alt="The image"
+                      />
 
-                    <span class="content">
-                      ${media.name}
+                      <span class="content">
+                        ${media.name}
 
-                      <code>${media.width} x ${media.height}</code>
-                      <code>
-                        <quiet-bytes
-                          value="${await fileStats(path.join(mediaPath, media.filename))}"
+                        <code>${media.width} x ${media.height}</code>
+                        <code>
+                          <quiet-bytes
+                            value="${await fileStats(path.join(mediaPath, media.filename))}"
+                          >
+                          </quiet-bytes>
+                        </code>
+                      </span>
+
+                      <quiet-button-group slot="actions">
+                        <quiet-button
+                          data-dialog="open dialog_editor"
+                          type="submit"
+                          icon-label="Select"
+                          id="tooltip-edit-${media.filename}"
+                          data-on:click="evt.target.dispatchEvent(new CustomEvent('input', { detail: '${media.filename}', bubbles: true }))"
                         >
-                        </quiet-bytes>
-                      </code>
-                    </span>
+                          <quiet-icon name="edit"></quiet-icon>
+                        </quiet-button>
 
-                    <quiet-button-group slot="actions">
-                      <quiet-button
-                        data-dialog="open dialog_editor"
-                        type="submit"
-                        icon-label="Select"
-                        id="tooltip-edit-${media.filename}"
-                        data-on:click="evt.target.dispatchEvent(new CustomEvent('input', { detail: '${media.filename}', bubbles: true }))"
-                      >
-                        <quiet-icon name="edit"></quiet-icon>
-                      </quiet-button>
+                        <quiet-tooltip
+                          distance="0"
+                          without-arrow
+                          for="tooltip-edit-${media.filename}"
+                          class="text-label"
+                        >
+                          Edit
+                        </quiet-tooltip>
 
-                      <quiet-tooltip
-                        distance="0"
-                        without-arrow
-                        for="tooltip-edit-${media.filename}"
-                        class="text-label"
-                      >
-                        Edit
-                      </quiet-tooltip>
+                        <quiet-button
+                          variant="destructive"
+                          icon-label="Remove"
+                          id="tooltip-remove-${media.filename}"
+                          data-on:click="@delete('/studio/media/${media.filename}')"
+                        >
+                          <quiet-icon name="trash"></quiet-icon>
+                        </quiet-button>
 
-                      <quiet-button
-                        variant="destructive"
-                        icon-label="Remove"
-                        id="tooltip-remove-${media.filename}"
-                        data-on:click="@delete('/studio/media/${media.filename}')"
-                      >
-                        <quiet-icon name="trash"></quiet-icon>
-                      </quiet-button>
-
-                      <quiet-tooltip
-                        distance="0"
-                        without-arrow
-                        for="tooltip-remove-${media.filename}"
-                        class="text-label"
-                      >
-                        Remove
-                      </quiet-tooltip>
-                    </quiet-button-group>
-                  </quiet-card>
-                </li>`
+                        <quiet-tooltip
+                          distance="0"
+                          without-arrow
+                          for="tooltip-remove-${media.filename}"
+                          class="text-label"
+                        >
+                          Remove
+                        </quiet-tooltip>
+                      </quiet-button-group>
+                    </quiet-card>
+                  </li>`
               })}
             </ul>
 

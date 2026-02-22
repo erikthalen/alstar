@@ -1,8 +1,8 @@
-INSERT INTO
+insert into
   setting (user_id, type, value, updated_at)
-VALUES
-  (?, ?, ?, datetime ('now')) ON CONFLICT (user_id, type) DO
-UPDATE
-SET
+values
+  (?, ?, ?, datetime('now'))
+on conflict (user_id, type) do update
+set
   value = excluded.value,
-  updated_at = datetime ('now');
+  updated_at = datetime('now');

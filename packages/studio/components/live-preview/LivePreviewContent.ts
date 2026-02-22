@@ -9,13 +9,13 @@ export default async ({ entryId }: { entryId: number | string }) => {
 
   if (!data) {
     return html`<div id="live_preview">
-      <div style="padding: 1rem;">
-        <quiet-callout variant="destructive">
-          <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
-          No entry with id: "<code>${entryId}</code>"
-        </quiet-callout>
-      </div>
-    </div>`
+        <div style="padding: 1rem;">
+          <quiet-callout variant="destructive">
+            <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
+            No entry with id: "<code>${entryId}</code>"
+          </quiet-callout>
+        </div>
+      </div>`
   }
 
   const code = JSON.stringify(data, null, 2)

@@ -6,13 +6,20 @@ export default (props: { id: number | string; userId?: string }) => {
   let user
 
   if (props.userId) {
-    user = database.prepare(sql`select * from user where id = ?`).get(props.userId) as
-      | AuthType['user']
-      | undefined
+    user = database
+      .prepare(sql`
+        select
+          *
+        from
+          user
+        where
+          id = ?
+      `)
+      .get(props.userId) as AuthType['user'] | undefined
   }
 
   return html`<div id="edited_by_${props.id}" slot="content-after" style="display: contents;">
-    ${props.userId
+      ${props.userId
       ? html`<quiet-avatar
             id="edited_by_avatar_${props.id}"
             style="--size: 24px;"
@@ -30,5 +37,5 @@ export default (props: { id: number | string; userId?: string }) => {
             ${user?.email} is editing
           </quiet-tooltip> --> `
       : ''}
-  </div> `
+    </div> `
 }

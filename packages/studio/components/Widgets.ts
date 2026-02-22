@@ -9,8 +9,8 @@ export default (c: Context, widgets: Widget[]) => {
   }
 
   return html`<ul class="widgets pl-1">
-    ${widgets.map((widget) => html`<li>${widget(c)}</li>`)}
-  </ul>`
+      ${widgets.map((widget) => html`<li>${widget(c)}</li>`)}
+    </ul>`
 }
 
 export const styles = css`

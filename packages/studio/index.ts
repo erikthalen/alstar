@@ -189,7 +189,7 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
     function registerField<K extends keyof FieldTypeMap>(field: Field<K>) {
       fields[field.type] = {
         component: field.component,
-        handler: field.handler
+        handler: field.handler,
       }
     }
 

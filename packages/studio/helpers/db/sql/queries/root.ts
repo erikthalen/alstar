@@ -1,8 +1,7 @@
 import { sql } from '../../../../utils/sql.ts'
 
 export function sqlQueryRoot(filterSql: string, depthLimit?: number) {
-  const depthLimitClause =
-    depthLimit !== undefined ? `WHERE d.depth + 1 <= ${depthLimit}` : ''
+  const depthLimitClause = depthLimit !== undefined ? `WHERE d.depth + 1 <= ${depthLimit}` : ''
 
   return sql`
     with recursive
@@ -93,8 +92,7 @@ export function sqlQueryRoot(filterSql: string, depthLimit?: number) {
           d.depth + 1
         from
           block b
-          inner join descendants d on b.parent_id = d.id
-        ${depthLimitClause}
+          inner join descendants d on b.parent_id = d.id ${depthLimitClause}
       )
     select
       *
@@ -107,8 +105,7 @@ export function sqlQueryRoot(filterSql: string, depthLimit?: number) {
 }
 
 export function sqlQueryRootEnabled(filterSql: string, depthLimit?: number) {
-  const depthLimitClause =
-    depthLimit !== undefined ? `WHERE d.depth + 1 <= ${depthLimit}` : ''
+  const depthLimitClause = depthLimit !== undefined ? `WHERE d.depth + 1 <= ${depthLimit}` : ''
 
   return sql`
     with recursive
@@ -130,7 +127,7 @@ export function sqlQueryRootEnabled(filterSql: string, depthLimit?: number) {
           block
         where
           ${filterSql}
-          AND status = 'enabled'
+          and status = 'enabled'
         union all
         select
           b.id,
@@ -204,8 +201,7 @@ export function sqlQueryRootEnabled(filterSql: string, depthLimit?: number) {
           block b
           inner join descendants d on b.parent_id = d.id
         where
-          b.status = 'enabled'
-          ${depthLimitClause}
+          b.status = 'enabled' ${depthLimitClause}
       )
     select
       *

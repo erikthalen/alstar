@@ -1,6 +1,6 @@
 update block
 set
   options = ?,
-  updated_at = datetime ('now', 'localtime')
+  updated_at = datetime('now', 'localtime')
 where
   id = ?;

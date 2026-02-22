@@ -24,15 +24,15 @@ const widget = () => {
           Entries
           ${singles.length
             ? html`<vscode-tree-item open>
-                <div slot="icon-branch" class="icon">
-                  <quiet-icon name="folder" family="outline"></quiet-icon>
-                </div>
-                <div slot="icon-branch-opened" class="icon">
-                  <quiet-icon name="folder-open" family="outline"></quiet-icon>
-                </div>
+                  <div slot="icon-branch" class="icon">
+                    <quiet-icon name="folder" family="outline"></quiet-icon>
+                  </div>
+                  <div slot="icon-branch-opened" class="icon">
+                    <quiet-icon name="folder-open" family="outline"></quiet-icon>
+                  </div>
 
-                Singles
-                ${singles.map(([name, block]) => {
+                  Singles
+                  ${singles.map(([name, block]) => {
                   const data = getOrCreateRow({
                     parentId: null,
                     name,
@@ -40,39 +40,42 @@ const widget = () => {
                   })
 
                   return html`<vscode-tree-item>
-                    <a href="/studio/entries/${data?.id}" aria-title="Go to ${block.label}"></a>
+                      <a href="/studio/entries/${data?.id}" aria-title="Go to ${block.label}"></a>
 
-                    <div slot="icon-leaf" class="icon">
-                      <quiet-icon name="${block.icon || 'file'}" variant="outline"></quiet-icon>
-                    </div>
+                      <div slot="icon-leaf" class="icon">
+                        <quiet-icon name="${block.icon || 'file'}" variant="outline"></quiet-icon>
+                      </div>
 
-                    ${block.label}
-                  </vscode-tree-item>`
+                      ${block.label}
+                    </vscode-tree-item>`
                 })}
-              </vscode-tree-item>`
+                </vscode-tree-item>`
             : ''}
           ${collections.length
             ? html`<vscode-tree-item open>
-                <div slot="icon-branch" class="icon">
-                  <quiet-icon name="folder" family="outline"></quiet-icon>
-                </div>
-                <div slot="icon-branch-opened" class="icon">
-                  <quiet-icon name="folder-open" family="outline"></quiet-icon>
-                </div>
+                  <div slot="icon-branch" class="icon">
+                    <quiet-icon name="folder" family="outline"></quiet-icon>
+                  </div>
+                  <div slot="icon-branch-opened" class="icon">
+                    <quiet-icon name="folder-open" family="outline"></quiet-icon>
+                  </div>
 
-                Collections
-                ${collections.map(([name, block]) => {
+                  Collections
+                  ${collections.map(([name, block]) => {
                   return html`<vscode-tree-item>
-                    <a href="/studio/entries?name=${name}" aria-title="See all ${block.label}"></a>
+                      <a
+                        href="/studio/entries?name=${name}"
+                        aria-title="See all ${block.label}"
+                      ></a>
 
-                    <div slot="icon-leaf" class="icon">
-                      <quiet-icon name="${block.icon || 'files'}" variant="outline"></quiet-icon>
-                    </div>
+                      <div slot="icon-leaf" class="icon">
+                        <quiet-icon name="${block.icon || 'files'}" variant="outline"></quiet-icon>
+                      </div>
 
-                    ${block.label}
-                  </vscode-tree-item>`
+                      ${block.label}
+                    </vscode-tree-item>`
                 })}
-              </vscode-tree-item>`
+                </vscode-tree-item>`
             : ''}
         </vscode-tree-item>
       </vscode-tree>

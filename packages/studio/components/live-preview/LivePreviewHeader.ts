@@ -10,7 +10,7 @@ export default (userId: string | undefined) => {
   // })
 
   return html` <header>
-    <!-- <quiet-toggle-icon
+      <!-- <quiet-toggle-icon
       data-signals:user-settings="{ preview_enabled: {settings?.preview_enabled || 'true'} }"
       data-on:quiet-change="$userSettings.preview_enabled = evt.target.checked; {setPreviewVisible}"
       data-attr:checked="$userSettings.preview_enabled"
@@ -24,7 +24,7 @@ export default (userId: string | undefined) => {
       <quiet-icon slot="unchecked" name="eye-off"></quiet-icon>
     </quiet-toggle-icon> -->
 
-    <!-- <quiet-tooltip
+      <!-- <quiet-tooltip
       open-delay="0"
       close-delay="0"
       distance="0"
@@ -35,11 +35,11 @@ export default (userId: string | undefined) => {
     >
     </quiet-tooltip> -->
 
-    <h1 class="truncate text-label" style="margin-left: 10px">Live preview</h1>
+      <h1 class="truncate text-label" style="margin-left: 10px">Live preview</h1>
 
-    <!-- <quiet-switch size="xs" checked>
+      <!-- <quiet-switch size="xs" checked>
       <quiet-icon slot="on-label" name="code-dots"></quiet-icon>
       <quiet-icon slot="off-label" name="browser"></quiet-icon>
     </quiet-switch> -->
-  </header>`
+    </header>`
 }

@@ -4,14 +4,12 @@ import { database } from '../../index.ts'
 
 export default async () => {
   const users = database
-    .prepare(
-      sql`
+    .prepare(sql`
       select
         name
       from
         user
-    `,
-    )
+    `)
     .all()
 
   return html`

@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "docs:dev": "pnpm pnpm --filter @alstar/docs run dev",
-    "ci:publish": "pnpm publish -r"
+    "ci:publish": "pnpm publish -r",
+    "prettier": "prettier --write ."
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5",

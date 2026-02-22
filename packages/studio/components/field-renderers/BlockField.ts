@@ -10,15 +10,15 @@ export default ({ id }: { id: number | string }) => {
   const rows = getFields({ parent_id: id })
 
   return html` <div id="field_${id}" class="blocks-field">
-    <header>
-      <p class="truncate">${structure.label}</p>
+      <header>
+        <p class="truncate">${structure.label}</p>
 
-      <quiet-dropdown placement="bottom-end">
-        <quiet-button slot="trigger" with-caret>Add</quiet-button>
+        <quiet-dropdown placement="bottom-end">
+          <quiet-button slot="trigger" with-caret>Add</quiet-button>
 
-        <h3>Type</h3>
+          <h3>Type</h3>
 
-        ${children.map(([name, block]) => {
+          ${children.map(([name, block]) => {
           const payload = JSON.stringify({
             id: id,
             name: name,
@@ -29,19 +29,21 @@ export default ({ id }: { id: number | string }) => {
           })
 
           return html`
-            <quiet-dropdown-item data-on:click="@post('/studio/block', { payload: ${payload} })">
+            <quiet-dropdown-item
+              data-on:click="@post('/studio/block', { payload: ${payload} })"
+            >
               ${'icon' in block && block.icon
-                ? html` <quiet-icon slot="icon" name=${block.icon}></quiet-icon>`
+                ? html` <quiet-icon slot="icon" name="${block.icon}"></quiet-icon>`
                 : ''}
               ${block.label}
             </quiet-dropdown-item>
           `
         })}
-      </quiet-dropdown>
-    </header>
+        </quiet-dropdown>
+      </header>
 
-    <sortable-list data-id="${id}">
-      ${rows.map((row) => {
+      <sortable-list data-id="${id}">
+        ${rows.map((row) => {
         const [name, blockStructure] = children.find(([name]) => name === row.name) || []
 
         if (!name || !blockStructure) return html`<p>No name</p>`
@@ -109,7 +111,7 @@ export default ({ id }: { id: number | string }) => {
             <header>
               <div class="truncate title">
                 ${'icon' in blockStructure && blockStructure.icon
-                  ? html` <quiet-icon name=${blockStructure.icon}></quiet-icon>`
+                  ? html` <quiet-icon name="${blockStructure.icon}"></quiet-icon>`
                   : ''}
                 <p class="truncate">${blockStructure.label}</p>
               </div>
@@ -208,6 +210,6 @@ export default ({ id }: { id: number | string }) => {
           </article>
         `
       })}
-    </sortable-list>
-  </div>`
+      </sortable-list>
+    </div>`
 }

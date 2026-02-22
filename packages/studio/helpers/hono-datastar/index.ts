@@ -17,10 +17,7 @@ type DatastarVariables = {
   datastar: {
     signals: Record<string, Jsonifiable> | null
     patchElements: (stream: SSEStreamingApi, template: string) => Promise<void>
-    patchSignals: (
-      stream: SSEStreamingApi,
-      signals: Jsonifiable,
-    ) => Promise<void>
+    patchSignals: (stream: SSEStreamingApi, signals: Jsonifiable) => Promise<void>
   }
 }
 
@@ -33,8 +30,7 @@ function isRecord(obj: unknown): obj is Record<string, Jsonifiable> {
 }
 
 export type ReadSignalsResult = Promise<
-  | { success: true; signals: Record<string, Jsonifiable> }
-  | { success: false; error: string }
+  { success: true; signals: Record<string, Jsonifiable> } | { success: false; error: string }
 >
 
 /**
@@ -44,13 +40,9 @@ export type ReadSignalsResult = Promise<
  *
  * @returns An object containing a success boolean and either the client's signals or an error message.
  */
-export const readSignals = async (
-  request: IncomingMessage,
-): ReadSignalsResult => {
+export const readSignals = async (request: IncomingMessage): ReadSignalsResult => {
   if (request.method === 'GET') {
-    const url = new URL(
-      `http://${process.env.HOST ?? 'localhost'}${request.url}`,
-    )
+    const url = new URL(`http://${process.env.HOST ?? 'localhost'}${request.url}`)
     const params = url.searchParams
 
     try {

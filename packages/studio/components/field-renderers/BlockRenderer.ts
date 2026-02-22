@@ -12,10 +12,10 @@ export default (props: {
   const entries = Object.entries(structure.fields)
 
   return html`${entries.map(([name, field]) => {
-    try {
-      return Render({ parentId, structure: field, name })
-    } catch (error) {
-      return html`<p>Cound not render: "${name}"</p>`
-    }
-  })}`
+      try {
+        return Render({ parentId, structure: field, name })
+      } catch (error) {
+        return html`<p>Cound not render: "${name}"</p>`
+      }
+    })}`
 }

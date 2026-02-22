@@ -6,7 +6,14 @@ import { mediaCachePath, mediaPath } from './create-media.ts'
 import type { DatabaseSync, SQLInputValue } from 'node:sqlite'
 
 export const deleteMedia = async (database: DatabaseSync, filename: string) => {
-  const getCachedMediaQuery = sql`select * from media_transforms where original_filename = ${filename}`
+  const getCachedMediaQuery = sql`
+    select
+      *
+    from
+      media_transforms
+    where
+      original_filename = ${filename}
+  `
 
   const cachedMedia = database
     .prepare(getCachedMediaQuery.sql)
@@ -23,12 +30,20 @@ export const deleteMedia = async (database: DatabaseSync, filename: string) => {
     }),
   )
 
-  const deleteCachedMediaQuery = sql`delete from media_transforms where original_filename = ${filename}`
+  const deleteCachedMediaQuery = sql`
+    delete from media_transforms
+    where
+      original_filename = ${filename}
+  `
   database
     .prepare(deleteCachedMediaQuery.sql)
     .run(...(deleteCachedMediaQuery.values as SQLInputValue[]))
 
-  const deleteOriginalMediaQuery = sql`delete from media where filename = ${filename}`
+  const deleteOriginalMediaQuery = sql`
+    delete from media
+    where
+      filename = ${filename}
+  `
   database
     .prepare(deleteOriginalMediaQuery.sql)
     .run(...(deleteOriginalMediaQuery.values as SQLInputValue[]))

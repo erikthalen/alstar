@@ -80,7 +80,7 @@ export function getFields(params: Record<string, any>) {
     where
       ${filterSql}
     order by
-     sort_order
+      sort_order
   `
 
   return database.prepare(query).all(sqlParams) as unknown as DBBlockResult[]
@@ -88,60 +88,52 @@ export function getFields(params: Record<string, any>) {
 
 export const setUpdatedAt = (id: string | number) => {
   return database
-    .prepare(
-      sql`
-        update block
-        set
-          updated_at = datetime('now', 'localtime')
-        where
-          id = ?;
-      `,
-    )
+    .prepare(sql`
+      update block
+      set
+        updated_at = datetime('now', 'localtime')
+      where
+        id = ?;
+    `)
     .run(id)
 }
 
 export const setBlockStatus = (id: string | number, status: BlockStatus) => {
   return database
-    .prepare(
-      sql`
-        update block
-        set
-          status = ?,
-          updated_at = datetime('now', 'localtime')
-        where
-          id = ?;
-      `,
-    )
+    .prepare(sql`
+      update block
+      set
+        status = ?,
+        updated_at = datetime('now', 'localtime')
+      where
+        id = ?;
+    `)
     .run(status, id)
 }
 
 export const setBlockOption = (id: string | number, options: Record<string, any>) => {
   return database
-    .prepare(
-      sql`
-        update block
-        set
-          options = ?,
-          updated_at = datetime('now', 'localtime')
-        where
-          id = ?;
-      `,
-    )
+    .prepare(sql`
+      update block
+      set
+        options = ?,
+        updated_at = datetime('now', 'localtime')
+      where
+        id = ?;
+    `)
     .run(JSON.stringify(options), id)
 }
 
 export const updateBlockValue = (id: string | number, value: string) => {
   database
-    .prepare(
-      sql`
-        update block
-        set
-          value = ?,
-          updated_at = datetime('now', 'localtime')
-        where
-          id = ?;
-      `,
-    )
+    .prepare(sql`
+      update block
+      set
+        value = ?,
+        updated_at = datetime('now', 'localtime')
+      where
+        id = ?;
+    `)
     .run(value, id)
 }
 
@@ -165,43 +157,44 @@ export const createBlock = (values: {
   const columns = Object.keys(data)
 
   database
-    .prepare(
-      sql`insert into block (${columns.join(', ')}) values (${Array(columns.length).fill('? ')});`,
-    )
+    .prepare(sql`
+      insert into
+        block (${columns.join(', ')})
+      values
+        (${Array(columns.length).fill('? ')});
+    `)
     .run(...Object.values(data))
 }
 
 export const deleteBlock = (id: string | number) => {
   const deletedBlocks = database
-    .prepare(
-      sql`
-  with recursive
-  block_tree as (
-      -- start from the root block you want to delete
-      select
-        id
-      from
-        block
+    .prepare(sql`
+      with recursive
+        block_tree as (
+          -- start from the root block you want to delete
+          select
+            id
+          from
+            block
+          where
+            id = ?
+          union all
+          -- recursively select children
+          select
+            b.id
+          from
+            block b
+            inner join block_tree bt on b.parent_id = bt.id
+        )
+      delete from block
       where
-        id = ?
-      union all
-      -- recursively select children
-      select
-        b.id
-      from
-        block b
-        inner join block_tree bt on b.parent_id = bt.id
-    )
-  delete from block
-  where
-    id in (
-      select
-        id
-      from
-        block_tree
-    );
-`,
-    )
+        id in (
+          select
+            id
+          from
+            block_tree
+        );
+    `)
     .run(id)
 
   // unregisterEventHandler
@@ -303,7 +296,17 @@ export const getUserSettings = (userId: string | undefined): UserSettings | unde
   if (!userId) return
 
   const settingRows = userId
-    ? database.prepare(sql`select type, value from setting where user_id = ?`).all(userId)
+    ? database
+        .prepare(sql`
+          select
+            type,
+            value
+          from
+            setting
+          where
+            user_id = ?
+        `)
+        .all(userId)
     : []
 
   const settings = settingRows.reduce<Record<string, string | undefined>>(
@@ -320,15 +323,15 @@ export const updateUserSetting = (user: AuthType['user'], setting: TODO) => {
   const [key, value] = setting
 
   database
-    .prepare(
-      sql`
-        INSERT INTO setting (user_id, type, value, updated_at)
-        VALUES (?, ?, ?, datetime('now'))
-        ON CONFLICT(user_id, type)
-        DO UPDATE SET
-          value = excluded.value,
-          updated_at = datetime('now');
-      `,
-    )
+    .prepare(sql`
+      insert into
+        setting (user_id, type, value, updated_at)
+      values
+        (?, ?, ?, datetime('now'))
+      on conflict (user_id, type) do update
+      set
+        value = excluded.value,
+        updated_at = datetime('now');
+    `)
     .run(user.id, key, value.toString() || 'false')
 }
