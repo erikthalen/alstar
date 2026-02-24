@@ -1,5 +1,4 @@
 import BlockField from '#components/field-renderers/BlockField.ts'
-import FieldPatch from '#components/field-renderers/FieldPatch.ts'
 import { Entries } from '#components/index.ts'
 import { broadcastPatchElement, eventEmitter } from '#event-emitter.ts'
 import {

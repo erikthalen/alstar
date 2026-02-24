@@ -29,6 +29,7 @@ import svgField from '@alstar/svg-field'
 import textField from '@alstar/text-field'
 import { streamSSE } from 'hono/streaming'
 import { connections, eventEmitter } from '#event-emitter.ts'
+import titleField from '@alstar/title-field'
 
 const { version } = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
@@ -40,7 +41,7 @@ const defaultConfig: StudioConfig = {
   database: './studio.db',
   uploadBase: './public/media',
   structure: {},
-  plugins: [Clock, Explorer, textField, svgField, markdownField, mediaLibrary()],
+  plugins: [Clock, Explorer, titleField, textField, svgField, markdownField, mediaLibrary()],
 }
 
 const consumerConfig = await getConfig<types.StudioUserConfig>()
@@ -101,37 +102,14 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
    */
   app.use('*', serveStatic({ root: path.join(studioRoot, 'public') }))
 
-  /**
-   * CQRS route
-   */
-  app.get('/updates', (c) => {
-    return streamSSE(c, async (stream) => {
-      const user = c.get('user')
-
-      if (!user) return
-
-      let { promise, resolve } = Promise.withResolvers()
-
-      connections.set(user.id, { stream, user })
-
-      stream.onAbort(() => {
-        resolve(true)
-        connections.delete(user.id)
-      })
-
-      await promise
-    })
-  })
-
-  let plugins = []
   let widgets = []
   let publicFiles = ''
 
   /**
    * Initialise plugins
    */
-  for (const pluginFactory of config.plugins) {
-    const plugin = pluginFactory({
+  const plugins = config.plugins.map((pluginInit) => {
+    return pluginInit({
       database,
       config: config,
       eventEmitter: eventEmitter,
@@ -139,10 +117,10 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
         getField,
       },
     })
+  })
 
-    plugins.push(plugin)
-
-    if (typeof plugin.widget === 'function') {
+  for (const plugin of plugins) {
+    if (plugin.widget) {
       widgets.push(plugin.widget)
     }
 
@@ -163,10 +141,6 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
       for (const field of plugin.fields) {
         registerField(field as Field<keyof FieldTypeMap>)
       }
-    }
-
-    if (plugin.app) {
-      app.route('/', plugin.app)
     }
 
     if (plugin.public) {
@@ -223,7 +197,37 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
     await next()
   })
 
+  /**
+   * CQRS route
+   */
+  app.get('/updates', (c) => {
+    return streamSSE(c, async (stream) => {
+      const user = c.get('user')
+
+      if (!user) {
+        console.log(`[updates] no user`)
+        return
+      }
+
+      let { promise, resolve } = Promise.withResolvers()
+
+      connections.set(user.id, { stream, user })
+      console.log(`[updates] ${user.email} connected`)
+
+      stream.onAbort(() => {
+        resolve(true)
+        connections.delete(user.id)
+      })
+
+      await promise
+    })
+  })
+
   for (const plugin of plugins) {
+    if (plugin.app) {
+      app.route('/', plugin.app)
+    }
+
     if (plugin.views?.length) {
       for (const route of plugin.views) {
         app.get(route.path, (c) => c.html(SiteLayout(c, publicFiles, widgets, route.handler(c))))

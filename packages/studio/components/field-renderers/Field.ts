@@ -19,7 +19,7 @@ export default <T extends keyof FieldTypeMap>(props: {
 
   if (!field || typeof field !== 'function') {
     return html`
-      <quiet-callout style="margin-block: 1rem" variant="destructive">
+      <quiet-callout style="margin: 1rem; width: calc(100% - 2rem)" variant="destructive">
         <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
         No field of type: "<code>${props.structure.type}</code>"
       </quiet-callout>

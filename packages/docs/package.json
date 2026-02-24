@@ -9,12 +9,14 @@
     "start": "pnpx tsx index.ts"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "catalog:"
   },
   "dependencies": {
     "@alstar/studio": "workspace:*",
     "@hono/node-server": "catalog:",
     "hono": "catalog:",
+    "markdown-it": "^14.1.1",
     "marked": "^16.2.0"
   }
 }

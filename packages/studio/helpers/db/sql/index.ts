@@ -2,8 +2,9 @@ import type { UserSettings } from '../../../types.ts'
 import type { BlockStatus, DBBlockResult, DBRow, FieldTypeMap } from '@alstar/types'
 import { sql } from '../../../utils/sql.ts'
 import { sqlQueryRoot } from './queries/root.ts'
-import type { TODO } from './types.ts'
 import { database, fields, type AuthType } from '../../../index.ts'
+
+type TODO = any
 
 function buildFilterSql(params: Record<string, any>) {
   const entries = Object.entries(params)
@@ -219,32 +220,32 @@ function parseRoot(row: DBRow) {
     created_at: row.created_at,
     updated_at: row.updated_at,
     name: row.name,
-    label: row.label,
+    // label: row.label,
     type: row.type,
     options: row.options,
     status: row.status,
-    data: {},
+    fields: {},
   }
 }
 
 function parseBlock(row: DBRow) {
   return {
     name: row.name,
-    label: row.label,
+    // label: row.label,
     options: row.options,
   }
 }
 
 function parseBlockField(row: DBRow) {
   return {
-    label: row.label,
+    // label: row.label,
     options: row.options,
     blocks: [],
   }
 }
 
 function parse(row: DBRow) {
-  if (row.type === 'collection') {
+  if (row.type === 'collection' || row.type === 'single') {
     return parseRoot(row)
   } else if (row.type === 'blockfield') {
     return parseBlockField(row)
@@ -285,7 +286,7 @@ function buildTree(items: DBRow[]): Node | null {
       parent.blocks = [...(parent.blocks ?? []), node]
     } else {
       // @ts-expect-error
-      parent.data = { ...(parent.data ?? {}), [item.name]: node }
+      parent.fields = { ...(parent.fields ?? {}), [item.name]: node }
     }
   }
 

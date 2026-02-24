@@ -1,13 +1,13 @@
 import { getOrCreateRow } from '#utils/get-or-create-row.ts'
 import { html } from 'hono/html'
-import { BlockFieldInstanceType } from '@alstar/types'
+import { BlockFieldInstanceType, BlockID } from '@alstar/types'
 import BlockField from './BlockField.ts'
 
 export default (props: {
   parentId: number | string
   name: string
   structure: BlockFieldInstanceType
-  id?: number
+  id?: BlockID
   sortOrder?: number
 }) => {
   const { parentId, name, structure, id, sortOrder = 0 } = props

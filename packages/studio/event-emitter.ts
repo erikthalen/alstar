@@ -31,6 +31,8 @@ eventEmitter.on('update-block', ({ userId, id, payload, patchSelf }) => {
       await patchElements(connection.stream, await LivePreviewContent({ entryId: entry?.id }))
       await patchElements(connection.stream, await EntryHeader({ entryId: entry?.id }))
     }
+    
+    console.log('entry?.id', connection.user?.id, userId)
 
     if (patchSelf || connection.user?.id !== userId) {
       await patchElements(connection.stream, await FieldPatch({ id }))

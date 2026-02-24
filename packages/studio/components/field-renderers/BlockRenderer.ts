@@ -1,10 +1,15 @@
 import { html } from 'hono/html'
 import Render from './Render.ts'
-import { BlockInstanceType, CollectionInstanceType, SingleInstanceType } from '@alstar/types'
+import {
+  BlockID,
+  BlockInstanceType,
+  CollectionInstanceType,
+  SingleInstanceType,
+} from '@alstar/types'
 
 export default (props: {
   parentId: number | string
-  id?: number
+  id?: BlockID
   structure: BlockInstanceType | CollectionInstanceType | SingleInstanceType
 }) => {
   const { parentId, structure } = props

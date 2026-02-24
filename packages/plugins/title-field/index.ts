@@ -4,8 +4,8 @@ import { html } from 'hono/html'
 
 declare module '@alstar/types' {
   interface FieldTypeMap {
-    text: {
-      type: 'text'
+    title: {
+      type: 'title'
       props: {
         label: string
         description?: string
@@ -18,7 +18,7 @@ declare module '@alstar/types' {
 export default definePlugin((api) => {
   const app = factory.createApp()
 
-  app.post('/text-field/:id', (c) => {
+  app.post('/title-field/:id', (c) => {
     const id = parseInt(c.req.param('id'))
     const user = c.get('user')
     const datastar = c.get('datastar')
@@ -46,7 +46,7 @@ export default definePlugin((api) => {
     app,
     fields: [
       {
-        type: 'text',
+        type: 'title',
         component: (id: number | `${number}`, structure) => {
           const data = api.query.getField({ id })
 
@@ -54,13 +54,12 @@ export default definePlugin((api) => {
 
           return html`
             <quiet-text-field
+              id="field_${id}"
               label="${structure.label}"
               description="${structure.description}"
-              name="name"
-              id="field_${id}"
               data-signals="{ ${id}: '${data.value}' }"
               data-bind:${id}
-              data-on:input="@post('/studio/text-field/${id}')"
+              data-on:input="@post('/studio/title-field/${id}')"
             >
             </quiet-text-field>
           `

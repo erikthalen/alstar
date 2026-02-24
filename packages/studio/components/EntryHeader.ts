@@ -1,29 +1,12 @@
 import { html } from 'hono/html'
-import { deleteBlock, getEntry, setBlockStatus, setUpdatedAt } from '../helpers/db/sql/index.ts'
-
-import LivePreviewContent from './live-preview/LivePreviewContent.ts'
+import { getEntry } from '../helpers/db/sql/index.ts'
 
 export default ({ entryId }: { entryId: `${number}` | number }) => {
+  console.log('id', entryId)
   const data = getEntry({ id: entryId })
+  console.log('data', data?.type)
 
   if (!data) return html`<p>No data</p>`
-
-  // const handleSetStatus = defineEventHandler(
-  //   ({ signals }) => {
-  //     setBlockStatus(entryId, signals.entry.status)
-  //     setUpdatedAt(entryId)
-
-  //     return [LivePreviewContent({ entryId })]
-  //   },
-  //   { dependency: entryId },
-  // )
-
-  // const handleDeleteEntry = defineEventHandler(
-  //   () => {
-  //     deleteBlock(entryId)
-  //   },
-  //   { dependency: entryId },
-  // )
 
   return html`
     <header id="entry_header_${entryId}" class="entry-header">
@@ -57,7 +40,6 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
           data-on:quiet-change="$${entryId}.status = evt.target.checked ? 'enabled' : 'disabled'; @post('/studio/block/status/${entryId}/${data.name}')"
         >
           <quiet-icon slot="unchecked" name="circle" family="filled"></quiet-icon>
-
           <quiet-icon slot="checked" name="circle" family="filled"></quiet-icon>
         </quiet-toggle-icon>
 
@@ -70,33 +52,34 @@ export default ({ entryId }: { entryId: `${number}` | number }) => {
         >
         </quiet-tooltip>
 
-        <quiet-button variant="neutral" icon-label="Remove" id="tooltip-remove-${entryId}">
-          <quiet-icon name="trash"></quiet-icon>
-        </quiet-button>
+        ${data.type !== 'single'
+          ? html`<quiet-button variant="neutral" icon-label="Remove" id="tooltip-remove-${entryId}">
+                <quiet-icon name="trash"></quiet-icon>
+              </quiet-button>
+              <quiet-popover for="tooltip-remove-${entryId}" placement="bottom">
+                <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                  <quiet-button
+                    class="text-label"
+                    variant="destructive"
+                    data-popover="close"
+                    data-on:click="@delete('/studio/block/${entryId}/${data.name}'); window.history.back()"
+                  >
+                    Delete
+                  </quiet-button>
 
-        <quiet-popover for="tooltip-remove-${entryId}" placement="bottom">
-          <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-            <quiet-button
-              class="text-label"
-              variant="destructive"
-              data-popover="close"
-              data-on:click="@delete('/studio/block/${entryId}/${data.name}'); window.history.back()"
-            >
-              Delete
-            </quiet-button>
+                  <quiet-button data-popover="close">Cancel</quiet-button>
+                </div>
+              </quiet-popover>
 
-            <quiet-button data-popover="close">Cancel</quiet-button>
-          </div>
-        </quiet-popover>
-
-        <quiet-tooltip
-          distance="0"
-          without-arrow
-          for="tooltip-remove-${entryId}"
-          class="text-label"
-        >
-          Remove
-        </quiet-tooltip>
+              <quiet-tooltip
+                distance="0"
+                without-arrow
+                for="tooltip-remove-${entryId}"
+                class="text-label"
+              >
+                Remove
+              </quiet-tooltip>`
+          : html``}
       </aside>
     </header>
   `

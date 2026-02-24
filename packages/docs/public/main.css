@@ -35,6 +35,19 @@ body {
   color: #ccc;
 
   padding: 6px;
+
+  > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+* {
+  color: inherit;
+  font: inherit;
+  box-sizing: border-box;
 }
 
 p {

@@ -14,6 +14,7 @@
     "@alstar/media-library": "workspace:*",
     "@alstar/svg-field": "workspace:*",
     "@alstar/text-field": "workspace:*",
+    "@alstar/title-field": "workspace:*",
     "@alstar/types": "workspace:*",
     "@hono/node-server": "catalog:",
     "better-auth": "1.3.34",

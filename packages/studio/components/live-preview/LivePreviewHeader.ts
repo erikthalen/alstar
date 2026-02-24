@@ -10,30 +10,31 @@ export default (userId: string | undefined) => {
   // })
 
   return html` <header>
-      <!-- <quiet-toggle-icon
-      data-signals:user-settings="{ preview_enabled: {settings?.preview_enabled || 'true'} }"
-      data-on:quiet-change="$userSettings.preview_enabled = evt.target.checked; {setPreviewVisible}"
-      data-attr:checked="$userSettings.preview_enabled"
-      label="Toggle live preview visibility"
-      effect="scale"
-      style="--unchecked-color: var(--quiet-text-body); --checked-color: var(--quiet-text-body);"
-      size="xs"
-      id="hide_live_preview_button"
-    >
-      <quiet-icon slot="checked" name="eye"></quiet-icon>
-      <quiet-icon slot="unchecked" name="eye-off"></quiet-icon>
-    </quiet-toggle-icon> -->
+      <!-- data-on:quiet-change="$userSettings.preview_enabled = evt.target.checked; {setPreviewVisible}" -->
+      <toggle-live-preview>
+        <quiet-toggle-icon
+          data-signals:user-settings="{ preview_enabled: ${settings?.preview_enabled || 'true'} }"
+          data-attr:checked="$userSettings.preview_enabled"
+          label="Toggle live preview visibility"
+          effect="scale"
+          style="--unchecked-color: var(--quiet-text-body); --checked-color: var(--quiet-text-body);"
+          id="hide_live_preview_button"
+        >
+          <quiet-icon slot="checked" name="eye"></quiet-icon>
+          <quiet-icon slot="unchecked" name="eye-off"></quiet-icon>
+        </quiet-toggle-icon>
+      </toggle-live-preview>
 
-      <!-- <quiet-tooltip
-      open-delay="0"
-      close-delay="0"
-      distance="0"
-      without-arrow
-      for="hide_live_preview_button"
-      class="text-label"
-      data-text="$userSettings.preview_enabled ? 'Disable live preview' : 'Enable live preview'"
-    >
-    </quiet-tooltip> -->
+      <quiet-tooltip
+        open-delay="0"
+        close-delay="0"
+        distance="0"
+        without-arrow
+        for="hide_live_preview_button"
+        class="text-label"
+        data-text="$userSettings.preview_enabled ? 'Disable live preview' : 'Enable live preview'"
+      >
+      </quiet-tooltip>
 
       <h1 class="truncate text-label" style="margin-left: 10px">Live preview</h1>
 

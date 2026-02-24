@@ -6,6 +6,8 @@ import './js/live-preview.js'
 import './js/RegisterForm.js'
 import './js/LoginForm.js'
 
+import './js/ToggleLivePreview.js'
+
 // global
 import Swup from 'swup'
 import { allDefined } from '@quietui/quiet'
@@ -40,8 +42,4 @@ hydrateLinks()
 
 swup.hooks.on('page:view', () => {
   hydrateLinks()
-})
-
-swup.hooks.on('visit:end', (visit) => {
-  window.dispatchEvent(new CustomEvent('tabs:update', { name: visit.to.url, href: visit.to.url }))
 })

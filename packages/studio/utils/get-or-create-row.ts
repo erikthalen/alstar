@@ -1,5 +1,5 @@
 import { getField } from '../helpers/db/sql/index.ts'
-import { FieldInstance, type InstanceType } from '@alstar/types'
+import { BlockID, FieldInstance, type InstanceType } from '@alstar/types'
 import { database } from '../index.ts'
 import sql from 'sql-template-tag'
 import { SQLInputValue } from 'node:sqlite'
@@ -9,7 +9,7 @@ export function getOrCreateRow(props: {
   name: string
   field: InstanceType
   sortOrder?: number
-  id?: number
+  id?: BlockID
 }) {
   const { parentId, name, field, sortOrder = 0, id } = props
 

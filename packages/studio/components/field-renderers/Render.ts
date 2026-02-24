@@ -6,6 +6,7 @@ import BlockRenderer from './BlockRenderer.ts'
 import { type HtmlEscapedString } from 'hono/utils/html'
 import {
   BlockFieldInstance,
+  BlockID,
   BlockInstance,
   CollectionInstance,
   FieldInstance,
@@ -16,7 +17,7 @@ import {
 export default (props: {
   parentId: number | string
   structure: InstanceType
-  id?: number
+  id?: BlockID
   name: string
   sortOrder?: number
 }): HtmlEscapedString | Promise<HtmlEscapedString> => {
@@ -41,7 +42,7 @@ export default (props: {
       }
 
       default: {
-        return html`<p>Received nonexisting InstanceType: "${structure.instanceOf}"</p>`
+        return html`<p>Received nonexisting InstanceType</p>`
       }
     }
   } catch (error) {
