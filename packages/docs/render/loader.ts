@@ -1,6 +1,6 @@
 import fg from 'fast-glob'
-import fs from 'fs/promises'
-import path from 'path'
+import fs from 'node:fs/promises'
+import path from 'node:path'
 import matter from 'gray-matter'
 import MiniSearch from 'minisearch'
 import { mdToHtml } from './markdown.ts'
@@ -18,9 +18,10 @@ export type NavItem = {
   children?: NavItem[]
 }
 
-const DOCS_DIR = path.resolve('./docs')
+const DOCS_DIR = path.resolve('./content')
 
 export const search = new MiniSearch({
+  idField: 'title',
   fields: ['title', 'content'],
   storeFields: ['title', 'slug'],
 })

@@ -6,7 +6,11 @@ import frontpage from './pages/index.ts'
 
 import { showRoutes } from 'hono/dev'
 import SiteLayout from './components/SiteLayout.ts'
-import SlugPage from './pages/docs/:slug.ts'
+
+import { loadDocs, docs, search } from './render/loader.ts'
+import { docsPage } from './render/render.ts'
+
+await loadDocs()
 
 const app = new Hono()
 
@@ -16,9 +20,18 @@ app.use('*', serveStatic({ root: './public' }))
 
 app.get('/', (c) => c.html(SiteLayout(frontpage())))
 
-app.get('/docs/:slug', (c) => {
-  const slug = c.req.param('slug')
-  return c.html(SiteLayout(SlugPage(slug)))
+app.get('/docs/*', (c) => {
+  const slug = c.req.path.replace('/docs', '') || '/'
+  const doc = docs.get(slug)
+
+  if (!doc) return c.notFound()
+
+  return c.html(SiteLayout(docsPage(doc.html)))
+})
+
+app.get('/search', (c) => {
+  const q = c.req.query('q') || ''
+  return c.json(search.search(q))
 })
 
 serve(app, () => console.log('http://localhost:3000'))

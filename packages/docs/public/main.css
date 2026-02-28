@@ -1,8 +1,34 @@
+@import './shiki.css';
+
 @font-face {
   font-family: 'Inter';
   src:
     local('Inter'),
-    url('Inter_18pt-SemiBold.ttf') format('woff2');
+    url('Inter_18pt-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 500;
+  src:
+    local('Inter'),
+    url('Inter_18pt-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 600;
+  src:
+    local('Inter'),
+    url('Inter_18pt-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 700;
+  src:
+    local('Inter'),
+    url('Inter_18pt-Bold.ttf') format('truetype');
 }
 
 :root {
@@ -13,46 +39,90 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  user-select: none;
-  -webkit-user-select: none; /* Chrome/Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
+  /* user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none; */
 
   color-scheme: dark;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}
+
+html {
+  font-size: 12px;
+}
+
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  display: flex;
-  gap: 6px;
-
-  font-size: 12px;
   color: #ccc;
-
-  padding: 6px;
 
   > header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    padding: 6px;
+    margin: 0;
+
+    position: sticky;
+    top: 0;
+
+    a {
+      color: inherit;
+    }
   }
 }
 
 * {
   color: inherit;
-  font: inherit;
   box-sizing: border-box;
 }
 
-p {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
+#doc {
+  display: grid;
+  grid-template-columns: 1fr min(80vw, 600px) 1fr;
+  align-items: start;
+
+  > nav {
+    position: sticky;
+    top: 30px;
+
+    padding: 6px;
+
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .shiki {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+
+    /* Optional, if you also want font styles */
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+
+  .shiki span {
+    color: var(--shiki-dark) !important;
+    /* Optional, if you also want font styles */
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
 }
