@@ -4,22 +4,14 @@ import { type HtmlEscapedString } from 'hono/utils/html'
 import { type Context } from 'hono'
 import { inlineStyles } from '#utils/inline-styles.ts'
 import SiteHeader from './SiteHeader.ts'
-import Widgets from './Widgets.ts'
-import { css } from '@alstar/framework'
-import { Widget } from '@alstar/types'
 
 export default async (
   c: Context,
-  publicFiles: string,
-  widgets: Widget[],
   content: HtmlEscapedString | Promise<HtmlEscapedString>,
+  publicFiles: string = '',
 ) => {
   const title = config.siteName ? config.siteName + ' | ' : ''
-
   const styles = await inlineStyles({ root: studioRoot })
-
-  const user = c.get('user')
-  const session = c.get('session')
 
   return html`<!DOCTYPE html>
     <html lang="en" class="quiet-cloak quiet-dark quiet-zinc">
@@ -90,23 +82,7 @@ export default async (
       </head>
 
       <body data-init="@get('/studio/updates')">
-        <vscode-split-layout
-          fixed-pane="start"
-          initial-handle-position="${user ? '174px' : '0px'}"
-          min-start="${user ? '58px' : '0px'}"
-          style="border: none; --separator-border: transparent;"
-          reset-on-dbl-click="true"
-        >
-          <div slot="start" class="sidebar">
-            ${SiteHeader(c)}
-            <!--  -->
-            ${user && Widgets(c, widgets)}
-          </div>
-
-          <div slot="end">
-            <main id="swup">${content}</main>
-          </div>
-        </vscode-split-layout>
+        ${SiteHeader()} ${content}
       </body>
     </html> `
 }

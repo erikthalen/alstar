@@ -1,8 +1,7 @@
 import { html } from 'hono/html'
-import { type Context } from 'hono'
 import { css } from '@alstar/framework'
 
-export default (c: Context) => {
+export default () => {
   return html`
     <header class="site-header p-2">
       <span>
@@ -21,6 +20,8 @@ export default (c: Context) => {
 
 export const styles = css`
   .site-header {
+    position: fixed;
+    top: 0;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;

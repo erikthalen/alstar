@@ -1,8 +1,8 @@
-import type { UserSettings } from '../../../types.ts'
+import type { UserSettings } from '../../types.ts'
 import type { BlockStatus, DBBlockResult, DBRow, FieldTypeMap } from '@alstar/types'
-import { sql } from '../../../utils/sql.ts'
+import { sql } from '../../utils/sql.ts'
 import { sqlQueryRoot } from './queries/root.ts'
-import { database, fields, type AuthType } from '../../../index.ts'
+import { database, fields, type AuthType } from '../../index.ts'
 
 type TODO = any
 

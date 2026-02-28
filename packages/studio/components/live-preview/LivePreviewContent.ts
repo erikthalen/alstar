@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
 import { raw } from 'hono/html'
-import { getEntry } from '../../helpers/db/sql/index.ts'
+import { getEntry } from '../../database/sql/index.ts'
 import { codeToHtml } from 'shiki'
 import { css } from '@alstar/framework'
 

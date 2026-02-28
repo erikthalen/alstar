@@ -1,5 +1,5 @@
 import { html } from 'hono/html'
-import { getField, getFields } from '../helpers/db/sql/index.ts'
+import { getField, getFields } from '../database/sql/index.ts'
 // import { defineEventHandler } from '#event-emitter.ts'
 
 const Component = ({ page = 1, name }: { page?: number; name: string }) => {

@@ -1,5 +1,5 @@
 import { html } from 'hono/html'
-import { getEntry, getField, setUpdatedAt, updateBlockValue } from '../../helpers/db/sql/index.ts'
+import { getEntry, getField, setUpdatedAt, updateBlockValue } from '../../database/sql/index.ts'
 import EditedBy from '../utils/EditedBy.ts'
 // import { defineEventHandler } from '../../event-emitter.ts'
 import { slugify } from '../../utils/slugify.ts'

@@ -1,5 +1,5 @@
 import { html } from 'hono/html'
-import { getFields } from '#helpers/db/sql/index.ts'
+import { getFields } from '#database/sql/index.ts'
 import { getStructureOfField } from '#utils/get-structure-of-field.ts'
 import Render from '#components/field-renderers/Render.ts'
 import { BlockFieldInstanceType } from '@alstar/types'

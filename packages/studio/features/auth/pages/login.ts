@@ -1,10 +1,12 @@
 import { css } from '@alstar/framework'
-import { Context } from 'hono'
 import { html } from 'hono/html'
 
-export default (c: Context) => {
+export default () => {
   return html` <div class="login-page">
-      <section class="intro">
+
+    <style>${styles}</style>
+
+    <section class="intro">
         <h1>Welcome to Alstar Studio</h1>
 
         <p class="py-3">Login to access your studio.</p>

@@ -1,6 +1,6 @@
 import { html } from 'hono/html'
 import { config } from '../../index.ts'
-import { getEntry } from '../../helpers/db/sql/index.ts'
+import { getEntry } from '../../database/sql/index.ts'
 
 export default (props: { entryId: number | string }) => {
   const data = getEntry({ id: props.entryId })

@@ -7,7 +7,7 @@ import {
   getEntry,
   getField,
   setBlockStatus,
-} from '#helpers/db/sql/index.ts'
+} from '#database/sql/index.ts'
 import { factory } from '@alstar/framework'
 import { BlockID, BlockStatus } from '@alstar/types'
 

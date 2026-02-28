@@ -4,7 +4,7 @@ import path from 'node:path'
 import { studioRoot } from '../index.ts'
 
 export async function applyMigrations(db: DatabaseSync) {
-  const root = path.resolve(studioRoot, 'migrations')
+  const root = path.resolve(studioRoot, 'database/migrations')
   const dir = await fsp.readdir(root)
 
   for (const filename of dir) {

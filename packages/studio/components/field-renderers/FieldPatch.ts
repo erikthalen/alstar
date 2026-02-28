@@ -1,5 +1,5 @@
 import { html } from 'hono/html'
-import { getField } from '#helpers/db/sql/index.ts'
+import { getField } from '#database/sql/index.ts'
 import { getStructureOfField } from '#utils/get-structure-of-field.ts'
 import Field from './Field.ts'
 

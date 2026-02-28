@@ -1,10 +1,8 @@
 import { html } from 'hono/html'
-import { getEntry } from '../helpers/db/sql/index.ts'
+import { getEntry } from '#database/sql/index.ts'
 
 export default ({ entryId }: { entryId: `${number}` | number }) => {
-  console.log('id', entryId)
   const data = getEntry({ id: entryId })
-  console.log('data', data?.type)
 
   if (!data) return html`<p>No data</p>`
 

@@ -8,19 +8,18 @@ import routes from './routes.ts'
 import { api } from './api/index.ts'
 import { getConfig } from './utils/get-config.ts'
 import startupLog from './utils/startup-log.ts'
-import { createAuthServer } from './utils/auth.ts'
 
 import ErrorPage from './pages/error.ts'
 
 import * as types from './types.ts'
 import { cors } from 'hono/cors'
-import { except } from 'hono/combine'
-import { applyMigrations } from './utils/apply-migrations.ts'
-import { getDatabase } from './helpers/db/index.ts'
+
+import { createDatabase } from './database/client.ts'
 import SiteLayout from '#components/SiteLayout.ts'
 import mediaLibrary from '@alstar/media-library'
 import type { Field, FieldComponent, FieldHandler, FieldTypeMap, StudioConfig } from '@alstar/types'
-import { getField } from '#helpers/db/sql/index.ts'
+import { getField } from '#database/sql/index.ts'
+import { createDatabaseRouter } from '#database/router.ts'
 import { factory } from '@alstar/framework'
 import Clock from '@alstar/clock-widget'
 import Explorer from '#plugins/Explorer.ts'
@@ -30,6 +29,10 @@ import textField from '@alstar/text-field'
 import { streamSSE } from 'hono/streaming'
 import { connections, eventEmitter } from '#event-emitter.ts'
 import titleField from '@alstar/title-field'
+import { initAuth } from '#features/auth/router.ts'
+import { html } from 'hono/html'
+import SiteHeader from '#components/SiteHeader.ts'
+import Widgets from '#components/Widgets.ts'
 
 const { version } = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
@@ -52,11 +55,8 @@ const config = {
   plugins: [...defaultConfig.plugins, ...(consumerConfig.plugins || [])],
 }
 
-const database = getDatabase(config.database)
-
-await applyMigrations(database)
-
-const auth = createAuthServer(database)
+const { app: databaseRouter, database } = await createDatabaseRouter(config.database)
+const { app: authRouter, auth } = initAuth(database)
 
 type AuthType = {
   user: typeof auth.$Infer.Session.user | null
@@ -65,6 +65,14 @@ type AuthType = {
 
 declare module 'hono' {
   interface ContextVariableMap extends AuthType {}
+}
+
+type ConfigType = {
+  config: StudioConfig
+}
+
+declare module 'hono' {
+  interface ContextVariableMap extends ConfigType {}
 }
 
 type StudioRuntimeConfig = {
@@ -85,6 +93,11 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
   } = runtimeConfig
 
   const app = factory.createApp()
+
+  app.use('*', async (c, next) => {
+    c.set('config', config)
+    await next()
+  })
 
   if (enableHotReload) {
     app.get('/hot-reload', hotReload({ root: path.join(studioRoot, '..'), exclude: '.db' }))
@@ -163,39 +176,8 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
     }
   }
 
-  // redirect to /login if not logged in
-  app.use(
-    '*',
-    except(['/studio/api/auth/*', '/studio/login', '/studio/register'], async (c, next) => {
-      const session = await auth.api.getSession({
-        headers: c.req.raw.headers,
-      })
-
-      if (!session) {
-        c.set('user', null)
-        c.set('session', null)
-
-        const users = database.prepare('select id from user').all()
-
-        if (!users.length) {
-          return c.redirect('/studio/register')
-        } else {
-          return c.redirect('/studio/login')
-        }
-      }
-
-      c.set('user', session.user)
-      c.set('session', session.session)
-      await next()
-    }),
-  )
-
-  // redirect from /login to /studio if logged in
-  app.use('/login', async (c, next) => {
-    const session = await auth.api.getSession({ headers: c.req.raw.headers })
-    if (session?.user) return c.redirect('/studio')
-    await next()
-  })
+  app.route('/', authRouter)
+  app.route('/', databaseRouter)
 
   /**
    * CQRS route
@@ -227,38 +209,45 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
     if (plugin.app) {
       app.route('/', plugin.app)
     }
-
-    if (plugin.views?.length) {
-      for (const route of plugin.views) {
-        app.get(route.path, (c) => c.html(SiteLayout(c, publicFiles, widgets, route.handler(c))))
-      }
-    }
   }
 
   /**
    * Studio pages
    */
-  for (const route of routes) {
-    app.get(route.name, (c) => c.html(SiteLayout(c, publicFiles, widgets, route.handler(c))))
+  const pluginViews = plugins.map((plugin) => plugin.views || []).flat()
+
+  for (const route of [...routes, ...pluginViews]) {
+    app.get(route.path, (c) => {
+      const user = c.get('user')
+
+      const widgetPage = html`<vscode-split-layout
+          fixed-pane="start"
+          initial-handle-position="${user ? '174px' : '0px'}"
+          min-start="${user ? '58px' : '0px'}"
+          style="border: none; --separator-border: transparent;"
+          reset-on-dbl-click="true"
+        >
+          <div slot="start" class="sidebar">
+            ${SiteHeader()}
+            <!--  -->
+            ${user && Widgets(c, widgets)}
+          </div>
+
+          <div slot="end">
+            <main id="swup">${route.handler(c)}</main>
+          </div>
+        </vscode-split-layout>`
+
+      return c.html(SiteLayout(c, widgetPage, publicFiles))
+    })
   }
 
   app.route('/', api)
-
-  app.on(['POST', 'GET'], '/api/auth/*', (c) => {
-    return auth.handler(c.req.raw)
-  })
-
-  app.use(
-    '/backups/*',
-    serveStatic({
-      root: './',
-      rewriteRequestPath: (path) => path.replace(/^\/backups/, '/backups'),
-    }),
-  )
+  app.route('/', databaseRouter)
 
   startupLog()
 
-  app.get('*', (c) => c.html(SiteLayout(c, publicFiles, widgets, ErrorPage())))
+  app.get('*', (c) => c.html(SiteLayout(c, ErrorPage(), publicFiles)))
 
   return app
 }

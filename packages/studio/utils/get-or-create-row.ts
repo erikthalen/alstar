@@ -1,4 +1,4 @@
-import { getField } from '../helpers/db/sql/index.ts'
+import { getField } from '#database/sql/index.ts'
 import { BlockID, FieldInstance, type InstanceType } from '@alstar/types'
 import { database } from '../index.ts'
 import sql from 'sql-template-tag'

@@ -18,7 +18,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-block: 0.5rem;
+    margin-block: 2.5rem 0.5rem;
 
     li > * {
       --brm: 1;

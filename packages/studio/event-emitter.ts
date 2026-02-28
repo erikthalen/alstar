@@ -1,7 +1,7 @@
 import EntryHeader from '#components/EntryHeader.ts'
 import FieldPatch from '#components/field-renderers/FieldPatch.ts'
 import LivePreviewContent from '#components/live-preview/LivePreviewContent.ts'
-import { getEntry, setUpdatedAt, updateBlockValue } from '#helpers/db/sql/index.ts'
+import { getEntry, setUpdatedAt, updateBlockValue } from '#database/sql/index.ts'
 import { patchElements } from '#helpers/hono-datastar/index.ts'
 import { AuthType } from '#index.ts'
 import { PluginEvents } from '@alstar/types'
