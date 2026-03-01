@@ -19,7 +19,10 @@ export default <T extends keyof FieldTypeMap>(props: {
 
   if (!field || typeof field !== 'function') {
     return html`
-      <quiet-callout style="margin: 1rem; width: calc(100% - 2rem)" variant="destructive">
+      <quiet-callout
+        style="margin: 1rem; width: calc(100% - 2rem)"
+        variant="destructive"
+      >
         <quiet-icon slot="icon" name="file-unknown"></quiet-icon>
         No field of type: "<code>${props.structure.type}</code>"
       </quiet-callout>
@@ -33,6 +36,10 @@ export default <T extends keyof FieldTypeMap>(props: {
 
 export const styles = css`
   .field {
+    --quiet-paper-color: #313131;
+    --quiet-neutral-stroke-soft: #3c3c3c;
+    --quiet-form-control-height-md: 2rem;
+
     margin-block: 1rem;
 
     .field-label {

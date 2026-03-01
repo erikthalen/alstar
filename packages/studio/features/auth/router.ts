@@ -4,7 +4,7 @@ import { except } from 'hono/combine'
 import type { DatabaseSync } from 'node:sqlite'
 import register from './pages/register.ts'
 import login from './pages/login.ts'
-import SiteLayout from '#components/SiteLayout.ts'
+import SharedLayout from '#layouts/SharedLayout.ts'
 
 export const initAuth = (database: DatabaseSync) => {
   const app = factory.createApp()
@@ -56,8 +56,8 @@ export const initAuth = (database: DatabaseSync) => {
     return auth.handler(c.req.raw)
   })
 
-  app.get('/register', (c) => c.html(SiteLayout(c, register())))
-  app.get('/login', (c) => c.html(SiteLayout(c, login())))
+  app.get('/register', (c) => c.html(SharedLayout(c, register())))
+  app.get('/login', (c) => c.html(SharedLayout(c, login())))
 
   return { auth, app }
 }

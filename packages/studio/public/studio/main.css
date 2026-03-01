@@ -48,12 +48,9 @@
 
   --quiet-font-family: var(--alstar-font-family);
   --quiet-font-size: var(--alstar-font-size);
+  /* --quiet-form-control-font-size-xs: 1rem; */
 
   --quiet-primary-text-on-mid: var(--alstar-foreground);
-
-  --quiet-paper-color: #313131;
-  --quiet-neutral-stroke-soft: #3c3c3c;
-  --quiet-form-control-height-md: 2rem;
 
   --quiet-border-radius-sm: 2px;
   --quiet-border-radius-md: 4px;
@@ -100,6 +97,11 @@ body {
   .sidebar,
   main#swup {
     height: 100vh;
+  }
+
+  .sidebar {
+    position: relative;
+    z-index: 1000;
   }
 }
 

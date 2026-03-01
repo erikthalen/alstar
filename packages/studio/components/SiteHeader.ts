@@ -22,6 +22,7 @@ export const styles = css`
   .site-header {
     position: fixed;
     top: 0;
+    z-index: 1000;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;

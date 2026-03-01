@@ -6,7 +6,7 @@ import register from './features/auth/pages/register.ts'
 
 export default [
   { path: '/', handler: index },
-  { path: '/entries/:id', handler: entriesId },
+  // { path: '/entries/:id', handler: entriesId },
   { path: '/entries', handler: entries },
   // { name: '/login', handler: login },
   // { name: '/register', handler: register },

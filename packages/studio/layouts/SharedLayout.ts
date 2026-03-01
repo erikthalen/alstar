@@ -3,35 +3,17 @@ import { config, studioRoot } from '../index.ts'
 import { type HtmlEscapedString } from 'hono/utils/html'
 import { type Context } from 'hono'
 import { inlineStyles } from '#utils/inline-styles.ts'
-import SiteHeader from './SiteHeader.ts'
+import SiteHeader from '../components/SiteHeader.ts'
 
-export default async (
-  c: Context,
-  content: HtmlEscapedString | Promise<HtmlEscapedString>,
-  publicFiles: string = '',
-) => {
+export default async (c: Context, content: HtmlEscapedString | Promise<HtmlEscapedString>) => {
   const title = config.siteName ? config.siteName + ' | ' : ''
   const styles = await inlineStyles({ root: studioRoot })
+  const hotReloadClient = c.get('hot-reload')
+  const publicFiles = c.get('publicFiles')
 
   return html`<!DOCTYPE html>
     <html lang="en" class="quiet-cloak quiet-dark quiet-zinc">
       <head>
-        <!-- <script>
-          const darkModeMedia = window.matchMedia(
-            '(prefers-color-scheme: dark)'
-          )
-
-          const setTheme = (darkTheme) => {
-            document.documentElement.classList.toggle('quiet-dark', darkTheme)
-          }
-
-          setTheme(darkModeMedia.matches)
-
-          window
-            .matchMedia('(prefers-color-scheme: dark)')
-            .addEventListener('change', (e) => setTheme(e.matches))
-        </script> -->
-
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -48,7 +30,7 @@ export default async (
 
         <!-- Quiet theme + autoloader -->
         <link rel="stylesheet" href="/studio/quiet/dist/themes/quiet.css" />
-        <script type="module" src="/studio/quiet/dist/quiet.loader.js"></script>
+        <script type="module" defer src="/studio/quiet/dist/quiet.loader.js"></script>
 
         <script
           src="https://esm.sh/@vscode-elements/elements/dist/bundled.js"
@@ -70,7 +52,7 @@ export default async (
         <script src="/studio/main.js" type="module"></script>
         <link href="/studio/main.css" rel="stylesheet" />
 
-        ${raw(c.get('hot-reload'))}
+        ${raw(hotReloadClient)}
 
         <!--  -->
 
@@ -82,7 +64,11 @@ export default async (
       </head>
 
       <body data-init="@get('/studio/updates')">
-        ${SiteHeader()} ${content}
+        ${SiteHeader()}
+
+        <!--  -->
+
+        ${content}
       </body>
     </html> `
 }

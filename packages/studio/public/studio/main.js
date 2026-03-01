@@ -8,6 +8,8 @@ import './js/LoginForm.js'
 
 import './js/ToggleLivePreview.js'
 
+import './js/projector.js'
+
 // global
 import Swup from 'swup'
 import { allDefined } from '@quietui/quiet'

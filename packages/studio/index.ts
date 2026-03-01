@@ -14,10 +14,15 @@ import ErrorPage from './pages/error.ts'
 import * as types from './types.ts'
 import { cors } from 'hono/cors'
 
-import { createDatabase } from './database/client.ts'
-import SiteLayout from '#components/SiteLayout.ts'
 import mediaLibrary from '@alstar/media-library'
-import type { Field, FieldComponent, FieldHandler, FieldTypeMap, StudioConfig } from '@alstar/types'
+import type {
+  Field,
+  FieldComponent,
+  FieldHandler,
+  FieldTypeMap,
+  StudioConfig,
+  Widget,
+} from '@alstar/types'
 import { getField } from '#database/sql/index.ts'
 import { createDatabaseRouter } from '#database/router.ts'
 import { factory } from '@alstar/framework'
@@ -33,6 +38,10 @@ import { initAuth } from '#features/auth/router.ts'
 import { html } from 'hono/html'
 import SiteHeader from '#components/SiteHeader.ts'
 import Widgets from '#components/Widgets.ts'
+import { app as workspaceRouter } from './features/workspace/router.ts'
+import WidgetsLayout from '#layouts/WidgetsLayout.ts'
+import { HtmlEscapedString } from 'hono/utils/html'
+import SharedLayout from '#layouts/SharedLayout.ts'
 
 const { version } = JSON.parse(await fsp.readFile('./package.json', 'utf-8'))
 
@@ -69,6 +78,8 @@ declare module 'hono' {
 
 type ConfigType = {
   config: StudioConfig
+  widgets: Widget[]
+  publicFiles: string
 }
 
 declare module 'hono' {
@@ -94,14 +105,8 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
 
   const app = factory.createApp()
 
-  app.use('*', async (c, next) => {
-    c.set('config', config)
-    await next()
-  })
-
   if (enableHotReload) {
     app.get('/hot-reload', hotReload({ root: path.join(studioRoot, '..'), exclude: '.db' }))
-
     app.use('*', hotReloadMiddleware(true))
   }
 
@@ -176,6 +181,13 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
     }
   }
 
+  app.use('*', async (c, next) => {
+    c.set('config', config)
+    c.set('widgets', widgets)
+    c.set('publicFiles', publicFiles)
+    await next()
+  })
+
   app.route('/', authRouter)
   app.route('/', databaseRouter)
 
@@ -211,43 +223,21 @@ const createStudio = (runtimeConfig: StudioRuntimeConfig = {}) => {
     }
   }
 
-  /**
-   * Studio pages
-   */
   const pluginViews = plugins.map((plugin) => plugin.views || []).flat()
 
   for (const route of [...routes, ...pluginViews]) {
     app.get(route.path, (c) => {
-      const user = c.get('user')
-
-      const widgetPage = html`<vscode-split-layout
-          fixed-pane="start"
-          initial-handle-position="${user ? '174px' : '0px'}"
-          min-start="${user ? '58px' : '0px'}"
-          style="border: none; --separator-border: transparent;"
-          reset-on-dbl-click="true"
-        >
-          <div slot="start" class="sidebar">
-            ${SiteHeader()}
-            <!--  -->
-            ${user && Widgets(c, widgets)}
-          </div>
-
-          <div slot="end">
-            <main id="swup">${route.handler(c)}</main>
-          </div>
-        </vscode-split-layout>`
-
-      return c.html(SiteLayout(c, widgetPage, publicFiles))
+      return c.html(WidgetsLayout(c, route.handler(c)))
     })
   }
 
   app.route('/', api)
   app.route('/', databaseRouter)
+  app.route('/', workspaceRouter)
 
   startupLog()
 
-  app.get('*', (c) => c.html(SiteLayout(c, ErrorPage(), publicFiles)))
+  app.get('*', (c) => c.html(SharedLayout(c, ErrorPage())))
 
   return app
 }
