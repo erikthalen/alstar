@@ -9,9 +9,11 @@ export const ZoomUI = () => {
 
     <div class="zoom-ui">
       <quiet-dropdown>
-        <quiet-button slot="trigger" with-caret data-text="Math.round($_space.zoom * 100) + '%'">100%</quiet-button>
+        <quiet-button slot="trigger" with-caret data-text="Math.round($_space.zoom * 100) + '%'">
+          100%
+        </quiet-button>
 
-        <quiet-dropdown-item value="reply">
+        <quiet-dropdown-item value="reply" data-on:click="$_space.zoom *= 1.25">
           Zoom in
           <quiet-hotkey slot="details" keys="$cmdctrl +" appearance="unstyled"></quiet-hotkey>
         </quiet-dropdown-item>

@@ -21,88 +21,152 @@
  * @property {number} height
  */
 
+/**
+ *
+ * @param {Point} point
+ * @param {Camera} camera
+ * @returns {Point}
+ */
+function screenToCanvas(point, camera) {
+  return {
+    x: point.x / camera.z - camera.x,
+    y: point.y / camera.z - camera.y,
+  }
+}
+
+/**
+ *
+ * @param {Point} point
+ * @param {Camera} camera
+ * @returns {Point}
+ */
+function canvasToScreen(point, camera) {
+  return {
+    x: (point.x - camera.x) * camera.z,
+    y: (point.y - camera.y) * camera.z,
+  }
+}
+
+function getViewport(camera, box) {
+  const topLeft = screenToCanvas({ x: box.minX, y: box.minY }, camera)
+  const bottomRight = screenToCanvas({ x: box.maxX, y: box.maxY }, camera)
+
+  return {
+    minX: topLeft.x,
+    minY: topLeft.y,
+    maxX: bottomRight.x,
+    maxY: bottomRight.y,
+    width: bottomRight.x - topLeft.x,
+    height: bottomRight.y - topLeft.y,
+  }
+}
+
+/**
+ *
+ * @param {Camera} camera
+ * @param {number} dx
+ * @param {number} dy
+ * @returns {Camera}
+ */
+function panCamera(camera, dx, dy) {
+  return {
+    x: camera.x - dx / camera.z,
+    y: camera.y - dy / camera.z,
+    z: camera.z,
+  }
+}
+
+/**
+ *
+ * @param {Camera} camera
+ * @param {Point} point
+ * @param {number} dz
+ * @returns {Camera}
+ */
+function zoomCamera(camera, point, dz) {
+  const zoom = camera.z - dz * camera.z
+
+  const p1 = screenToCanvas(point, camera)
+  const p2 = screenToCanvas(point, { ...camera, z: zoom })
+
+  return {
+    x: camera.x + (p2.x - p1.x),
+    y: camera.y + (p2.y - p1.y),
+    z: zoom,
+  }
+}
+
+/**
+ *
+ * @param {Camera} camera
+ * @param {Point} point
+ * @param {number} zoom
+ * @returns {Camera}
+ */
+function zoomCameraTo(camera, point, zoom) {
+  const p1 = screenToCanvas(point, camera)
+  const p2 = screenToCanvas(point, { ...camera, z: zoom })
+
+  return {
+    x: camera.x + (p2.x - p1.x),
+    y: camera.y + (p2.y - p1.y),
+    z: zoom,
+  }
+}
+
+/**
+ *
+ * @param {Camera} camera
+ * @returns {Camera}
+ */
+function zoomIn(camera) {
+  const i = Math.round(camera.z * 100) / 25
+
+  const nextZoom = (i + 1) * 0.25
+
+  const center = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+
+  return zoomCameraTo(camera, center, camera.z - nextZoom)
+}
+
+/**
+ *
+ * @param {Camera} camera
+ * @returns {Camera}
+ */
+function zoomOut(camera) {
+  const i = Math.round(camera.z * 100) / 25
+
+  const nextZoom = (i - 1) * 0.25
+
+  const center = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+
+  return zoomCameraTo(camera, center, camera.z - nextZoom)
+}
+
+/**
+ *
+ * @param {Camera} camera
+ * @returns {Camera}
+ */
+function resetZoom(camera) {
+  return zoomCamera(camera, { x: 0, y: 0 }, camera.z - 1)
+}
+
 class PanningWorkspace extends HTMLElement {
   abortController = new AbortController()
-  camera = {
-    x: 0,
-    y: 0,
-    z: 1,
+
+  camera = { x: 0, y: 0, z: 1 }
+
+  static get observedAttributes() {
+    return ['zoom', 'x', 'y']
   }
 
-  /**
-   *
-   * @param {Point} point
-   * @param {Camera} camera
-   * @returns {Point}
-   */
-  screenToCanvas(point, camera) {
-    return {
-      x: point.x / camera.z - camera.x,
-      y: point.y / camera.z - camera.y,
-    }
-  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    console.log(name, newValue)
 
-  /**
-   *
-   * @param {Point} point
-   * @param {Camera} camera
-   * @returns {Point}
-   */
-  canvasToScreen(point, camera) {
-    return {
-      x: (point.x - camera.x) * camera.z,
-      y: (point.y - camera.y) * camera.z,
-    }
-  }
-
-  getViewport(camera, box) {
-    const topLeft = this.screenToCanvas({ x: box.minX, y: box.minY }, camera)
-    const bottomRight = this.screenToCanvas({ x: box.maxX, y: box.maxY }, camera)
-
-    return {
-      minX: topLeft.x,
-      minY: topLeft.y,
-      maxX: bottomRight.x,
-      maxY: bottomRight.y,
-      width: bottomRight.x - topLeft.x,
-      height: bottomRight.y - topLeft.y,
-    }
-  }
-
-  /**
-   *
-   * @param {Camera} camera
-   * @param {number} dx
-   * @param {number} dy
-   * @returns {Camera}
-   */
-  panCamera(camera, dx, dy) {
-    return {
-      x: camera.x - dx / camera.z,
-      y: camera.y - dy / camera.z,
-      z: camera.z,
-    }
-  }
-
-  /**
-   *
-   * @param {Camera} camera
-   * @param {Point} point
-   * @param {number} dz
-   * @returns {Camera}
-   */
-  zoomCamera(camera, point, dz) {
-    const zoom = camera.z - dz * camera.z
-
-    const p1 = this.screenToCanvas(point, camera)
-
-    const p2 = this.screenToCanvas(point, { ...camera, z: zoom })
-
-    return {
-      x: camera.x + (p2.x - p1.x),
-      y: camera.y + (p2.y - p1.y),
-      z: zoom,
-    }
+    // const value = [...newValue].toReversed().join('')
+    // this.dispatchEvent(new CustomEvent('reverse', { detail: { value } }))
   }
 
   printUI() {
@@ -123,16 +187,16 @@ class PanningWorkspace extends HTMLElement {
     const { clientX, clientY, deltaX, deltaY, ctrlKey } = event
 
     if (ctrlKey) {
-      this.camera = this.zoomCamera(
+      this.camera = zoomCamera(
         this.camera,
         { x: clientX - window.innerWidth / 2, y: clientY - window.innerHeight / 2 },
         deltaY / 100,
       )
     } else {
-      this.camera = this.panCamera(this.camera, deltaX, deltaY)
+      this.camera = panCamera(this.camera, deltaX, deltaY)
     }
 
-    this.viewport = this.getViewport(this.camera, {
+    this.viewport = getViewport(this.camera, {
       minX: 0,
       minY: 0,
       maxX: window.innerWidth,
@@ -144,64 +208,6 @@ class PanningWorkspace extends HTMLElement {
     this.update()
 
     this.printUI()
-  }
-
-  /**
-   *
-   * @param {Camera} camera
-   * @param {Point} point
-   * @param {number} zoom
-   * @returns {Camera}
-   */
-  zoomCameraTo(camera, point, zoom) {
-    const p1 = this.screenToCanvas(point, camera)
-
-    const p2 = this.screenToCanvas(point, { ...camera, z: zoom })
-
-    return {
-      x: camera.x + (p2.x - p1.x),
-      y: camera.y + (p2.y - p1.y),
-      z: zoom,
-    }
-  }
-
-  /**
-   *
-   * @param {Camera} camera
-   * @returns {Camera}
-   */
-  zoomIn(camera) {
-    const i = Math.round(camera.z * 100) / 25
-
-    const nextZoom = (i + 1) * 0.25
-
-    const center = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-
-    return this.zoomCameraTo(camera, center, camera.z - nextZoom)
-  }
-
-  /**
-   *
-   * @param {Camera} camera
-   * @returns {Camera}
-   */
-  zoomOut(camera) {
-    const i = Math.round(camera.z * 100) / 25
-
-    const nextZoom = (i - 1) * 0.25
-
-    const center = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-
-    return this.zoomCameraTo(camera, center, camera.z - nextZoom)
-  }
-
-  /**
-   *
-   * @param {Camera} camera
-   * @returns {Camera}
-   */
-  resetZoom(camera) {
-    return this.zoomCamera(camera, { x: 0, y: 0 }, camera.z - 1)
   }
 
   update() {
@@ -217,7 +223,7 @@ class PanningWorkspace extends HTMLElement {
   }
 
   connectedCallback() {
-    this.viewport = this.getViewport(this.camera, {
+    this.viewport = getViewport(this.camera, {
       minX: 0,
       minY: 0,
       maxX: window.innerWidth,

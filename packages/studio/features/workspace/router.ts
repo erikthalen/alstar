@@ -1,4 +1,3 @@
-import SharedLayout from '#layouts/SharedLayout.ts'
 import WidgetsLayout from '#layouts/WidgetsLayout.ts'
 import { css, factory } from '@alstar/framework'
 import { html } from 'hono/html'
@@ -12,10 +11,17 @@ app.get('/entries/:id', (c) => {
 <style>
       ${style}
     </style>
-    <panning-workspace id="space" data-signals:_space="{zoom:1,x:0,y:0}" data-on:change="$_space = evt.detail">
+    <panning-workspace
+      id="space"
+      data-attr:zoom="$_space.zoom"
+      data-attr:x="$_space.x"
+      data-attr:y="$_space.y"
+      data-signals:_space="{zoom:1,x:0,y:0}"
+      data-on:change="$_space = evt.detail"
+    >
       ${ZoomUI()} ${ContextMenu()}
 
-      <div id="workspace">
+      <div id="canvas">
         <p>Workspace</p>
       </div>
 
@@ -47,7 +53,7 @@ const style = css`
       font-family: monospace;
     }
 
-    #workspace {
+    #canvas {
       pointer-events: none;
       background: repeating-conic-gradient(#393939 0 25%, transparent 0 50%) 50% / 40px 40px;
       width: 100%;
